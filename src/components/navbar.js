@@ -1,4 +1,4 @@
-import legalmologo from "../assets/images/logo/legalmologo.png";
+import legalmologo from "../assets/images/logo/logo.png";
 
 const Navbar = () => {
   return (
@@ -9,8 +9,8 @@ const Navbar = () => {
             <img
               src={legalmologo}
               alt="legalmologo"
-              width="30"
-              height="24"
+              width="100"
+              height="94"
               class="d-inline-block align-text-top"
             />
           </a>

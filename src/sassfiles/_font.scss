@@ -1,22 +1,24 @@
 // @use "./colors" as *;
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
+  font-size: 2.2rem;
+  font-weight: 400;
   color: var(--white);
   font-family: "Roboto", sans-serif;
 }
 
 h2 {
   font-size: 2rem;
-  // font-weight: 300;
-  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-family: "Sanchez", serif;
 }
 
 h3 {
   font-size: 1.5rem;
-  // font-weight: 600;
-  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-family: "Sanchez", serif;
 }
 h4 {
   font-size: 1.3rem;

@@ -1,8 +1,15 @@
 export const SurveyBtn = () => {
   return (
     <>
-      <button type="button" class="btn buttonShow">
-        Fill a survey
+      <button type="button" class="buttonShow buttonStyle btnText mt-5">
+        <a
+          href="https://forms.gle/nNesFPeciVv9xP5S7"
+          target="_blank"
+          className="text-white text-decoration-none"
+        >
+          {" "}
+          Fill a survey
+        </a>
       </button>
     </>
   );
@@ -10,8 +17,15 @@ export const SurveyBtn = () => {
 export const WaitListBtn = () => {
   return (
     <>
-      <button type="button" class="btn buttonShow">
-        Join the waitlist
+      <button type="button" class="buttonShow buttonStyle btnText mt-5">
+        <a
+          href="https://forms.gle/iMXy1ucXdvW6VV5L8"
+          target="_blank"
+          className="text-white text-decoration-none"
+        >
+          {" "}
+          Join the waitlist
+        </a>
       </button>
     </>
   );

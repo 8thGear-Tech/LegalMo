@@ -1,6 +1,16 @@
 @use "../colors" as *;
+@use "../font" as *;
 
-.buttonShow {
+.buttonStyle {
   background-color: $btncolor;
-  color: $btntextcolor;
+  //   color: $btntextcolor;
+  //   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: 10rem;
+  height: 3rem;
+}
+.btnText {
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: "Raleway", sans-serif;
 }

@@ -10,20 +10,24 @@ body {
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
+  font-size: 2.2rem;
+  font-weight: 400;
   color: var(--white);
   font-family: "Roboto", sans-serif;
 }
 
 h2 {
   font-size: 2rem;
-  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-family: "Sanchez", serif;
 }
 
 h3 {
   font-size: 1.5rem;
-  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-family: "Sanchez", serif;
 }
 
 h4 {
@@ -45,9 +49,17 @@ p {
   font-family: "Raleway", sans-serif;
 }
 
-.buttonShow {
+.buttonStyle {
   background-color: #1034a6;
-  color: #ffffff;
+  border-radius: 10px;
+  width: 10rem;
+  height: 3rem;
+}
+
+.btnText {
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: "Raleway", sans-serif;
 }
 
 .HomeHeroBgg::before {
@@ -60,7 +72,7 @@ p {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .HomeHeroBg {
@@ -75,6 +87,11 @@ p {
   width: 100%;
 }
 
+.HomeHeroBg h1 {
+  position: relative;
+  line-height: 45px;
+}
+
 .HomeHeroBg h2 {
   position: relative;
   line-height: 45px;
@@ -85,11 +102,29 @@ p {
   line-height: 35px;
 }
 
-.HomeHeroBg .buttonShow {
+.HomeHeroBg .buttonShow,
+.textShow {
   position: relative;
 }
 
 .heroTextColor {
   color: #ffffff;
+}
+
+.paragraphColor {
+  color: #ffffff;
+}
+
+.textShow {
+  color: #ffffff;
+}
+
+@media only screen and (max-width: 990px) {
+  .HomeHeroBgg::before {
+    height: 100vh;
+  }
+  .HomeHeroBg {
+    height: 100vh;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

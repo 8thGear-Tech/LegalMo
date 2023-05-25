@@ -12,7 +12,7 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .HomeHeroBg {
@@ -27,6 +27,10 @@
   width: 100%;
 }
 
+.HomeHeroBg h1 {
+  position: relative;
+  line-height: 45px;
+}
 .HomeHeroBg h2 {
   position: relative;
   line-height: 45px;
@@ -35,11 +39,28 @@
   position: relative;
   line-height: 35px;
 }
-.HomeHeroBg .buttonShow {
+.HomeHeroBg .buttonShow,
+.textShow {
   position: relative;
   // line-height: 35px;
 }
 
 .heroTextColor {
   color: $sectextcolor;
+}
+
+.paragraphColor {
+  color: $sectextcolor;
+}
+.textShow {
+  color: $sectextcolor;
+}
+
+@media only screen and (max-width: 990px) {
+  .HomeHeroBgg::before {
+    height: 100vh;
+  }
+  .HomeHeroBg {
+    height: 100vh;
+  }
 }
