@@ -1,0 +1,39 @@
+// @use "./colors" as *;
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--white);
+  font-family: "Roboto", sans-serif;
+}
+
+h2 {
+  font-size: 2rem;
+  // font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+h3 {
+  font-size: 1.5rem;
+  // font-weight: 600;
+  font-family: "Roboto", sans-serif;
+}
+h4 {
+  font-size: 1.3rem;
+  font-family: "Roboto", sans-serif;
+  // font-weight: 600;
+}
+
+h5 {
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.75rem;
+  font-family: "Raleway", sans-serif;
+}

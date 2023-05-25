@@ -1,0 +1,6 @@
+@use "../colors" as *;
+
+.buttonShow {
+  background-color: $btncolor;
+  color: $btntextcolor;
+}
