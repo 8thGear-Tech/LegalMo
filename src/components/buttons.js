@@ -3,7 +3,7 @@ export const SurveyBtn = () => {
     <>
       <button
         type="button"
-        class="btn buttonShow buttonStyle btnText mx-2 mt-5"
+        class="btn buttonShow buttonStyle btnText mx-1 mt-5"
       >
         <a
           href="https://forms.gle/nNesFPeciVv9xP5S7"
@@ -22,7 +22,7 @@ export const WaitListBtn = () => {
     <>
       <button
         type="button"
-        class="btn buttonShow buttonStyle btnText mx-2 mt-5"
+        class="btn buttonShow buttonStyle btnText mx-1 mt-5"
       >
         <a
           href="https://forms.gle/iMXy1ucXdvW6VV5L8"
