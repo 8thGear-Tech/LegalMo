@@ -58,9 +58,24 @@
 
 @media only screen and (max-width: 990px) {
   .HomeHeroBgg::before {
-    height: 100vh;
+    height: 52rem;
   }
   .HomeHeroBg {
-    height: 100vh;
+    height: 52rem;
   }
 }
+// @media only screen and (max-width: 990px) {
+//   .HomeHeroBgg::before {
+//     height: 100vh;
+//   }
+//   .HomeHeroBg {
+//     height: 100vh;
+//   }
+// }
+// @media only screen and (max-width: 765px) {
+//   .HomePageHeroBg {
+//     height: 140vh;
+//   }
+// }
+
+// @media only screen and (max-width: 600px) and (min-width: 400px);

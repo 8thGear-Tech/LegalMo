@@ -1,7 +1,7 @@
 export const SurveyBtn = () => {
   return (
     <>
-      <button type="button" class="buttonShow buttonStyle btnText mt-5">
+      <button type="button" class="buttonShow buttonStyle btnText mx-2 mt-5">
         <a
           href="https://forms.gle/nNesFPeciVv9xP5S7"
           target="_blank"
@@ -17,7 +17,7 @@ export const SurveyBtn = () => {
 export const WaitListBtn = () => {
   return (
     <>
-      <button type="button" class="buttonShow buttonStyle btnText mt-5">
+      <button type="button" class="buttonShow buttonStyle btnText mx-2 mt-5">
         <a
           href="https://forms.gle/iMXy1ucXdvW6VV5L8"
           target="_blank"

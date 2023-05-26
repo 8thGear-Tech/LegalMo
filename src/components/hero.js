@@ -5,7 +5,7 @@ export const HomeHero = () => {
   return (
     <>
       <div className="container-fluid HomeHeroBg d-flex align-items-center">
-        <div className="px-3 container-fluid HomeHeroBgg d-flex pt-3 pb-4">
+        <div className="px-1 container-fluid HomeHeroBgg d-flex pb-4">
           <div className="row justify-content-center">
             <Navbar />
             <div className="col-lg-12 col-md-12 col-sm-12">
@@ -13,11 +13,11 @@ export const HomeHero = () => {
                 We are researching to understand your legal needs.
                 <br /> Share your thoughts with us.
               </h2>
-              <h2 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center">
+              <h3 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center mt-5">
                 {" "}
                 We are researching to understand your legal needs. Share your
                 thoughts with us.
-              </h2>
+              </h3>
             </div>{" "}
             <div className="d-flex justify-content-center">
               {" "}
