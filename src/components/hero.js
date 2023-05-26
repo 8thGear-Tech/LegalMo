@@ -13,7 +13,7 @@ export const HomeHero = () => {
                 We are researching to understand your legal needs.
                 <br /> Share your thoughts with us.
               </h2>
-              <h3 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center">
+              <h3 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center mt-5">
                 {" "}
                 We are researching to understand your legal needs. Share your
                 thoughts with us.
