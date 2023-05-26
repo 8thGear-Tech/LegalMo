@@ -13,7 +13,7 @@ export const HomeHero = () => {
                 We are researching to understand your legal needs.
                 <br /> Share your thoughts with us.
               </h2>
-              <h3 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center mt-5">
+              <h3 className="d-xs-block d-sm-block d-md-block d-lg-none heroTextColor text-center">
                 {" "}
                 We are researching to understand your legal needs. Share your
                 thoughts with us.
@@ -48,7 +48,7 @@ export const HomeHero = () => {
                   target="_blank"
                   className="text-decoration-none"
                 >
-                  <p className="paragraphColor mx-3 textShow m-0 p-1">
+                  <p className="paragraphColor textShow m-0 p-1">
                     41 CMD Road, Magodo/Secretariat, Lagos
                   </p>
                 </a>
