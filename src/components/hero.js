@@ -54,7 +54,11 @@ export const HomeHero = () => {
                 </a>
               </div>
               <div className="d-flex justify-content-center">
-                <a href="" target="_blank" className="text-decoration-none">
+                <a
+                  href="https://www.linkedin.com/company/legalmo/"
+                  target="_blank"
+                  className="text-decoration-none"
+                >
                   <i class="bi bi-linkedin mx-2 paragraphColor textShow"></i>
                 </a>
                 <a
