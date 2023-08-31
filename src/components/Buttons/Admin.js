@@ -1,0 +1,12 @@
+/*Dashboard 
+companies
+verified lawyers
+unverified lawyers
+unassigned jobs
+assigned jobs
+pending payments
+completed payments           
+ratings
+create new job
+pay
+verify*/
