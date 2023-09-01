@@ -1,5 +1,5 @@
 import Navbar from "./navbar";
-import { SurveyBtn, WaitListBtn } from "./demo_buttons";
+import { SurveyBtn, WaitListBtn } from "./buttons";
 
 export const HomeHero = () => {
   return (
