@@ -56,6 +56,10 @@ p {
   width: 10rem;
   height: 3rem;
 }
+.buttonStyle:hover {
+  background-color: #1034a6;
+  color: #ffffff;
+}
 
 .btnText {
   font-size: 1.1rem;
@@ -120,12 +124,12 @@ p {
   color: #ffffff;
 }
 
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 1600px) {
   .HomeHeroBgg::before {
-    height: 52rem;
+    height: 42rem;
   }
   .HomeHeroBg {
-    height: 52rem;
+    height: 42rem;
   }
 }
 /*# sourceMappingURL=styles.css.map */

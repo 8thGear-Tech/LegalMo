@@ -8,6 +8,10 @@
   border-radius: 10px;
   width: 10rem;
   height: 3rem;
+  &:hover {
+    background-color: $btncolor;
+    color: $btntextcolor;
+  }
 }
 .btnText {
   font-size: 1.1rem;
