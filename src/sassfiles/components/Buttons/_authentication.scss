@@ -1,0 +1,35 @@
+@use "../colors" as *;
+
+.btn{
+    height: 55px !important;
+    width: 100px !important;
+    border-radius: 10px !important;
+}
+.btn-outline-primary{
+    border: 2px solid $secbtncolor !important;
+    color: $prytextcolor !important;
+
+    &:hover{
+        background-color: $secbtncolor !important;
+        color: $btntextcolor !important;
+
+    }
+    
+}
+
+.btn-primary{
+    background-color: $secbtncolor !important;
+    border: none !important;
+    &:hover{
+        background-color: $btntextcolor!important;
+        color: $secbtncolor !important;
+        border: 1px solid $secbtncolor !important;
+    }
+
+}
+
+.btnNewText{
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    
+}
