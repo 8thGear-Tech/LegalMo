@@ -1,4 +1,6 @@
 @use "../colors" as *;
+.navBtn{
+
 
 .btn{
     height: 55px !important;
@@ -9,22 +11,13 @@
     border: 2px solid $secbtncolor !important;
     color: $prytextcolor !important;
 
-    &:hover{
-        background-color: $secbtncolor !important;
-        color: $btntextcolor !important;
-
-    }
     
 }
 
 .btn-primary{
     background-color: $secbtncolor !important;
     border: none !important;
-    &:hover{
-        background-color: $btntextcolor!important;
-        color: $secbtncolor !important;
-        border: 1px solid $secbtncolor !important;
-    }
+    
 
 }
 
@@ -32,4 +25,16 @@
     font-size: 20px !important;
     font-weight: 400 !important;
     
+}
+}
+
+.btn-primary:hover{
+    background-color: $btntextcolor!important;
+    color: $secbtncolor !important;
+    border: 1px solid $secbtncolor !important;
+}
+
+.btn-outline-primary:hover{
+    background-color: $secbtncolor !important;
+    color: $btntextcolor !important;
 }

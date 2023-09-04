@@ -1,31 +1,46 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/logo/legalmologo.png'
+import Logo from '../assets/images/Master logo.svg'
+import '../sassfiles/components/_footer.scss'
+import Insta from '../assets/images/Instagram.svg'
+import FB from '../assets/images/Facebook.svg'
+import Linked from '../assets/images/linkedIN.svg'
+import Twitter from '../assets/images/twitter.svg'
 
-function Footer() {
+const Footer = () => {
   return (
-    <div className='footer'>
-        <div className='footerLeft'>
-            <img src={Logo} alt='logo'/>
+    <div className='p-md-5 p-4' style={{background:'#878787'}}>
+    <div className='px-lg-5 mx-xl-5'>
+     {/* <div className='general-footer  d-flex justify-content-between py-0 py-5 me-xl-5 pe-md-5'> */}
+     <div className='general-footer row py-2 py-md-5'>
+        <div className='col'>
+        <img src={Logo} alt='logo' className='footer-image'/>
         </div>
-        <div className='footerCentre'>
-            <h4>Quick links</h4>
-            <Link to="/about-us">About</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/terms-of-use" >Terms of use</Link>
-            <Link to="/privacy-policy">Privacy policy</Link>
-        </div>         
-        <div className='footerRight'> 
-            <h4>Follow us</h4>
-            <button>Facebook</button>
-            <button>Instagram</button>
-            <button>LinkedIn</button>
-            <button>Twitter</button>
+        <div className=' col d-flex  flex-column text-white gap-4 align-items-md-center'>
+         <h4>Quick links</h4>
+         <div className='d-flex flex-column gap-4'>
+         <Link to="/about-us" className='text-white text-decoration-none'>About</Link>
+         <Link to="/contact" className='text-white text-decoration-none'>Contact</Link>
+         <Link to="/terms-of-use" className='text-white text-decoration-none'>Terms of use</Link>
+         <Link to="/privacy-policy" className='text-white text-decoration-none'>Privacy policy</Link>
+         </div>
         </div>
-        <h6>
-            <span>&copy;</span>All rights reserved 2023, LegalMo.
-        </h6>
+        <div className='col-12 col-sm-4 mt-5 mt-sm-0 d-flex align-items-center flex-column text-white gap-3 '>
+            <h4 className=''>Follow us</h4>
+            <div className='d-flex gap-4'>
+                <img src={FB} alt='social'/>
+                <img src={Insta} alt='social'/>
+                <img src={Linked} alt='social'/>
+                <img src={Twitter} alt='social'/>
+            </div>
+        </div>
+        
+
     </div>
+    <p className='text-white mt-5'>©All rights reserved 2023, LegalMO.</p>
+    </div>
+    </div>
+     
 
   )
 }

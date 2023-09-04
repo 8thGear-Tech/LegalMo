@@ -1,0 +1,276 @@
+@use "../../colors" as *;
+
+
+.landing-hero-card{
+    
+
+   .card-title{
+    color: #021A4D ;
+    font-size: 56px ;
+    font-weight: 700 ;
+    line-height: 74px ;
+   }
+
+   .card-text{
+    color: $prytextcolor ;
+    font-size: 24px ;
+    font-weight: 500 ;
+    line-height: 28px ;
+
+   }
+
+   .card-text-small{
+    color: $prytextcolor;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 23px;
+   }
+
+   .btn-primary{
+    background-color: $secbtncolor ;
+    border: $secbtncolor ;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 13px 40px;
+    
+   }
+}
+
+.services-section, .choose-us-section{
+    
+    h3{
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 48px;
+        font-family: "Roboto", sans-serif !important;
+    }
+
+    h4{
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 48px;
+        font-family: "Roboto", sans-serif !important;
+    }
+
+    h5{
+        font-size: 23px;
+        font-weight: 400;
+        line-height: 28px;
+        font-family: "Roboto", sans-serif !important;
+    }
+
+    p{
+        font-size: 20px;
+        line-height: normal;
+        font-family: "Roboto", sans-serif !important; 
+    }
+
+    .btn-outline-primary{
+       border: 1px solid $secbtncolor !important;
+        color: $prytextcolor;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 13px 40px;
+    }
+
+    .btn-primary{
+        background-color: $secbtncolor ;
+        border: $secbtncolor ;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 13px 40px;
+        
+       }
+
+    .card{
+        border-radius: 16px;
+       border: none;
+        box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.16);
+        
+        
+        
+    }
+        
+.carousel-control-prev {
+  position: absolute;
+  left: -3%;
+ 
+}
+
+.carousel-control-next {
+  position: absolute;
+  right: -3%;
+}
+ .carousel-control-prev-icon-bg, .carousel-control-next-icon-bg{
+    fill: black !important;
+ }  
+     
+
+}
+
+.works-section{
+    h2{
+        font-family: "Roboto", sans-serif !important;
+font-size: 50px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+    h4{
+        font-family: "Roboto", sans-serif !important;
+        font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+    h5{
+        font-family: "Roboto", sans-serif !important;
+        font-size: 29px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal  
+    }
+ p{
+    font-family: "Roboto", sans-serif !important;
+    font-size: 20px;
+    color : #545454;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+ }
+    .btn-outline-primary{
+       border: 1px solid $secbtncolor;
+        font-size: 20px;
+        color: black;
+        
+
+    }
+    .active-btn-outline{
+        background-color: $secbtncolor !important;
+        color: $btntextcolor !important;
+    }
+    .line{
+        border:  1px solid #151515;
+    }
+}
+
+.in-touch-card{
+    .card-title{
+color: white;
+font-size: 48px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+    }
+
+    .card-text{
+color: white;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    }
+
+    .btn-outline-light{
+        padding: 13px 45px;
+        font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    }
+}
+@media (max-width: 992px){
+    .choose-us-section{
+        .carousel-control-prev {
+    
+            left: -9%;
+          }
+          
+          .carousel-control-next {
+          
+            right: -9%;
+          }
+    }
+}
+
+@media (max-width: 768px){
+.landing-hero-card{
+    .card-title{
+        font-size: 28px !important;
+        line-height: 40px !important;
+    }
+    .card-text{
+        font-size: 20px !important;
+    }
+    .card-text-small{
+        font-size: 18px  !important;
+    }
+   
+}
+
+.services-section,.choose-us-section{
+    h3{
+        font-size: 28px;
+    }
+
+    h4{
+        font-size: 25px;
+    }
+
+
+    h5{
+        font-size: 22px;
+    }
+    p{
+        font-size: 18px;
+    }
+   
+
+    .carousel-control-prev {
+    
+        left: -4%;
+      }
+      
+      .carousel-control-next {
+      
+        right: -4%;
+      }
+}
+
+.in-touch-card{
+    .card-title{
+
+font-size: 26px;
+
+    }
+
+    .card-text{
+
+font-size: 18px;
+
+    }
+
+   
+}
+.works-section{
+    h2{
+        font-size: 28px;
+    }
+    h4{
+        font-size: 22px
+    }
+    h5{
+        font-size: 20px;
+    }
+    p{
+        font-size: 18px;
+    }
+    
+}
+
+.btn-outline-primary, .btn-primary, .btn-outline-light{
+    font-size: 18px;
+}
+
+}
