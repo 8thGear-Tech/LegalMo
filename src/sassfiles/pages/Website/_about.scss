@@ -1,1 +1,92 @@
-@use '../../components/Navbar/guestnav'
+@use '../../components/Navbar/guestnav';
+
+.about-hero-card{
+    .card-title{
+        font-family: "Roboto", sans-serif !important;
+        font-size: 56px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+    }
+    .card-text{
+        font-family: "Roboto", sans-serif !important;
+        font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    }
+}
+.question-section{
+    h2{
+        font-family: "Roboto", sans-serif !important;
+        font-size: 56px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+    }
+    .btn-outline-dark{
+        font-size: 20px;
+        padding: 10px 40px;
+    }
+}
+.team-section{
+    h2{
+        font-family: "Roboto", sans-serif !important;
+        color: #373737;
+        font-size: 50px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+    }
+    p{
+        color:  #5F5F5F;
+
+        font-family: "Roboto", sans-serif !important;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 15px;
+
+    }
+}
+
+@media (max-width: 992px) {
+    .team-section{
+       
+        p{
+           
+font-size: 20px;
+
+        }
+    }
+}
+
+@media (max-width: 768px){
+    .about-hero-card{
+        .card-title{
+            font-size: 28px;
+        }
+        .card-text{
+            font-size: 18px;
+        }
+    }
+    .question-section{
+        h2{
+            font-size: 26px;
+        }
+        .legal-image{
+            width: 40%;
+        }
+    }
+
+    .team-section{
+        h2{
+            font-size: 26px;
+        }
+        p{
+           
+font-size: 16.7px;
+
+        }
+    }
+}

@@ -150,9 +150,10 @@ line-height: normal;
         background-color: $secbtncolor !important;
         color: $btntextcolor !important;
     }
-    .line{
-        border:  1px solid #151515;
-    }
+    
+}
+.line{
+    border-bottom:  0.3px solid black;
 }
 
 .in-touch-card{
@@ -269,7 +270,7 @@ font-size: 18px;
     
 }
 
-.btn-outline-primary, .btn-primary, .btn-outline-light{
+.btn-outline-primary, .btn-primary, .btn-outline-light, .btn-outline-dark{
     font-size: 18px;
 }
 
