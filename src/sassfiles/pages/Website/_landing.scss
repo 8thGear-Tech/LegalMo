@@ -180,6 +180,25 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
     }
+    .landing-contact-btn{
+        top: 100%;
+        left: 38%;
+        
+         z-index: 1; 
+
+        .btn-primary{
+            background-color: $secbtncolor !important;
+            color: white !important;
+           border-radius: 5px !important;
+           border: none !important;
+           padding: 20px;
+           font-size: 20px;
+        }
+    }
+    .btn-group{
+        gap: 2px;
+        background-color: $secbtncolor;
+    }
 }
 @media (max-width: 992px){
     .choose-us-section{
@@ -251,6 +270,9 @@ font-size: 26px;
 font-size: 18px;
 
     }
+    .landing-contact-btn{
+        left: 17%;
+    }
 
    
 }
@@ -267,6 +289,7 @@ font-size: 18px;
     p{
         font-size: 18px;
     }
+   
     
 }
 
@@ -274,4 +297,16 @@ font-size: 18px;
     font-size: 18px;
 }
 
+
+}
+
+@media (max-width: 576px){
+    .in-touch-card{
+        .landing-contact-btn{
+            left: 5%;
+            .btn-primary{
+                padding: 10px;
+            }
+        }
+    }
 }

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import '../../sassfiles/components/Navbar/_guestnav.scss'
 
 import legalMoLogo from '../../assets/images/legalmologo.svg'
@@ -8,6 +8,22 @@ import { NavLoginbtn, NavSignUpbtn } from '../Buttons/Navbarbtns'
 
 
 const GuestNavbar = () => {
+  const location = useLocation();
+  const isLoggedPage = location.pathname === '/login'||location.pathname.includes('/signup')|| location.pathname === '/lawyer-signup'||location.pathname === '/company-signup'|| location.pathname === '/admin-signup' || location.pathname === '/next-lawyer-signup' || location.pathname === '/next-company-signup';
+
+  const [showContactButtons, setShowContactButtons] = useState(false);
+  const [showSignUpButtons, setShowSignUpButtons] = useState(false);
+
+  const toggleContactButtons = () => {
+    setShowContactButtons(!showContactButtons);
+    setShowSignUpButtons(false);
+  };
+
+  const toggleSignUpButtons = () => {
+    setShowSignUpButtons(!showSignUpButtons);
+    setShowContactButtons(false);
+  };
+ 
   return (
     <>
     <nav className="navbar navbar-expand-lg bg-body-tertiary guest-navbar">
@@ -17,19 +33,29 @@ const GuestNavbar = () => {
   <span className="navbar-toggler-icon"></span>
 </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-4">
+      <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-4 short-links">
         <li className="nav-item">
-          <Link className="nav-link"  to="/about-us">About Us</Link>
+          <NavLink className="nav-link"  to="/about-us">About Us</NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/products">Products</Link>
+          <NavLink className="nav-link" to="/products">Products</NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/contact">Contact</Link>
+          <Link className="nav-link" onClick={toggleContactButtons}>Contact</Link>
         </li>
+        {showContactButtons && (
+        <div role="group" aria-label="Basic example" className="btn-group contact-btn position-absolute"  >
+        <button type="button" className="btn btn-primary">Send an Email</button>
+        <div className='my-2' style={{borderLeft:'1px solid white'}}></div>
+        <button type="button" className="btn btn-primary">Speak to an Agent</button>
+        
+      </div>
+      )}
       
       </ul>
       <div className="d-block d-lg-flex gap-2 gap-lg-3">
+      {!isLoggedPage &&(
+        <>
         <ul className="navbar-nav ">
         <li className="nav-item">
           <Link className="nav-link my-0 my-lg-2"  to="/cart"><i className="bi bi-cart3 cart-icon"></i></Link>
@@ -40,9 +66,18 @@ const GuestNavbar = () => {
           <Link className="nav-link" to="/login"><NavLoginbtn/></Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/signup"><NavSignUpbtn/></Link>
+          <Link className="nav-link" onClick={toggleSignUpButtons}><NavSignUpbtn/></Link>
         </li>
+        {showSignUpButtons && (
+        <div role="group" aria-label="Basic example" className="btn-group sign-btn position-absolute gap-1" >
+        <Link to='/company-signup' className="btn btn-primary">As a Company</Link>
+        <div className='my-2' style={{borderLeft:'1px solid white'}}></div>
+        <Link to='/lawyer-signup' type="button" className="btn btn-primary">As a Lawyer</Link>
+        
+      </div>
+      )}
         </ul>
+        </>)}
       
       </div>
     </div>

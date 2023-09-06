@@ -6,48 +6,95 @@ import '../../sassfiles/pages/Website/_landing.scss'
 import Intellectual from '../../assets/images/intellectualpptyimage.svg'
 import Contract from '../../assets/images/contractlawimage.svg'
 import Employment from '../../assets/images/emoloymentlawimage.svg'
-import Choose from '../../assets/images/chooseusimage.svg'
+import Choose1 from '../../assets/images/chooseusimage.svg'
+import Choose2 from '../../assets/images/choose3.svg'
+import Choose3 from '../../assets/images/choose2.svg'
 import Touch from '../../assets/images/intouchimage.png'
+import { Link } from 'react-router-dom';
+
+const select1 =[
+  {
+    id:1,
+    action: '01 / Sign up',
+    detail: 'Join us by signing up and giving us access to a few details',
+  },
+  {
+    id:2,
+    action: '02 / Verification',
+    detail: 'Wait for an hour for your account to be verified',
+  },
+  {
+    id:3,
+    action: '03 / Log in',
+    detail: 'Log in after verification with your username and password to get started',
+  },
+]
+
+const select2 = [
+  {
+    id:1,
+    action: '04 / Click',
+    detail: 'Click on the "Product" button to be directed to the product page',
+  },
+  {
+    id:2,
+    action: '05 / Explore',
+    detail: 'Check out the several products we have',
+  },
+  {
+    id:3,
+    action: '06 / Choose',
+    detail: 'Choose the products that best suits your business current legal need',
+  },
+]
+
+const select3 = [
+  {
+    id:1,
+    action: '07 / Details',
+    detail: 'Give me more details and upload necessary documents',
+  },
+  {
+    id:2,
+    action: '08 / Reserve',
+    detail: 'Reserve your preffered product for later',
+  },
+  {
+    id:3,
+    action: '09 / Purchase',
+    detail: 'Purchase your preffered product and a professional will get to it right away',
+  },
+]
+
+const carouselData = [
+  {
+    title: 'Affordable Rates',
+    description: 'Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you\'re getting the best value for your investment.',
+    image: Choose1, 
+    
+  },
+  {
+    title: 'Experienced Professionals',
+    description: 'Our pool of lawyers consist of highly experienced legal professionals with diverse backgrounds and expertise in areas of law suited to meet the legal needs of SMEs and Startups. This diversity allows us provide comprehensive legal services to our clients across multiple practice areas.',
+    image: Choose2, 
+  },
+  {
+    title: 'Accessible Services',
+    description: 'Our services are designed to be easily accessible online, anytime, anywhere. This means that you can access our services from your computer, tablet, or smartphone, no matter where you are in the world.',
+    image: Choose3, 
+  },
+];
 
 
-const WorkSelect = () => {
-  return(
-    <div>
-    <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4'>
-      <div className='col-sm-7 col-4  d-flex align-items-center'>
-      <h4> 01 / Sign up</h4>
-      </div>
-      <div className='col'>
-      <p>Join us by signing up and giving us access to a few details</p>
-      </div>
-    </div>
-    <div className='line'></div>
-    <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4'>
-      <div className='col-sm-7 col-4 d-flex align-items-center'>
-      <h4> 02 / Verification</h4>
-      </div>
-      <div className='col'>
-      <p>Wait for an hour for your account to be verified</p>
-      </div>
-    </div>
-    <div className='line'></div>
-    <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4'>
-      <div className='col-sm-7 col-4 d-flex align-items-center'>
-      <h4 className='d-sm-flex d-none'> 03 / Log in</h4>
-      <div className='d-block d-sm-none'> 
-      <h4>03 /</h4> <h4>Log in</h4></div>
-      </div>
-      <div className='col'>
-      <p>Log in after verification with your username and password to get started</p>
-      </div>
-    </div>
-    <div className='line'></div>
-  </div>
-  )
-}
 
 const Landing =()=> {
   const [selectedButton, setSelectedButton] = useState(0);
+  const [showContactButtons, setShowContactButtons] = useState(false);
+ 
+  const toggleContactButtons = () => {
+ 
+    setShowContactButtons(!showContactButtons);
+  };
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
@@ -123,7 +170,7 @@ const Landing =()=> {
               </div>
             </div>
             <div className='text-center'>
-              <button type='button' className='btn btn-outline-primary'>View all services</button>
+              <Link to='/products' type='button' className='btn btn-outline-primary'>View all services</Link>
             </div>
           </section>
 
@@ -135,130 +182,57 @@ const Landing =()=> {
               <h5 className='pb-xxl-4'>We are committed to providing access to quality legal services</h5>
             </div>
             <div className=" ">
-            <div id="carouselExampleDark" className="carousel carousel-dark slide">
-  <div className="carousel-inner ">
-    <div className="carousel-item active">
-      <div className='px-xxl-5 mx-xxl-5 px-4 px-md-0'>
-    <div className="card px-lg-5 mx-lg-5 mb-3 "style={{border:'none', borderRadius:'0', background:'none', boxShadow:'none'}} >
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-none d-md-flex">
-    
-    <div className="col">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Affordable Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
+          <div id="carouselExampleDark" className="carousel carousel-dark slide">
+            <div className="carousel-inner">
+              {carouselData.map((item, index) => (
+                <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
+                  <div className='px-xxl-5 mx-xxl-5 px-4 px-md-0'>
+                    <div className="card px-lg-5 mx-lg-5 mb-3 " style={{ border: 'none', borderRadius: '0', background: 'none', boxShadow: 'none' }}>
+                      <div className="row gap-xxl-4 gap-0 px-xl-5 d-none d-md-flex">
+                        <div className="col">
+                          <div className="card-body my-md-5 py-xl-5">
+                            <h3 className="text-center mb-3 mb-md-4">{item.title}</h3>
+                            <h5 className="">{item.description}</h5>
+                            <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
+                            <Link to='/company-signup' type='button' className='btn btn-primary'>Join us</Link>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-6">
+                          <img src={item.image} className="img-fluid rounded-start" alt="choose" style={{ height: '100%', width: '100%' }} />
+                        </div>
+                      </div>
+                      <div className="row gap-xxl-4 gap-0 px-xl-5 d-md-none d-flex">
+                        <div className="col-12 col-md-6 text-center">
+                          <img src={item.image} className="img-fluid rounded-start" alt="choose" style={{ height: '300px', width: '300px' }} />
+                        </div>
+                        <div className="col-12 col-md-6">
+                          <div className="card-body my-md-5 py-xl-5">
+                            <h3 className="text-center mb-3 mb-md-4">{item.title}</h3>
+                            <h5 className="">{item.description}</h5>
+                            <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
+                              <Link to='/company-signup' type='button' className='btn btn-primary'>Join us</Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              ))}
             </div>
-      </div>
-    </div>
-    <div className="col-12 col-md-6">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'100%', width:'100%'}}/>
-    </div>
-  </div>
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-md-none d-flex">
-  <div className="col-12 col-md-6 text-center">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'300px', width:'300px'}}/>
-    </div>
-    <div className="col-12 col-md-6">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Affordable Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
+            <div className="carousel-controls-container">
+              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-      </div>
-    </div>
-    
-  </div>
-      </div>
-    </div>
-    </div>
-    <div className="carousel-item">
-      <div className='px-xxl-5 mx-xxl-5 px-4 px-md-0'>
-    <div className="card px-lg-5 mx-lg-5 mb-3 "style={{border:'none', borderRadius:'0', background:'none', boxShadow:'none'}} >
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-none d-md-flex">
-    
-    <div className="col">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Good Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
-            </div>
-      </div>
-    </div>
-    <div className="col-12 col-md-6">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'100%', width:'100%'}}/>
-    </div>
-  </div>
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-md-none d-flex">
-  <div className="col-12 col-md-6 text-center">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'300px', width:'300px'}}/>
-    </div>
-    <div className="col-12 col-md-6">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Good Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
-            </div>
-      </div>
-    </div>
-    
-  </div>
-      </div>
-    </div>
-    </div>
-    <div className="carousel-item ">
-      <div className='px-xxl-5 mx-xxl-5 px-4 px-md-0'>
-    <div className="card px-lg-5 mx-lg-5 mb-3 "style={{border:'none', borderRadius:'0', background:'none', boxShadow:'none'}} >
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-none d-md-flex">
-    
-    <div className="col">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Best Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
-            </div>
-      </div>
-    </div>
-    <div className="col-12 col-md-6">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'100%', width:'100%'}}/>
-    </div>
-  </div>
-  <div className="row gap-xxl-4 gap-0 px-xl-5 d-md-none d-flex">
-  <div className="col-12 col-md-6 text-center">
-      <img src={Choose} className="img-fluid rounded-start" alt="choose" style={{height:'300px', width:'300px'}}/>
-    </div>
-    <div className="col-12 col-md-6">
-      <div className="card-body my-md-5 py-xl-5">
-        <h3 className="text-center mb-3 mb-md-4" >Affordable Rates</h3>
-        <h5 className="">Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you're getting the best value for your investment.</h5>
-        <div className='pt-xxl-5 mt-4 mt-md-5 text-center'>
-              <button type='button' className='btn btn-primary'>Join us</button>
-            </div>
-      </div>
-    </div>
-    
-  </div>
-      </div>
-    </div>
-    </div>
-  </div>
-  <div className="carousel-controls-container">
-      <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="prev">
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="next">
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
-</div>
-            </div>
-            
+          </div>
+        </div>
            
           </section>
 
@@ -278,13 +252,64 @@ const Landing =()=> {
               </div>
               <div className='mt-xxl-5 mt-3'>
                 {selectedButton === 0 &&(
-                  <WorkSelect/>
+                  <div>
+                    {select1.map((select) => {
+                      const {id,action,detail} = select;
+                      return(
+                        <div>
+                        <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                        <div className='col-sm-7 col-4  d-flex align-items-center'>
+                        <h4> {action}</h4>
+                        </div>
+                        <div className='col'>
+                        <p>{detail}</p>
+                        </div>
+                      </div>
+                      <div className='line'></div>
+                      </div>
+                      )
+                    })}
+                </div>
                 )}
                 {selectedButton === 1 &&(
-                  <WorkSelect/>
+                 <div>
+                 {select2.map((select) => {
+                   const {id,action,detail} = select;
+                   return(
+                     <div>
+                     <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                     <div className='col-sm-7 col-4  d-flex align-items-center'>
+                     <h4> {action}</h4>
+                     </div>
+                     <div className='col'>
+                     <p>{detail}</p>
+                     </div>
+                   </div>
+                   <div className='line'></div>
+                   </div>
+                   )
+                 })}
+             </div>
                 )}
                 {selectedButton === 2 &&(
-                  <WorkSelect/>
+                  <div>
+                  {select3.map((select) => {
+                    const {id,action,detail} = select;
+                    return(
+                      <div>
+                      <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                      <div className='col-sm-7 col-4  d-flex align-items-center'>
+                      <h4> {action}</h4>
+                      </div>
+                      <div className='col'>
+                      <p>{detail}</p>
+                      </div>
+                    </div>
+                    <div className='line'></div>
+                    </div>
+                    )
+                  })}
+              </div>
                 )}
               </div>
               </div>
@@ -296,8 +321,17 @@ const Landing =()=> {
           <div className="card-img-overlay text-align-center text-center justify-content-center py-5" >
             <h5 className="card-title mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3">Ready to protect your business?</h5>
             <p className="card-text mb-5">Get in touch with us today</p>
-            <a href="#" className="btn btn-outline-light mt-sm-5 mt-4">Contact us</a>
-           
+            <div className='position-relative'>
+            <a onClick={toggleContactButtons} className="btn btn-outline-light mt-sm-5 mt-4">Contact us</a>
+            {showContactButtons && (
+        <div role="group" aria-label="Basic example" className="btn-group position-absolute landing-contact-btn"  >
+        <button type="button" className="btn btn-primary">Send an Email</button>
+        <div className='my-2' style={{borderLeft:'1px solid white'}}></div>
+        <button type="button" className="btn btn-primary">Speak to an Agent</button>
+        
+      </div>
+      )}
+      </div>
           </div>
         </div>
       </div>

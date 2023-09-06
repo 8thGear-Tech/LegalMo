@@ -1,3 +1,4 @@
+@use "../colors" as *;
 .general-footer{
     .footer-image{
       width: 200px;
@@ -10,6 +11,25 @@
 
     p{
         font-size: 16px;
+    }
+    .footer-btn{
+        top:45%;
+        //  left: 40%;
+        
+
+        .btn-primary{
+            background-color: $secbtncolor !important;
+            color: white !important;
+           border-radius: 5px !important;
+           border: none !important;
+           padding: 10px;
+        
+           font-size: 14px;
+        }
+    }
+    .btn-group{
+        gap: 2px;
+        background-color: $secbtncolor;
     }
 }
 
@@ -24,8 +44,25 @@
             font-size: 16px;
         }
     
-        p{
+        p, .btn-primary{
             font-size: 12px;
+        }
+        .footer-btn{
+            top:43%;
+           
+        }
+
+        
+    }
+}
+
+@media (max-width: 576px){
+    .general-footer{
+        
+
+        .footer-btn{
+            top:33%;
+            left:30%;
         }
     }
 }

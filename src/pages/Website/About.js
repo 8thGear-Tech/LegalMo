@@ -11,6 +11,7 @@ import team3 from '../../assets/images/team3.svg'
 import team4 from '../../assets/images/team4.svg'
 import team5 from '../../assets/images/team5.svg'
 import team6 from '../../assets/images/team6.svg'
+import { Link } from 'react-router-dom'
 
 
 const teams = [
@@ -103,7 +104,7 @@ function About() {
             <h2>Have a question?</h2>
             <h2 className='pb-lg-5'>Our team is happy to assist you</h2>
             <div className='text-center mt-5'>
-              <button type="button" className="btn btn-outline-dark">Contact Us</button>
+              <button type="button" className="btn btn-outline-primary">Contact Us</button>
             </div>
           </div>
          <img src={LegalMo} className='legal-image' alt='logo'/>
@@ -116,7 +117,7 @@ function About() {
           <div className="card-img-overlay text-align-center text-center justify-content-center py-5" >
             <h5 className="card-title mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3">Ready to protect your business?</h5>
             <p className="card-text mb-5">Get in touch with us today</p>
-            <a href="#" className="btn btn-outline-light mt-sm-5 mt-4">Contact us</a>
+            <Link to='/company-signup' className="btn btn-outline-light mt-sm-5 mt-4">Get started</Link>
            
           </div>
         </div>
