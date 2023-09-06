@@ -26,7 +26,7 @@ function AdminSignUp() {
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
     <SignUpForm formTitle="Sign up as a Admin" fields={adminFields} onSubmit={handleAdminSignup} submitButtonLabel="Sign up"/>
     </div>
-    <Footer/>
+ 
     </>
    
     

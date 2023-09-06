@@ -9,7 +9,7 @@ import { NavLoginbtn, NavSignUpbtn } from '../Buttons/Navbarbtns'
 
 const GuestNavbar = () => {
   const location = useLocation();
-  const isLoggedPage = location.pathname === '/login'||location.pathname.includes('/signup')|| location.pathname === '/lawyer-signup'||location.pathname === '/company-signup'|| location.pathname === '/admin-signup' || location.pathname === '/next-lawyer-signup' || location.pathname === '/next-company-signup';
+  const isLoggedPage = location.pathname === '/login'||location.pathname.includes('/signup')|| location.pathname === '/lawyer-signup'||location.pathname === '/company-signup'|| location.pathname === '/admin-signup' || location.pathname === '/next-lawyer-signup' || location.pathname === '/next-company-signup'|| location.pathname === '/password-reset' || location.pathname === '/new-password' || location.pathname === '/otp';
 
   const [showContactButtons, setShowContactButtons] = useState(false);
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);

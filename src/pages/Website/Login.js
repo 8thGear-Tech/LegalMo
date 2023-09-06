@@ -9,7 +9,7 @@ function Login() {
      <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
      <LoginForm/>
      </div>
-     <Footer/>
+    
     </div>
   )
 }

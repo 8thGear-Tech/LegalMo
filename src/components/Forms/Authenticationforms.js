@@ -4,7 +4,7 @@
 import React from 'react'
 import { Link , useNavigate} from 'react-router-dom';
 import '../../sassfiles/components/Forms/_authentication.scss'
-import { Loginbtn, Nextbtn } from '../Buttons/Authenticationbtns';
+import { Loginbtn, Nextbtn, ResetPasswordbtn } from '../Buttons/Authenticationbtns';
 import { useState } from 'react';
 
 
@@ -52,7 +52,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
   };
 
   return (
-    <div className='login-card'>
+    <div className='login-card mt-lg-3'>
       <div className='card p-5  m-auto'>
         <div className='text-center mb-5'>
           <h2 className='mb-2'>{formTitle}</h2>
@@ -87,7 +87,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
                     style={{ cursor: 'pointer', background: 'white' }}
                   >
                     {showPassword ? (
-                      <i className="bi bi-eye-slash"></i> // Bootstrap eye-slash icon
+                      <i className="bi bi-eye-slash"></i> 
                     ) : (
                       <i className="bi bi-eye"></i>
                     )}
@@ -109,20 +109,69 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
 
 
 
-//   export const ResetPasswordForm=()=> {
-//     return (
-//       <div>
-//         <h1>Reset Password</h1>
-//         <form id='reset-password-form' method='POST'>
-//             <label htmlFor='email'>Email</label>
-//             <input name='email' placeholder='Enter your email address' type='text'/>
-//         </form>
-//         <Link to='/otp'>
-//           <ResetPasswordbtn/>
-//         </Link>
-//       </div>
-//     );
-//   }
+export const ResetPasswordForm=()=> {
+  const [email, setEmail] = useState('');
+
+  const [emailError, setEmailError] = useState('');
+ 
+const navigate = useNavigate();
+
+
+const handlePasswordReset = (e) => {
+  e.preventDefault();
+
+  setEmailError('');
+  
+
+  let hasError = false;
+
+  
+  if (!email) {
+    setEmailError('Please enter your email address');
+    hasError = true;
+  }
+
+  if (hasError) {
+   
+    return;
+  }
+
+  
+  navigate('/otp');
+};
+
+
+
+  return (
+    <div className='login-card '>
+    <div className='card p-5  m-auto'>
+      <div className='text-center mb-5'>
+      <h2 className='mb-2'>Log in</h2>
+      
+      </div>
+        
+        <form onSubmit={handlePasswordReset}>
+          
+            <div className="mb-4" style={{position:'relative'}}>
+  <label htmlFor="email" className="form-label" >Email</label>
+  <input
+type="email"
+className="form-control py-2"
+value={email}
+onChange={(event) => setEmail(event.target.value)}
+/>
+{emailError && <div className="text-danger">{emailError}</div>}
+ 
+</div>
+       <div className='text-center mt-5'>
+        <ResetPasswordbtn text='Send OTP'/>
+        </div>
+        </form>
+       
+    </div>
+    </div>
+  );
+}
 
   export const LoginForm=()=> {
     const [email, setEmail] = useState('');
@@ -170,7 +219,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
 
 
     return (
-      <div className='login-card '>
+      <div className='login-card mt-lg-5'>
       <div className='card p-5  m-auto'>
         <div className='text-center mb-5'>
         <h2 className='mb-2'>Log in</h2>
@@ -179,7 +228,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
           
           <form onSubmit={handleLogIn}>
             
-              <div className="mb-4" style={{position:'relative'}}>
+              <div className="mb-5" style={{position:'relative'}}>
     <label htmlFor="email" className="form-label" >Email</label>
     <input
   type="email"

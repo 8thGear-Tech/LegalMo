@@ -16,12 +16,20 @@ export const Signupbtn = ()=>{
     )
 }
 // ResetPasswordbtn
+export const ResetPasswordbtn =(props) =>{
+    return (
+<button type="submit" className="btn btn-secondary" style={{ fontSize: '20px'}}>
+      {props.text}
+    </button>
+    )
+}
+
 
 // Nextbtn
-export const Nextbtn = (submitButtonLabel)=>{
+export const Nextbtn = ()=>{
     return(
         
-            <button type="submit" className="btn btn-secondary" style={{fontSize:'20px', width:'100%'}}>{submitButtonLabel}</button>
+            <button type="submit" className="btn btn-secondary" style={{fontSize:'20px', width:'100%'}}>Next</button>
         
     )
 }

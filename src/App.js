@@ -9,6 +9,9 @@ import {LawyerSignUp, NextLawyerSignUp} from "./pages/Lawyer/LawyerSignUp";
 import AdminSignUp from "./pages/Admin/AdminSignUp";
 import Login from "./pages/Website/Login";
 import Dashboard from "./pages/Company/Dashboard";
+import PasswordReset from "./pages/Website/PasswordReset";
+import NewPassword from "./pages/Website/NewPassword";
+import OTP from "./pages/Website/OTP";
 
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
         <Route path="/company-signup" element={<CompanySignUp/>} />
         <Route path="/next-company-signup" element={<NextCompanySignUp/>} />
         <Route path="/admin-signup" element={<AdminSignUp/>} />
+        <Route path="/password-reset" element={<PasswordReset/>} />
+        <Route path="/otp" element={<OTP/>} />
+        <Route path="/new-password" element={<NewPassword/>} />
         <Route path="/products" element={<Dashboard/>} />
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"

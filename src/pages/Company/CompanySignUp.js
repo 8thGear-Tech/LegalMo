@@ -27,7 +27,7 @@ import { Link, useNavigate } from 'react-router-dom'
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
     <SignUpForm formTitle="Sign up as a Company" fields={companyFields} onSubmit={handleNextCompanySignUp} submitButtonLabel="Next"/>
     </div>
-    <Footer/>
+  
     </>
     
     
@@ -56,7 +56,7 @@ export function NextCompanySignUp() {
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
     <SignUpForm formTitle="Sign up as a Company" fields={nextCompanyFields} onSubmit={handleCompanySignup} submitButtonLabel="Sign up"/>
     </div>
-    <Footer/>
+    
     </>
     
     
