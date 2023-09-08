@@ -6,7 +6,7 @@
 body {
   margin: 0;
   padding: 0 !important;
-  overflow-x: hidden !important;
+  overflow: visible !important;
 }
 
 h1 {
@@ -49,6 +49,77 @@ p {
   font-family: "Raleway", sans-serif;
 }
 
+.guest-navbar {
+  width: 100%;
+  background-color: #ffffff;
+}
+.guest-navbar .nav-link {
+  color: #000000 !important;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 400;
+}
+.guest-navbar .short-links .nav-link:hover,
+.guest-navbar .short-links .nav-link:focus {
+  background-color: #032773 !important;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+.guest-navbar .contact-btn {
+  top: 93%;
+  left: 40%;
+  z-index: 1;
+}
+.guest-navbar .contact-btn .btn-primary {
+  background-color: #032773 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  border: none !important;
+  padding: 20px;
+  font-size: 20px;
+}
+.guest-navbar .btn-group {
+  gap: 2px;
+  background-color: #032773;
+}
+.guest-navbar .sign-btn {
+  top: 93%;
+  left: 79%;
+  z-index: 1;
+}
+.guest-navbar .sign-btn .btn-primary {
+  background-color: #032773 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  border: none !important;
+  width: auto;
+  padding: 20px;
+  font-size: 20px;
+}
+@media (max-width: 992px) {
+  .guest-navbar .contact-btn {
+    top: 45%;
+    left: 22%;
+  }
+}
+@media (max-width: 576px) {
+  .guest-navbar .short-links .nav-link:hover {
+    background-color: #032773 !important;
+    color: white !important;
+    padding: 0.5rem 0.5rem;
+    border-radius: 10px;
+  }
+  .guest-navbar .contact-btn {
+    top: 47%;
+    left: 28%;
+  }
+  .guest-navbar .contact-btn .btn-primary {
+    padding: 0.5rem 0.35rem;
+    font-size: 16px;
+  }
+}
+
 .buttonStyle {
   background-color: #1034a6;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
@@ -65,6 +136,83 @@ p {
   font-size: 1.1rem;
   font-weight: 500;
   font-family: "Raleway", sans-serif;
+}
+
+.general-footer .footer-image {
+  width: 200px;
+  height: 200px;
+}
+.general-footer h4 {
+  font-size: 20px;
+}
+.general-footer p {
+  font-size: 16px;
+}
+.general-footer .footer-btn {
+  top: 45%;
+}
+.general-footer .footer-btn .btn-primary {
+  background-color: #032773 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  border: none !important;
+  padding: 10px;
+  font-size: 14px;
+}
+.general-footer .btn-group {
+  gap: 2px;
+  background-color: #032773;
+}
+
+@media (max-width: 768px) {
+  .general-footer .footer-image {
+    width: 130px;
+    height: 120px;
+  }
+  .general-footer h4 {
+    font-size: 16px;
+  }
+  .general-footer p,
+.general-footer .btn-primary {
+    font-size: 12px;
+  }
+  .general-footer .footer-btn {
+    top: 43%;
+  }
+}
+@media (max-width: 576px) {
+  .general-footer .footer-btn {
+    top: 33%;
+    left: 30%;
+  }
+}
+.navBtn .btn {
+  height: 55px !important;
+  width: 100px !important;
+  border-radius: 10px !important;
+}
+.navBtn .btn-outline-primary {
+  border: 2px solid #032773 !important;
+  color: #000000 !important;
+}
+.navBtn .btn-primary {
+  background-color: #032773 !important;
+  border: none !important;
+}
+.navBtn .btnNewText {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+}
+
+.btn-primary:hover {
+  background-color: #ffffff !important;
+  color: #032773 !important;
+  border: 1px solid #032773 !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #032773 !important;
+  color: #ffffff !important;
 }
 
 .HomeHeroBgg::before {
@@ -131,5 +279,335 @@ p {
   .HomeHeroBg {
     height: 42rem;
   }
+}
+.landing-hero-card .card-title {
+  color: #021a4d;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 74px;
+}
+.landing-hero-card .card-text {
+  color: #000000;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+}
+.landing-hero-card .card-text-small {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23px;
+}
+.landing-hero-card .btn-primary {
+  background-color: #032773;
+  border: #032773;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 13px 40px;
+}
+
+.services-section h3,
+.choose-us-section h3 {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 48px;
+  font-family: "Roboto", sans-serif !important;
+}
+.services-section h4,
+.choose-us-section h4 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 48px;
+  font-family: "Roboto", sans-serif !important;
+}
+.services-section h5,
+.choose-us-section h5 {
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 28px;
+  font-family: "Roboto", sans-serif !important;
+}
+.services-section p,
+.choose-us-section p {
+  font-size: 20px;
+  line-height: normal;
+  font-family: "Roboto", sans-serif !important;
+}
+.services-section .btn-outline-primary,
+.choose-us-section .btn-outline-primary {
+  border: 1px solid #032773 !important;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 13px 40px;
+}
+.services-section .btn-primary,
+.choose-us-section .btn-primary {
+  background-color: #032773;
+  border: #032773;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 13px 40px;
+}
+.services-section .card,
+.choose-us-section .card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.16);
+}
+.services-section .carousel-control-prev,
+.choose-us-section .carousel-control-prev {
+  position: absolute;
+  left: -3%;
+}
+.services-section .carousel-control-next,
+.choose-us-section .carousel-control-next {
+  position: absolute;
+  right: -3%;
+}
+.services-section .carousel-control-prev-icon-bg,
+.services-section .carousel-control-next-icon-bg,
+.choose-us-section .carousel-control-prev-icon-bg,
+.choose-us-section .carousel-control-next-icon-bg {
+  fill: black !important;
+}
+
+.works-section h2 {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.works-section h4 {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.works-section h5 {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.works-section p {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 20px;
+  color: #545454;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.works-section .btn-outline-primary {
+  border: 1px solid #032773;
+  font-size: 20px;
+  color: black;
+}
+.works-section .active-btn-outline {
+  background-color: #032773 !important;
+  color: #ffffff !important;
+}
+
+.line {
+  border-bottom: 0.3px solid black;
+}
+
+.in-touch-card .card-title {
+  color: white;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.in-touch-card .card-text {
+  color: white;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.in-touch-card .btn-outline-light {
+  padding: 13px 45px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.in-touch-card .landing-contact-btn {
+  top: 100%;
+  left: 38%;
+  z-index: 1;
+}
+.in-touch-card .landing-contact-btn .btn-primary {
+  background-color: #032773 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  border: none !important;
+  padding: 20px;
+  font-size: 20px;
+}
+.in-touch-card .btn-group {
+  gap: 2px;
+  background-color: #032773;
+}
+
+@media (max-width: 992px) {
+  .choose-us-section .carousel-control-prev {
+    left: -9%;
+  }
+  .choose-us-section .carousel-control-next {
+    right: -9%;
+  }
+}
+@media (max-width: 768px) {
+  .landing-hero-card .card-title {
+    font-size: 28px !important;
+    line-height: 40px !important;
+  }
+  .landing-hero-card .card-text {
+    font-size: 20px !important;
+  }
+  .landing-hero-card .card-text-small {
+    font-size: 18px !important;
+  }
+  .services-section h3,
+.choose-us-section h3 {
+    font-size: 28px;
+  }
+  .services-section h4,
+.choose-us-section h4 {
+    font-size: 25px;
+  }
+  .services-section h5,
+.choose-us-section h5 {
+    font-size: 22px;
+  }
+  .services-section p,
+.choose-us-section p {
+    font-size: 18px;
+  }
+  .services-section .carousel-control-prev,
+.choose-us-section .carousel-control-prev {
+    left: -4%;
+  }
+  .services-section .carousel-control-next,
+.choose-us-section .carousel-control-next {
+    right: -4%;
+  }
+  .in-touch-card .card-title {
+    font-size: 26px;
+  }
+  .in-touch-card .card-text {
+    font-size: 18px;
+  }
+  .in-touch-card .landing-contact-btn {
+    left: 17%;
+  }
+  .works-section h2 {
+    font-size: 28px;
+  }
+  .works-section h4 {
+    font-size: 22px;
+  }
+  .works-section h5 {
+    font-size: 20px;
+  }
+  .works-section p {
+    font-size: 18px;
+  }
+  .btn-outline-primary,
+.btn-primary,
+.btn-outline-light,
+.btn-outline-dark {
+    font-size: 18px;
+  }
+}
+@media (max-width: 576px) {
+  .in-touch-card .landing-contact-btn {
+    left: 5%;
+  }
+  .in-touch-card .landing-contact-btn .btn-primary {
+    padding: 10px;
+  }
+}
+.about-hero-card .card-title {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 56px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.about-hero-card .card-text {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.question-section h2 {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 56px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.question-section .btn-outline-primary {
+  font-size: 20px;
+  padding: 10px 40px;
+  border: 2px solid #032773 !important;
+  color: #000000;
+}
+
+.team-section h2 {
+  font-family: "Roboto", sans-serif !important;
+  color: #373737;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.team-section p {
+  color: #5f5f5f;
+  font-family: "Roboto", sans-serif !important;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+}
+
+@media (max-width: 992px) {
+  .team-section p {
+    font-size: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .about-hero-card .card-title {
+    font-size: 28px;
+  }
+  .about-hero-card .card-text {
+    font-size: 18px;
+  }
+  .question-section h2 {
+    font-size: 26px;
+  }
+  .question-section .legal-image {
+    width: 40%;
+  }
+  .team-section h2 {
+    font-size: 26px;
+  }
+  .team-section p {
+    font-size: 16.7px;
+  }
+}
+.otp-input {
+  border-radius: 10px;
+  border: 1px solid #afafaf;
+  background: #fefeff;
+  box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
 }
 /*# sourceMappingURL=styles.css.map */

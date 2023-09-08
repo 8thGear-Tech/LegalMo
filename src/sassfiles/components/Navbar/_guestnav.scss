@@ -1,93 +1,79 @@
 @use "../colors" as *;
-.guest-navbar{
-    width: 100%;
-    
-    background-color: $sectextcolor;
+.guest-navbar {
+  width: 100%;
 
-    .nav-link{
-        color: $prytextcolor !important;
-        display: inline-block;
-        font-size: 20px;
-        font-weight: 400;
+  background-color: $sectextcolor;
+
+  .nav-link {
+    color: $prytextcolor !important;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .short-links .nav-link:hover,
+  .short-links .nav-link:focus {
+    background-color: $secbtncolor !important;
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }
+
+  .contact-btn {
+    top: 93%;
+    left: 40%;
+    z-index: 1;
+
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      padding: 20px;
+      font-size: 20px;
     }
+  }
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
+  .sign-btn {
+    top: 93%;
+    left: 79%;
+    z-index: 1;
 
-    .short-links .nav-link:hover, .short-links .nav-link:focus{
-        background-color: $secbtncolor !important;
-        color: white !important;
-        padding: 0.5rem 1rem;
-        border-radius: 10px;
-       
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      width: auto;
+      padding: 20px;
+      font-size: 20px;
     }
+  }
 
-  
-
-    .contact-btn{
-        top: 93%;
-         left: 40%;
-         z-index: 1; 
-
-        .btn-primary{
-            background-color: $secbtncolor !important;
-            color: white !important;
-           border-radius: 5px !important;
-           border: none !important;
-           padding: 20px;
-           font-size: 20px;
-        }
+  @media (max-width: 992px) {
+    .contact-btn {
+      top: 45%;
+      left: 22%;
     }
-    .btn-group{
-        gap: 2px;
-        background-color: $secbtncolor;
+  }
+  @media (max-width: 576px) {
+    .short-links .nav-link:hover {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      padding: 0.5rem 0.5rem;
+      border-radius: 10px;
     }
-    .sign-btn{
-        top: 93%;
-        left: 79%;
-        z-index: 1; 
+    .contact-btn {
+      top: 47%;
+      left: 28%;
 
-       .btn-primary{
-           background-color: $secbtncolor !important;
-           color: white !important;
-          border-radius: 5px !important;
-          border: none !important;
-          width: auto;
-          padding: 20px;
-          font-size: 20px;
-       }
-
+      .btn-primary {
+        padding: 0.5rem 0.35rem;
+        font-size: 16px;
+      }
     }
-
-    @media (max-width:992px){
-      
-        .contact-btn{
-            top: 45%;
-            left: 22%;
-            
-            
-    }
-    }
-    @media (max-width:576px){
-        
-        .short-links .nav-link:hover{
-            background-color: $secbtncolor !important;
-            color: white !important;
-            padding: 0.5rem 0.5rem;
-            border-radius: 10px;
-           
-        }
-        .contact-btn{
-            top: 47%;
-            left: 28%;
-
-
-            .btn-primary{
-                padding:0.5rem 0.35rem;
-                font-size: 16px;
-            
-            }
-            
-    }
-    }
-
+  }
 }
-
-

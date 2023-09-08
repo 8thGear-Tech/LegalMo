@@ -1,312 +1,285 @@
 @use "../../colors" as *;
 
+.landing-hero-card {
+  .card-title {
+    color: #021a4d;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 74px;
+  }
 
-.landing-hero-card{
-    
+  .card-text {
+    color: $prytextcolor;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+  }
 
-   .card-title{
-    color: #021A4D ;
-    font-size: 56px ;
-    font-weight: 700 ;
-    line-height: 74px ;
-   }
-
-   .card-text{
-    color: $prytextcolor ;
-    font-size: 24px ;
-    font-weight: 500 ;
-    line-height: 28px ;
-
-   }
-
-   .card-text-small{
+  .card-text-small {
     color: $prytextcolor;
     font-size: 20px;
     font-weight: 400;
     line-height: 23px;
-   }
+  }
 
-   .btn-primary{
-    background-color: $secbtncolor ;
-    border: $secbtncolor ;
+  .btn-primary {
+    background-color: $secbtncolor;
+    border: $secbtncolor;
     font-size: 20px;
     font-weight: 400;
     padding: 13px 40px;
-    
-   }
+  }
 }
 
-.services-section, .choose-us-section{
-    
-    h3{
-        font-size: 40px;
-        font-weight: 500;
-        line-height: 48px;
-        font-family: "Roboto", sans-serif !important;
-    }
+.services-section,
+.choose-us-section {
+  h3 {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48px;
+    font-family: "Roboto", sans-serif !important;
+  }
 
-    h4{
-        font-size: 32px;
-        font-weight: 500;
-        line-height: 48px;
-        font-family: "Roboto", sans-serif !important;
-    }
+  h4 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 48px;
+    font-family: "Roboto", sans-serif !important;
+  }
 
-    h5{
-        font-size: 23px;
-        font-weight: 400;
-        line-height: 28px;
-        font-family: "Roboto", sans-serif !important;
-    }
+  h5 {
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 28px;
+    font-family: "Roboto", sans-serif !important;
+  }
 
-    p{
-        font-size: 20px;
-        line-height: normal;
-        font-family: "Roboto", sans-serif !important; 
-    }
+  p {
+    font-size: 20px;
+    line-height: normal;
+    font-family: "Roboto", sans-serif !important;
+  }
 
-    .btn-outline-primary{
-       border: 1px solid $secbtncolor !important;
-        color: $prytextcolor;
-        font-size: 20px;
-        font-weight: 400;
-        padding: 13px 40px;
-    }
+  .btn-outline-primary {
+    border: 1px solid $secbtncolor !important;
+    color: $prytextcolor;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 13px 40px;
+  }
 
-    .btn-primary{
-        background-color: $secbtncolor ;
-        border: $secbtncolor ;
-        font-size: 20px;
-        font-weight: 400;
-        padding: 13px 40px;
-        
-       }
+  .btn-primary {
+    background-color: $secbtncolor;
+    border: $secbtncolor;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 13px 40px;
+  }
 
-    .card{
-        border-radius: 16px;
-       border: none;
-        box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.16);
-        
-        
-        
-    }
-        
-.carousel-control-prev {
-  position: absolute;
-  left: -3%;
- 
-}
+  .card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.16);
+  }
 
-.carousel-control-next {
-  position: absolute;
-  right: -3%;
-}
- .carousel-control-prev-icon-bg, .carousel-control-next-icon-bg{
+  .carousel-control-prev {
+    position: absolute;
+    left: -3%;
+  }
+
+  .carousel-control-next {
+    position: absolute;
+    right: -3%;
+  }
+  .carousel-control-prev-icon-bg,
+  .carousel-control-next-icon-bg {
     fill: black !important;
- }  
-     
-
+  }
 }
 
-.works-section{
-    h2{
-        font-family: "Roboto", sans-serif !important;
-font-size: 50px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-    }
+.works-section {
+  h2 {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 
-    h4{
-        font-family: "Roboto", sans-serif !important;
-        font-size: 32px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-    }
-    h5{
-        font-family: "Roboto", sans-serif !important;
-        font-size: 29px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal  
-    }
- p{
+  h4 {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  h5 {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 29px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  p {
     font-family: "Roboto", sans-serif !important;
     font-size: 20px;
-    color : #545454;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
- }
-    .btn-outline-primary{
-       border: 1px solid $secbtncolor;
-        font-size: 20px;
-        color: black;
-        
-
-    }
-    .active-btn-outline{
-        background-color: $secbtncolor !important;
-        color: $btntextcolor !important;
-    }
-    
+    color: #545454;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .btn-outline-primary {
+    border: 1px solid $secbtncolor;
+    font-size: 20px;
+    color: black;
+  }
+  .active-btn-outline {
+    background-color: $secbtncolor !important;
+    color: $btntextcolor !important;
+  }
 }
-.line{
-    border-bottom:  0.3px solid black;
+.line {
+  border-bottom: 0.3px solid black;
 }
 
-.in-touch-card{
-    .card-title{
-color: white;
-font-size: 48px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-    }
+.in-touch-card {
+  .card-title {
+    color: white;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
 
-    .card-text{
-color: white;
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-    }
+  .card-text {
+    color: white;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
-    .btn-outline-light{
-        padding: 13px 45px;
-        font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-    }
-    .landing-contact-btn{
-        top: 100%;
-        left: 38%;
-        
-         z-index: 1; 
+  .btn-outline-light {
+    padding: 13px 45px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .landing-contact-btn {
+    top: 100%;
+    left: 38%;
 
-        .btn-primary{
-            background-color: $secbtncolor !important;
-            color: white !important;
-           border-radius: 5px !important;
-           border: none !important;
-           padding: 20px;
-           font-size: 20px;
-        }
+    z-index: 1;
+
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      padding: 20px;
+      font-size: 20px;
     }
-    .btn-group{
-        gap: 2px;
-        background-color: $secbtncolor;
-    }
+  }
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
 }
-@media (max-width: 992px){
-    .choose-us-section{
-        .carousel-control-prev {
-    
-            left: -9%;
-          }
-          
-          .carousel-control-next {
-          
-            right: -9%;
-          }
+@media (max-width: 992px) {
+  .choose-us-section {
+    .carousel-control-prev {
+      left: -9%;
     }
+
+    .carousel-control-next {
+      right: -9%;
+    }
+  }
 }
 
-@media (max-width: 768px){
-.landing-hero-card{
-    .card-title{
-        font-size: 28px !important;
-        line-height: 40px !important;
+@media (max-width: 768px) {
+  .landing-hero-card {
+    .card-title {
+      font-size: 28px !important;
+      line-height: 40px !important;
     }
-    .card-text{
-        font-size: 20px !important;
+    .card-text {
+      font-size: 20px !important;
     }
-    .card-text-small{
-        font-size: 18px  !important;
+    .card-text-small {
+      font-size: 18px !important;
     }
-   
-}
+  }
 
-.services-section,.choose-us-section{
-    h3{
-        font-size: 28px;
-    }
-
-    h4{
-        font-size: 25px;
+  .services-section,
+  .choose-us-section {
+    h3 {
+      font-size: 28px;
     }
 
+    h4 {
+      font-size: 25px;
+    }
 
-    h5{
-        font-size: 22px;
+    h5 {
+      font-size: 22px;
     }
-    p{
-        font-size: 18px;
+    p {
+      font-size: 18px;
     }
-   
 
     .carousel-control-prev {
-    
-        left: -4%;
-      }
-      
-      .carousel-control-next {
-      
-        right: -4%;
-      }
-}
-
-.in-touch-card{
-    .card-title{
-
-font-size: 26px;
-
+      left: -4%;
     }
 
-    .card-text{
+    .carousel-control-next {
+      right: -4%;
+    }
+  }
 
-font-size: 18px;
-
-    }
-    .landing-contact-btn{
-        left: 17%;
+  .in-touch-card {
+    .card-title {
+      font-size: 26px;
     }
 
-   
-}
-.works-section{
-    h2{
-        font-size: 28px;
+    .card-text {
+      font-size: 18px;
     }
-    h4{
-        font-size: 22px
+    .landing-contact-btn {
+      left: 17%;
     }
-    h5{
-        font-size: 20px;
+  }
+  .works-section {
+    h2 {
+      font-size: 28px;
     }
-    p{
-        font-size: 18px;
+    h4 {
+      font-size: 22px;
     }
-   
-    
-}
+    h5 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
 
-.btn-outline-primary, .btn-primary, .btn-outline-light, .btn-outline-dark{
+  .btn-outline-primary,
+  .btn-primary,
+  .btn-outline-light,
+  .btn-outline-dark {
     font-size: 18px;
+  }
 }
 
-
-}
-
-@media (max-width: 576px){
-    .in-touch-card{
-        .landing-contact-btn{
-            left: 5%;
-            .btn-primary{
-                padding: 10px;
-            }
-        }
+@media (max-width: 576px) {
+  .in-touch-card {
+    .landing-contact-btn {
+      left: 5%;
+      .btn-primary {
+        padding: 10px;
+      }
     }
+  }
 }
