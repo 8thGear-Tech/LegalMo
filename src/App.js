@@ -22,18 +22,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/landing" element={<Landing />} />
-        <Route path="/products" element={<Products />} />
+        {/* <Route path="/products" element={<Products />} /> */}
         <Route path="/about-us" element={<About />} />
-        {/* {/* <Route path="/login" element={<Login/>} /> */}
-        <Route path="/lawyer-signup" element={<LawyerSignUp />} />
-        <Route path="/next-lawyer-signup" element={<NextLawyerSignUp />} />
-        <Route path="/company-signup" element={<CompanySignUp />} />
-        <Route path="/next-company-signup" element={<NextCompanySignUp />} />
-        <Route path="/admin-signup" element={<AdminSignUp />} />
-        <Route path="/password-reset" element={<PasswordReset />} />
-        <Route path="/otp" element={<OTP />} />
-        <Route path="/new-password" element={<NewPassword />} />
-        <Route path="/products" element={<Dashboard />} /> */}
+        {/* <Route path="/login" element={<Login/>} />
+        <Route path="/lawyer-signup" element={<LawyerSignUp/>} />
+        <Route path="/next-lawyer-signup" element={<NextLawyerSignUp/>} />
+        <Route path="/company-signup" element={<CompanySignUp/>} />
+        <Route path="/next-company-signup" element={<NextCompanySignUp/>} />
+        <Route path="/admin-signup" element={<AdminSignUp/>} />
+        <Route path="/password-reset" element={<PasswordReset/>} />
+        <Route path="/otp" element={<OTP/>} />
+        <Route path="/new-password" element={<NewPassword/>} />
+        <Route path="/products" element={<Dashboard/>} /> */}
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"
           element={<LegalRenumerationOrder />}
