@@ -52,7 +52,7 @@ function About() {
     <p className="card-text" style={{maxWidth:'37rem'}}>We are on a mission to ensuring Small and Medium Enterprises (SMEs) and Startups, which contribute about 40% of the country’s GDP, are legally healthy and compliant.</p>
    
   </div>
-  <img src={HeroImage} alt="Hero" className="card-img-bottom" style={{maxHeight:'550px'}}/>
+  <img src={HeroImage} alt="Hero" className="card-img-bottom"/>
     </div>
     <div className='p-md-5 p-4 about-hero-card'>
       <div className='line my-5'></div>

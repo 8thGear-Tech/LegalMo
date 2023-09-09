@@ -1,4 +1,19 @@
 @use "../colors" as *;
+
+
+    .btn-newPrimary{
+        background-color: $secbtncolor !important;
+        color: white !important;
+        border: none;
+
+        &:hover{
+            background-color: $secbtncolor !important;
+            color: white !important;
+            border: none;
+        }
+      
+    }
+
 .login-card{
     color: #7E7E7F;
     .card{

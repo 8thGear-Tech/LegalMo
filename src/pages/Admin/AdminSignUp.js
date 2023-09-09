@@ -6,12 +6,15 @@ import Footer from '../../components/Footer';
 
 function AdminSignUp() {
   const navigate = useNavigate();
-  const handleAdminSignup = (formData) => {
+  const handlePasswordConfirmationError = (errorMessage) => {
     
-    
-    navigate('/dashboard'); 
+    console.error(errorMessage);
   };
-
+  const handleAdminSignup = (formData) => {
+   
+   
+    navigate('/dashboard');
+  };
   const adminFields = [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'phoneNumber', label: 'Phone Number', type: 'number', required: true },
@@ -24,7 +27,7 @@ function AdminSignUp() {
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Admin" fields={adminFields} onSubmit={handleAdminSignup} submitButtonLabel="Sign up"/>
+    <SignUpForm formTitle="Sign up as a Admin" fields={adminFields} onSubmit={handleAdminSignup} submitButtonLabel="Sign up" />
     </div>
  
     </>

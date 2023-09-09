@@ -68,6 +68,7 @@ const select3 = [
 
 const carouselData = [
   {
+    
     title: 'Affordable Rates',
     description: 'Our rates are designed to be affordable while providing the quality services you need. You can rest assured that you\'re getting the best value for your investment.',
     image: Choose1, 
@@ -256,8 +257,8 @@ const Landing =()=> {
                     {select1.map((select) => {
                       const {id,action,detail} = select;
                       return(
-                        <div>
-                        <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                        <div key={id}>
+                        <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' >
                         <div className='col-sm-7 col-4  d-flex align-items-center'>
                         <h4> {action}</h4>
                         </div>
@@ -276,8 +277,8 @@ const Landing =()=> {
                  {select2.map((select) => {
                    const {id,action,detail} = select;
                    return(
-                     <div>
-                     <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                     <div key={id}>
+                     <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' >
                      <div className='col-sm-7 col-4  d-flex align-items-center'>
                      <h4> {action}</h4>
                      </div>
@@ -296,8 +297,8 @@ const Landing =()=> {
                   {select3.map((select) => {
                     const {id,action,detail} = select;
                     return(
-                      <div>
-                      <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' key={id}>
+                      <div key={id}>
+                      <div className='row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4' >
                       <div className='col-sm-7 col-4  d-flex align-items-center'>
                       <h4> {action}</h4>
                       </div>

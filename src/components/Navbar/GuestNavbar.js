@@ -18,6 +18,7 @@ const GuestNavbar = () => {
     setShowContactButtons(!showContactButtons);
     setShowSignUpButtons(false);
   };
+  const isContactActive = showContactButtons ? 'active' : '';
 
   const toggleSignUpButtons = () => {
     setShowSignUpButtons(!showSignUpButtons);
@@ -27,7 +28,7 @@ const GuestNavbar = () => {
   return (
     <>
     <nav className="navbar navbar-expand-lg bg-body-tertiary guest-navbar">
-  <div className="container-fluid px-md-5 px-3 justify-content-between">
+  <div className="container-fluid px-md-5 px-3 justify-content-between ">
     <Link className="navbar-brand" to='/landing'><img src={legalMoLogo} alt="legalMoLogo"/></Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
   <span className="navbar-toggler-icon"></span>
@@ -35,13 +36,13 @@ const GuestNavbar = () => {
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-4 short-links">
         <li className="nav-item">
-          <NavLink className="nav-link"  to="/about-us">About Us</NavLink>
+          <NavLink className="nav-link"  to="/about-us" activeclassname="active">About Us</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/products">Products</NavLink>
+          <NavLink className="nav-link" to="/products" activeclassname="active">Products</NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" onClick={toggleContactButtons}>Contact</Link>
+          <Link  className={`nav-link ${isContactActive}`} onClick={toggleContactButtons}>Contact</Link>
         </li>
         {showContactButtons && (
         <div role="group" aria-label="Basic example" className="btn-group contact-btn position-absolute"  >
@@ -53,12 +54,12 @@ const GuestNavbar = () => {
       )}
       
       </ul>
-      <div className="d-block d-lg-flex gap-2 gap-lg-3">
+      <div className="d-block d-lg-flex gap-2 gap-lg-3 align-items-center">
       {!isLoggedPage &&(
         <>
         <ul className="navbar-nav ">
         <li className="nav-item">
-          <Link className="nav-link my-0 my-lg-2"  to="/cart"><i className="bi bi-cart3 cart-icon"></i></Link>
+          <NavLink className="nav-link "  to="/cart" activeclassname='active'><i className="bi bi-cart3 cart-icon"></i></NavLink>
         </li>
         </ul>
         <ul className="navbar-nav ">

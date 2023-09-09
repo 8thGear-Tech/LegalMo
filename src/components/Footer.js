@@ -53,7 +53,9 @@ const Footer = () => {
         
 
     </div>
-    <p className='text-white mt-5'>©All rights reserved 2023, LegalMO.</p>
+    
+    <p className='d-sm-none text-white text-center mt-5'>©All rights reserved 2023, LegalMO.</p>
+    <p className='d-none d-sm-flex text-white mt-5'>©All rights reserved 2023, LegalMO.</p>
     </div>
     </div>
      
