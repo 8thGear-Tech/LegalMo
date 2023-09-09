@@ -1,3 +1,11 @@
 @use "./reset" as *;
 @use "./font" as *;
+
+@use "./components/Navbar/guestnav" as *;
+@use "./components/buttons" as *;
+@use "./components/footer" as *;
+@use "./components/Buttons/authentication" as *;
 @use "./pages/home" as *;
+@use "./pages/Website/landing" as *;
+@use "./pages/Website/about" as *;
+@use "./pages/Website/otp" as *;

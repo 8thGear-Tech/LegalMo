@@ -1,8 +1,7 @@
 @use "../colors" as *;
-.navBtn{
 
-
-.btn{
+.navBtn {
+  .btn {
     height: 55px !important;
     width: 100px !important;
     border-radius: 10px !important;
@@ -11,25 +10,18 @@
 .btn-outline-primary{
     border: 2px solid $secbtncolor !important;
     color: $prytextcolor !important;
+  }
 
-    
-}
-
-.btn-primary{
+  .btn-primary {
     background-color: $secbtncolor !important;
     border: none !important;
-    
+  }
 
-}
-
-.btnNewText{
+  .btnNewText {
     font-size: 20px !important;
     font-weight: 400 !important;
-    
+  }
 }
-}
-
-
 
 .btn-primary:hover{
     background-color: $btntextcolor!important;
@@ -37,7 +29,7 @@
     border: 1px solid $secbtncolor !important;
 }
 
-.btn-outline-primary:hover{
-    background-color: $secbtncolor !important;
-    color: $btntextcolor !important;
+.btn-outline-primary:hover {
+  background-color: $secbtncolor !important;
+  color: $btntextcolor !important;
 }

@@ -1,17 +1,13 @@
-import React from 'react'
-import GuestNavbar from '../../components/Navbar/GuestNavbar'
-import Footer from '../../components/Footer'
-import { ResetPasswordbtn } from '../../components/Buttons/Authenticationbtns'
-import { useNavigate , Link} from 'react-router-dom';
-import { useState } from 'react';
-import '../../sassfiles/pages/Website/_otp.scss'
-import { useEffect } from 'react';
-
-
-
+import React from "react";
+import GuestNavbar from "../../components/Navbar/GuestNavbar";
+import Footer from "../../components/Footer";
+import { ResetPasswordbtn } from "../../components/Buttons/Authenticationbtns";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 
 function OTP() {
-  const [otp, setOTP] = useState(['', '', '', '', '', '']);
+  const [otp, setOTP] = useState(["", "", "", "", "", ""]);
+
   const navigate = useNavigate();
   const [formValid, setFormValid] = useState(false); 
  
@@ -33,21 +29,21 @@ function OTP() {
 
   const handleOTPSubmit = (e) => {
     e.preventDefault();
-    
-    navigate('/new-password');
+
+    navigate("/new-password");
   };
 
   return (
     <div>
       <GuestNavbar />
-      <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-        <div className='login-card mt-lg-5'>
-          <div className='card py-5 px-3 px-sm-5  m-auto'>
-            <div className='text-center mb-5'>
-              <h2 className='mb-2'>Enter the OTP sent to your email address</h2>
+      <div className="justify-content-center align-items-center text-align-center py-5 px-4 mb-5">
+        <div className="login-card mt-lg-5">
+          <div className="card py-5 px-3 px-sm-5  m-auto">
+            <div className="text-center mb-5">
+              <h2 className="mb-2">Enter the OTP sent to your email address</h2>
             </div>
 
-            <form onSubmit={handleOTPSubmit}>
+            <form onSubmit={handleOTP}>
               <div className="d-flex px-lg-3 mb-2">
                 {otp.map((digit, index) => (
                   <input
@@ -79,5 +75,4 @@ function OTP() {
   );
 }
 
-
-export default OTP
+export default OTP;

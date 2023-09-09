@@ -1,19 +1,4 @@
 @use "../colors" as *;
-
-
-    .btn-newPrimary{
-        background-color: $secbtncolor !important;
-        color: white !important;
-        border: none;
-
-        &:hover{
-            background-color: $secbtncolor !important;
-            color: white !important;
-            border: none;
-        }
-      
-    }
-
 .login-card{
     color: #7E7E7F;
     .card{
@@ -24,48 +9,46 @@
     h2{
         color: #323233 !important;
 
-        font-family: "Roboto", sans-serif !important;
-font-size: 32px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-    }
-    p{
-        font-family: "Roboto", sans-serif !important;
-        color:  #7E7E7F;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-    }
+    font-family: "Roboto", sans-serif !important;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  p {
+    font-family: "Roboto", sans-serif !important;
+    color: #7e7e7f;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 
-    .form-label{
-        position: absolute;
-        background-color: white;
-        z-index: 1;
-        padding: 0 2px;
-        top: -30%;
-        left: 3%;
-    }
-    .btn-group{
-        gap: 2px;
-        background-color: $secbtncolor;
-       
-    }
-    .form-sign-btn{
-        top: 90%;
-        left: 15%;
-        z-index: 1; 
+  .form-label {
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    padding: 0 2px;
+    top: -30%;
+    left: 3%;
+  }
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
+  .form-sign-btn {
+    top: 90%;
+    left: 15%;
+    z-index: 1;
 
-       .btn-primary{
-           background-color: $secbtncolor !important;
-           color: white !important;
-          border-radius: 5px !important;
-          border: none !important;
-          width: 149px;
-          padding: 18px 0px;
-          font-size: 18px;
-       }
-
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      width: 149px;
+      padding: 18px 0px;
+      font-size: 18px;
     }
+  }
 }

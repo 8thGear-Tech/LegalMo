@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import '../../sassfiles/components/Navbar/_guestnav.scss'
+import React, { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
-import legalMoLogo from '../../assets/images/legalmologo.svg'
-import { NavLoginbtn, NavSignUpbtn } from '../Buttons/Navbarbtns'
-
-
+import legalMoLogo from "../../assets/images/legalmologo.svg";
+import { NavLoginbtn, NavSignUpbtn } from "../Buttons/Navbarbtns";
 
 const GuestNavbar = () => {
   const location = useLocation();
-  const isLoggedPage = location.pathname === '/login'||location.pathname.includes('/signup')|| location.pathname === '/lawyer-signup'||location.pathname === '/company-signup'|| location.pathname === '/admin-signup' || location.pathname === '/next-lawyer-signup' || location.pathname === '/next-company-signup'|| location.pathname === '/password-reset' || location.pathname === '/new-password' || location.pathname === '/otp';
+  const isLoggedPage =
+    location.pathname === "/login" ||
+    location.pathname.includes("/signup") ||
+    location.pathname === "/lawyer-signup" ||
+    location.pathname === "/company-signup" ||
+    location.pathname === "/admin-signup" ||
+    location.pathname === "/next-lawyer-signup" ||
+    location.pathname === "/next-company-signup" ||
+    location.pathname === "/password-reset" ||
+    location.pathname === "/new-password" ||
+    location.pathname === "/otp";
 
   const [showContactButtons, setShowContactButtons] = useState(false);
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
@@ -24,7 +31,7 @@ const GuestNavbar = () => {
     setShowSignUpButtons(!showSignUpButtons);
     setShowContactButtons(false);
   };
- 
+
   return (
     <>
     <nav className="navbar navbar-expand-lg bg-body-tertiary guest-navbar">
@@ -85,7 +92,7 @@ const GuestNavbar = () => {
   </div>
 </nav>
     </>
-  )
-}
+  );
+};
 
-export default GuestNavbar
+export default GuestNavbar;

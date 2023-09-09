@@ -1,15 +1,15 @@
 @use "../colors" as *;
-.guest-navbar{
-    width: 100%;
-    
-    background-color: $sectextcolor;
+.guest-navbar {
+  width: 100%;
 
-    .nav-link{
-        color: $prytextcolor !important;
-        display: inline-block;
-        font-size: 20px;
-        font-weight: 400;
-    }
+  background-color: $sectextcolor;
+
+  .nav-link {
+    color: $prytextcolor !important;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+  }
 
     .short-links .nav-link:hover, .active{
         background-color: $secbtncolor !important;
@@ -19,42 +19,39 @@
        
     }
 
-  
+  .contact-btn {
+    top: 93%;
+    left: 40%;
+    z-index: 1;
 
-    .contact-btn{
-        top: 93%;
-         left: 40%;
-         z-index: 1; 
-
-        .btn-primary{
-            background-color: $secbtncolor !important;
-            color: white !important;
-           border-radius: 5px !important;
-           border: none !important;
-           padding: 20px;
-           font-size: 20px;
-        }
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      padding: 20px;
+      font-size: 20px;
     }
-    .btn-group{
-        gap: 2px;
-        background-color: $secbtncolor;
-    }
-    .sign-btn{
-        top: 93%;
-        left: 79%;
-        z-index: 1; 
+  }
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
+  .sign-btn {
+    top: 93%;
+    left: 79%;
+    z-index: 1;
 
-       .btn-primary{
-           background-color: $secbtncolor !important;
-           color: white !important;
-          border-radius: 5px !important;
-          border: none !important;
-          width: auto;
-          padding: 20px;
-          font-size: 20px;
-       }
-
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      width: auto;
+      padding: 20px;
+      font-size: 20px;
     }
+  }
 
     @media (max-width:992px){
       
@@ -112,5 +109,3 @@
     }
 
 }
-
-

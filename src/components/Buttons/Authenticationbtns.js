@@ -10,13 +10,17 @@ export const Loginbtn = ({formValid})=>{
     )
 }
 // SignUpbtn
-export const Signupbtn = ()=>{
-    return(
-        
-            <button type="submit" className="btn btn-secondary" style={{fontSize:'20px', width:'100%'}}>Sign up</button>
-        
-    )
-}
+export const Signupbtn = () => {
+  return (
+    <button
+      type="submit"
+      className="btn btn-secondary"
+      style={{ fontSize: "20px", width: "100%" }}
+    >
+      Sign up
+    </button>
+  );
+};
 // ResetPasswordbtn
 export const ResetPasswordbtn =(props) =>{
     return (
@@ -27,13 +31,17 @@ export const ResetPasswordbtn =(props) =>{
 
 
 // Nextbtn
-export const Nextbtn = ()=>{
-    return(
-        
-            <button type="submit" className="btn btn-secondary" style={{fontSize:'20px', width:'100%'}}>Next</button>
-        
-    )
-}
+export const Nextbtn = () => {
+  return (
+    <button
+      type="submit"
+      className="btn btn-secondary"
+      style={{ fontSize: "20px", width: "100%" }}
+    >
+      Next
+    </button>
+  );
+};
 // AsACompanybtn
 // Lawyerbtn
 

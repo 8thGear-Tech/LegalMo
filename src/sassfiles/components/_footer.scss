@@ -1,68 +1,63 @@
 @use "../colors" as *;
-.general-footer{
-    .footer-image{
-      width: 200px;
-      height: 200px;
-    }
+.general-footer {
+  .footer-image {
+    width: 200px;
+    height: 200px;
+  }
 
-    h4{
-        font-size: 20px;
-    }
+  h4 {
+    font-size: 20px;
+  }
 
-    p{
-        font-size: 16px;
-    }
-    .footer-btn{
-        top:45%;
-        //  left: 40%;
-        
+  p {
+    font-size: 16px;
+  }
+  .footer-btn {
+    top: 45%;
+    //  left: 40%;
 
-        .btn-primary{
-            background-color: $secbtncolor !important;
-            color: white !important;
-           border-radius: 5px !important;
-           border: none !important;
-           padding: 10px;
-        
-           font-size: 14px;
-        }
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      padding: 10px;
+
+      font-size: 14px;
     }
-    .btn-group{
-        gap: 2px;
-        background-color: $secbtncolor;
-    }
+  }
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
 }
 
-@media (max-width: 768px){
-    .general-footer{
-        .footer-image{
-    width: 130px;
-    height: 120px;
-        }
-    
-        h4{
-            font-size: 16px;
-        }
-    
-        p, .btn-primary{
-            font-size: 12px;
-        }
-        .footer-btn{
-            top:43%;
-           
-        }
-
-        
+@media (max-width: 768px) {
+  .general-footer {
+    .footer-image {
+      width: 130px;
+      height: 120px;
     }
+
+    h4 {
+      font-size: 16px;
+    }
+
+    p,
+    .btn-primary {
+      font-size: 12px;
+    }
+    .footer-btn {
+      top: 43%;
+    }
+  }
 }
 
-@media (max-width: 576px){
-    .general-footer{
-        
-
-        .footer-btn{
-            top:33%;
-            left:30%;
-        }
+@media (max-width: 576px) {
+  .general-footer {
+    .footer-btn {
+      top: 33%;
+      left: 30%;
     }
+  }
 }
