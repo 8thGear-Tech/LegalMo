@@ -3,7 +3,7 @@ import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import Footer from "../../components/Footer";
 import { ResetPasswordbtn } from "../../components/Buttons/Authenticationbtns";
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function OTP() {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
@@ -43,7 +43,7 @@ function OTP() {
               <h2 className="mb-2">Enter the OTP sent to your email address</h2>
             </div>
 
-            <form onSubmit={handleOTP}>
+            <form onSubmit={handleOTPSubmit}>
               <div className="d-flex px-lg-3 mb-2">
                 {otp.map((digit, index) => (
                   <input

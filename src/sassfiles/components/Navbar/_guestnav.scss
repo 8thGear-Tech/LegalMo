@@ -1,4 +1,6 @@
-@use "../colors" as *;
+@use "../../colors" as *;
+@use "../Buttons/authentication" as *;
+
 .guest-navbar {
   width: 100%;
 

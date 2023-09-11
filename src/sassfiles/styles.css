@@ -49,6 +49,35 @@ p {
   font-family: "Raleway", sans-serif;
 }
 
+.navBtn .btn {
+  height: 55px !important;
+  width: 100px !important;
+  border-radius: 10px !important;
+}
+.navBtn .btn-outline-primary {
+  border: 2px solid #032773 !important;
+  color: #000000 !important;
+}
+.navBtn .btn-primary {
+  background-color: #032773 !important;
+  border: none !important;
+}
+.navBtn .btnNewText {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+}
+
+.btn-primary:hover {
+  background-color: #ffffff !important;
+  color: #032773 !important;
+  border: 1px solid #032773 !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #032773 !important;
+  color: #ffffff !important;
+}
+
 .guest-navbar {
   width: 100%;
   background-color: #ffffff;
@@ -59,8 +88,7 @@ p {
   font-size: 20px;
   font-weight: 400;
 }
-.guest-navbar .short-links .nav-link:hover,
-.guest-navbar .short-links .nav-link:focus {
+.guest-navbar .short-links .nav-link:hover, .guest-navbar .active {
   background-color: #032773 !important;
   color: white !important;
   padding: 0.5rem 1rem;
@@ -99,8 +127,20 @@ p {
 }
 @media (max-width: 992px) {
   .guest-navbar .contact-btn {
-    top: 45%;
-    left: 22%;
+    top: 46.5%;
+    left: 25%;
+  }
+  .guest-navbar .contact-btn .btn-primary {
+    padding: 0.6rem 1rem;
+    font-size: 18px;
+  }
+  .guest-navbar .sign-btn {
+    top: 85%;
+    left: 25%;
+  }
+  .guest-navbar .sign-btn .btn-primary {
+    padding: 0.8rem 1rem;
+    font-size: 18px;
   }
 }
 @media (max-width: 576px) {
@@ -112,10 +152,17 @@ p {
   }
   .guest-navbar .contact-btn {
     top: 47%;
-    left: 28%;
+    left: 30%;
   }
   .guest-navbar .contact-btn .btn-primary {
-    padding: 0.5rem 0.35rem;
+    padding: 0.6rem 0.35rem;
+    font-size: 16px;
+  }
+  .guest-navbar .sign-btn {
+    left: 33%;
+  }
+  .guest-navbar .sign-btn .btn-primary {
+    padding: 0.8rem 0.35rem;
     font-size: 16px;
   }
 }
@@ -186,35 +233,6 @@ p {
     left: 30%;
   }
 }
-.navBtn .btn {
-  height: 55px !important;
-  width: 100px !important;
-  border-radius: 10px !important;
-}
-.navBtn .btn-outline-primary {
-  border: 2px solid #032773 !important;
-  color: #000000 !important;
-}
-.navBtn .btn-primary {
-  background-color: #032773 !important;
-  border: none !important;
-}
-.navBtn .btnNewText {
-  font-size: 20px !important;
-  font-weight: 400 !important;
-}
-
-.btn-primary:hover {
-  background-color: #ffffff !important;
-  color: #032773 !important;
-  border: 1px solid #032773 !important;
-}
-
-.btn-outline-primary:hover {
-  background-color: #032773 !important;
-  color: #ffffff !important;
-}
-
 .HomeHeroBgg::before {
   content: "";
   position: absolute;
@@ -604,6 +622,67 @@ p {
     font-size: 16.7px;
   }
 }
+.btn-newPrimary {
+  background-color: #032773 !important;
+  color: white !important;
+  border: none;
+}
+.btn-newPrimary:hover {
+  background-color: #032773 !important;
+  color: white !important;
+  border: none;
+}
+
+.login-card {
+  color: #7E7E7F;
+}
+.login-card .card {
+  box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
+  max-width: 30rem !important;
+}
+.login-card h2 {
+  color: #323233 !important;
+  font-family: "Roboto", sans-serif !important;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.login-card p {
+  font-family: "Roboto", sans-serif !important;
+  color: #7E7E7F;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.login-card .form-label {
+  position: absolute;
+  background-color: white;
+  z-index: 1;
+  padding: 0 2px;
+  top: -30%;
+  left: 3%;
+}
+.login-card .btn-group {
+  gap: 2px;
+  background-color: #032773;
+}
+.login-card .form-sign-btn {
+  top: 90%;
+  left: 15%;
+  z-index: 1;
+}
+.login-card .form-sign-btn .btn-primary {
+  background-color: #032773 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  border: none !important;
+  width: 149px;
+  padding: 18px 0px;
+  font-size: 18px;
+}
+
 .otp-input {
   border-radius: 10px;
   border: 1px solid #afafaf;

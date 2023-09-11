@@ -25,7 +25,8 @@ const GuestNavbar = () => {
     setShowContactButtons(!showContactButtons);
     setShowSignUpButtons(false);
   };
-  const isContactActive = showContactButtons ? 'active' : '';
+  const isContactActive = showContactButtons ? 'navlink-active' : '';
+ 
 
   const toggleSignUpButtons = () => {
     setShowSignUpButtons(!showSignUpButtons);
@@ -43,10 +44,10 @@ const GuestNavbar = () => {
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-4 short-links">
         <li className="nav-item">
-          <NavLink className="nav-link"  to="/about-us" activeclassname="active">About Us</NavLink>
+          <NavLink className="nav-link"  to="/about-us" activeclassname='active'>About Us</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/products" activeclassname="active">Products</NavLink>
+          <NavLink className="nav-link" to="/products" activeclassname='active' >Products</NavLink>
         </li>
         <li className="nav-item">
           <Link  className={`nav-link ${isContactActive}`} onClick={toggleContactButtons}>Contact</Link>
@@ -66,7 +67,7 @@ const GuestNavbar = () => {
         <>
         <ul className="navbar-nav ">
         <li className="nav-item">
-          <NavLink className="nav-link "  to="/cart" activeclassname='active'><i className="bi bi-cart3 cart-icon"></i></NavLink>
+          <NavLink className="nav-link "  activeclassname='active' to="/cart" ><i className="bi bi-cart3 cart-icon"></i></NavLink>
         </li>
         </ul>
         <ul className="navbar-nav ">

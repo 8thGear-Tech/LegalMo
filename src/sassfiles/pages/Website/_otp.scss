@@ -1,3 +1,7 @@
+@use "../../colors" as *;
+@use "../../components/Navbar/guestnav" as *;
+@use "../../components/Forms/authentication"  as *;
+
 .otp-input {
   border-radius: 10px;
   border: 1px solid #afafaf;

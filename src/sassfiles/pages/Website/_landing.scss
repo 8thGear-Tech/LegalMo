@@ -1,4 +1,8 @@
+@use "../../components/Navbar/guestnav"  as *;
 @use "../../colors" as *;
+@use "../../components/footer"  as *;
+@use "../../components/buttons"  as *;
+
 
 .landing-hero-card {
   .card-title {

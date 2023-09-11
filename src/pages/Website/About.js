@@ -40,7 +40,8 @@ const teams = [
 ];
 
 function About() {
-  return (<>
+  return (
+  <>
     <GuestNavbar/>
     <div className=''>
     <div className="card about-hero-card"  style={{border:'none', borderRadius:'0'}}>
@@ -68,74 +69,8 @@ function About() {
       </div>
 
     </div>
-    <div className='py-5 px-4 px-md-5 team-section'>
-      <div className='card p-lg-5 p-2' style={{border:'none', background:'#CFCFCF'}}>
-        <div className='px-lg-5 px-3 mx-xl-5 mt-2 mt-md-0'>
-          <h2>Meet our team</h2>
-          <div className='line my-md-5 my-4'></div>
-          <div className='row '>
-            {
-              teams.map((team)=> {
-                const {id, teamImage} = team;
-                return(
-                  <div className='col-6 col-sm-4 mb-4' key={id}>
-                     <div className="card " style={{border:'none', background:'none'}}>
-                    <img src={teamImage} className="card-img-top" alt="teamImage"/>
-                    <div className="mx-auto">
-                  
-                    <p className="">Lorem Ipsum</p>
-                    <p className="">Executive Director</p>
-    </div>
-    </div>
-                  </div>
-                )
-              })
-            }
-          </div>
-          <img
-            src={HeroImage}
-            alt="Hero"
-            className="card-img-bottom"
-            style={{ maxHeight: "550px" }}
-          />
-        </div>
-        <div className="p-md-5 p-4 about-hero-card">
-          <div className="line my-5"></div>
-          <div className="row px-xl-5 pt-md-3 pt-1 mb-3">
-            <div className="col-12 col-lg-6 ">
-              <h5 className="card-title mb-4">
-                We Ensure that SMEs and Starups Get <br />
-                <span style={{ color: "#5F5F5F" }}>
-                  Affordable Legal Services
-                </span>
-              </h5>
-            </div>
-            <div className="col-12 col-lg-6  ">
-              <p className="card-text">
-                SMEs and startups are the backbone of the economy, but they
-                often don't have the resources to afford expensive legal
-                services. This can put them at a disadvantage, as they may be
-                unable to protect themselves from legal risks or resolve
-                disputes.
-              </p>
-
-              <p className="card-text">
-                We are committed to ensuring that SMEs and startups have access
-                to affordable quality legal services. We offer a variety of
-                services that are tailored to the needs of small businesses.
-              </p>
-              <p className="card-text">
-                Our partners are lawyers experienced in the legal issues that
-                affect small businesses, and they are passionate about helping
-                entrepreneurs succeed.
-              </p>
-              <p className="card-text">
-                We are here to help you protect your business and achieve your
-                goals.
-              </p>
-            </div>
-          </div>
-        </div>
+    
+       
         <div className="py-5 px-4 px-md-5 team-section">
           <div
             className="card p-lg-5 p-2"

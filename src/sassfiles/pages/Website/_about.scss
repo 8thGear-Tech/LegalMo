@@ -1,5 +1,8 @@
-@use "../../components/Navbar/guestnav";
+@use "../../components/Navbar/guestnav"  as *;
 @use "../../colors" as *;
+@use "../../components/footer"  as *;
+@use "../../components/buttons"  as *;
+
 
 .about-hero-card {
   .card-title {
