@@ -295,7 +295,7 @@ export const LoginForm = () => {
     <div className='login-card mt-lg-5'>
       <div className='card p-5 m-auto'>
         <div className='text-center mb-5'>
-          <h4 className='mb-2'>Log in</h4>
+          <h2 className='mb-2'>Log in</h2>
           <p className='p-small' style={{color:'#7E7E7F'}}>Welcome back!</p>
         </div>
 
