@@ -214,7 +214,7 @@ const handlePasswordReset = (e) => {
     <div className='login-card '>
     <div className='card p-5  m-auto'>
       <div className='text-center mb-5'>
-      <h4 className='mb-2'>Log in</h4>
+      <h2 className='mb-2'>Log in</h2>
       
       </div>
         
