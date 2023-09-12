@@ -65,7 +65,7 @@ function OTP() {
 
             <div className='d-flex justify-content-center text-center'>
               <Link to='/password-reset' className='d-flex mb-2  text-decoration-none text-secondary'>
-                <h6>Resend OTP?</h6>
+               Resend OTP?
               </Link>
             </div>
           </div>

@@ -10,43 +10,132 @@ body {
 }
 
 h1 {
-  font-size: 2.2rem;
-  font-weight: 400;
-  color: var(--white);
+  font-size: 56px;
+  font-weight: 700;
+  color: #000000;
   font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
 }
 
 h2 {
-  font-size: 1.8rem;
-  font-style: normal;
-  font-weight: 400;
-  font-family: "Sanchez", serif;
+  font-size: 50px;
+  font-weight: 700;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h2 {
+    font-size: 26px;
+  }
 }
 
 h3 {
-  font-size: 1.6rem;
-  font-style: normal;
-  font-weight: 400;
-  font-family: "Sanchez", serif;
+  font-size: 40px;
+  font-weight: 500;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h3 {
+    font-size: 26px;
+  }
 }
 
 h4 {
-  font-size: 1.3rem;
+  font-size: 32px;
+  font-weight: 500;
+  color: #000000;
   font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h4 {
+    font-size: 25px;
+  }
 }
 
 h5 {
-  font-size: 1.2rem;
-  font-weight: 300;
+  font-size: 29px;
+  font-weight: 400;
+  color: #000000;
   font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h5 {
+    font-size: 22px;
+  }
+}
+
+h6 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  h6 {
+    font-size: 20px;
+  }
 }
 
 p {
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.75rem;
-  font-family: "Raleway", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  p {
+    font-size: 17px;
+  }
+}
+
+.p-small {
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+@media (max-width: 768px) {
+  .p-small {
+    font-size: 12px;
+  }
+}
+
+.card-title {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 56px;
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 28px;
+  }
+}
+
+.card-text {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 24px;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .card-text {
+    font-size: 19px;
+  }
+}
+
+.card-text-small {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .card-text-small {
+    font-size: 16px;
+  }
 }
 
 .navBtn .btn {
@@ -189,12 +278,6 @@ p {
   width: 200px;
   height: 200px;
 }
-.general-footer h4 {
-  font-size: 20px;
-}
-.general-footer p {
-  font-size: 16px;
-}
 .general-footer .footer-btn {
   top: 45%;
 }
@@ -216,11 +299,7 @@ p {
     width: 130px;
     height: 120px;
   }
-  .general-footer h4 {
-    font-size: 16px;
-  }
-  .general-footer p,
-.general-footer .btn-primary {
+  .general-footer .btn-primary {
     font-size: 12px;
   }
   .general-footer .footer-btn {
@@ -298,24 +377,6 @@ p {
     height: 42rem;
   }
 }
-.landing-hero-card .card-title {
-  color: #021a4d;
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 74px;
-}
-.landing-hero-card .card-text {
-  color: #000000;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 28px;
-}
-.landing-hero-card .card-text-small {
-  color: #000000;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 23px;
-}
 .landing-hero-card .btn-primary {
   background-color: #032773;
   border: #032773;
@@ -324,33 +385,6 @@ p {
   padding: 13px 40px;
 }
 
-.services-section h3,
-.choose-us-section h3 {
-  font-size: 40px;
-  font-weight: 500;
-  line-height: 48px;
-  font-family: "Roboto", sans-serif !important;
-}
-.services-section h4,
-.choose-us-section h4 {
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 48px;
-  font-family: "Roboto", sans-serif !important;
-}
-.services-section h5,
-.choose-us-section h5 {
-  font-size: 23px;
-  font-weight: 400;
-  line-height: 28px;
-  font-family: "Roboto", sans-serif !important;
-}
-.services-section p,
-.choose-us-section p {
-  font-size: 20px;
-  line-height: normal;
-  font-family: "Roboto", sans-serif !important;
-}
 .services-section .btn-outline-primary,
 .choose-us-section .btn-outline-primary {
   border: 1px solid #032773 !important;
@@ -390,35 +424,6 @@ p {
   fill: black !important;
 }
 
-.works-section h2 {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-.works-section h4 {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-.works-section h5 {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 29px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-.works-section p {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 20px;
-  color: #545454;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
 .works-section .btn-outline-primary {
   border: 1px solid #032773;
   font-size: 20px;
@@ -433,20 +438,6 @@ p {
   border-bottom: 0.3px solid black;
 }
 
-.in-touch-card .card-title {
-  color: white;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-.in-touch-card .card-text {
-  color: white;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
 .in-touch-card .btn-outline-light {
   padding: 13px 45px;
   font-size: 20px;
@@ -485,28 +476,6 @@ p {
     font-size: 28px !important;
     line-height: 40px !important;
   }
-  .landing-hero-card .card-text {
-    font-size: 20px !important;
-  }
-  .landing-hero-card .card-text-small {
-    font-size: 18px !important;
-  }
-  .services-section h3,
-.choose-us-section h3 {
-    font-size: 28px;
-  }
-  .services-section h4,
-.choose-us-section h4 {
-    font-size: 25px;
-  }
-  .services-section h5,
-.choose-us-section h5 {
-    font-size: 22px;
-  }
-  .services-section p,
-.choose-us-section p {
-    font-size: 18px;
-  }
   .services-section .carousel-control-prev,
 .choose-us-section .carousel-control-prev {
     left: -4%;
@@ -515,26 +484,11 @@ p {
 .choose-us-section .carousel-control-next {
     right: -4%;
   }
-  .in-touch-card .card-title {
-    font-size: 26px;
-  }
-  .in-touch-card .card-text {
-    font-size: 18px;
-  }
   .in-touch-card .landing-contact-btn {
     left: 17%;
   }
-  .works-section h2 {
-    font-size: 28px;
-  }
   .works-section h4 {
-    font-size: 22px;
-  }
-  .works-section h5 {
-    font-size: 20px;
-  }
-  .works-section p {
-    font-size: 18px;
+    font-size: 22px !important;
   }
   .btn-outline-primary,
 .btn-primary,
@@ -551,50 +505,11 @@ p {
     padding: 10px;
   }
 }
-.about-hero-card .card-title {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 56px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-.about-hero-card .card-text {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-.question-section h2 {
-  font-family: "Roboto", sans-serif !important;
-  font-size: 56px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
 .question-section .btn-outline-primary {
   font-size: 20px;
   padding: 10px 40px;
   border: 2px solid #032773 !important;
   color: #000000;
-}
-
-.team-section h2 {
-  font-family: "Roboto", sans-serif !important;
-  color: #373737;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-.team-section p {
-  color: #5f5f5f;
-  font-family: "Roboto", sans-serif !important;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 15px;
 }
 
 @media (max-width: 992px) {
@@ -603,23 +518,14 @@ p {
   }
 }
 @media (max-width: 768px) {
-  .about-hero-card .card-title {
-    font-size: 28px;
-  }
-  .about-hero-card .card-text {
-    font-size: 18px;
-  }
-  .question-section h2 {
-    font-size: 26px;
+  .question-section h1 {
+    font-size: 26px !important;
   }
   .question-section .legal-image {
     width: 40%;
   }
-  .team-section h2 {
-    font-size: 26px;
-  }
   .team-section p {
-    font-size: 16.7px;
+    font-size: 16.5px !important;
   }
 }
 .btn-newPrimary {
@@ -640,21 +546,14 @@ p {
   box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
   max-width: 30rem !important;
 }
-.login-card h2 {
-  color: #323233 !important;
-  font-family: "Roboto", sans-serif !important;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-.login-card p {
-  font-family: "Roboto", sans-serif !important;
+.login-card .p-small {
   color: #7E7E7F;
   font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+}
+@media (max-width: 768px) {
+  .login-card .p-small {
+    font-size: 16px !important;
+  }
 }
 .login-card .form-label {
   position: absolute;

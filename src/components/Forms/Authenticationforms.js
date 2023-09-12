@@ -102,8 +102,8 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
     <div className='login-card mt-lg-3'>
       <div className='card p-5  m-auto'>
         <div className='text-center mb-5'>
-          <h2 className='mb-2'>{formTitle}</h2>
-          <p className='text-center mt-4'>
+          <h2 className='mb-2' style={{fontWeight:'700', color:'#323233'}}>{formTitle}</h2>
+          <p className='text-center p-small mt-4' style={{color: ' #7E7E7F'}}>
             Already have an account?{' '}
             <span>
               <Link to='/login' className='text-decoration-none' style={{ color: '#032773' }}>
@@ -214,7 +214,7 @@ const handlePasswordReset = (e) => {
     <div className='login-card '>
     <div className='card p-5  m-auto'>
       <div className='text-center mb-5'>
-      <h2 className='mb-2'>Log in</h2>
+      <h4 className='mb-2'>Log in</h4>
       
       </div>
         
@@ -295,8 +295,8 @@ export const LoginForm = () => {
     <div className='login-card mt-lg-5'>
       <div className='card p-5 m-auto'>
         <div className='text-center mb-5'>
-          <h2 className='mb-2'>Log in</h2>
-          <p>Welcome back!</p>
+          <h4 className='mb-2'>Log in</h4>
+          <p className='p-small' style={{color:'#7E7E7F'}}>Welcome back!</p>
         </div>
 
         <form onSubmit={handleLogIn}>
@@ -329,13 +329,13 @@ export const LoginForm = () => {
             to='/password-reset'
             className='d-flex mb-4 justify-content-end text-decoration-none text-secondary'
           >
-            <h6>Forgot password?</h6>
+            Forgot password?
           </Link>
 
           <Loginbtn formValid={formValid} />
         </form>
 
-        <p className='text-center mt-4'>
+        <p className='text-center mt-4 p-small' style={{color:'#7E7E7F'}}>
           Don't have an account?{' '}
           <span>
             <Link
