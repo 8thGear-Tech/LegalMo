@@ -1,53 +1,74 @@
-@use "../colors" as *;
-.login-card {
-  color: #7e7e7f;
-  .card {
-    box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
-    max-width: 30rem !important;
-  }
-  h2 {
-    color: #323233 !important;
+@use "../../colors" as *;
+@use "../../components/Buttons/authentication" as *;
 
-    font-family: "Roboto", sans-serif !important;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-  p {
-    font-family: "Roboto", sans-serif !important;
-    color: #7e7e7f;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 
-  .form-label {
-    position: absolute;
-    background-color: white;
-    z-index: 1;
-    padding: 0 2px;
-    top: -30%;
-    left: 3%;
-  }
-  .btn-group {
-    gap: 2px;
-    background-color: $secbtncolor;
-  }
-  .form-sign-btn {
-    top: 90%;
-    left: 15%;
-    z-index: 1;
+    .btn-newPrimary{
+        background-color: $secbtncolor !important;
+        color: white !important;
+        border: none;
 
-    .btn-primary {
-      background-color: $secbtncolor !important;
-      color: white !important;
-      border-radius: 5px !important;
-      border: none !important;
-      width: 149px;
-      padding: 18px 0px;
-      font-size: 18px;
+        &:hover{
+            background-color: $secbtncolor !important;
+            color: white !important;
+            border: none;
+        }
+      
     }
-  }
+
+.login-card{
+    color: #7E7E7F;
+    .card{
+        box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
+        max-width: 30rem !important;
+        
+    }
+//     h5{
+//         color: #333232 !important;
+
+//         font-family: "Roboto", sans-serif !important;
+// font-size: 32px;
+// font-style: normal;
+// font-weight: 700;
+// line-height: normal;
+//     }
+    .p-small{
+        
+        color:  #7E7E7F;
+font-size: 16px;
+
+
+@media (max-width:768px){
+    font-size: 16px !important;
+}
+    }
+
+    .form-label{
+        position: absolute;
+        background-color: white;
+        z-index: 1;
+        padding: 0 2px;
+        top: -30%;
+        left: 3%;
+    }
+    .btn-group{
+        gap: 2px;
+        background-color: $secbtncolor;
+       
+    }
+    .form-sign-btn{
+        top: 90%;
+        left: 15%;
+        z-index: 1; 
+
+       .btn-primary{
+           background-color: $secbtncolor !important;
+           color: white !important;
+          border-radius: 5px !important;
+          border: none !important;
+          width: 149px;
+          padding: 18px 0px;
+          font-size: 18px;
+       }
+
+    }
 }

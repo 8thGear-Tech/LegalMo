@@ -21,11 +21,13 @@ import { Link, useNavigate } from 'react-router-dom'
     { name: 'address', label: 'Office Address', type: 'text', required: true },
   ];
 
+  
+
   return (
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Company" fields={companyFields} onSubmit={handleNextCompanySignUp} submitButtonLabel="Next"/>
+    <SignUpForm formTitle="Sign up as a Company" fields={companyFields} onSubmit={handleNextCompanySignUp} submitButtonLabel="Next" />
     </div>
   
     </>
@@ -49,12 +51,13 @@ export function NextCompanySignUp() {
     { name: 'password', label: 'Password', type: 'password', required: true },
     { name: 'confirmPassword', label: 'Confirm password', type: 'password', required: true },
   ];
+  
 
   return (
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Company" fields={nextCompanyFields} onSubmit={handleCompanySignup} submitButtonLabel="Sign up"/>
+    <SignUpForm formTitle="Sign up as a Company" fields={nextCompanyFields} onSubmit={handleCompanySignup} submitButtonLabel="Sign up" />
     </div>
     
     </>

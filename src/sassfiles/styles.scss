@@ -9,3 +9,13 @@
 @use "./pages/Website/landing" as *;
 @use "./pages/Website/about" as *;
 @use "./pages/Website/otp" as *;
+@use "./components/Forms/authentication" as *;
+@use "./pages/Admin/signup" as *;
+@use "./pages/Company/signup" as *;
+@use "./pages/Lawyer/signup" as *;
+@use "./pages/Website/login" as *;
+@use "./pages/Website/passwordreset" as *;
+@use "./pages/Website/newpassword" as *;
+
+
+

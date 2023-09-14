@@ -1,4 +1,6 @@
-@use "../colors" as *;
+@use "../../colors" as *;
+@use "../Buttons/authentication" as *;
+
 .guest-navbar {
   width: 100%;
 
@@ -11,13 +13,13 @@
     font-weight: 400;
   }
 
-  .short-links .nav-link:hover,
-  .short-links .nav-link:focus {
-    background-color: $secbtncolor !important;
-    color: white !important;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-  }
+    .short-links .nav-link:hover, .active{
+        background-color: $secbtncolor !important;
+        color: white !important;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+       
+    }
 
   .contact-btn {
     top: 93%;
@@ -53,27 +55,59 @@
     }
   }
 
-  @media (max-width: 992px) {
-    .contact-btn {
-      top: 45%;
-      left: 22%;
+    @media (max-width:992px){
+      
+        .contact-btn{
+            top: 46.5%;
+            left: 25%;
+            .btn-primary{
+                padding:0.6rem 1rem;
+                font-size: 18px;
+            
+            }
+            
     }
-  }
-  @media (max-width: 576px) {
-    .short-links .nav-link:hover {
-      background-color: $secbtncolor !important;
-      color: white !important;
-      padding: 0.5rem 0.5rem;
-      border-radius: 10px;
+    .sign-btn{
+        top: 85%;
+        left: 25%;
+        .btn-primary{
+            padding:0.8rem 1rem;
+            font-size: 18px;
+        
+        }
     }
-    .contact-btn {
-      top: 47%;
-      left: 28%;
+    }
+    @media (max-width:576px){
+        
+        .short-links .nav-link:hover{
+            background-color: $secbtncolor !important;
+            color: white !important;
+            padding: 0.5rem 0.5rem;
+            border-radius: 10px;
+           
+        }
+        .contact-btn{
+            top: 47%;
+            left: 30%;
 
-      .btn-primary {
-        padding: 0.5rem 0.35rem;
-        font-size: 16px;
-      }
+
+            .btn-primary{
+                padding:0.6rem 0.35rem;
+                font-size: 16px;
+            
+            }
+            
     }
-  }
+
+    .sign-btn{
+      
+        left: 33%;
+        .btn-primary{
+            padding:0.8rem 0.35rem;
+            font-size: 16px;
+        
+        }
+    }
+    }
+
 }

@@ -3,23 +3,36 @@ import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import Footer from "../../components/Footer";
 import { ResetPasswordbtn } from "../../components/Buttons/Authenticationbtns";
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function OTP() {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
 
   const navigate = useNavigate();
+  const [formValid, setFormValid] = useState(false); 
+ 
+
   const handleOTPChange = (e, index) => {
+    
+    const newDigit = e.target.value.replace(/[^0-9]/g, '');
+
     const newOTP = [...otp];
-    newOTP[index] = e.target.value;
+    newOTP[index] = newDigit;
     setOTP(newOTP);
   };
 
-  const handleOTP = (e) => {
+  useEffect(() => {
+    
+    const isComplete = otp.every((digit) => digit !== '');
+    setFormValid(isComplete);
+  }, [otp]);
+
+  const handleOTPSubmit = (e) => {
     e.preventDefault();
 
     navigate("/new-password");
   };
+
   return (
     <div>
       <GuestNavbar />
@@ -30,7 +43,7 @@ function OTP() {
               <h2 className="mb-2">Enter the OTP sent to your email address</h2>
             </div>
 
-            <form onSubmit={handleOTP}>
+            <form onSubmit={handleOTPSubmit}>
               <div className="d-flex px-lg-3 mb-2">
                 {otp.map((digit, index) => (
                   <input
@@ -45,16 +58,14 @@ function OTP() {
                 ))}
               </div>
 
-              <div className="text-center mb-4 mt-5">
-                <ResetPasswordbtn text="Enter" />
+              <div className='text-center mb-4 mt-5'>
+                <ResetPasswordbtn text='Enter' formValid={formValid} />
               </div>
             </form>
-            <div className="d-flex justify-content-center text-center">
-              <Link
-                to="/password-reset"
-                className="d-flex mb-2  text-decoration-none text-secondary"
-              >
-                <h6>Resend OTP?</h6>
+
+            <div className='d-flex justify-content-center text-center'>
+              <Link to='/password-reset' className='d-flex mb-2  text-decoration-none text-secondary'>
+               Resend OTP?
               </Link>
             </div>
           </div>

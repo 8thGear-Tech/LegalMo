@@ -19,13 +19,13 @@ const Footer = () => {
       style={{ background: "#878787" }}
     >
       <div className="px-lg-5 mx-xl-5">
-        {/* <div className='general-footer  d-flex justify-content-between py-0 py-5 me-xl-5 pe-md-5'> */}
+       
         <div className="general-footer row py-2 py-md-5 ">
           <div className="col">
             <img src={Logo} alt="logo" className="footer-image" />
           </div>
-          <div className=" col d-flex  flex-column text-white gap-4 align-items-md-center ">
-            <h4>Quick links</h4>
+          <div className=" col d-flex  flex-column text-white gap-2 align-items-md-center ">
+            <p className="text-white pe-lg-2">Quick links</p>
             <div className="d-flex flex-column gap-4">
               <Link to="/about-us" className="text-white text-decoration-none">
                 About
@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-12 col-sm-4 mt-5 mt-sm-0 d-flex align-items-center flex-column text-white gap-3 ">
-            <h4 className="">Follow us</h4>
+            <p className="text-white">Follow us</p>
             <div className="d-flex gap-4">
               <img src={FB} alt="social" />
               <img src={Insta} alt="social" />
@@ -78,9 +78,14 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <p className="text-white mt-5">©All rights reserved 2023, LegalMO.</p>
-      </div>
+        
+        <p className='d-sm-none text-white text-center mt-5 p-small'>©All rights reserved 2023, LegalMO.</p>
+    <p className='d-none d-sm-flex text-white mt-5 p-small'>©All rights reserved 2023, LegalMO.</p>
     </div>
+    
+  
+    </div>
+   
   );
 };
 

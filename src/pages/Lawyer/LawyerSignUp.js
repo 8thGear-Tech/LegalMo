@@ -23,7 +23,7 @@ import { Link, useNavigate } from 'react-router-dom'
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Lawyer" fields={lawyerFields} onSubmit={handleNextLawyerSignUp} submitButtonLabel="Next"/>
+    <SignUpForm formTitle="Sign up as a Lawyer" fields={lawyerFields} onSubmit={handleNextLawyerSignUp} submitButtonLabel="Next" />
     </div>
    
     </>
@@ -52,7 +52,7 @@ export function NextLawyerSignUp() {
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Lawyer" fields={nextLawyerFields} onSubmit={handleLawyerSignUp} submitButtonLabel="Sign up"/>
+    <SignUpForm formTitle="Sign up as a Lawyer" fields={nextLawyerFields} onSubmit={handleLawyerSignUp} submitButtonLabel="Sign up" />
     </div>
   
     </>

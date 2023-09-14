@@ -6,10 +6,15 @@ import Footer from "../../components/Footer";
 
 function AdminSignUp() {
   const navigate = useNavigate();
-  const handleAdminSignup = (formData) => {
-    navigate("/dashboard");
+  const handlePasswordConfirmationError = (errorMessage) => {
+    
+    console.error(errorMessage);
   };
-
+  const handleAdminSignup = (formData) => {
+   
+   
+    navigate('/dashboard');
+  };
   const adminFields = [
     { name: "name", label: "Name", type: "text", required: true },
     {
@@ -35,15 +40,11 @@ function AdminSignUp() {
 
   return (
     <>
-      <GuestNavbar />
-      <div className="justify-content-center align-items-center text-align-center py-5 px-4 mb-5">
-        <SignUpForm
-          formTitle="Sign up as a Admin"
-          fields={adminFields}
-          onSubmit={handleAdminSignup}
-          submitButtonLabel="Sign up"
-        />
-      </div>
+    <GuestNavbar/>
+    <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
+    <SignUpForm formTitle="Sign up as a Admin" fields={adminFields} onSubmit={handleAdminSignup} submitButtonLabel="Sign up" />
+    </div>
+ 
     </>
   );
 }
