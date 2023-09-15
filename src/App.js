@@ -15,6 +15,7 @@ import Dashboard from "./pages/Company/Dashboard";
 import PasswordReset from "./pages/Website/PasswordReset";
 import NewPassword from "./pages/Website/NewPassword";
 import OTP from "./pages/Website/OTP";
+import Precart from "./pages/Company/Precart";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/otp" element={<OTP/>} />
         <Route path="/new-password" element={<NewPassword/>} />
         <Route path="/products" element={<Dashboard/>} />
+        <Route path="/pre-cart/:productId"  element={<Precart/>} />
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"
           element={<LegalRenumerationOrder />}

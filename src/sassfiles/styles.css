@@ -6,7 +6,7 @@
 body {
   margin: 0;
   padding: 0 !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
 }
 
 h1 {
@@ -156,6 +156,18 @@ p {
   font-weight: 400 !important;
 }
 
+.btn-primary {
+  background-color: #032773 !important;
+  color: #ffffff !important;
+  border: none;
+}
+
+.btn-outline-primary {
+  background-color: #ffffff !important;
+  color: #032773 !important;
+  border: 1px solid #032773 !important;
+}
+
 .btn-primary:hover {
   background-color: #ffffff !important;
   color: #032773 !important;
@@ -167,9 +179,18 @@ p {
   color: #ffffff !important;
 }
 
+.navbar-default {
+  background-color: #FEFEFF !important;
+  border: 1px solid #FEFEFF !important;
+  box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.25) !important;
+}
+
+.navbar-special {
+  background-color: #CFCFCF !important;
+}
+
 .guest-navbar {
   width: 100%;
-  background-color: #ffffff;
 }
 .guest-navbar .nav-link {
   color: #000000 !important;
@@ -177,16 +198,17 @@ p {
   font-size: 20px;
   font-weight: 400;
 }
-.guest-navbar .short-links .nav-link:hover, .guest-navbar .active {
+.guest-navbar .short-links .nav-link:hover,
+.guest-navbar .active {
   background-color: #032773 !important;
   color: white !important;
   padding: 0.5rem 1rem;
   border-radius: 10px;
 }
 .guest-navbar .contact-btn {
-  top: 93%;
-  left: 40%;
-  z-index: 1;
+  top: 93% !important;
+  left: 40% !important;
+  z-index: 1 !important;
 }
 .guest-navbar .contact-btn .btn-primary {
   background-color: #032773 !important;
@@ -201,9 +223,9 @@ p {
   background-color: #032773;
 }
 .guest-navbar .sign-btn {
-  top: 93%;
-  left: 79%;
-  z-index: 1;
+  top: 93% !important;
+  left: 79% !important;
+  z-index: 1 !important;
 }
 .guest-navbar .sign-btn .btn-primary {
   background-color: #032773 !important;
@@ -216,16 +238,16 @@ p {
 }
 @media (max-width: 992px) {
   .guest-navbar .contact-btn {
-    top: 46.5%;
-    left: 25%;
+    top: 46.5% !important;
+    left: 25% !important;
   }
   .guest-navbar .contact-btn .btn-primary {
     padding: 0.6rem 1rem;
     font-size: 18px;
   }
   .guest-navbar .sign-btn {
-    top: 85%;
-    left: 25%;
+    top: 85% !important;
+    left: 25% !important;
   }
   .guest-navbar .sign-btn .btn-primary {
     padding: 0.8rem 1rem;
@@ -240,15 +262,15 @@ p {
     border-radius: 10px;
   }
   .guest-navbar .contact-btn {
-    top: 47%;
-    left: 30%;
+    top: 47% !important;
+    left: 30% !important;
   }
   .guest-navbar .contact-btn .btn-primary {
     padding: 0.6rem 0.35rem;
     font-size: 16px;
   }
   .guest-navbar .sign-btn {
-    left: 33%;
+    left: 33% !important;
   }
   .guest-navbar .sign-btn .btn-primary {
     padding: 0.8rem 0.35rem;
@@ -587,5 +609,47 @@ p {
   border: 1px solid #afafaf;
   background: #fefeff;
   box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
+}
+
+.product-card .card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.product-card .card:hover {
+  transform: scale(1) !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.pre-cart .progress {
+  border-radius: 0 !important;
+}
+
+.product-carousel-container .carousel-control-prev {
+  position: absolute;
+  left: -10%;
+}
+.product-carousel-container .carousel-control-next {
+  position: absolute;
+  right: -10%;
+}
+
+.img-fixed-height {
+  height: 250px !important;
+}
+
+@media (max-width: 576px) {
+  .product-carousel-container .carousel-control-prev {
+    position: absolute;
+    left: -2%;
+  }
+  .product-carousel-container .carousel-control-next {
+    position: absolute;
+    right: -2%;
+  }
+}
+.buy-btn .btn-secondary:hover,
+.buy-btn .btn-secondary:focus {
+  background-color: #032773 !important;
+  color: #ffffff !important;
+  border: none !important;
 }
 /*# sourceMappingURL=styles.css.map */

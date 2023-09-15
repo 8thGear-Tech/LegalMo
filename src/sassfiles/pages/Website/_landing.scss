@@ -1,7 +1,7 @@
-@use "../../components/Navbar/guestnav"  as *;
+@use "../../components/Navbar/guestnav" as *;
 @use "../../colors" as *;
-@use "../../components/footer"  as *;
-@use "../../components/buttons"  as *;
+@use "../../components/footer" as *;
+@use "../../components/buttons" as *;
 
 
 .landing-hero-card {
@@ -18,7 +18,7 @@
 
 .services-section,
 .choose-us-section {
- 
+
   .btn-outline-primary {
     border: 1px solid $secbtncolor !important;
     color: $prytextcolor;
@@ -50,6 +50,7 @@
     position: absolute;
     right: -3%;
   }
+
   .carousel-control-prev-icon-bg,
   .carousel-control-next-icon-bg {
     fill: black !important;
@@ -57,23 +58,25 @@
 }
 
 .works-section {
- 
+
   .btn-outline-primary {
     border: 1px solid $secbtncolor;
     font-size: 20px;
     color: black;
   }
+
   .active-btn-outline {
     background-color: $secbtncolor !important;
     color: $btntextcolor !important;
   }
 }
+
 .line {
   border-bottom: 0.3px solid black;
 }
 
 .in-touch-card {
- 
+
 
   .btn-outline-light {
     padding: 13px 45px;
@@ -82,6 +85,7 @@
     font-weight: 400;
     line-height: normal;
   }
+
   .landing-contact-btn {
     top: 100%;
     left: 38%;
@@ -97,11 +101,13 @@
       font-size: 20px;
     }
   }
+
   .btn-group {
     gap: 2px;
     background-color: $secbtncolor;
   }
 }
+
 @media (max-width: 992px) {
   .choose-us-section {
     .carousel-control-prev {
@@ -120,12 +126,12 @@
       font-size: 28px !important;
       line-height: 40px !important;
     }
-  
+
   }
 
   .services-section,
   .choose-us-section {
-   
+
 
     .carousel-control-prev {
       left: -4%;
@@ -137,17 +143,18 @@
   }
 
   .in-touch-card {
-    
+
     .landing-contact-btn {
       left: 17%;
     }
   }
+
   .works-section {
-  
+
     h4 {
       font-size: 22px !important;
     }
-    
+
   }
 
   .btn-outline-primary,
@@ -162,6 +169,7 @@
   .in-touch-card {
     .landing-contact-btn {
       left: 5%;
+
       .btn-primary {
         padding: 10px;
       }

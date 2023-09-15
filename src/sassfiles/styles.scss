@@ -16,6 +16,7 @@
 @use "./pages/Website/login" as *;
 @use "./pages/Website/passwordreset" as *;
 @use "./pages/Website/newpassword" as *;
-
-
-
+@use "./pages/Company/singleproducts" as *;
+@use "./pages/Company/precart" as *;
+@use "./pages/Company/packages" as *;
+@use "./pages/Website/products" as *;

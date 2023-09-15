@@ -1,0 +1,11 @@
+@use "../../../colors" as *;
+
+.buy-btn {
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+        background-color: $secbtncolor !important;
+        color: $btntextcolor !important;
+        border: none !important;
+    }
+}

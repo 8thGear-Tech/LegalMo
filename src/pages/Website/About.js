@@ -131,11 +131,11 @@ function About() {
             alt="heroImage"
             style={{ minHeight: "350px" }}
           />
-          <div className="card-img-overlay text-align-center text-center justify-content-center py-5">
-            <h2 className="text-white mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3">
+          <div className="card-img-overlay text-align-center text-center justify-content-center py-5 text-white">
+            <h2 className="mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3 text-white">
               Ready to protect your business?
             </h2>
-            <p className="card-text mb-5">Get in touch with us today</p>
+            <p className="card-text mb-5 text-white">Get in touch with us today</p>
             <Link
               to="/company-signup"
               className="btn btn-outline-light mt-sm-5 mt-4"

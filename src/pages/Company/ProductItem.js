@@ -15,27 +15,27 @@ export const ProductItem = [
         productTitle:'Annual Returns Filing',
         productImage:CacForm,
         productAmount:25000,
-        year:'yr'
+        year:'/yr'
     },
     {
         id:2,
         productTitle:'Default Annual Returns Filing',
         productImage:CacForm,
         productAmount:35000,
-        year:'yr'
+        year:'/yr'
     },
     {
         id:3,
-        productTitle:'',
-        productImage:Comply,
-        productAmount:'',
+        productTitle:'Business Name Registration',
+        productImage:CacForm,
+        productAmount:25000,
         year:''
     },
     {
         id:4,
-        productTitle:'Company Registration',
+        productTitle:'Company Ltd Registration',
         productImage:CacForm,
-        productAmount:120000,
+        productAmount:60000,
         year:''
     },
     {
@@ -49,7 +49,7 @@ export const ProductItem = [
         id:6,
         productTitle:'TIN Registration',
         productImage:firs,
-        productAmount:20000,
+        productAmount:15000,
         year:''
     },
     {
@@ -92,6 +92,13 @@ export const ProductItem = [
         productTitle:'Policy Creation',
         productImage:health,
         productAmount:150000,
+        year:''
+    },
+    {
+        id:13,
+        productTitle:'Compliance Advisory',
+        productImage:Comply,
+        productAmount:100000,
         year:''
     },
 ]

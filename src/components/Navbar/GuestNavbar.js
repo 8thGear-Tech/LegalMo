@@ -18,6 +18,8 @@ const GuestNavbar = () => {
     location.pathname === "/new-password" ||
     location.pathname === "/otp";
 
+    const navbarClass = isLoggedPage ? "navbar-special" : "navbar-default";
+
   const [showContactButtons, setShowContactButtons] = useState(false);
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
 
@@ -35,7 +37,7 @@ const GuestNavbar = () => {
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg bg-body-tertiary guest-navbar">
+    <nav className={`navbar navbar-expand-lg guest-navbar ${navbarClass}`}>
   <div className="container-fluid px-md-5 px-3 justify-content-between ">
     <Link className="navbar-brand" to='/landing'><img src={legalMoLogo} alt="legalMoLogo"/></Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
