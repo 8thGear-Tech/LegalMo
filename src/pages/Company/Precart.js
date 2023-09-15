@@ -207,6 +207,7 @@ if (!product) {
 
         </div>
         </div>
+        <div className='px-xl-5 mx-xl-5'>
         <div class="my-5 justify-content-center align-content-center mx-lg-5 px-sm-5">
   <h6 for="exampleFormControlTextarea1" class="form-label">Give details</h6>
   <textarea class="form-control bg-white" id="exampleFormControlTextarea1" rows="8" placeholder='Type more details about your purchase'></textarea>
@@ -222,6 +223,8 @@ if (!product) {
       </button>
     </div>
 </div>
+        </div>
+       
            
       </section>
       <section className='py-3  py-sm-5 px-sm-5 px-4'>

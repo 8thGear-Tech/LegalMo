@@ -28,9 +28,9 @@ const SingleProducts = () => {
                   
                     <p className="p-small" style={{fontWeight:'500'}}>{productTitle}</p>
                     <p className="" style={{fontWeight:'700'}}>₦{productAmount.toLocaleString()}<span className='p-small'>{year}</span></p>
-    </div>
-    </div>
-                  </div>
+                </div>
+              </div>
+            </div>
             )
         })
       }
