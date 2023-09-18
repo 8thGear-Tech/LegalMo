@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-
-
 const PackageItems= [
     {
         id:1,
@@ -41,7 +39,6 @@ const PackageItems= [
 ]
 
 const Packages = () => {
-
     const idToBackgroundColorMap = {
         1: '#878787', 
         2: '#AFAFAF', 
@@ -50,7 +47,7 @@ const Packages = () => {
       };
 
 
-    return (
+  return (
       <div className='py-5'>
         <div className='row pt-3 justify-content-center'>
           {PackageItems.map((packageItem) => {
