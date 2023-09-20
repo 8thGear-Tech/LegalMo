@@ -146,6 +146,7 @@ p {
 .navBtn .btn-outline-primary {
   border: 2px solid #032773 !important;
   color: #000000 !important;
+  background-color: transparent !important;
 }
 .navBtn .btn-primary {
   background-color: #032773 !important;
@@ -224,7 +225,7 @@ p {
 }
 .guest-navbar .sign-btn {
   top: 93% !important;
-  left: 79% !important;
+  left: 78% !important;
   z-index: 1 !important;
 }
 .guest-navbar .sign-btn .btn-primary {
@@ -232,9 +233,9 @@ p {
   color: white !important;
   border-radius: 5px !important;
   border: none !important;
-  width: auto;
-  padding: 20px;
-  font-size: 20px;
+  width: auto !important;
+  padding: 20px !important;
+  font-size: 20px !important;
 }
 @media (max-width: 992px) {
   .guest-navbar .contact-btn {
@@ -568,6 +569,14 @@ p {
   box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
   max-width: 30rem !important;
 }
+.login-card .welcome-modal {
+  border-radius: 10px !important;
+  background-color: linear-gradient(0deg, rgba(70, 76, 225, 0.2) 0%, rgba(70, 76, 225, 0.2) 100%), #FEFEFF !important;
+  display: inline-flex !important;
+  padding: 64px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
 .login-card .p-small {
   color: #7E7E7F;
   font-size: 16px;
@@ -646,7 +655,6 @@ p {
     right: -2%;
   }
 }
-/* Small screens: 1 column */
 .buy-btn .btn-secondary:hover,
 .buy-btn .btn-secondary:focus {
   background-color: #032773 !important;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import GuestNavbar from "../../components/Navbar/GuestNavbar";
+import UserNavbar from "../../components/Navbar/UserNavbar";
 import HeroImage from "../../assets/images/landingheroimage.png";
 import Footer from "../../components/Footer";
+
 import Intellectual from "../../assets/images/intellectualpptyimage.svg";
 import Contract from "../../assets/images/contractlawimage.svg";
 import Employment from "../../assets/images/emoloymentlawimage.svg";
@@ -100,9 +102,11 @@ const Landing = () => {
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
   };
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
+    
     <>
-      <GuestNavbar />
+      {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
       <div>
         <div className="card" style={{ border: "none", borderRadius: "0" }}>
           <img
@@ -267,7 +271,7 @@ const Landing = () => {
                                 <h6 className="">{item.description}</h6>
                                 <div className="pt-xxl-5 mt-4 mt-md-5 text-center">
                                   <Link
-                                    to="/company-signup"
+                                    to="/signup/asacompany"
                                     type="button"
                                     className="btn btn-primary"
                                   >
@@ -302,7 +306,7 @@ const Landing = () => {
                                 <h6 className="">{item.description}</h6>
                                 <div className="pt-xxl-5 mt-4 mt-md-5 text-center">
                                   <Link
-                                    to="/company-signup"
+                                    to="/signup/asacompany"
                                     type="button"
                                     className="btn btn-primary"
                                   >

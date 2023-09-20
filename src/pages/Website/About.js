@@ -11,6 +11,7 @@ import team4 from "../../assets/images/team4.svg";
 import team5 from "../../assets/images/team5.svg";
 import team6 from "../../assets/images/team6.svg";
 import { Link } from "react-router-dom";
+import UserNavbar from "../../components/Navbar/UserNavbar";
 
 const teams = [
   {
@@ -40,9 +41,10 @@ const teams = [
 ];
 
 function About() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
   <>
-    <GuestNavbar/>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
     <div className=''>
     <div className="card about-hero-card"  style={{border:'none', borderRadius:'0'}}>
   <div className="card-body p-sm-5 p-4 mx-lg-5">
@@ -137,7 +139,7 @@ function About() {
             </h2>
             <p className="card-text mb-5 text-white">Get in touch with us today</p>
             <Link
-              to="/company-signup"
+              to="/signup/asacompany"
               className="btn btn-outline-light mt-sm-5 mt-4"
             >
               Get started

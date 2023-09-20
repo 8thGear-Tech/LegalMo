@@ -42,39 +42,3 @@
         }
     }
 }
-
-/* Small screens: 1 column */
-// @media screen and (max-width: 576px) {
-//     .review-section {
-//         flex-direction: column;
-//         /* Stack reviews vertically */
-//     }
-// }
-
-// /* Medium screens: 2 columns */
-// @media screen and (min-width: 577px) and (max-width: 992px) {
-//     .review-section {
-//         flex-direction: row;
-//         flex-wrap: wrap;
-
-//     }
-
-//     .review-card {
-//         flex-basis: calc(50% - 2.4rem);
-//         /* Two cards per row with gap */
-//     }
-// }
-
-// /* Large screens and up: 3 columns */
-// @media screen and (min-width: 993px) {
-//     .review-section {
-//         flex-direction: row;
-//         flex-wrap: wrap;
-
-//     }
-
-//     .review-card {
-//         flex-basis: calc(33.33% - 2.4rem);
-//         /* Three cards per row with gap */
-//     }
-// }

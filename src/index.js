@@ -8,11 +8,15 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./sassfiles/styles.min.css";
 import "./sassfiles/styles.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { AppContextProvider } from "./AppContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <AppContextProvider>
     <App />
+    </AppContextProvider>
+    
   </React.StrictMode>
 );
 

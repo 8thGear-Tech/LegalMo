@@ -5,6 +5,35 @@ import { Link , useNavigate} from 'react-router-dom';
 import { Loginbtn, Nextbtn, ResetPasswordbtn } from '../Buttons/Authenticationbtns';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import check from '../../assets/images/check.svg'
+
+
+
+export const LoginModal = ({ showModal, successMessage, closeModal, modalText }) => {
+  return (
+    <div
+      className={`modal fade px-3 ${showModal ? 'show' : ''}`}
+      style={{ display: showModal ? 'block' : 'none', backgroundColor: '#FEFEFF' }}
+      tabIndex='-1'
+      role='dialog'
+    >
+      <div className='modal-dialog modal-dialog-centered' role='document'>
+        <div className='modal-content p-sm-5 p-3' style={{backgroundColor:'#D9DAF9'}}>
+          <div className='modal-body text-center'>
+            {successMessage && (
+              <div className='' role='alert'>
+                <img src={check} alt='check' style={{ width: '130px' }} />
+                <h4 className='mt-5'style={{ fontWeight: '700' }}>{modalText}</h4>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 
 
 
@@ -161,12 +190,6 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
 
 
 
-
-
-
-
-
-
 export const ResetPasswordForm=()=> {
   const [email, setEmail] = useState('');
 
@@ -243,12 +266,13 @@ onChange={(event) => setEmail(event.target.value)}
 
 
 
-export const LoginForm = () => {
+export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [formValid, setFormValid] = useState(false);
+ 
 
   useEffect(() => {
    
@@ -287,12 +311,18 @@ export const LoginForm = () => {
     if (hasError) {
       return;
     }
-
-    navigate('/dashboard');
+    setShowModal(true);
+    setSuccessMessage(true);
+   
+    setTimeout(() => {
+      navigate('/company/dashboard');
+    }, 3000);
+    localStorage.setItem('isLoggedIn', 'true');
   };
 
   return (
-    <div className='login-card mt-lg-5'>
+   
+    <div className="login-card mt-lg-5" style={{backgroundColor: '#FEFEFF'}}>
       <div className='card p-5 m-auto'>
         <div className='text-center mb-5'>
           <h2 className='mb-2'>Log in</h2>
@@ -353,17 +383,20 @@ export const LoginForm = () => {
             aria-label='Basic example'
             className='btn-group form-sign-btn position-absolute gap-1'
           >
-            <Link to='/company-signup' className='btn btn-primary'>
+            <Link to='/signup/asacompany' className='btn btn-primary'>
               As a Company
             </Link>
             <div className='my-2' style={{ borderLeft: '1px solid white' }}></div>
-            <Link to='/lawyer-signup' type='button' className='btn btn-primary'>
+            <Link to='/signup/asalawyer' type='button' className='btn btn-primary'>
               As a Lawyer
             </Link>
           </div>
         )}
       </div>
     </div>
+    
+   
+   
   );
 };
 

@@ -3,6 +3,7 @@ import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import Footer from '../../components/Footer'
 import SingleProducts from '../Company/SingleProducts'
 import Packages from '../Company/Packages';
+import UserNavbar from '../../components/Navbar/UserNavbar';
 
 
 function Products() {
@@ -10,9 +11,11 @@ function Products() {
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
   };
+
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
     <>
-      <GuestNavbar/>
+       {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
       <div className='p-sm-5 p-4'>
         <div className='text-center gap-5  works-section'>
           <h3 className='pb-5'>Shop our products</h3>

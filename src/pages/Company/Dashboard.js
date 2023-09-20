@@ -1,11 +1,14 @@
 import React from 'react'
+import UserNavbar from '../../components/Navbar/UserNavbar'
+import Footer from '../../components/Footer'
 
-const Dashboard = () => {
+const CompanyDashboard = () => {
   return (
     <div>
-      i'm here
+      <UserNavbar/>
+      <Footer/>
     </div>
   )
 }
 
-export default Dashboard
+export default CompanyDashboard

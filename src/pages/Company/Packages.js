@@ -106,7 +106,7 @@ const Packages = () => {
                   )}
                 </div>
                 <div className='text-center mt-4 buy-btn'>
-                  <Link to='/company-signup' className='btn btn-secondary' style={{width:'200px'}}>Buy</Link>
+                  <Link to='/signup/asacompany' className='btn btn-secondary' style={{width:'200px'}}>Buy</Link>
                 </div>
               </div>
             )

@@ -1,12 +1,12 @@
 import React from 'react'
 import {CompanyProfileForm} from '../../components/Forms/Company'
-import GuestNavbar from '../../components/Navbar/GuestNavbar'
+import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 
 function CompanyProfile() {
   return (
     <div>
-      <GuestNavbar/>
+      <UserNavbar/>
       <CompanyProfileForm/>
       <Footer/>
     </div>

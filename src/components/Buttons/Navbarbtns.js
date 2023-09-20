@@ -2,11 +2,11 @@
 
 import React from "react";
 
-export const NavLoginbtn = () => {
+export const NavLoginbtn = (props) => {
   return (
     <div className="navBtn">
       <button type="button" className="btn btn-outline-primary btnNewText">
-        Log In
+        {props.text}
       </button>
     </div>
   );

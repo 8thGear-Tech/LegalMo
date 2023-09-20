@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CompanyDetailsForm } from '../../components/Forms/Company'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProductItem } from './ProductItem';
 import GuestNavbar from '../../components/Navbar/GuestNavbar';
+import UserNavbar from '../../components/Navbar/UserNavbar';
 import Footer from '../../components/Footer'
+import { useAppContext } from '../../AppContext';
 
 
-const shuffleArray = (array) => {
+export const shuffleArray = (array) => {
   let shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -15,7 +17,7 @@ const shuffleArray = (array) => {
   return shuffledArray;
 };
 
-const ProductCarousel = ({shuffledProducts}) => {
+export const ProductCarousel = ({shuffledProducts}) => {
   const productsPerSlide = {
     xl: 5,
     lg: 4,
@@ -24,7 +26,7 @@ const ProductCarousel = ({shuffledProducts}) => {
     xs: 1,
   };
   
- 
+  const navigate= useNavigate();
 
 
   const productGroups = [];
@@ -34,6 +36,10 @@ const ProductCarousel = ({shuffledProducts}) => {
     productGroups.push(shuffledProducts.slice(i, i + productsPerSlide.xl)); 
   }
 
+  const handleProductClick = (product) => {
+    navigate(`/pre-cart/${product.id}`);
+   }
+ 
   return (
     <div id="productCarousel" className="carousel carousel-dark slide" data-bs-ride="carousel">
       <div className="carousel-inner px-5 px-sm-0">
@@ -42,10 +48,10 @@ const ProductCarousel = ({shuffledProducts}) => {
             key={index}
             className={`carousel-item ${index === 0 ? 'active' : ''}`}
           >
-            <div className="d-flex gap-3">
+            <div className="d-flex gap-3 product-card">
               {productGroup.map((product, innerIndex) => (
                 <div key={product.id}  className={`col-xl-${12 / productsPerSlide.xl} col-lg-${12 / productsPerSlide.lg} col-md-${12 / productsPerSlide.md} col-sm-${12 / productsPerSlide.sm} col-12 mb-5`}>
-                  <div className="card h-100" style={{ borderRadius: '25px' }}>
+                  <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product)}>
                     <img
                       src={product.productImage}
                       className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '250px', width: '100%' }}
@@ -171,14 +177,17 @@ function getRatingStars(rating) {
 
 
 
-function Precart() {
-
+export function Precart() {
+const {addToCart, setSelectedProduct} = useAppContext();
 const {productId} = useParams();
 const [product, setProduct] = useState(null);
+
+
 
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [details, setDetails] = useState('')
 const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
@@ -195,7 +204,7 @@ const [reviews, setReviews] = useState([
     reviewTitle: 'Fantastic Service',
     rating: 5,
     companyName: 'S&S Ltd',
-    date: '10th July, 2022',
+    date: '10th July, 2023',
     reviewText: 'LegalMO’s service is really great',
   },
  
@@ -215,8 +224,8 @@ const [newReview, setNewReview] = useState({
 
 
 useEffect(() => {
-  const selectedProduct = ProductItem.find((item) => item.id === parseInt(productId, 10));
-  setProduct(selectedProduct);
+  const selectedProductItem = ProductItem.find((item) => item.id === parseInt(productId, 10));
+  setProduct(selectedProductItem);
 }, [productId]);
 
 
@@ -293,6 +302,14 @@ const handleDeleteClick = () => {
   }
 };
 
+const handleReserve = () => {
+  if (product) {
+    addToCart(product.id, quantity); 
+    setSelectedProduct(product);
+    navigate('/cart');
+  }
+};
+
 const totalReviews = reviews.length;
 const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
 const averageRating = parseFloat((totalRating / totalReviews).toFixed(1)); 
@@ -342,6 +359,8 @@ const { label, minRating, maxRating } = selectedRange || {};
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
 
+const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
 if (!product) {
   return <div className='justify-content-center align-items-center text-center my-5'>
  <div className="spinner-border text-secondary" role="status">
@@ -353,7 +372,7 @@ if (!product) {
 
   return (
     <>
-    <GuestNavbar/>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
     <div> 
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
         <div className=' d-block d-sm-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
@@ -387,8 +406,8 @@ if (!product) {
          <h6 style={{fontWeight:'500'}}>Available</h6>
          <p className='text-center' style={{fontSize:'17px'}}>Your selection is available for immediate purchase</p>
 
-         <Link to='/company-signup' className='btn btn-primary' style={{width:'100%'}}>Purchase</Link>
-         <Link to='/cart' className='btn btn-outline-primary'  style={{width:'100%'}}>Reserve</Link>
+         <Link to='/signup/asacompany' className='btn btn-primary' style={{width:'100%'}}>Purchase</Link>
+         <button onClick={handleReserve} className='btn btn-outline-primary'  style={{width:'100%'}}>Reserve</button>
         </div>
 
         </div>
@@ -396,7 +415,7 @@ if (!product) {
         <div className='px-xl-5 mx-xl-5'>
         <div className="my-5 justify-content-center align-content-center mx-lg-5 px-sm-5">
   <h6 name="exampleFormControlTextarea1" className="form-label">Give details</h6>
-  <textarea className="form-control bg-white" id="exampleFormControlTextarea1" rows="8" placeholder='Type more details about your purchase'></textarea>
+  <textarea className="form-control bg-white" id="exampleFormControlTextarea1" rows="8" placeholder='Type more details about your purchase' value={details} onChange={(event) => setDetails(event.target.value)}></textarea>
   <div className='mt-4'>
     <input
   type="file"
@@ -563,4 +582,3 @@ if (!product) {
   )
 }
 
-export default Precart
