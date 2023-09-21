@@ -1,0 +1,11 @@
+@use '../../colors' as *;
+
+.bg-primary {
+    background-color: $secbgcolor !important;
+}
+
+.svg-icon {
+    width: 24px;
+    fill: white !important;
+
+}

@@ -21,10 +21,15 @@ import CompanyDashboard from "./pages/Company/Dashboard";
 import LawyerDashboard from "./pages/Lawyer/Dashboard";
 import CompanyProfile from "./pages/Company/CompanyProfile";
 import LawyerProfile from "./pages/Lawyer/LawyerProfile";
+import AdminNavbar from "./components/Navbar/AdminNavbar";
+import AdminDashboard from "./pages/Admin/Dashboard";
 
 function App() {
   return (
     <BrowserRouter>
+     
+
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/landing" element={<Landing />} />
@@ -46,6 +51,12 @@ function App() {
         <Route path="/company/profile" element={<CompanyProfile/>} />
         <Route path="/lawyer/dashboard" element={<LawyerDashboard/>} />
         <Route path="/lawyer/profile" element={<LawyerProfile/>} />
+        <Route path="/admin/dashboard" element={<AdminDashboard/>} />
+          {/* <Route path="/admin/companies" element={Companies} />
+          <Route path="/admin/lawyers" element={Lawyers} />
+          <Route path="/admin/jobs" element={Jobs} />
+          <Route path="/admin/payment" element={Payment} />
+          <Route path="/admin/ratings" element={Ratings} /> */}
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"
           element={<LegalRenumerationOrder />}

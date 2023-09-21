@@ -2,6 +2,7 @@
 @use "./font" as *;
 
 @use "./components/Navbar/guestnav" as *;
+@use "./components/Navbar/admindashboard" as *;
 @use "./components/buttons" as *;
 @use "./components/footer" as *;
 @use "./components/Buttons/authentication" as *;

@@ -21,8 +21,7 @@ const GuestNavbar = () => {
     location.pathname === "/otp";
 
 
-    // const isCompanyPage = location.pathname.includes('/company');
-    // const isLawyerPage = location.pathname.includes('/lawyer');
+    
 
    const navbarClass = isLoggedPage ? "navbar-special" : "navbar-default";
 

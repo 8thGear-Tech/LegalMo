@@ -46,7 +46,7 @@ const handleLogOut = ()=>{
   <span className="navbar-toggler-icon"></span>
   </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-4 short-links">
+      <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-3 short-links">
       <li className="nav-item">
           <NavLink className="nav-link"  to="/landing" activeclassname='active'>Home</NavLink>
         </li>
@@ -92,7 +92,7 @@ const handleLogOut = ()=>{
       )}
       
       </ul>
-      <div className="d-block d-lg-flex gap-2 gap-lg-3 align-items-center">
+      <div className="d-block d-lg-flex gap-2  align-items-center">
       <ul className="navbar-nav gap-1">
       {!isLawyerRoute && ( <li className="nav-item">
                     <NavLink className="nav-link my-lg-3
