@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import profileImage from '../../assets/images/adminprofile.png'
+import Footer from '../Footer';
 import { NavLink, Link } from 'react-router-dom';
 import dashboard from '../../assets/images/dashboard-s.svg'
 import ratings from '../../assets/images/rating-s.svg'
@@ -77,6 +78,7 @@ const AdminNavbar = ({children}) => {
    
 
   {/* Left sidebar */}
+  <div>
 
   <nav id="sidebar" className="d-none d-lg-block" style={{paddingTop:'110px'}}>
           <div className="position-fixed bg-primary " style={{height:'100%', width:'200px'}}>
@@ -97,6 +99,9 @@ const AdminNavbar = ({children}) => {
           {children}
         </main>
        </div>
+       </div>
+
+       <Footer/>
       </div>
 
   )

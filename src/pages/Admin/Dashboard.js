@@ -1,5 +1,6 @@
 import React from 'react'
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
+import Footer from '../../components/Footer'
 import dashboard from '../../assets/images/dashboard.svg'
 import ratings from '../../assets/images/rating.svg'
 import companies from '../../assets/images/companies.svg'
@@ -108,6 +109,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </AdminNavbar>
+     
     </>
   );
 }
