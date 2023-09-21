@@ -36,8 +36,8 @@ const Payment = () => {
   return (
     <div>
       <AdminNavbar>
-      <div className='py-5 my-sm-5 px-md-5 px-3'>
-      <div className='d-flex flex-column py-5 gap-5'>
+      <div className='py-5 py-lg-3 my-sm-5 px-md-5 px-3'>
+      <div className='d-flex flex-column py-5 py-md-3 gap-5'>
       <h5 style={{ fontWeight: '600' }}>Payment Details</h5>
       <div
         className='card p-sm-5 p-3 gap-4'
