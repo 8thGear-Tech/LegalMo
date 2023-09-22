@@ -670,4 +670,12 @@ p {
   color: #ffffff !important;
   border: none !important;
 }
+
+.p-text {
+  color: #323233;
+}
+
+.active-p-text {
+  color: #032773;
+}
 /*# sourceMappingURL=styles.css.map */

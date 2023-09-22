@@ -23,7 +23,7 @@ function AdminSignUp() {
     setTimeout(() => {
       navigate('/admin/dashboard');
     }, 3000);
-    localStorage.setItem('isLoggedIn', 'true');
+    // localStorage.setItem('isLoggedIn', 'true');
   };
   const adminFields = [
     { name: "name", label: "Name", type: "text", required: true },

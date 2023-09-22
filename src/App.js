@@ -26,6 +26,7 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 import Payment from "./pages/Admin/Payment";
 import Footer from "./components/Footer";
 import CreateProductPage from "./pages/Admin/CreateProductPage";
+import GetPaid from "./pages/Lawyer/GetPaid";
 
 function App() {
   return (
@@ -56,10 +57,9 @@ function App() {
         <Route path="/lawyer/profile" element={<LawyerProfile/>} />
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
           <Route path="/admin/new-product" element={<CreateProductPage/>} />
-          {/* <Route path="/admin/lawyers" element={Lawyers} /> */}
-          {/* <Route path="/admin/jobs" element={Jobs} /> */}
+        
           <Route path="/admin/payment" element={<Payment/>} />
-          {/* <Route path="/admin/ratings" element={Ratings} /> */}
+          <Route path="/lawyer/get-paid" element={<GetPaid/>} />
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"
           element={<LegalRenumerationOrder />}

@@ -34,7 +34,7 @@ const Cart = () => {
         calculateSubtotal(filteredItems);
       }, [cartItems]);
     
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     
       
       const handleQuantityChange = (productId, newQuantity) => {
@@ -67,7 +67,8 @@ const Cart = () => {
   return (
     
     <>
-      {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+      {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
+      <GuestNavbar/>
       <div className='d-block d-lg-flex py-5 px-3 px-md-5 gap-3 align-items-center' >
       <div >
        <p className='py-2' style={{color:'#373737', fontWeight:'500'}}>Your Selections</p>

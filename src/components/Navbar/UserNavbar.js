@@ -33,7 +33,7 @@ const UserNavbar = () => {
 //   };
 const handleLogOut = ()=>{
   navigate('/login');
-  localStorage.setItem('isLoggedIn', 'false');
+  // localStorage.setItem('isLoggedIn', 'false');
 
 }
 

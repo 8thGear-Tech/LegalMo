@@ -47,7 +47,7 @@ export function NextLawyerSignUp() {
     setTimeout(() => {
       navigate('/lawyer/dashboard');
     }, 3000);
-    localStorage.setItem('isLoggedIn', 'true');
+    // localStorage.setItem('isLoggedIn', 'true');
   };
 
   const nextLawyerFields = [

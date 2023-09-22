@@ -41,10 +41,11 @@ const teams = [
 ];
 
 function About() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
   <>
-    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+    {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
+    <GuestNavbar/>
     <div className=''>
     <div className="card about-hero-card"  style={{border:'none', borderRadius:'0'}}>
   <div className="card-body p-sm-5 p-4 mx-lg-5">

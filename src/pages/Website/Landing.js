@@ -102,11 +102,12 @@ const Landing = () => {
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
   };
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
     
     <>
-      {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+      {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
+      <GuestNavbar/>
       <div>
         <div className="card" style={{ border: "none", borderRadius: "0" }}>
           <img

@@ -12,10 +12,11 @@ function Products() {
     setSelectedButton(buttonIndex);
   };
 
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
     <>
-       {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+       {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
+       <GuestNavbar/>
       <div className='p-sm-5 p-4'>
         <div className='text-center gap-5  works-section'>
           <h3 className='pb-5'>Shop our products</h3>

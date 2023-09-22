@@ -359,7 +359,7 @@ const { label, minRating, maxRating } = selectedRange || {};
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
 
-const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+// const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
 if (!product) {
   return <div className='justify-content-center align-items-center text-center my-5'>
@@ -372,7 +372,8 @@ if (!product) {
 
   return (
     <>
-    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+    {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
+    <GuestNavbar/>
     <div> 
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
         <div className=' d-block d-sm-flex gap-5 justify-content-center text-align-center align-content-center text-center'>

@@ -317,7 +317,7 @@ export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
     setTimeout(() => {
       navigate('/company/dashboard');
     }, 3000);
-    localStorage.setItem('isLoggedIn', 'true');
+    // localStorage.setItem('isLoggedIn', 'true');
   };
 
   return (
