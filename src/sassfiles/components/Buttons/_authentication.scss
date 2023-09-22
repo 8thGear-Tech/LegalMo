@@ -1,4 +1,4 @@
-@use "../colors" as *;
+@use "../../colors" as *;
 
 .navBtn {
   .btn {
@@ -6,9 +6,11 @@
     width: 100px !important;
     border-radius: 10px !important;
   }
+
   .btn-outline-primary {
     border: 2px solid $secbtncolor !important;
     color: $prytextcolor !important;
+    background-color: transparent !important;
   }
 
   .btn-primary {
@@ -20,6 +22,18 @@
     font-size: 20px !important;
     font-weight: 400 !important;
   }
+}
+
+.btn-primary {
+  background-color: $secbtncolor !important;
+  color: $btntextcolor !important;
+  border: none;
+}
+
+.btn-outline-primary {
+  background-color: $btntextcolor !important;
+  color: $secbtncolor !important;
+  border: 1px solid $secbtncolor !important;
 }
 
 .btn-primary:hover {

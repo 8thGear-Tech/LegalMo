@@ -1,12 +1,12 @@
 import React from 'react'
 import { LawyerProfileForm } from '../../components/Forms/Lawyer'
-import GuestNavbar from '../../components/Navbar/GuestNavbar'
+import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 
 function LawyerProfile() {
   return (
     <div>
-      <GuestNavbar/>
+      <UserNavbar/>
       <LawyerProfileForm/>
       <Footer/>
     </div>

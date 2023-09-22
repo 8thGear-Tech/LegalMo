@@ -1,5 +1,5 @@
-import React from 'react'
-import { SignUpForm } from '../../components/Forms/Authenticationforms'
+import React, { useState } from 'react'
+import { SignUpForm, LoginModal } from '../../components/Forms/Authenticationforms'
 import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import Footer from '../../components/Footer'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
   const navigate = useNavigate();
   const handleNextLawyerSignUp = (formData) => {
   
-    navigate('/next-lawyer-signup'); 
+    navigate('/signup/nextlawyer'); 
   };
 
   const lawyerFields = [
@@ -23,7 +23,7 @@ import { Link, useNavigate } from 'react-router-dom'
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Lawyer" fields={lawyerFields} onSubmit={handleNextLawyerSignUp} submitButtonLabel="Next"/>
+    <SignUpForm formTitle="Sign up as a Lawyer" fields={lawyerFields} onSubmit={handleNextLawyerSignUp} submitButtonLabel="Next" />
     </div>
    
     </>
@@ -33,10 +33,21 @@ import { Link, useNavigate } from 'react-router-dom'
 }
 
 export function NextLawyerSignUp() {
+  const [showModal, setShowModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+ 
   const navigate = useNavigate();
   const handleLawyerSignUp = (formData) => {
-    
-    navigate('/dashboard'); 
+    setShowModal(true);
+    setSuccessMessage(true);
+    setTimeout(() => {
+      navigate('/lawyer/dashboard');
+    }, 3000);
+    // localStorage.setItem('isLoggedIn', 'true');
   };
 
   const nextLawyerFields = [
@@ -52,8 +63,14 @@ export function NextLawyerSignUp() {
     <>
     <GuestNavbar/>
     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-    <SignUpForm formTitle="Sign up as a Lawyer" fields={nextLawyerFields} onSubmit={handleLawyerSignUp} submitButtonLabel="Sign up"/>
+    <SignUpForm formTitle="Sign up as a Lawyer" fields={nextLawyerFields} onSubmit={handleLawyerSignUp} submitButtonLabel="Sign up" />
     </div>
+    <LoginModal
+        showModal={showModal}
+        successMessage={successMessage}
+        closeModal={closeModal}
+        modalText='You have successfully created an account'
+      />
   
     </>
    

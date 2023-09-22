@@ -4,6 +4,7 @@ import Footer from '../../components/Footer'
 import { ResetPasswordbtn } from '../../components/Buttons/Authenticationbtns'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function NewPassword() {
   const [password, setPassword] = useState('');
@@ -15,9 +16,28 @@ function NewPassword() {
  
 const navigate = useNavigate();
 const [showPassword, setShowPassword] = useState(false);
+
+const [formValid, setFormValid] = useState(false); 
+
+useEffect(() => {
+  
+  if (password.trim() !== '' && confirmPassword.trim() !== '') {
+   
+    if (password === confirmPassword && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password)) {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  } else {
+    setFormValid(false);
+  }
+}, [password, confirmPassword]);
+
+
 const handleTogglePassword = () => {
   setShowPassword(!showPassword);
 };
+
 
 const handlePasswordReset = (e) => {
   e.preventDefault();
@@ -27,26 +47,33 @@ const handlePasswordReset = (e) => {
 
   let hasError = false;
 
-  
-  if (!confirmPassword) {
-    setConfirmPasswordError('Please confirm your password');
+  if (!password) {
+    setPasswordError('Please enter your password');
+    hasError = true;
+  } else if (
+    !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}/.test(password)
+  ) {
+    setPasswordError(
+      'Password must contain at least 8 characters with at least one number, one lowercase letter, one uppercase letter, and one special character.'
+    );
     hasError = true;
   }
 
- 
-  if (!password) {
-    setPasswordError('Please enter your password');
+  if (!confirmPassword) {
+    setConfirmPasswordError('Please confirm your password');
+    hasError = true;
+  } else if (password !== confirmPassword) {
+    setConfirmPasswordError('Passwords do not match');
     hasError = true;
   }
 
   if (hasError) {
-   
     return;
   }
 
-  
   navigate('/login');
 };
+
 
   return (
     <div><GuestNavbar/>
@@ -61,7 +88,7 @@ const handlePasswordReset = (e) => {
   <label htmlFor="password" className="form-label" >Password</label>
   <div className="input-group">
   <input
-type="password"
+        type={showPassword ? 'text' : 'password'} 
 className="form-control py-2"
 value={password}
 onChange={(event) => setPassword(event.target.value)}
@@ -80,30 +107,34 @@ onChange={(event) => setPassword(event.target.value)}
 {passwordError && <div className="text-danger">{passwordError}</div>}
  
 </div>
-<div className="mb-4" style={{position:'relative'}}>
-  <label htmlFor="confirmPassword" className="form-label" > Confirm password</label>
+<div className="mb-4" style={{ position: 'relative' }}>
+  <label htmlFor="confirmPassword" className="form-label">
+    Confirm password
+  </label>
   <div className="input-group">
-  <input
-type="password"
-className="form-control py-2"
-value={confirmPassword}
-onChange={(event) => setConfirmPassword(event.target.value)}
-/>  <span
-                    className="input-group-text"
-                    onClick={handleTogglePassword}
-                    style={{ cursor: 'pointer', background: 'white' }}
-                  >
-                    {showPassword ? (
-                      <i className="bi bi-eye-slash"></i> 
-                    ) : (
-                      <i className="bi bi-eye"></i>
-                    )}
-                  </span></div>
-{confirmPasswordError && <div className="text-danger">{confirmPasswordError}</div>}
- 
+    <input
+      type={showPassword ? 'text' : 'password'}
+      className="form-control py-2"
+      value={confirmPassword}
+      onChange={(event) => setConfirmPassword(event.target.value)}
+    />
+    <span
+      className="input-group-text"
+      onClick={handleTogglePassword}
+      style={{ cursor: 'pointer', background: 'white' }}
+    >
+      {showPassword ? (
+        <i className="bi bi-eye-slash"></i>
+      ) : (
+        <i className="bi bi-eye"></i>
+      )}
+    </span>
+  </div>
+  {confirmPasswordError && <div className="text-danger">{confirmPasswordError}</div>}
 </div>
+
        <div className='text-center mt-5'>
-        <ResetPasswordbtn text='Change Password'/>
+        <ResetPasswordbtn text='Change Password' formValid={formValid}/>
         </div>
         </form>
        

@@ -1,26 +1,11 @@
+@use "../../components/Navbar/guestnav" as *;
 @use "../../colors" as *;
+@use "../../components/footer" as *;
+@use "../../components/buttons" as *;
+
 
 .landing-hero-card {
-  .card-title {
-    color: #021a4d;
-    font-size: 56px;
-    font-weight: 700;
-    line-height: 74px;
-  }
 
-  .card-text {
-    color: $prytextcolor;
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 28px;
-  }
-
-  .card-text-small {
-    color: $prytextcolor;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 23px;
-  }
 
   .btn-primary {
     background-color: $secbtncolor;
@@ -33,32 +18,6 @@
 
 .services-section,
 .choose-us-section {
-  h3 {
-    font-size: 40px;
-    font-weight: 500;
-    line-height: 48px;
-    font-family: "Roboto", sans-serif !important;
-  }
-
-  h4 {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 48px;
-    font-family: "Roboto", sans-serif !important;
-  }
-
-  h5 {
-    font-size: 23px;
-    font-weight: 400;
-    line-height: 28px;
-    font-family: "Roboto", sans-serif !important;
-  }
-
-  p {
-    font-size: 20px;
-    line-height: normal;
-    font-family: "Roboto", sans-serif !important;
-  }
 
   .btn-outline-primary {
     border: 1px solid $secbtncolor !important;
@@ -91,6 +50,7 @@
     position: absolute;
     right: -3%;
   }
+
   .carousel-control-prev-icon-bg,
   .carousel-control-next-icon-bg {
     fill: black !important;
@@ -98,66 +58,25 @@
 }
 
 .works-section {
-  h2 {
-    font-family: "Roboto", sans-serif !important;
-    font-size: 50px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
 
-  h4 {
-    font-family: "Roboto", sans-serif !important;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-  h5 {
-    font-family: "Roboto", sans-serif !important;
-    font-size: 29px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  p {
-    font-family: "Roboto", sans-serif !important;
-    font-size: 20px;
-    color: #545454;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
   .btn-outline-primary {
     border: 1px solid $secbtncolor;
     font-size: 20px;
     color: black;
   }
+
   .active-btn-outline {
     background-color: $secbtncolor !important;
     color: $btntextcolor !important;
   }
 }
+
 .line {
   border-bottom: 0.3px solid black;
 }
 
 .in-touch-card {
-  .card-title {
-    color: white;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
 
-  .card-text {
-    color: white;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 
   .btn-outline-light {
     padding: 13px 45px;
@@ -166,6 +85,7 @@
     font-weight: 400;
     line-height: normal;
   }
+
   .landing-contact-btn {
     top: 100%;
     left: 38%;
@@ -181,11 +101,13 @@
       font-size: 20px;
     }
   }
+
   .btn-group {
     gap: 2px;
     background-color: $secbtncolor;
   }
 }
+
 @media (max-width: 992px) {
   .choose-us-section {
     .carousel-control-prev {
@@ -204,30 +126,12 @@
       font-size: 28px !important;
       line-height: 40px !important;
     }
-    .card-text {
-      font-size: 20px !important;
-    }
-    .card-text-small {
-      font-size: 18px !important;
-    }
+
   }
 
   .services-section,
   .choose-us-section {
-    h3 {
-      font-size: 28px;
-    }
 
-    h4 {
-      font-size: 25px;
-    }
-
-    h5 {
-      font-size: 22px;
-    }
-    p {
-      font-size: 18px;
-    }
 
     .carousel-control-prev {
       left: -4%;
@@ -239,30 +143,18 @@
   }
 
   .in-touch-card {
-    .card-title {
-      font-size: 26px;
-    }
 
-    .card-text {
-      font-size: 18px;
-    }
     .landing-contact-btn {
       left: 17%;
     }
   }
+
   .works-section {
-    h2 {
-      font-size: 28px;
-    }
+
     h4 {
-      font-size: 22px;
+      font-size: 22px !important;
     }
-    h5 {
-      font-size: 20px;
-    }
-    p {
-      font-size: 18px;
-    }
+
   }
 
   .btn-outline-primary,
@@ -277,6 +169,7 @@
   .in-touch-card {
     .landing-contact-btn {
       left: 5%;
+
       .btn-primary {
         padding: 10px;
       }
