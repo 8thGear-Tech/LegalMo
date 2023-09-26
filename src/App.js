@@ -27,6 +27,8 @@ import Payment from "./pages/Admin/Payment";
 import Footer from "./components/Footer";
 import CreateProductPage from "./pages/Admin/CreateProductPage";
 import GetPaid from "./pages/Lawyer/GetPaid";
+import Ratings from "./pages/Admin/Ratings";
+import Companies from "./pages/Admin/Companies";
 
 function App() {
   return (
@@ -56,6 +58,8 @@ function App() {
         <Route path="/lawyer/dashboard" element={<LawyerDashboard/>} />
         <Route path="/lawyer/profile" element={<LawyerProfile/>} />
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
+        <Route path="/admin/ratings" element={<Ratings/>} />
+        <Route path="/admin/companies" element={<Companies/>} />
           <Route path="/admin/new-product" element={<CreateProductPage/>} />
         
           <Route path="/admin/payment" element={<Payment/>} />
