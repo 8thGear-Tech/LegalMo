@@ -436,16 +436,17 @@ if (!product) {
         accept=".pdf, .doc, .docx"
       />
      
-      
+     {!selectedFile && (
       <button className=" d-flex gap-2" style={{border:'none', backgroundColor:'#CFCFCF'}} onClick={handleUploadClick}>Upload Document
       <i className="bi bi-cloud-upload"></i>
       </button>
+     )}
 
       {selectedFile && (
         <div className='d-flex mt-1'>
-          <p className='text-success'>
+         <p className=' p-small'> <i className="bi bi-file-earmark-text-fill" style={{color:'wine'}}></i> &nbsp;
          {selectedFile.name}
-            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'#CFCFCF'}} >
+            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'transparent'}} >
               <i className="bi bi-trash" style={{color:'red', fill:"red"}}></i> 
             </button>
           </p>
