@@ -1,153 +1,229 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
-import Footer from '../../components/Footer'
-import { Link } from 'react-router-dom'
+import profileImage from '../../assets/images/lawyer-admin.svg'
+import { Pagination } from '../../components/Buttons/Admin';
 
-const Payment = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [tempAccountNumber, setTempAccountNumber] = useState('');
-  const [tempAccountName, setTempAccountName] = useState('');
-  const [tempBank, setTempBank] = useState('');
+const paymentLists = [
+    {
+      id:1,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:2,
+      lawyerName:'Omoba Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:3,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:4,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:5,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:6,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:7,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:8,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:9,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'CAC536',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:10,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'CAC559',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:11,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:12,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:13,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:14,
+      lawyerName:'Asher Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Completed',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    },
+    {
+      id:15,
+      lawyerName:'Lionel Daniels',
+      snRegNo: 'SCN123',
+      statusVerification:'Pending',
+      dateofReg:'01/01/1999',
+     lawyerImage: profileImage,
+    }
+  ]
 
-  const handleShow = () => {
-    setTempAccountNumber(accountNumber);
-    setTempAccountName(accountName);
-    setTempBank(bank);
-    setShowModal(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-  };
 
 
-  const [accountNumber, setAccountNumber] = useState('0123456789');
-  const [accountName, setAccountName] = useState('Amber Daniels');
-  const [bank, setBank] = useState('United Bank for Africa');
 
-
-  const handleSave = () => {
+  const Payments = () => {
+    const itemsPerPage = 5
+    const [statusFilter, setStatusFilter] = useState('Pending');
+ 
+    const [pagination, setPagination] = useState({
+      currentPage: 1,
+      itemsPerPage: 5,
+    });
   
-    setAccountNumber(tempAccountNumber);
-    setAccountName(tempAccountName);
-    setBank(tempBank);
-    handleClose();
-  };
-  return (
-    <div>
-      <AdminNavbar>
-      <div className='py-5 py-lg-3 my-sm-5 px-md-5 px-3'>
-      <div className='d-flex flex-column py-5 py-md-3 gap-5'>
-      <h5 style={{ fontWeight: '600' }}>Payment Details</h5>
-      <div
-        className='card p-sm-5 p-3 gap-4'
-        style={{
-          borderRadius: '20px',
-          background: 'linear-gradient(0deg, #FFF 0%, #FFF 100%), #FFF',
-          border: 'none',
-          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-        }}
-      >
-        <div className='d-flex gap-3'>
-          <h5 style={{ fontWeight: '600' }}>Payment Account</h5>
-          <button
-            className="mb-2"
-            onClick={handleShow} style={{border:'none', background:'transparent'}}
-          >
-            <i className="bi bi-pencil"></i> 
-          </button>
-        </div>
-        <div className='gap-3'>
-          <div className='d-flex gap-md-2'>
-            <p style={{ maxWidth: '184px', minWidth: '130px' }}>Account number:</p>
-            <p>{accountNumber}</p>
-          </div>
-          <div className='d-flex gap-md-4'>
-            <p style={{ maxWidth: '184px', minWidth: '130px' }}>Account name:</p>
-            <p>{accountName}</p>
-          </div>
-          <div className='d-flex gap-md-4'>
-            <p style={{ maxWidth: '184px', minWidth: '130px' }}>Bank:</p>
-            <p>{bank}</p>
-          </div>
-        </div>
-      </div>
-      <div className='text-center mt-4'>
-        <button className='btn btn-primary w-50 mx-5'>Pay</button>
-      </div>
-
+  
+    const handleStatusFilterChange = (newStatus) => {
+      setStatusFilter(newStatus);
      
-      <div
-        className={`modal fade px-2 ${showModal ? 'show' : ''}`}
-        style={{ display: showModal ? 'block' : 'none' }}
-        tabIndex='-1'
-        role='dialog'
-        aria-labelledby='editPaymentModal'
-        aria-hidden='true'
-      >
-        <div className='modal-dialog modal-dialog-centered' role='document'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h5 className='modal-title' id='editPaymentModal' style={{fontWeight:'600'}}>
-                Edit Payment Details
-              </h5>
-              <button type='button' className='btn-close' onClick={handleClose}></button>
+      setPagination({ currentPage: 1, itemsPerPage: 5 });
+    };
+  
+    const filteredPayments = paymentLists.filter(
+      (payment) => payment.statusVerification === statusFilter
+    );
+  
+    const totalPages = Math.ceil(filteredPayments.length / pagination.itemsPerPage);
+ 
+    const handlePageChange = (newPage) => {
+      if (newPage >= 1 && newPage <= totalPages) {
+        setPagination((prevState) => ({ ...prevState, currentPage: newPage }));
+      }
+    };
+  
+    const getCurrentPageData = () => {
+      const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage;
+      const endIndex = startIndex + pagination.itemsPerPage;
+      return filteredPayments.slice(startIndex, endIndex);
+    };
+            
+    return (
+      <AdminNavbar>
+        <div className='py-5 my-3 px-lg-5 px-3'>
+        <h4 style={{ fontWeight: '600' }} className='text-center mb-5'>
+          Payments
+        </h4>
+        <div className=' card p-3'>
+            <div className='d-flex gap-5 py-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+          <button onClick={() => handleStatusFilterChange('Pending')}
+          className={statusFilter === 'Pending' ? 'verify-active me-md-5' : 'verify-button me-md-5'}>Pending</button>
+          <button  onClick={() => handleStatusFilterChange('Completed')}
+          className={statusFilter === 'Completed' ? 'verify-active' : 'verify-button'}>Completed</button>
+           </div>
+       
+      
+          {getCurrentPageData().map((payment) => (
+              <div key={payment.id} className='mb-4'>
+              <div
+                className='d-flex gap-5 py-3 px-0 px-md-3 align-items-center'
+                style={{ borderBottom: '1px solid #CFCFCF' }}
+              >
+               
+                <img src={payment.lawyerImage} alt={payment.lawyerName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
+                <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-4 gap-md-5 gap-sm-5'>
+                <h6>{payment.lawyerName}</h6>
+               
+                <p style={{ color: '#373737' }}>{payment.snRegNo}</p>
+                
+                <p style={{ color: '#373737' }}>{payment.dateofReg}</p>
+               
+                </div>
+            
             </div>
-            <div className='modal-body'>
-             
-              <div className='form-group gap-2'>
-                <label>Account Number</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='New Account Number'
-                value={tempAccountNumber}
-                onChange={(e) => setTempAccountNumber(e.target.value)}
-              />
-              </div>
-              <div className='form-group gap-2 mt-3'>
-                <label>Account Name</label>
-              <input
-                type='text'
-                className='form-control '
-                placeholder='New Account Name'
-                value={tempAccountName}
-                onChange={(e) => setTempAccountName(e.target.value)}
-              />
-              </div>
-              <div className='form-group gap-2 mt-3'>
-                <label>Bank</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='New Bank'
-                value={tempBank}
-                onChange={(e) => setTempBank(e.target.value)}
-              />
-              </div>
             </div>
-            <div className='modal-footer'>
-              <button type='button' className='btn btn-secondary' onClick={handleClose}>
-                Close
-              </button>
-              <button type='button' className='btn btn-primary' onClick={handleSave}>
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className={`modal-backdrop fade ${showModal ? 'show' : ''}`}
-        style={{ display: showModal ? 'block' : 'none' }}
-      ></div>
-      </div>
-      </div>
-
-      </AdminNavbar>
-   
+          ))}
+       </div>
+     
+       <Pagination
+       pagination={pagination}
+  totalPages={totalPages}
+  handlePageChange={handlePageChange}
+ 
+/>
+<div className='card p-sm-5 p-3 gap-5'>
+  <h4 className='text-center'>Notifications</h4>
+  <div className='d-flex justify-content-between align-items-center'>
+    <div className='d-flex flex-column gap-3'>
+      <h6>Contract Drafting and Review</h6>
+      <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert</p>
     </div>
-  )
-}
+    <div style={{ height:'auto'}}>
+    <button type='submit' className='btn btn-outline-primary' >View</button>
+    </div>
+    
+  </div>
+</div>
 
-export default Payment
+        </div>
+      </AdminNavbar>
+    );
+  };
+  
+  export default Payments;
+  

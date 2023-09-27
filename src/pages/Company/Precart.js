@@ -445,7 +445,7 @@ if (!product) {
         <div className='d-flex mt-1'>
           <p className='text-success'>
          {selectedFile.name}
-            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'transparent'}} >
+            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'#CFCFCF'}} >
               <i className="bi bi-trash" style={{color:'red', fill:"red"}}></i> 
             </button>
           </p>

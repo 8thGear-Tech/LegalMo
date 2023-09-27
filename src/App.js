@@ -31,6 +31,7 @@ import Ratings from "./pages/Admin/Ratings";
 import Companies from "./pages/Admin/Companies";
 import Lawyers from "./pages/Admin/UnverifiedLawyers";
 import Jobs from "./pages/Admin/UnassignedJobs";
+import GetPaidAdmin from "./pages/Admin/GetPaid";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
           <Route path="/admin/new-product" element={<CreateProductPage/>} />
         
           <Route path="/admin/payment" element={<Payment/>} />
+          <Route path="/admin/get-paid" element={<GetPaidAdmin/>} />
           <Route path="/lawyer/get-paid" element={<GetPaid/>} />
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"

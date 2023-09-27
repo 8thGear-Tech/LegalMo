@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
 import profileImage from '../../assets/images/lawyer-admin.svg'
+import { Pagination } from '../../components/Buttons/Admin';
 
 const lawyerLists = [
     {
@@ -171,9 +172,9 @@ const lawyerLists = [
         <div className=' card p-3'>
             <div className='d-flex gap-5 py-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
           <button onClick={() => handleStatusFilterChange('Verified')}
-          className={statusFilter === 'Verified' ? 'verify-active' : 'verify-button'}>Verified</button>
+          className={statusFilter === 'Verified' ? 'verify-active me-md-5' : 'verify-button me-md-5'}>Verified</button>
           <button  onClick={() => handleStatusFilterChange('Unverified')}
-          className={statusFilter === 'Unverified' ? 'verify-active' : 'verify-button'}>Unverified</button>
+          className={statusFilter === 'Unverified' ? 'verify-active ' : 'verify-button '}>Unverified</button>
            </div>
        
       
@@ -209,60 +210,12 @@ const lawyerLists = [
           ))}
        </div>
      
-<nav aria-label='Page navigation' className="py-5 mt-5">
-          <ul className='pagination justify-content-center'>
-            <li className='page-item' disabled={pagination.currentPage === 1}>
-            <button
-  className='page-link'
-  onClick={() => handlePageChange(pagination.currentPage - 1)}
-  style={{
-    margin: '0 10px',
-    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-    fontWeight: '',
-  }}
->
-  <h6><i className="bi bi-chevron-left"></i></h6>
-</button>
-
-            </li>
-
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <li
-                key={index}
-                className={
-                  pagination.currentPage === index + 1 ? 'page-item active' : 'page-item'
-                }
-              >
-                <button
-                  style={{
-                    margin: '0 10px',
-                    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-                    fontWeight: '700',
-                  }}
-                  onClick={() => handlePageChange(index + 1)}
-                  className='page-link'
-                >
-                  <h6>{index + 1}</h6>
-                </button>
-              </li>
-            ))}
-
-            <li className='page-item' disabled={pagination.currentPage === totalPages}>
-            <button
-  className='page-link'
-  onClick={() => handlePageChange(pagination.currentPage + 1)}
-  style={{
-    margin: '0 10px',
-    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-    fontWeight: '',
-  }}
->
-  <h6><i className="bi bi-chevron-right"></i></h6>
-</button>
-
-            </li>
-          </ul>
-        </nav>
+       <Pagination
+       pagination={pagination}
+  totalPages={totalPages}
+  handlePageChange={handlePageChange}
+ 
+/>
 
         </div>
       </AdminNavbar>
