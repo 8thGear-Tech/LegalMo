@@ -29,6 +29,8 @@ import CreateProductPage from "./pages/Admin/CreateProductPage";
 import GetPaid from "./pages/Lawyer/GetPaid";
 import Ratings from "./pages/Admin/Ratings";
 import Companies from "./pages/Admin/Companies";
+import Lawyers from "./pages/Admin/UnverifiedLawyers";
+import Jobs from "./pages/Admin/UnassignedJobs";
 
 function App() {
   return (
@@ -59,6 +61,8 @@ function App() {
         <Route path="/lawyer/profile" element={<LawyerProfile/>} />
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
         <Route path="/admin/ratings" element={<Ratings/>} />
+        <Route path="/admin/jobs" element={<Jobs/>} />
+        <Route path="/admin/lawyers" element={<Lawyers/>} />
         <Route path="/admin/companies" element={<Companies/>} />
           <Route path="/admin/new-product" element={<CreateProductPage/>} />
         
