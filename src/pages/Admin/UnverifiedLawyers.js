@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
 import profileImage from '../../assets/images/lawyer-admin.svg'
 import { Pagination } from '../../components/Buttons/Admin';
+import { ViewMoreModal } from '../../components/Cards/Admin';
 
-const lawyerLists = [
+export const lawyerLists = [
     {
       id:1,
       lawyerName:'Asher Daniels',
@@ -132,13 +133,20 @@ const lawyerLists = [
   const Lawyers = () => {
     const itemsPerPage = 5
     const [statusFilter, setStatusFilter] = useState('Verified');
+    const [showViewMoreModal, setShowViewMoreModal] = useState(false);
  
     const [pagination, setPagination] = useState({
       currentPage: 1,
       itemsPerPage: 5,
     });
   
-  
+    const handleViewMoreShow= () => {
+       
+      setShowViewMoreModal(true);
+    };
+  const handleViewMoreClose = () => {
+  setShowViewMoreModal(false);
+  };
     const handleStatusFilterChange = (newStatus) => {
       setStatusFilter(newStatus);
      
@@ -198,7 +206,7 @@ const lawyerLists = [
                     color: '#02143A',
                     backgroundColor: 'transparent',
                     border: 'none',
-                  }}
+                  }} onClick={handleViewMoreShow}
                   className='mb-2'
                 >
                   <h6>View more</h6>
@@ -218,6 +226,7 @@ const lawyerLists = [
 />
 
         </div>
+        <ViewMoreModal handleViewMoreClose={handleViewMoreClose} handleViewMoreShow={handleViewMoreShow} showViewMoreModal={showViewMoreModal}/>
       </AdminNavbar>
     );
   };

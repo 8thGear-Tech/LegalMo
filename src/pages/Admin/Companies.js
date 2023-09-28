@@ -3,6 +3,7 @@ import AdminNavbar from '../../components/Navbar/AdminNavbar'
 import profileImage from '../../assets/images/adminprofile-lg.svg'
 import { Link } from 'react-router-dom'
 import { Pagination } from '../../components/Buttons/Admin'
+import { ViewMoreModal } from '../../components/Cards/Admin';
 
 const companyLists = [
   {
@@ -135,6 +136,7 @@ const Companies = () => {
     currentPage: 1,
     itemsPerPage: 5,
   });
+  const [showViewMoreModal, setShowViewMoreModal] = useState(false);
 
   const totalPages = Math.ceil(companyLists.length / pagination.itemsPerPage);
 
@@ -150,7 +152,13 @@ const Companies = () => {
       setPagination((prevState) => ({ ...prevState, currentPage: newPage }));
     }
   };
-  
+  const handleViewMoreShow= () => {
+       
+    setShowViewMoreModal(true);
+  };
+const handleViewMoreClose = () => {
+setShowViewMoreModal(false);
+};
 
   return (
     <AdminNavbar>
@@ -182,7 +190,7 @@ const Companies = () => {
                       border: 'none',
                     }}
                     className='mb-2'
-                  >
+                  onClick={handleViewMoreShow}>
                     <h6>View more</h6>
                   </button>
                   </div>
@@ -201,6 +209,7 @@ const Companies = () => {
   handlePageChange={handlePageChange}
  
 />
+<ViewMoreModal handleViewMoreClose={handleViewMoreClose} handleViewMoreShow={handleViewMoreShow} showViewMoreModal={showViewMoreModal}/>
     </AdminNavbar>
   );
 };

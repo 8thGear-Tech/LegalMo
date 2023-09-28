@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
 import jobImage from '../../assets/images/non-compliance.svg'
 import { Pagination } from '../../components/Buttons/Admin';
+import { ViewMoreModal } from '../../components/Cards/Admin';
+import { Link } from 'react-router-dom';
 
-const jobLists = [
+export const jobLists = [
     {
       id:1,
       jobName:'Contract Drafting and Review',
@@ -152,8 +154,23 @@ const jobLists = [
   const Jobs = () => {
     const itemsPerPage = 5
     const [moreDetails, setMoreDetails] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [showMoreDetailsModal, setShowMoreDetailsModal] = useState(false);
+    const [showViewMoreModal, setShowViewMoreModal] = useState(false);
     const [statusFilter, setStatusFilter] = useState('Unassigned');
+    const [initialDetails, setInitialDetails] = useState(`
+    We are in need of:
+    
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  `);
+  const [updatedDetails, setUpdatedDetails] = useState(initialDetails);
+const [updatedFileName, setUpdatedFileName] = useState('');
+  const [moreDetailsModalText, setMoreDetailsModalText] = useState('');
+
+
+  const [moreDetailsModalFileName, setMoreDetailsModalFileName] = useState('');
 
  
     const [pagination, setPagination] = useState({
@@ -165,6 +182,7 @@ const jobLists = [
     const [selectedFileName, setSelectedFileName] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
 
+    
     const handleUploadClick = () => {
         fileInputRef.current.click();
       };
@@ -200,12 +218,40 @@ const jobLists = [
           fileInputRef.current.value = null;
         }
       };
-    const handleShow = () => {
-       
-        setShowModal(true);
-      };
-   const handleClose = () => {
-    setShowModal(false);
+ 
+const handleMoreDetailsShow = (job) => {
+ 
+  setMoreDetailsModalText(updatedDetails || initialDetails);
+  setShowMoreDetailsModal(true);
+};
+
+const handleMoreDetailsClose = () => {
+  setShowMoreDetailsModal(false);
+};
+
+const handleMoreDetailsSend = () => {
+ 
+  setUpdatedDetails(moreDetailsModalText);
+  setUpdatedFileName(selectedFile.name);
+
+ 
+  setShowMoreDetailsModal(false);
+};
+
+// ...
+
+  const handleViewMoreShow = (job) => {
+    setSelectedJob(job);
+  
+    setMoreDetailsModalFileName(job.moreDetailsFileName || '');
+    setMoreDetailsModalText(job.moreDetails || initialDetails);
+  
+    setShowViewMoreModal(true);
+  };
+  
+
+  const handleViewMoreClose = () => {
+    setShowViewMoreModal(false);
   };
     const handleStatusFilterChange = (newStatus) => {
       setStatusFilter(newStatus);
@@ -269,11 +315,11 @@ const jobLists = [
                     backgroundColor: 'transparent',
                     border: 'none',
                   }}
-                  className='mb-2'
+                  className='mb-2' onClick={() => handleViewMoreShow(job)}
                 >
                   <h6>View more</h6>
                 </button>
-                <button   onClick={handleShow}
+                <button   onClick={handleMoreDetailsShow}
                   style={{
                     color: '#02143A',
                     backgroundColor: 'transparent',
@@ -300,77 +346,141 @@ const jobLists = [
 
         </div>
 
-        <div
-        className={`modal fade px-2 ${showModal ? 'show' : ''}`}
-        style={{ display: showModal ? 'block' : 'none' }}
+      {/* view more modal */}
+{selectedJob && (
+  <div>
+    <div
+      className={`modal fade px-2 ${showViewMoreModal ? 'show' : ''}`}
+      style={{ display: showViewMoreModal ? 'block' : 'none' }}
+      tabIndex='-1'
+      role='dialog'
+      aria-labelledby=''
+      aria-hidden='true'
+    >
+      <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
+        <div className='modal-content gap-3 p-3 p-sm-5'>
+          <div className='modal-header'>
+            <h5 className='modal-title' id='' style={{ fontWeight: '600' }}>
+              Contract Drafting and Review
+            </h5>
+
+            <button type='button' className='btn-close' onClick={handleViewMoreClose}></button>
+          </div>
+          <div className='modal-body '>
+            <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
+              We are looking for an employment law expert who will prepare an employment contract .
+            </h6>
+
+            <div className='form-group gap-2 mt-5'>
+              <h6 name='exampleFormControlTextarea1' className='form-label'>
+                Details
+              </h6>
+              <div className='card p-3'>
+                <div>
+                  <p>{updatedDetails}</p>
+                </div>
+              </div>
+              <div className='d-flex justify-content-between mt-3'>
+                <p>{updatedFileName}</p>
+                {selectedJob.statusVerification === 'Unassigned' && (
+                  <Link to='/admin/assign-job' className='text-dark'>
+                    Assign
+                  </Link>
+                )}
+                {(selectedJob.statusVerification === 'Pending' || selectedJob.statusVerification === 'Completed') && (
+                  <Link className='text-dark'>Assigned to Asher Daniels</Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className={`modal-backdrop fade ${showViewMoreModal ? 'show' : ''}`} style={{ display: showViewMoreModal ? 'block' : 'none' }}></div>
+  </div>
+)}
+
+   {/* More details modal      */}
+   <div>
+      <div
+        className={`modal fade px-2 ${showMoreDetailsModal ? 'show' : ''}`}
+        style={{ display: showMoreDetailsModal ? 'block' : 'none' }}
         tabIndex='-1'
         role='dialog'
-        aria-labelledby='editPaymentModal'
+        aria-labelledby=''
         aria-hidden='true'
       >
         <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
           <div className='modal-content gap-3 p-3 p-sm-5'>
             <div className='modal-header'>
-              <h5 className='modal-title' id='editPaymentModal' style={{fontWeight:'600'}}>
+              <h5 className='modal-title' id='editPaymentModal' style={{ fontWeight: '600' }}>
                 Contract Drafting and Review
               </h5>
-              
-              <button type='button' className='btn-close' onClick={handleClose}></button>
+
+              <button type='button' className='btn-close' onClick={handleMoreDetailsClose}></button>
             </div>
             <div className='modal-body '>
-                <h6 className='mb-2' style={{color:'#5F5F5F'}}>We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....</h6>
-             
+              <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
+                We are looking for an employment law expert who will prepare an employment contract stating lorem ipsum lorem ipsum.....
+              </h6>
+
               <div className='form-group gap-2 mt-5'>
-              <h6 name="exampleFormControlTextarea1" className="form-label">Give more details</h6>
-                <textarea className="form-control" id="exampleFormControlTextarea1" rows="8" placeholder='Start typing...' value={moreDetails} onChange={(event) => setMoreDetails(event.target.value)}></textarea>
-              
+                <h6 name='exampleFormControlTextarea1' className='form-label'>
+                  Give more details
+                </h6>
+                <textarea
+                  className='form-control'
+                  id='exampleFormControlTextarea1'
+                  rows='8'
+                  placeholder='Start typing...'
+                  value={moreDetailsModalText}
+                  onChange={(event) => setMoreDetailsModalText(event.target.value)}
+                ></textarea>
               </div>
               <div className='d-flex flex-column mt-5'>
-            <div className=''>
-    <input
-  type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        accept=".pdf, .doc, .docx"
-      />
-     
-      
-     {!selectedFile && (
-        <button
-          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
-          onClick={handleUploadClick}
-          style={{ width: '250px' }}
-        >
-          Upload Document
-          <i className="bi bi-cloud-upload"></i>
-        </button>
-      )}
+                <div>
+                  <input
+                    type='file'
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                    accept='.pdf, .doc, .docx'
+                  />
 
-      {selectedFile && (
-        <div className='d-flex my-2'>
-          <p className=' p-small'> <i className="bi bi-file-earmark-text-fill" style={{color:'wine'}}></i> &nbsp;
-         {selectedFile.name}
-            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'transparent'}} >
-              <i className="bi bi-trash" style={{color:'red', fill:"red"}}></i> 
-            </button>
-          </p>
-        </div>
-      )}
-    </div>
-              <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleClose}>
-                Send
-              </button>
+                  {!selectedFile && (
+                    <button
+                      className='d-flex gap-2 btn btn-outline-primary justify-content-center'
+                      onClick={handleUploadClick}
+                      style={{ width: '250px' }}
+                    >
+                      Upload Document
+                      <i className='bi bi-cloud-upload'></i>
+                    </button>
+                  )}
+
+                  {selectedFile && (
+                    <div className='d-flex my-2'>
+                      <p className='p-small'>
+                        {' '}
+                        <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+                        {selectedFile.name}
+                        <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
+                          <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
+                        </button>
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleMoreDetailsSend}>
+                  Send
+                </button>
+              </div>
             </div>
-            </div>
-           
           </div>
         </div>
       </div>
-      <div
-        className={`modal-backdrop fade ${showModal ? 'show' : ''}`}
-        style={{ display: showModal ? 'block' : 'none' }}
-      ></div>
+      <div className={`modal-backdrop fade ${showMoreDetailsModal ? 'show' : ''}`} style={{ display: showMoreDetailsModal ? 'block' : 'none' }}></div>
+    </div>
       </AdminNavbar>
     );
   };
