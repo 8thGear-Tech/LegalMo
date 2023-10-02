@@ -18,7 +18,7 @@ const UserNavbar = () => {
 
   
    const [showContactButtons, setShowContactButtons] = useState(false);
-//   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
+
 
   const toggleContactButtons = () => {
     setShowContactButtons(!showContactButtons);
@@ -27,10 +27,6 @@ const UserNavbar = () => {
   const isContactActive = showContactButtons ? 'navlink-active' : '';
  
 
-//   const toggleSignUpButtons = () => {
-//     setShowSignUpButtons(!showSignUpButtons);
-//     setShowContactButtons(false);
-//   };
 const handleLogOut = ()=>{
   navigate('/login');
   // localStorage.setItem('isLoggedIn', 'false');

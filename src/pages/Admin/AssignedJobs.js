@@ -2,11 +2,58 @@ import React, { useState } from 'react'
 import { lawyerLists } from './UnverifiedLawyers';
 import { Pagination } from '../../components/Buttons/Admin';
 import AdminNavbar from '../../components/Navbar/AdminNavbar';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { useAppContext } from '../../AppContext';
 
 const AssignedJobs = () => {
+    const location = useLocation();
     const itemsPerPage = 5
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(location.search);
+  const jobId = queryParams.get('id');
+  console.log("Job ID from Query Params:", jobId);
+  const jobName = queryParams.get('jobName');
+  const jobDetails = queryParams.get('details');
+  const [selectedLawyer, setSelectedLawyer] = useState(null);
+  const {jobList, setJobList} = useAppContext();
+const handleCheckboxChange = (lawyerId) => {
+    setSelectedLawyer(lawyerId);
+  };
 
+  
+  const handleAssignClick = () => {
+    console.log('Assign button clicked'); 
+  
+    if (!selectedLawyer) {
+      alert('Please select a lawyer to assign the job.');
+      return;
+    }
+  
+    console.log('Selected Lawyer ID:', selectedLawyer);
+  
+ 
+    const jobIndex = jobList.findIndex((job) => job.id === jobId);
+  
 
+    if (jobIndex !== -1) {
+      const updatedJobList = [...jobList]; 
+      updatedJobList[jobIndex].statusVerification = 'Pending'; 
+  
+  
+      console.log('Updated Job List:', updatedJobList);
+      setJobList(updatedJobList);
+     
+    }
+
+  
+    const lawyerName = lawyerLists.find((lawyer) => lawyer.id === selectedLawyer).lawyerName;
+    alert(`Job "${jobName}" has been assigned to Lawyer "${lawyerName}".`);
+  
+ 
+      navigate('/admin/jobs');
+  };
+  
  
     const [pagination, setPagination] = useState({
       currentPage: 1,
@@ -36,7 +83,7 @@ const AssignedJobs = () => {
                 <h5 className='modal-title' id='editPaymentModal' style={{fontWeight:'600'}}>
                 Details
               </h5>
-    <h6 className='' style={{fontWeight:''}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor mi in mauris condimentum blandit. Nulla facilisi. Vestibulum in metus nec nisi sodales cursus. Integer interdum ex eu purus commodo, vitae scelerisque mi blandit. Quisque et leo rhoncus, ultricies arcu a, pharetra mi.</h6>
+    <h6 className='' style={{fontWeight:''}}>{jobDetails}</h6>
              
           
               
@@ -56,7 +103,13 @@ const AssignedJobs = () => {
                 className='d-flex gap-5 py-3 px-0 px-md-3 align-items-center'
                 style={{ borderBottom: '1px solid #CFCFCF' }}
               >
-                <input className="form-check-input my-5" type="checkbox" value="" id="flexCheckDefault"/>
+                        <input
+            type="checkbox"
+            value={lawyer.id}
+            checked={selectedLawyer === lawyer.id}
+            onChange={() => handleCheckboxChange(lawyer.id)}
+          />
+
                 <img src={lawyer.lawyerImage} alt={lawyer.lawyerName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
                 <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-4 gap-md-5 gap-sm-5'>
                 <h6>{lawyer.lawyerName}</h6>
@@ -83,7 +136,7 @@ const AssignedJobs = () => {
 />
 
 <div className='d-flex justify-content-end'>
-    <button type='submit' className='btn btn-primary px-5'>ASSIGN</button>
+    <button type='submit' className='btn btn-primary px-5' onClick={handleAssignClick}>ASSIGN</button>
 </div>
 
 

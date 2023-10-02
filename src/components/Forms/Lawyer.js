@@ -1,5 +1,4 @@
-//profile
-//signup
+
 import React from "react";
 
 export const LawyerProfileForm=()=> {

@@ -1,4 +1,4 @@
-//productdetails
+
 import React from "react";
 
 export const CompanyDetailsForm=()=> {

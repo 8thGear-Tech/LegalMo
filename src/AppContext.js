@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 
 import { ProductItem } from "./pages/Company/ProductItem";
+import { jobLists } from './pages/Admin/JobLists';
 
 
 
@@ -19,6 +20,8 @@ export const AppContextProvider = (props) => {
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [submittedInfo, setSubmittedInfo] = useState(null);
+
+  const [jobList, setJobList] = useState(jobLists)
 
   const [reviews, setReviews] = useState([
     {
@@ -37,7 +40,7 @@ export const AppContextProvider = (props) => {
     reviewText: '',
   });
 
-  // ... (other functions for handling ratings and reviews)
+
 
   
 
@@ -154,6 +157,7 @@ const addToCart = (itemId, quantity) => {
   };
 
   const contextValue = {
+    jobList, setJobList,
     cartItems,
     addToCart,
     removeFromCart,

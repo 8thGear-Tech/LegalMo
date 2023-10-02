@@ -283,9 +283,42 @@ p {
   background-color: #032773 !important;
 }
 
-.svg-icon {
-  width: 24px;
-  fill: white !important;
+.admin-navbar .nav-link {
+  color: #000000 !important;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 400;
+}
+.admin-navbar .nav-link:hover,
+.admin-navbar .active {
+  background-color: #032773 !important;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+.admin-navbar .nav-link:hover .dashboard-icon,
+.admin-navbar .active .dashboard-icon {
+  content: url("/src/assets/images/dashboard-s.svg");
+}
+.admin-navbar .nav-link:hover .companies-icon,
+.admin-navbar .active .companies-icon {
+  content: url("/src/assets/images/companies-s.svg");
+}
+.admin-navbar .nav-link:hover .lawyers-icon,
+.admin-navbar .active .lawyers-icon {
+  content: url("/src/assets/images/lawyers-s.svg");
+}
+.admin-navbar .nav-link:hover .jobs-icon,
+.admin-navbar .active .jobs-icon {
+  content: url("/src/assets/images/jobs-s.svg");
+}
+.admin-navbar .nav-link:hover .payment-icon,
+.admin-navbar .active .payment-icon {
+  content: url("/src/assets/images/payment-s.svg");
+}
+.admin-navbar .nav-link:hover .rating-icon,
+.admin-navbar .active .rating-icon {
+  content: url("/src/assets/images/rating-s.svg");
 }
 
 .buttonStyle {

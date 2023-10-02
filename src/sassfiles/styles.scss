@@ -12,6 +12,7 @@
 @use "./pages/Website/otp" as *;
 @use "./components/Forms/authentication" as *;
 @use "./pages/Admin/signup" as *;
+@use "./components/Navbar/admindashboard" as *;
 @use "./pages/Company/signup" as *;
 @use "./pages/Lawyer/signup" as *;
 @use "./pages/Website/login" as *;
