@@ -30,7 +30,7 @@ import GetPaid from "./pages/Lawyer/GetPaid";
 import Ratings from "./pages/Admin/Ratings";
 import Companies from "./pages/Admin/Companies";
 import Lawyers from "./pages/Admin/UnverifiedLawyers";
-import Jobs from "./pages/Admin/UnassignedJobs";
+import Jobs from "./pages/Admin/Jobs";
 import GetPaidAdmin from "./pages/Admin/GetPaid";
 import AssignedJobs from "./pages/Admin/AssignedJobs";
 

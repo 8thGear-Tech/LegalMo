@@ -12,7 +12,7 @@ const AssignedJobs = () => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
   const jobId = queryParams.get('id');
-  console.log("Job ID from Query Params:", jobId);
+
   const jobName = queryParams.get('jobName');
   const jobDetails = queryParams.get('details');
   const [selectedLawyer, setSelectedLawyer] = useState(null);
@@ -23,14 +23,14 @@ const handleCheckboxChange = (lawyerId) => {
 
   
   const handleAssignClick = () => {
-    console.log('Assign button clicked'); 
+ 
   
     if (!selectedLawyer) {
       alert('Please select a lawyer to assign the job.');
       return;
     }
   
-    console.log('Selected Lawyer ID:', selectedLawyer);
+ 
   
  
     const jobIndex = jobList.findIndex((job) => job.id === jobId);
@@ -41,7 +41,7 @@ const handleCheckboxChange = (lawyerId) => {
       updatedJobList[jobIndex].statusVerification = 'Pending'; 
   
   
-      console.log('Updated Job List:', updatedJobList);
+  
       setJobList(updatedJobList);
      
     }

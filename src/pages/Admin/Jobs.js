@@ -9,7 +9,6 @@ import { useAppContext } from '../../AppContext';
 
   const Jobs = () => {
     const {jobList, setJobList} = useAppContext();
-    console.log('Job List:', jobList);
     const itemsPerPage = 5
     const [newDetails, setNewDetails] = useState('');
     const [selectedJob, setSelectedJob] = useState(null);
@@ -100,9 +99,7 @@ const handleMoreDetailsSend = () => {
 
 
 const handleViewMoreShow = (job) => {
-  if (selectedJob){
-    console.log("Selected Job ID:", selectedJob.id);
-  }
+ 
   setSelectedJob(job);
   setShowViewMoreModal(true);
   setSelectedFile(job.uploadedFile); 
