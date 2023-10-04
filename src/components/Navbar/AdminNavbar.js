@@ -81,25 +81,18 @@ const AdminNavbar = ({children}) => {
         <img src={ratingsW} alt={ratings} style={{width:'24px'}} className='rating-icon'/> &nbsp; &nbsp; Ratings
         </NavLink>
       </li>
-      {/* <SidebarLink to="/admin/dashboard" text="Dashboard" src={dashboardW} className='dashboard-link' />
-              <SidebarLink to="/admin/companies" text="Companies" src={companiesW} />
-              <SidebarLink to="/admin/lawyers" text="Lawyers" src={lawyersW} />
-              <SidebarLink to="/admin/jobs" text="Jobs" src={jobsW}/>
-              <SidebarLink to="/admin/payment" text="Payment" src={paymentW}/>
-              <SidebarLink to="/admin/ratings" text="Ratings" src={ratingsW}/>
-       */}
       </ul>
     
 
                 <ul className="navbar-nav d-block d-lg-flex gap-3 align-items-center ms-auto me-3">
 
                 <li className="nav-item my-lg-0 d-none d-lg-flex">
-                    <Link className='nav-link'> Admin &nbsp; <img src={profileImage} alt='profile-image'/></Link>
+                    <Link className='nav-link' to='/admin/dashboard'> Admin &nbsp; <img src={profileImage} alt='profile-image'/></Link>
               
               </li>
 
               <li className="nav-item my-lg-0 d-lg-none d-flex">
-                    <Link className='nav-link'>  <img src={profileImage} alt='profile-image'/> &nbsp; Admin</Link>
+                    <Link className='nav-link'to='/admin/dashboard'>  <img src={profileImage} alt='profile-image'/> &nbsp; Admin</Link>
               
               </li>
                   <li className="nav-item mb-2 mb-lg-0">
