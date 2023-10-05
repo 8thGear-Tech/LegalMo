@@ -97,12 +97,12 @@ const handleLogOut = ()=>{
 
         {isCompanyRoute &&(
               <li className="nav-item">
-              <NavLink className="nav-link "  activeclassname='active' to="/company/profile" ><img src={profileImage} alt='profile-image'/></NavLink>
+              <Link className="nav-link " to="/company/profile" ><img src={profileImage} alt='profile-image'/></Link>
             </li>
         )}
           {isLawyerRoute &&(
               <li className="nav-item">
-              <NavLink className="nav-link "  activeclassname='active' to="/lawyer/profile" ><img src={lawyerImage} alt='profile-image' style={{width:'60px', height:'60px'}}/></NavLink>
+              <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerImage} alt='profile-image' style={{width:'60px', height:'60px'}}/></Link>
             </li>
         )}
        <li className="nav-item">
