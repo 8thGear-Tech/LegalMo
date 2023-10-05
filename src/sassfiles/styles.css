@@ -662,9 +662,10 @@ p {
   box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
 }
 
+.action:hover h6,
 .action:hover p,
 .action:hover i {
-  color: #032773;
+  color: #032773 !important;
   font-weight: 500;
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import profileImage from '../../assets/images/adminprofile.png'
-
+import lawyerImage from '../../assets/images/lawyer-image.svg'
 import legalMoLogo from "../../assets/images/legalmologo.svg";
 import { NavLoginbtn } from "../Buttons/Navbarbtns";
 
@@ -102,7 +102,7 @@ const handleLogOut = ()=>{
         )}
           {isLawyerRoute &&(
               <li className="nav-item">
-              <NavLink className="nav-link "  activeclassname='active' to="/lawyer/profile" ><img src={profileImage} alt='profile-image'/></NavLink>
+              <NavLink className="nav-link "  activeclassname='active' to="/lawyer/profile" ><img src={lawyerImage} alt='profile-image' style={{width:'60px', height:'60px'}}/></NavLink>
             </li>
         )}
        <li className="nav-item">
