@@ -113,6 +113,9 @@ const Footer = () => {
 >
     <div className='modal-dialog modal-dialog-centered' role='document'>
       <div className='modal-content p-3' >
+      <div className='d-flex justify-content-end'>
+          <button type='button' className='btn-close' onClick={closePrivacyModal}></button>
+          </div>
         <div className='modal-body '>
           
             <div className='gap-4' role='alert' >
@@ -142,6 +145,9 @@ LegalMo may use cookies and similar tracking techniques to recognize you for fun
 >
 <div className='modal-dialog modal-dialog-centered' role='document'>
       <div className='modal-content p-3' >
+      <div className='d-flex justify-content-end'>
+          <button type='button' className='btn-close' onClick={closeTermsModal}></button>
+          </div>
         <div className='modal-body '>
           
             <div className='gap-1' role='alert' >

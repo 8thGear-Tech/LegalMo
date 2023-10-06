@@ -17,9 +17,14 @@ export const LoginModal = ({ showModal, successMessage, closeModal, modalText })
       style={{ display: showModal ? 'block' : 'none'}}
       tabIndex='-1'
       role='dialog'
+      onClick={closeModal}
     >
+     
       <div className='modal-dialog modal-dialog-centered' role='document'>
         <div className='modal-content p-sm-5 p-3' style={{backgroundColor:'#D9DAF9'}}>
+          <div className='d-flex justify-content-end'>
+          <button type='button' className='btn-close' onClick={closeModal}></button>
+          </div>
           <div className='modal-body text-center'>
             {successMessage && (
               <div className='' role='alert'>
