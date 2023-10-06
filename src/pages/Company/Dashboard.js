@@ -16,7 +16,7 @@ const CompanyDetails = () => {
                 <h6>{jobName}</h6>
                 <p style={{color:'#5F5F5F'}}>Amount: ₦{jobPrice.toLocaleString()}</p>
               </div>
-              <div className='d-flex gap-5'>
+              <div className='d-block d-sm-flex gap-5'>
               <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
                 <p>Schedule a call</p>
                 <i className="bi bi-telephone mb-3"></i>

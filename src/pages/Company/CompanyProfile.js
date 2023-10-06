@@ -53,21 +53,21 @@ function CompanyProfile() {
    
     
           <div className='mt-5 pt-sm-5 '>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.email}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Website</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.website}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-3"style={{fontWeight:'600', width:'70%'}}>Your Bio</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.bio}
@@ -75,21 +75,21 @@ function CompanyProfile() {
                 </div>
             </div>
         
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.phoneNumber}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Physical Address</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.physicalAddress}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
               <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
                 <p>{details.alternateEmail}

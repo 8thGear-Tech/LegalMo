@@ -107,7 +107,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
        
 
         <div className='mt-5 '>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
               
               <input
@@ -118,7 +118,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
       />
                 
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>SCN</h6>
               <input
         type="text"
@@ -127,7 +127,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
       />
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <div>
 
              
@@ -144,7 +144,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         </div>
      
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Year of Call</h6>
               <input
         type="date"
@@ -154,7 +154,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         onChange={handleInputChange}className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
       />
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
               <input
         type="number"
@@ -163,7 +163,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
       />
             </div>
-            <div className='py-3 d-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <div>
               <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
               <p className="text-muted">Enter an alternate email if you would like to be contacted via a different email</p>
