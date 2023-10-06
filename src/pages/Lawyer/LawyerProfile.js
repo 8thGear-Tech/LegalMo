@@ -4,7 +4,7 @@ import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 import lawyerImage from '../../assets/images/lawyer-image.svg'
 
-export const initialProfileDetails = {
+export const initialLawyerProfileDetails = {
   email: 'amberdaniels@yahoo.com',
   scn: '000123',
   bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
@@ -32,7 +32,7 @@ const expertiseOptions = [
 function LawyerProfile() {
 
   const [isEditing, setIsEditing] = useState(false);
-  const [details, setDetails] = useState(initialProfileDetails);
+  const [details, setDetails] = useState(initialLawyerProfileDetails);
 
   const handleSave = (updatedDetails) => {
     setDetails(updatedDetails);

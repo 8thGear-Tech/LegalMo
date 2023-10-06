@@ -2,33 +2,36 @@ import React, { useState } from 'react'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 
-const jobDetails = [
+export const allJobDetails = [
   {
     id:1,
-    job: 'Contract Drafting and Review',
+    jobName: 'Contract Drafting and Review',
+    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
     jobPrice: 100000,
   },
   {
     id:2,
-    job: 'Contract Drafting and Review',
+    jobName: 'Contract Drafting and Review',
+    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
     jobPrice: 100000,
   },
   {
     id:3,
-    job: 'Contract Drafting and Review',
+    jobName: 'Contract Drafting and Review',
+    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
     jobPrice: 100000,
   }
 ]
 
-export const AllDetails = () => {
+const LawyerDetails = () => {
   return (
     <div>
-      {jobDetails.map((jobDetail) =>{
-        const {id,job,jobPrice} = jobDetail;
+      {allJobDetails.map((jobDetail) =>{
+        const {id,jobName,jobPrice} = jobDetail;
         return(
           <div className='d-block d-sm-flex justify-content-between align-items-center gap-md-3 gap-sm-3 px-lg-5 px-3 pt-3 pb-2' key={id} style={{ borderBottom: '1px solid #CFCFCF' }}>
               <div className='d-flex flex-column gap-4'>
-                <h6>{job}</h6>
+                <h6>{jobName}</h6>
                 <p style={{color:'#5F5F5F'}}>Amount: ₦{jobPrice.toLocaleString()}</p>
               </div>
               <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
@@ -94,16 +97,16 @@ const LawyerDashboard = () => {
         </div>
         <div>
         {selectedButton === 0 && (
-          <AllDetails/>
+          <LawyerDetails/>
         )}
           {selectedButton === 1 && (
-          <AllDetails/>
+          <LawyerDetails/>
         )}
           {selectedButton === 2 && (
-          <AllDetails/>
+          <LawyerDetails/>
         )}
           {selectedButton === 3 && (
-          <AllDetails/>
+          <LawyerDetails/>
         )}
         </div>
 

@@ -3,9 +3,9 @@ import React, { useRef, useState } from "react";
 import lawyerImage from '../../assets/images/lawyer-image.svg'
 
 export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOptions })=> {
-  const [formData, setFormData] = useState({
-    ...initialDetails,
-  });
+ const [formData, setFormData] = useState({
+  ...initialDetails,
+});
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -131,10 +131,10 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               <div>
 
              
-              <h6  className="me-3"style={{fontWeight:'600', width:'50%'}}>Your Bio</h6>
+              <h6  className="me-3"style={{fontWeight:'600', width:'100%'}}>Your Bio</h6>
               <p className="text-muted">Write a short introduction</p>
               </div>
-              <div className="flex-grow-1 mx-md-5">
+              <div className=" mx-md-5 w-100">
               <textarea
         type="text"
         name="bio"
