@@ -42,7 +42,8 @@
   border: 1px solid $secbtncolor !important;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
   background-color: $secbtncolor !important;
   color: $btntextcolor !important;
 }

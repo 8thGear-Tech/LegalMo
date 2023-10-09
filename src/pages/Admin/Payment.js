@@ -208,7 +208,7 @@ const paymentLists = [
 />
 <div className='card p-sm-5 p-3 gap-5'>
   <h4 className='text-center'>Notifications</h4>
-  <div className='d-flex justify-content-between align-items-center'>
+  <div className='d-block d-md-flex justify-content-between align-items-center'>
     <div className='d-flex flex-column gap-3'>
       <h6>Contract Drafting and Review</h6>
       <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert</p>

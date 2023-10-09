@@ -12,6 +12,8 @@
 @use "./pages/Website/otp" as *;
 @use "./components/Forms/authentication" as *;
 @use "./pages/Admin/signup" as *;
+@use "./components/Navbar/admindashboard" as *;
+@use "./pages/Lawyer/dashboard" as *;
 @use "./pages/Company/signup" as *;
 @use "./pages/Lawyer/signup" as *;
 @use "./pages/Website/login" as *;
@@ -23,3 +25,4 @@
 @use "./pages/Company/packages" as *;
 @use "./pages/Website/products" as *;
 @use "./pages/Lawyer/getpaid" as *;
+@use "./components/Forms/Lawyer/lawyerprofileform"

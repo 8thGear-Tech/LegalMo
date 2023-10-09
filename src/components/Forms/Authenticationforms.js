@@ -11,14 +11,20 @@ import check from '../../assets/images/check.svg'
 
 export const LoginModal = ({ showModal, successMessage, closeModal, modalText }) => {
   return (
+    <div>
     <div
       className={`modal fade px-3 ${showModal ? 'show' : ''}`}
       style={{ display: showModal ? 'block' : 'none'}}
       tabIndex='-1'
       role='dialog'
+      onClick={closeModal}
     >
+     
       <div className='modal-dialog modal-dialog-centered' role='document'>
         <div className='modal-content p-sm-5 p-3' style={{backgroundColor:'#D9DAF9'}}>
+          <div className='d-flex justify-content-end'>
+          <button type='button' className='btn-close' onClick={closeModal}></button>
+          </div>
           <div className='modal-body text-center'>
             {successMessage && (
               <div className='' role='alert'>
@@ -30,6 +36,11 @@ export const LoginModal = ({ showModal, successMessage, closeModal, modalText })
         </div>
       </div>
     </div>
+     <div
+     className={`modal-backdrop fade ${showModal ? 'show' : ''}`}
+     style={{ display: showModal ? 'block' : 'none' }}
+   ></div>
+   </div>
   );
 };
 
@@ -131,7 +142,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
     <div className='login-card mt-lg-3'>
       <div className='card p-5  m-auto'>
         <div className='text-center mb-5'>
-          <h2 className='mb-2' style={{fontWeight:'700', color:'#323233'}}>{formTitle}</h2>
+          <h5 className='mb-2' style={{fontWeight:'700', color:'#323233'}}>{formTitle}</h5>
           <p className='text-center p-small mt-4' style={{color: ' #7E7E7F'}}>
             Already have an account?{' '}
             <span>
@@ -237,7 +248,7 @@ const handlePasswordReset = (e) => {
     <div className='login-card '>
     <div className='card p-5  m-auto'>
       <div className='text-center mb-5'>
-      <h2 className='mb-2'>Log in</h2>
+      <h5 className='mb-2' style={{fontWeight:'600'}}>Reset Password</h5>
       
       </div>
         
@@ -325,7 +336,7 @@ export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
     <div className="login-card mt-lg-5" style={{backgroundColor: '#FEFEFF'}}>
       <div className='card p-5 m-auto'>
         <div className='text-center mb-5'>
-          <h2 className='mb-2'>Log in</h2>
+        <h5 className='mb-2' style={{fontWeight:'600'}}>Log In</h5>
           <p className='p-small' style={{color:'#7E7E7F'}}>Welcome back!</p>
         </div>
 

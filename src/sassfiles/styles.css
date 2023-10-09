@@ -175,7 +175,8 @@ p {
   border: 1px solid #032773 !important;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
   background-color: #032773 !important;
   color: #ffffff !important;
 }
@@ -283,9 +284,42 @@ p {
   background-color: #032773 !important;
 }
 
-.svg-icon {
-  width: 24px;
-  fill: white !important;
+.admin-navbar .nav-link {
+  color: #000000 !important;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 400;
+}
+.admin-navbar .nav-link:hover,
+.admin-navbar .active {
+  background-color: #032773 !important;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+.admin-navbar .nav-link:hover .dashboard-icon,
+.admin-navbar .active .dashboard-icon {
+  content: url("/src/assets/images/dashboard-s.svg");
+}
+.admin-navbar .nav-link:hover .companies-icon,
+.admin-navbar .active .companies-icon {
+  content: url("/src/assets/images/companies-s.svg");
+}
+.admin-navbar .nav-link:hover .lawyers-icon,
+.admin-navbar .active .lawyers-icon {
+  content: url("/src/assets/images/lawyers-s.svg");
+}
+.admin-navbar .nav-link:hover .jobs-icon,
+.admin-navbar .active .jobs-icon {
+  content: url("/src/assets/images/jobs-s.svg");
+}
+.admin-navbar .nav-link:hover .payment-icon,
+.admin-navbar .active .payment-icon {
+  content: url("/src/assets/images/payment-s.svg");
+}
+.admin-navbar .nav-link:hover .rating-icon,
+.admin-navbar .active .rating-icon {
+  content: url("/src/assets/images/rating-s.svg");
 }
 
 .buttonStyle {
@@ -629,6 +663,13 @@ p {
   box-shadow: 0px 1px 8px 0px rgba(79, 15, 15, 0.16);
 }
 
+.action:hover h6,
+.action:hover p,
+.action:hover i {
+  color: #032773 !important;
+  font-weight: 500;
+}
+
 .product-card .card {
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -698,5 +739,37 @@ p {
 
 .active-p-text {
   color: #032773;
+}
+
+.profile-container {
+  position: absolute;
+  top: 60%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5%;
+  align-items: center;
+}
+
+.profile-img {
+  width: 200px;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@media (max-width: 576px) {
+  .profile-container {
+    top: 6%;
+    width: 100%;
+    display: block;
+    gap: 30px;
+    padding-left: 5%;
+    align-items: center;
+  }
+  .profile-img {
+    width: 170px;
+    height: 170px;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

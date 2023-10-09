@@ -6,10 +6,7 @@ import Touch from "../../assets/images/intouchimage.png";
 import LegalMo from "../../assets/images/LegalMoblue.svg";
 import team1 from "../../assets/images/team-1.svg";
 import team2 from "../../assets/images/team-2.svg";
-// import team3 from "../../assets/images/team3.svg";
-// import team4 from "../../assets/images/team4.svg";
-// import team5 from "../../assets/images/team5.svg";
-// import team6 from "../../assets/images/team6.svg";
+
 import { Link } from "react-router-dom";
 import UserNavbar from "../../components/Navbar/UserNavbar";
 
@@ -26,22 +23,6 @@ const teams = [
     teamName:'Bukola Lasabi',
     position:'CEO',
   },
-  // {
-  //   id: 3,
-  //   teamImage: team3,
-  // },
-  // {
-  //   id: 4,
-  //   teamImage: team4,
-  // },
-  // {
-  //   id: 5,
-  //   teamImage: team5,
-  // },
-  // {
-  //   id: 6,
-  //   teamImage: team6,
-  // },
 ];
 
 function About() {
