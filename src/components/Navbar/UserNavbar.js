@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import profileImage from '../../assets/images/adminprofile.png'
-
+import lawyerImage from '../../assets/images/lawyer-image.svg'
 import legalMoLogo from "../../assets/images/legalmologo.svg";
 import { NavLoginbtn } from "../Buttons/Navbarbtns";
 
@@ -18,7 +18,7 @@ const UserNavbar = () => {
 
   
    const [showContactButtons, setShowContactButtons] = useState(false);
-//   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
+
 
   const toggleContactButtons = () => {
     setShowContactButtons(!showContactButtons);
@@ -27,10 +27,6 @@ const UserNavbar = () => {
   const isContactActive = showContactButtons ? 'navlink-active' : '';
  
 
-//   const toggleSignUpButtons = () => {
-//     setShowSignUpButtons(!showSignUpButtons);
-//     setShowContactButtons(false);
-//   };
 const handleLogOut = ()=>{
   navigate('/login');
   // localStorage.setItem('isLoggedIn', 'false');
@@ -101,12 +97,12 @@ const handleLogOut = ()=>{
 
         {isCompanyRoute &&(
               <li className="nav-item">
-              <NavLink className="nav-link "  activeclassname='active' to="/company/profile" ><img src={profileImage} alt='profile-image'/></NavLink>
+              <Link className="nav-link " to="/company/profile" ><img src={profileImage} alt='profile-image'/></Link>
             </li>
         )}
           {isLawyerRoute &&(
               <li className="nav-item">
-              <NavLink className="nav-link "  activeclassname='active' to="/lawyer/profile" ><img src={profileImage} alt='profile-image'/></NavLink>
+              <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerImage} alt='profile-image' style={{width:'60px', height:'60px'}}/></Link>
             </li>
         )}
        <li className="nav-item">

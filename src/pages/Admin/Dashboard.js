@@ -56,6 +56,13 @@ const AdminDashboard = () => {
     <>
       <AdminNavbar>
         <div className="py-5 my-sm-5 px-md-5 px-3">
+          <div className="d-flex justify-content-end mb-5">
+            {" "}
+            <Link to="/admin/new-product" className=" text-dark">
+              Create Product
+            </Link>
+          </div>
+
           <div className="py-5 row row-cols-1 row-cols-sm-3 g-3 g-lg-5">
             {firstRowMenu.map((menu) => {
               const { id, text, img, url } = menu;

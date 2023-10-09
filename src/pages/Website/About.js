@@ -4,12 +4,9 @@ import Footer from "../../components/Footer";
 import HeroImage from "../../assets/images/aboutHeroImage.png";
 import Touch from "../../assets/images/intouchimage.png";
 import LegalMo from "../../assets/images/LegalMoblue.svg";
-import team1 from "../../assets/images/team1.svg";
-import team2 from "../../assets/images/team2.svg";
-import team3 from "../../assets/images/team3.svg";
-import team4 from "../../assets/images/team4.svg";
-import team5 from "../../assets/images/team5.svg";
-import team6 from "../../assets/images/team6.svg";
+import team1 from "../../assets/images/team-1.svg";
+import team2 from "../../assets/images/team-2.svg";
+
 import { Link } from "react-router-dom";
 import UserNavbar from "../../components/Navbar/UserNavbar";
 
@@ -17,26 +14,14 @@ const teams = [
   {
     id: 1,
     teamImage: team1,
+    teamName:'Damilola Obidairo',
+    position:'Executive Director',
   },
   {
     id: 2,
     teamImage: team2,
-  },
-  {
-    id: 3,
-    teamImage: team3,
-  },
-  {
-    id: 4,
-    teamImage: team4,
-  },
-  {
-    id: 5,
-    teamImage: team5,
-  },
-  {
-    id: 6,
-    teamImage: team6,
+    teamName:'Bukola Lasabi',
+    position:'CEO',
   },
 ];
 
@@ -82,11 +67,11 @@ function About() {
             <div className="px-lg-5 px-3 mx-xl-5 mt-2 mt-md-0">
               <h2 style={{color:"#373737"}}>Meet our team</h2>
               <div className="line my-md-5 my-4"></div>
-              <div className="row ">
+              <div className="d-flex justify-content-between ">
                 {teams.map((team) => {
-                  const { id, teamImage } = team;
+                  const { id, teamImage, teamName,position } = team;
                   return (
-                    <div className="col-6 col-sm-4 mb-4" key={id}>
+                    <div className="" key={id}>
                       <div
                         className="card "
                         style={{ border: "none", background: "none" }}
@@ -97,8 +82,8 @@ function About() {
                           alt="teamImage"
                         />
                         <div className="mx-auto">
-                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>Lorem Ipsum</p>
-                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>Executive Director</p>
+                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>{teamName}</p>
+                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>{position}</p>
                         </div>
                       </div>
                     </div>

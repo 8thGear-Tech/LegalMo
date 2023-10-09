@@ -40,7 +40,7 @@ function OTP() {
         <div className="login-card mt-lg-5">
           <div className="card py-5 px-3 px-sm-5  m-auto">
             <div className="text-center mb-5">
-              <h2 className="mb-2">Enter the OTP sent to your email address</h2>
+              <h5 className="mb-2" style={{fontWeight:'600'}}>Enter the OTP sent to your email address</h5>
             </div>
 
             <form onSubmit={handleOTPSubmit}>
