@@ -27,6 +27,12 @@ import Payment from "./pages/Admin/Payment";
 import Footer from "./components/Footer";
 import CreateProductPage from "./pages/Admin/CreateProductPage";
 import GetPaid from "./pages/Lawyer/GetPaid";
+import Ratings from "./pages/Admin/Ratings";
+import Companies from "./pages/Admin/Companies";
+import Lawyers from "./pages/Admin/UnverifiedLawyers";
+import Jobs from "./pages/Admin/UnassignedJobs";
+import GetPaidAdmin from "./pages/Admin/GetPaid";
+import AssignedJobs from "./pages/Admin/AssignedJobs";
 
 function App() {
   return (
@@ -53,9 +59,14 @@ function App() {
         <Route path="/lawyer/dashboard" element={<LawyerDashboard />} />
         <Route path="/lawyer/profile" element={<LawyerProfile />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/ratings" element={<Ratings />} />
+        <Route path="/admin/jobs" element={<Jobs />} />
+        <Route path="/admin/lawyers" element={<Lawyers />} />
+        <Route path="/admin/companies" element={<Companies />} />
         <Route path="/admin/new-product" element={<CreateProductPage />} />
-
+        <Route path="/admin/assign-job" element={<AssignedJobs />} />
         <Route path="/admin/payment" element={<Payment />} />
+        <Route path="/admin/get-paid" element={<GetPaidAdmin />} />
         <Route path="/lawyer/get-paid" element={<GetPaid />} />
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"

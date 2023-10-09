@@ -13,7 +13,7 @@ export const LoginModal = ({ showModal, successMessage, closeModal, modalText })
   return (
     <div
       className={`modal fade px-3 ${showModal ? 'show' : ''}`}
-      style={{ display: showModal ? 'block' : 'none', backgroundColor: '#FEFEFF' }}
+      style={{ display: showModal ? 'block' : 'none'}}
       tabIndex='-1'
       role='dialog'
     >

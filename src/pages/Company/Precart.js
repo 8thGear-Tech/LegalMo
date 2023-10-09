@@ -93,9 +93,7 @@ export const ProductCarousel = ({shuffledProducts}) => {
   );
 };
 
-
-
-const progressReviews= [
+export const progressReviews= [
   {
   id:1,
  
@@ -124,7 +122,8 @@ const progressReviews= [
   
   
 ];
-function getDaySuffix(day) {
+
+export function getDaySuffix(day) {
   if (day >= 11 && day <= 13) {
     return 'th';
   }
@@ -141,7 +140,7 @@ function getDaySuffix(day) {
   }
 } 
 
-function formatDateToWords(dateString) {
+export function formatDateToWords(dateString) {
   const date = new Date(dateString);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -153,9 +152,9 @@ function formatDateToWords(dateString) {
 }
 
 
-const date = formatDateToWords('2022-07-10'); 
+export const date = formatDateToWords('2022-07-10'); 
 
-function getRatingStars(rating) {
+export function getRatingStars(rating) {
   const maxRating = 5;
   const filledStars = Math.min(maxRating, rating);
   const emptyStars = maxRating - filledStars;
@@ -175,10 +174,79 @@ function getRatingStars(rating) {
   return stars;
 }
 
+export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill })=> {
+  return (
+    <div className='px-lg-5 mx-2 d-block d-sm-flex justify-content-between gap-4 flex-wrap review-container '> 
+    <div className="d-flex flex-column gap-1 mb-5 average-review">
+     <h4>Reviews</h4>
+     <div className='d-flex gap-2'>
+     <h6>{averageRating.toFixed(1)}</h6>
+  <div>
+  {averageStarIconsFill.map((icon, index) => (
+<span key={index} className="me-1">
+{icon}
+</span>
+))}
+  </div>
+     </div>
+     
+     <h6>
 
+     {averageRating.toFixed(1)} out of 5 stars (based on {totalReviews}{' '}
+{totalReviews === 1 ? 'review' : 'reviews'})
+</h6>
+
+{progressReviews.map((progressReview) => {
+const isSelected = progressReview.review === label;
+const progressBarWidth = isSelected ? '100%' : '0%';
+return (
+<div key={progressReview.id} className="d-flex align-items-center pre-cart">
+  <div className="" style={{ minWidth: '100px' }}>
+    <p className="my-auto">{progressReview.review}</p>
+  </div>
+  <div className="flex-grow-1">
+    <div className="progress">
+      <div
+        className={`progress-bar ${isSelected ? 'bg-dark' : 'bg-light'}`}
+        role="progressbar"
+        style={{ width: progressBarWidth}}
+        aria-valuenow={isSelected ? '100' : '0'}
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+  </div>
+</div>
+);
+})}
+
+
+    </div >
+    <div className="d-flex flex-wrap">
+{reviews.map((review, index) => {
+  const { id, reviewText, reviewTitle, companyName, rating, date } = review;
+  return (
+    <div key={id} className={`col-12 col-md-${reviews.length === 1 ? '12' : '6'} mb-4 review-card${index >= 3 ? ' mt-4' : ''}`}>
+            <h4>{reviewTitle}</h4>
+            <div className='d-flex gap-2'>
+            <div>{getRatingStars(review.rating)}</div>
+            <h6>{date}</h6>
+            </div>
+            <div>
+            <h6>{reviewText}</h6>
+      <h6> {companyName}</h6>
+            </div>
+          </div>
+        )
+      })}
+
+    </div>
+    </div>
+  )
+}
 
 export function Precart() {
-const {addToCart, setSelectedProduct} = useAppContext();
+const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label} = useAppContext();
 const {productId} = useParams();
 const [product, setProduct] = useState(null);
 
@@ -192,29 +260,6 @@ const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
 const [shuffledProducts, setShuffledProducts] = useState([]);
-const [selectedRating, setSelectedRating] = useState(0);
-const [companyName, setCompanyName] = useState('');
-const [reviewTitle, setReviewTitle] = useState('');
-const [reviewText, setReviewText] = useState('');
-const [submittedInfo, setSubmittedInfo] = useState(null);
-
-const [reviews, setReviews] = useState([
-  {
-    id: 1,
-    reviewTitle: 'Fantastic Service',
-    rating: 5,
-    companyName: 'S&S Ltd',
-    date: '10th July, 2023',
-    reviewText: 'LegalMO’s service is really great',
-  },
- 
-]);
-
-const [newReview, setNewReview] = useState({
-  reviewTitle: '',
-  companyName: '',
-  reviewText: '',
-});
 
   useEffect(() => {
    
@@ -229,7 +274,14 @@ useEffect(() => {
 }, [productId]);
 
 
+useEffect(() => {
+  const storedReviews = localStorage.getItem('reviews');
+  if (storedReviews) {
+    const parsedReviews = JSON.parse(storedReviews);
 
+    setReviews(parsedReviews);
+  }
+}, []);
 
 const handleRatingClick = (rating) => {
   setSelectedRating(rating);
@@ -240,19 +292,21 @@ const handleReviewSubmit = (e) => {
 
   const currentDate = formatDateToWords(new Date());
 
- 
   const reviewToAdd = {
     id: reviews.length + 1,
     date: currentDate,
-    reviewTitle: newReview.reviewTitle, 
-    companyName: newReview.companyName, 
-    reviewText: newReview.reviewText, 
+    reviewTitle: newReview.reviewTitle,
+    companyName: newReview.companyName,
+    reviewText: newReview.reviewText,
     rating: selectedRating,
   };
 
- 
-  setReviews([...reviews, reviewToAdd]);
+  const updatedReviews = [...reviews, reviewToAdd];
 
+  // Save reviews to database
+  localStorage.setItem('reviews', JSON.stringify(updatedReviews));
+
+  setReviews(updatedReviews);
   setNewReview({
     reviewTitle: '',
     companyName: '',
@@ -310,51 +364,7 @@ const handleReserve = () => {
   }
 };
 
-const totalReviews = reviews.length;
-const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-const averageRating = parseFloat((totalRating / totalReviews).toFixed(1)); 
 
-
-
-
-const filledStarsCount = Math.floor(averageRating); 
-const fractionalPart = averageRating - filledStarsCount; 
-const averageStarIconsFill = Array(5).fill(0).map((_, index) => {
-  if (index < filledStarsCount) {
-    return <i key={index} className="bi bi-star-fill"></i>; 
-  } else if (index === filledStarsCount && fractionalPart > 0) {
-    return <i key={index} className="bi bi-star-half"></i>; 
-  } else {
-    return <i key={index} className="bi bi-star"></i>; 
-  }
-});
-
-
-
-
-function calculateProgress(averageRating) {
-  
-  
-  const ratingRanges = [
-    { label: 'Terrible', minRating: 0, maxRating: 1.9 },
-    { label: 'Poor', minRating: 2, maxRating: 2.9 },
-    { label: 'Average', minRating: 3, maxRating: 3.9 },
-    { label: 'Very Good', minRating: 4, maxRating: 4.4 },
-    { label: 'Excellent', minRating: 4.5, maxRating: 5 },
-  ];
-
-  let selectedRange = null;
-  for (const range of ratingRanges) {
-    if (averageRating >= range.minRating && averageRating <= range.maxRating) {
-      selectedRange = range;
-      break;
-    }
-  }
-
-  return selectedRange;
-}
-const selectedRange = calculateProgress(averageRating);
-const { label, minRating, maxRating } = selectedRange || {};
 // const progressBarStyle = {
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
@@ -426,16 +436,17 @@ if (!product) {
         accept=".pdf, .doc, .docx"
       />
      
-      
+     {!selectedFile && (
       <button className=" d-flex gap-2" style={{border:'none', backgroundColor:'#CFCFCF'}} onClick={handleUploadClick}>Upload Document
       <i className="bi bi-cloud-upload"></i>
       </button>
+     )}
 
       {selectedFile && (
         <div className='d-flex mt-1'>
-          <p className='text-success'>
+         <p className=' p-small'> <i className="bi bi-file-earmark-text-fill" style={{color:'wine'}}></i> &nbsp;
          {selectedFile.name}
-            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'#CFCFCF'}} >
+            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'transparent'}} >
               <i className="bi bi-trash" style={{color:'red', fill:"red"}}></i> 
             </button>
           </p>
@@ -449,72 +460,11 @@ if (!product) {
       </section>
       <section className='py-3  py-sm-5 px-sm-5 px-4'>
         <div className='line my-5' style={{border:'1px solid #7E7E7F'}}></div>
-        <div className='px-lg-5 mx-2 d-block d-sm-flex justify-content-between gap-4 flex-wrap review-container '> 
-        <div className="d-flex flex-column gap-1 mb-5 average-review">
-         <h4>Reviews</h4>
-         <div className='d-flex gap-2'>
-         <h6>{averageRating.toFixed(1)}</h6>
-      <div>
-      {averageStarIconsFill.map((icon, index) => (
-  <span key={index} className="me-1">
-    {icon}
-  </span>
-))}
-      </div>
-         </div>
-         
-         <h6>
-    
-         {averageRating.toFixed(1)} out of 5 stars (based on {totalReviews}{' '}
-    {totalReviews === 1 ? 'review' : 'reviews'})
-  </h6>
-
-{progressReviews.map((progressReview) => {
-  const isSelected = progressReview.review === label;
-  const progressBarWidth = isSelected ? '100%' : '0%';
-  return (
-    <div key={progressReview.id} className="d-flex align-items-center pre-cart">
-      <div className="" style={{ minWidth: '100px' }}>
-        <p className="my-auto">{progressReview.review}</p>
-      </div>
-      <div className="flex-grow-1">
-        <div className="progress">
-          <div
-            className={`progress-bar ${isSelected ? 'bg-dark' : 'bg-light'}`}
-            role="progressbar"
-            style={{ width: progressBarWidth}}
-            aria-valuenow={isSelected ? '100' : '0'}
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
-        </div>
-      </div>
-    </div>
-  );
-})}
-
-
-        </div >
-        <div className="d-flex flex-wrap">
-    {reviews.map((review, index) => {
-      const { id, reviewText, reviewTitle, companyName, rating, date } = review;
-      return (
-        <div key={id} className={`col-12 col-md-${reviews.length === 1 ? '12' : '6'} mb-4 review-card${index >= 3 ? ' mt-4' : ''}`}>
-                <h4>{reviewTitle}</h4>
-                <div className='d-flex gap-2'>
-                <div>{getRatingStars(review.rating)}</div>
-                <h6>{date}</h6>
-                </div>
-                <div>
-                <h6>{reviewText}</h6>
-          <h6> {companyName}</h6>
-                </div>
-              </div>
-            )
-          })}
-
-        </div>
-        </div>
+        <ReviewContainer  averageRating={averageRating}
+      totalReviews={totalReviews}
+      progressReviews={progressReviews}
+      label={label}
+      reviews={reviews} averageStarIconsFill={averageStarIconsFill}/>
         <div className='row justify-content-center mt-5'>
         <div className='col-sm-6 col-12  d-flex flex-column'>
         <form onSubmit={handleReviewSubmit}>
