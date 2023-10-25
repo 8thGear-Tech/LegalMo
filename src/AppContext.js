@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import companyImage from "./assets/images/adminprofile-lg.svg";
+import lawyerImage from "./assets/images/lawyer-image.svg";
 
 import { ProductItem } from "./pages/Company/ProductItem";
 import { jobLists } from "./pages/Admin/JobLists";
@@ -6,6 +8,10 @@ import { jobLists } from "./pages/Admin/JobLists";
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
+  const [companyUserProfilePicture, setCompanyUserProfilePicture] =
+    useState(companyImage);
+  const [lawyerUserProfilePicture, setLawyerUserProfilePicture] =
+    useState(lawyerImage);
   const [cartItems, setCartItems] = useState({});
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
@@ -15,6 +21,14 @@ export const AppContextProvider = (props) => {
   const [submittedInfo, setSubmittedInfo] = useState(null);
 
   const [jobList, setJobList] = useState(jobLists);
+  const [authenticated, setAuthenticated] = useState(false);
+  // useEffect(() => {
+  //   // Check local storage for authentication status when the component mounts
+  //   const storedAuthStatus = localStorage.getItem('authenticated');
+  //   if (storedAuthStatus === 'true') {
+  //     setAuthenticated(true);
+  //   }
+  // }, []); // Run this effect only once during component mount
 
   const [reviews, setReviews] = useState([
     {
@@ -139,6 +153,14 @@ export const AppContextProvider = (props) => {
     return totalAmount;
   };
 
+  const updateCompanyUserProfilePicture = (newProfilePictureUrl) => {
+    setCompanyUserProfilePicture(newProfilePictureUrl);
+  };
+
+  const updateLawyerUserProfilePicture = (newProfilePictureUrl) => {
+    setLawyerUserProfilePicture(newProfilePictureUrl);
+  };
+
   const contextValue = {
     jobList,
     setJobList,
@@ -170,6 +192,12 @@ export const AppContextProvider = (props) => {
     calculateProgress,
     selectedRange,
     label,
+    updateCompanyUserProfilePicture,
+    updateLawyerUserProfilePicture,
+    companyUserProfilePicture,
+    lawyerUserProfilePicture,
+    authenticated,
+    setAuthenticated,
   };
 
   return (

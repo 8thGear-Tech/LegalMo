@@ -1,8 +1,10 @@
 
 import React, { useRef, useState } from "react";
 import lawyerImage from '../../assets/images/lawyer-image.svg'
+import { useAppContext } from "../../AppContext";
 
 export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOptions })=> {
+  const{updateLawyerUserProfilePicture} = useAppContext();
  const [formData, setFormData] = useState({
   ...initialDetails,
 });
@@ -40,6 +42,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
       ...formData,
       lawyerImage: imageFile ? URL.createObjectURL(imageFile) : formData.lawyerImage,
     };
+    updateLawyerUserProfilePicture(updatedDetails.lawyerImage)
     onSave(updatedDetails);
   };
     return (
