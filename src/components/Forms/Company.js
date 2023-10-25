@@ -1,5 +1,6 @@
 
 import React, {useState, useRef} from "react";
+import { useAppContext } from "../../AppContext";
 
 export const CompanyDetailsForm=()=> {
     return (
@@ -13,6 +14,8 @@ export const CompanyDetailsForm=()=> {
   }
 
   export const CompanyProfileForm=({ initialDetails, onSave, onCancel })=> {
+    const {updateCompanyUserProfilePicture} = useAppContext();
+
     const [formData, setFormData] = useState({
       ...initialDetails,
     });
@@ -45,6 +48,7 @@ export const CompanyDetailsForm=()=> {
         ...formData,
         companyImage: imageFile ? URL.createObjectURL(imageFile) : formData.companyImage,
       };
+      updateCompanyUserProfilePicture(updatedDetails.companyImage)
       onSave(updatedDetails);
     };
       return (

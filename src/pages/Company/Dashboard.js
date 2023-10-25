@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 import { allJobDetails } from '../Lawyer/Dashboard'
+import { useAppContext } from '../../AppContext'
+import { useNavigate } from 'react-router-dom'
 
 const CompanyDetails = () => {
 
@@ -36,6 +38,7 @@ const CompanyDetails = () => {
 
 const CompanyDashboard = () => {
 
+ const navigate = useNavigate()
   const [selectedButton, setSelectedButton] = useState(0);
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
@@ -108,6 +111,8 @@ const handleMoreDetailsSend = () => {
 
   setShowMoreDetailsModal(false);
 };
+
+
   return (
     <div>
        <UserNavbar/>

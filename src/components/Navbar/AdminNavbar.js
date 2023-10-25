@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import profileImage from '../../assets/images/adminprofile.png'
 import Footer from '../Footer';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import dashboard from '../../assets/images/dashboard-s.svg'
 import ratings from '../../assets/images/rating-s.svg'
 import companies from '../../assets/images/companies-s.svg'
@@ -18,6 +18,8 @@ import jobsW from '../../assets/images/jobs-W.svg'
 import legalMoLogo from "../../assets/images/legalmologo.svg";
 import { NavLoginbtn } from '../Buttons/Navbarbtns';
 
+import authRoute from "../../services/authRoute";
+
 
 function SidebarLink({ to, text, src }) {
     return (
@@ -31,7 +33,14 @@ function SidebarLink({ to, text, src }) {
   }
 
 const AdminNavbar = ({children}) => {
+
+
+  const {logout} = authRoute();
+
+ const handleLogOut = ()=> {
    
+  logout();
+  }
   return (
 
     <div className="">
@@ -96,7 +105,7 @@ const AdminNavbar = ({children}) => {
               
               </li>
                   <li className="nav-item mb-2 mb-lg-0">
-                    <Link className="nav-link" to="/login"><NavLoginbtn text='Log out'/></Link>
+                  <a className="nav-link" onClick={handleLogOut}><NavLoginbtn text='Log out' style={{backgroundColor: '#CFCFCF'}}/></a>
                   </li>
                  
                   

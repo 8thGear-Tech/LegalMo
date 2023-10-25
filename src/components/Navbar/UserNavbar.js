@@ -4,12 +4,15 @@ import profileImage from '../../assets/images/adminprofile.png'
 import lawyerImage from '../../assets/images/lawyer-image.svg'
 import legalMoLogo from "../../assets/images/legalmologo.svg";
 import { NavLoginbtn } from "../Buttons/Navbarbtns";
+import { useAppContext } from "../../AppContext";
+import authRoute from "../../services/authRoute";
 
 
 const UserNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const {logout} = authRoute();
+const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
     const isCompanyRoute = location.pathname.includes('/company');
     const isLawyerRoute = location.pathname.includes('/lawyer');
 
@@ -27,11 +30,10 @@ const UserNavbar = () => {
   const isContactActive = showContactButtons ? 'navlink-active' : '';
  
 
-const handleLogOut = ()=>{
-  navigate('/login');
-  // localStorage.setItem('isLoggedIn', 'false');
-
-}
+  const handleLogOut = ()=> {
+   
+  logout();
+  }
 
   return (
     <>
@@ -97,12 +99,12 @@ const handleLogOut = ()=>{
 
         {isCompanyRoute &&(
               <li className="nav-item">
-              <Link className="nav-link " to="/company/profile" ><img src={profileImage} alt='profile-image'/></Link>
+              <Link className="nav-link " to="/company/profile" ><img src={companyUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
             </li>
         )}
           {isLawyerRoute &&(
               <li className="nav-item">
-              <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerImage} alt='profile-image' style={{width:'60px', height:'60px'}}/></Link>
+              <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
             </li>
         )}
        <li className="nav-item">

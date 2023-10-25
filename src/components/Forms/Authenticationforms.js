@@ -6,10 +6,13 @@ import { Loginbtn, Nextbtn, ResetPasswordbtn } from '../Buttons/Authenticationbt
 import { useState } from 'react';
 import { useEffect } from 'react';
 import check from '../../assets/images/check.svg'
+import error from '../../assets/images/icon-error.png'
 
 
 
-export const LoginModal = ({ showModal, successMessage, closeModal, modalText }) => {
+export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess }) => {
+
+
   return (
     <div>
     <div
@@ -26,12 +29,14 @@ export const LoginModal = ({ showModal, successMessage, closeModal, modalText })
           <button type='button' className='btn-close' onClick={closeModal}></button>
           </div>
           <div className='modal-body text-center'>
-            {successMessage && (
+           
               <div className='' role='alert'>
-                <img src={check} alt='check' style={{ width: '130px' }} />
+              <img src={isSuccess ? check : error} alt='check' style={{ width: '130px' }} />
                 <h4 className='mt-5'style={{ fontWeight: '700' }}>{modalText}</h4>
+                {isSuccess && <p>{subText}</p>}
+                
               </div>
-            )}
+           
           </div>
         </div>
       </div>
@@ -47,14 +52,18 @@ export const LoginModal = ({ showModal, successMessage, closeModal, modalText })
 
 
 
-
-export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
-  const [formData, setFormData] = useState({});
+export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, initialData }) {
+  const [formData, setFormData] = useState(initialData || {});
+  const [newFormData, setNewFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
   const hasPasswordFields = fields.some((field) => field.type === 'password'); 
   const hasPhoneNumberField = fields.some((field) => field.type === 'number');
+  
+  useEffect(() => {
+    setFormData(initialData || {});
+  }, [initialData]);
 
   useEffect(() => {
     const isComplete =
@@ -85,6 +94,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
       ...formData,
       [name]: value,
     });
+    
     setErrors({
       ...errors,
       [name]: '',
@@ -96,10 +106,9 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
     setShowPassword(!showPassword);
   };
   const checkPasswordStrength = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
-  };
-  
+};
 
   
   const handleNext = (e) => {
@@ -130,11 +139,15 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
 
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length > 0) {
-      return;
+    if (initialData) {
+      // Merge new form data with existing form data
+      const mergedFormData = { ...formData, ...newFormData };
+      onSubmit(mergedFormData);
+     
+    } else {
+      // If there are no steps, directly submit the form data
+      onSubmit(formData);
     }
-
-    onSubmit(formData);
   };
   
 
@@ -153,7 +166,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel }) {
           </p>
         </div>
 
-        <form onSubmit={handleNext}>
+        <form onSubmit={(e)=> handleNext(e)}>
           {fields.map((field) => (
             <div className="mb-5" style={{ position: 'relative' }} key={field.name}>
               <label htmlFor={field.name} className="form-label">
@@ -277,60 +290,23 @@ onChange={(event) => setEmail(event.target.value)}
 
 
 
-export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [formValid, setFormValid] = useState(false);
- 
-
-  useEffect(() => {
-   
-    if (email.trim() !== '' && password.trim() !== '') {
-      setFormValid(true);
-    } else {
-      setFormValid(false);
-    }
-  }, [email, password]);
-
-  const navigate = useNavigate();
-  const [showSignUpButtons, setShowSignUpButtons] = useState(false);
-
-  const toggleSignUpButtons = () => {
-    setShowSignUpButtons(!showSignUpButtons);
-  };
-
-  const handleLogIn = (e) => {
-    e.preventDefault();
-
-    setEmailError('');
-    setPasswordError('');
-
-    let hasError = false;
-
-    if (!email) {
-      setEmailError('Please enter your email address');
-      hasError = true;
-    }
-
-    if (!password) {
-      setPasswordError('Please enter your password');
-      hasError = true;
-    }
-
-    if (hasError) {
-      return;
-    }
-    setShowModal(true);
-    setSuccessMessage(true);
-   
-    setTimeout(() => {
-      navigate('/company/dashboard');
-    }, 3000);
-    // localStorage.setItem('isLoggedIn', 'true');
-  };
-
+export const LoginForm = ({ setShowModal, setSuccessMessage, handleLogIn,
+  formValid,
+  password,
+  email,
+  setEmail,
+  setPassword,
+  passwordError,
+  setPasswordError,
+  emailError,
+  setEmailError,
+  showSignUpButtons,
+  setShowSignUpButtons,
+  toggleSignUpButtons}) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleTogglePassword = () => {
+      setShowPassword(!showPassword);
+    };
   return (
    
     <div className="login-card mt-lg-5" style={{backgroundColor: '#FEFEFF'}}>
@@ -340,7 +316,7 @@ export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
           <p className='p-small' style={{color:'#7E7E7F'}}>Welcome back!</p>
         </div>
 
-        <form onSubmit={handleLogIn}>
+        <form onSubmit={(e)=> handleLogIn(e)}>
           <div className='mb-5' style={{ position: 'relative' }}>
             <label htmlFor='email' className='form-label'>
               Email
@@ -357,12 +333,25 @@ export const LoginForm = ({ setShowModal, setSuccessMessage}) => {
             <label htmlFor='password' className='form-label'>
               Password
             </label>
+            <div className="input-group">
             <input
-              type='password'
+             type={showPassword ? 'text' : 'password'}
               className='form-control py-2'
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
+            <span
+                    className="input-group-text"
+                    onClick={handleTogglePassword}
+                    style={{ cursor: 'pointer', background: 'white' }}
+                  >
+                    {showPassword ? (
+                      <i className="bi bi-eye-slash"></i> 
+                    ) : (
+                      <i className="bi bi-eye"></i>
+                    )}
+                  </span>
+              </div>
             {passwordError && <div className='text-danger'>{passwordError}</div>}
           </div>
 

@@ -3,30 +3,12 @@ import { SignUpForm, LoginModal } from "../../components/Forms/Authenticationfor
 import { useNavigate } from "react-router-dom";
 import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import Footer from "../../components/Footer";
+import axios from "axios";
+import loginRoute from '../../services/authRoute'
+import authRoute from "../../services/authRoute";
 
-function AdminSignUp() {
-  const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(false);
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-  const handlePasswordConfirmationError = (errorMessage) => {
-    
-    console.error(errorMessage);
-  };
-  const handleAdminSignup = (formData) => {
-   
-    setShowModal(true);
-    setSuccessMessage(true);
-    setTimeout(() => {
-      navigate('/admin/dashboard');
-    }, 3000);
-    // localStorage.setItem('isLoggedIn', 'true');
-  };
-  const adminFields = [
-    { name: "name", label: "Name", type: "text", required: true },
+ const adminFields = [
+    { name: "firstName", label: "Name", type: "text", required: true },
     {
       name: "phoneNumber",
       label: "Phone Number",
@@ -48,6 +30,38 @@ function AdminSignUp() {
     },
   ];
 
+function AdminSignUp() {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [userData, setUserData] = useState({});
+ const {signupAsAdmin} = authRoute();
+
+ 
+
+  const handleAdminSignup = (formData) => {
+  
+    
+    const body = {
+      name: formData.firstName,
+ phoneNumber: formData.phoneNumber,
+ officialEmail: formData.email,
+ password: formData.password,
+ passwordConfirm: formData.confirmPassword,
+    }
+
+
+    
+    signupAsAdmin(body, setMessage, setLoading, setIsSuccessful, setUserData, setShowModal)
+    
+
+  };
+
+ 
+
   return (
     <>
     <GuestNavbar/>
@@ -56,10 +70,15 @@ function AdminSignUp() {
     </div>
     <LoginModal
         showModal={showModal}
-        successMessage={successMessage}
-        closeModal={closeModal}
-        modalText='You have successfully created an account'
+       isSuccess={isSuccessful}
+        closeModal={()=> setShowModal(false)}
+        modalText={message}
+        subText="Kindly click on the link sent to your email address for verification"
       />
+    
+
+      
+     
  
     </>
   );
