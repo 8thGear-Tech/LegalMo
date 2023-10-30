@@ -12,6 +12,7 @@ import Choose2 from "../../assets/images/choose3.svg";
 import Choose3 from "../../assets/images/choose2.svg";
 import Touch from "../../assets/images/intouchimage.png";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const select1 = [
   {
@@ -94,6 +95,21 @@ const carouselData = [
 const Landing = () => {
   const [selectedButton, setSelectedButton] = useState(0);
   const [showContactButtons, setShowContactButtons] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      // Token exists, user is authenticated
+      setIsLoggedIn(true);
+    } else {
+ 
+      setIsLoggedIn(false);
+    }
+
+    setIsLoading(false);
+  }, []);  
 
   const toggleContactButtons = () => {
     setShowContactButtons(!showContactButtons);
@@ -102,12 +118,21 @@ const Landing = () => {
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
   };
-  // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+
+  if (isLoading){
+    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+   <div className="spinner-border text-secondary" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+        </div>; 
+  }
+  
   return (
     
     <>
-      {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-      <GuestNavbar/>
+      {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+     
       <div>
         <div className="card" style={{ border: "none", borderRadius: "0" }}>
           <img

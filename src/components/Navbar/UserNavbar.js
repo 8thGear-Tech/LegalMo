@@ -39,14 +39,14 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
     <>
     <nav className='navbar navbar-expand-lg guest-navbar navbar-special'>
   <div className="container-fluid px-md-5 px-3 justify-content-between ">
-    <Link className="navbar-brand" to='/landing'><img src={legalMoLogo} alt="legalMoLogo"/></Link>
+    <Link className="navbar-brand" to='/home'><img src={legalMoLogo} alt="legalMoLogo"/></Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
   <span className="navbar-toggler-icon"></span>
   </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-3 short-links">
       <li className="nav-item">
-          <NavLink className="nav-link"  to="/landing" activeclassname='active'>Home</NavLink>
+          <NavLink className="nav-link"  to="/home" activeclassname='active'>Home</NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="nav-link"  to="/about-us" activeclassname='active'>About Us</NavLink>
@@ -55,6 +55,14 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
          <li className="nav-item">
          <NavLink className="nav-link" to="/lawyer/dashboard" activeclassname="active">
            Dashboard
+         </NavLink>
+       </li>
+       )}
+
+{isLawyerRoute && (
+         <li className="nav-item">
+         <NavLink className="nav-link" to="/lawyer/available-jobs" activeclassname="active">
+           Jobs
          </NavLink>
        </li>
        )}

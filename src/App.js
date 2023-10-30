@@ -35,11 +35,12 @@ import LawyerOTP from "./pages/Lawyer/OTP";
 import LawyerProfile from "./pages/Lawyer/LawyerProfile";
 import AvailableJobs from "./pages/Lawyer/AvailableJobs";
 import AvailableJobItem from "./pages/Lawyer/AvailableJobItem";
-import { useAppContext } from "./AppContext";
+
+import { useState } from "react";
 
 
 const ProtectedRoute = ({ children }) => {
-  // const { authenticated } = useAppContext();
+
   const authenticatedToken = localStorage.getItem("userToken");
 
   return authenticatedToken ? children : <Navigate to="/login" />;
@@ -47,6 +48,8 @@ const ProtectedRoute = ({ children }) => {
 
 
 function App() {
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
   return (
     <BrowserRouter>
 
@@ -55,7 +58,7 @@ function App() {
           {/* Public Routes */}
         <Route path="/" element={<Home />} />
         
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/home" element={<Landing />} />
 
         <Route path="/products" element={<Products />} />
 
@@ -63,11 +66,19 @@ function App() {
 
         <Route path="/login" element={<Login/>} />
 
-        <Route path="/password-reset" element={<PasswordReset/>} />
+        <Route path="/password-reset" element={<PasswordReset  setEmailSubmitted={setEmailSubmitted}/>} />
 
-        <Route path="/otp" element={<OTP/>} />
+        <Route path="/otp/:userEmail" element={emailSubmitted ? (
+            <OTP setOtpVerified={setOtpVerified} />
+          ) : (
+            <Navigate to="/password-reset" />
+          )} />
 
-        <Route path="/new-password" element={<NewPassword/>} />
+        <Route path="/new-password/:token/:userEmail" element={otpVerified ? (
+            <NewPassword />
+          ) : (
+            <Navigate to="/otp/:userEmail" />
+          )} />
 
         <Route
           path="Legal-Practitioners-Renumeration-Order-2023"

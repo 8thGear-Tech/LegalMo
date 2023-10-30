@@ -83,44 +83,44 @@ function LawyerProfile() {
     </div>
     
           <div className='mt-5 '>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Email Address</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.email}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>SCN</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>SCN</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.scn}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-3"style={{fontWeight:'600', width:''}}>Your Bio</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600', width:''}}>Your Bio</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.bio}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Year of Call</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Year of Call</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{new Date(details.yearOfCall).toLocaleDateString()}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Phone Number</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.phoneNumber}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3" style={{fontWeight:'600'}}>Alternate Email</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.alternateEmail}
                 </p>
                 </div>

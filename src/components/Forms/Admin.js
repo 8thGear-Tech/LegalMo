@@ -106,14 +106,19 @@ export const  CreateProductForm=({ setShowModal, setSuccessMessage})=> {
               </label>
               <div className="input-group position-relative" style={{width:'60%'}}>
                 
-                <input
-                  type='number'
-                  className="form-control py-2 "
-                  name='productPrice'
-                  placeholder="Textbox"
-                  value={productPrice}
-                 onChange={(event) => setProductPrice(event.target.value)} required
-                />
+              <input
+  type='text'  // Use text type to prevent the default number input behavior
+  className="form-control py-2"
+  name='productPrice'
+  placeholder="Textbox"
+  value={productPrice}
+  onChange={(event) => {
+    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    setProductPrice(numericValue);
+  }} // Pattern to match any number
+  required
+/>
+
                 <img src={priceBox} alt='box' className='' style={{position:'absolute',top:'30%',right:'3%'}}/>
                
               </div>

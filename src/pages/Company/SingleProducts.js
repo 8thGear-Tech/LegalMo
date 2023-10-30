@@ -19,10 +19,10 @@ const SingleProducts = () => {
         ProductItem.map((product) => {
             const {id,productTitle, productImage, productAmount, year} = product;
             return(
-                <div className='col-lg-4 col-sm-6 col-12 mb-4 mb-sm-5 product-card' key={id} onClick={() => handleProductClick(product)}>
+              <div className='col-lg-4 col-sm-6 col-12 mb-4 mb-sm-5 product-card' key={id} onClick={() => handleProductClick(product)} style={{}}>
                      <div className="card" style={{borderRadius: '30px',
         border: '1px solid  #ABB7D0', width:"100%",height:'100%'}}>
-                    <img src={productImage} className="card-img-top" style={{borderRadius:'none'}} alt="productImage"/>
+                    <img src={productImage} className="card-img-top" style={{borderTopRightRadius:'30px', borderTopLeftRadius:'30px',borderTop: '1px solid  #ABB7D0',height:'15rem', objectFit:'cover'}} alt="productImage"/>
                     <div className="card-body" style={{borderRadius: '0px 0px 30px 30px',
         background:'#D1D2D3'}}>
                   

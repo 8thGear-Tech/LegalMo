@@ -97,74 +97,80 @@ export const CompanyDetailsForm=()=> {
         </div>
         </div>
              
-       <div className="mt-5 pt-5" >
+       <div className="mt-5 pt-5 px-lg-1" >
           <div className='mt-5 pt-sm-5'>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Email Address</h6>
                 
                 <input
           type="email"
           name="email"
           value={formData.email}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
                   
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Website</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Website</h6>
                 <input
           type="text"
           name="website"
           value={formData.website}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <div>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <div className="col-12 col-md-3">
 
-             
-              <h6  className="me-3"style={{fontWeight:'600', width:'100%'}}>Your Bio</h6>
+              <h6  className=""style={{fontWeight:'600'}}>Your Bio</h6>
               <p className="text-muted">Write a short introduction</p>
               </div>
-              <div className=" mx-md-5 w-100">
+              <div className="col">
               <textarea
         type="text"
         name="bio"
         value={formData.bio}
-        onChange={handleInputChange} className="py-2 px-md-2  ps-1 w-100" rows={5}></textarea>
+        onChange={handleInputChange} className="py-2 px-2 w-100" rows={5}></textarea>
         <p className="text-muted">400 characters left</p>
         </div>
      
             </div>
              
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Phone Number</h6>
                 <input
-          type="number"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
-        />
+  type="text"
+  name="phoneNumber"
+  value={formData.phoneNumber}
+  onChange={(event) => {
+    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    setFormData({ ...formData, phoneNumber: numericValue });
+  }}
+  className="py-2 px-md-2 col"
+ 
+/>
+
+        
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Physical Address</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Physical Address</h6>
                 <input
           type="text"
           name="physicalAddress"
           value={formData.physicalAddress}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <div>
-                <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <div className="col-12 col-md-3">
+                <h6  style={{fontWeight:'600'}}>Alternate Email</h6>
                 <p className="text-muted">Enter an alternate email if you would like to be contacted via a different email</p>
                 </div>
                 <input
           type="text"
           name="alternateEmail"
           value={formData.alternateEmail}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1 w-100"
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
             </div>

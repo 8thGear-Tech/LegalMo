@@ -65,7 +65,8 @@ const LawyerDashboard = () => {
        <UserNavbar/>
        <div className='p-3 p-sm-5 '>
         <div className='card'>
-        <div className='d-flex justify-content-between py-3 px-lg-5 px-1 'style={{ borderBottom: '1px solid #CFCFCF' }}>
+          <div className='py-3 px-lg-5 px-1 'style={{ borderBottom: '1px solid #CFCFCF' }}>
+        <div className='d-none d-md-flex justify-content-between '>
             
             <p className={
                       selectedButton === 0
@@ -94,6 +95,17 @@ const LawyerDashboard = () => {
                         : "p-text"
                     }
                     onClick={() => handleButtonClick(3)}>Completed payment</p>
+        </div>
+        <div className='d-flex d-md-none px-2'>
+          <div className='dropdown'>
+          <select value={selectedButton} onChange={(e) => handleButtonClick(parseInt(e.target.value))} className='p-2'>
+      <option value={0}>Pending project</option>
+      <option value={1}>Completed Project</option>
+      <option value={2}>Pending payment</option>
+      <option value={3}>Completed payment</option>
+    </select>
+          </div>
+        </div>
         </div>
         <div>
         {selectedButton === 0 && (

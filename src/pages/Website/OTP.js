@@ -2,14 +2,24 @@ import React from "react";
 import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import Footer from "../../components/Footer";
 import { ResetPasswordbtn } from "../../components/Buttons/Authenticationbtns";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import authRoute from "../../services/authRoute";
+import { LoginModal } from "../../components/Forms/Authenticationforms";
 
-function OTP() {
+function OTP({setOtpVerified}) {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
-
+  const {userEmail} = useParams();
+  console.log(userEmail,'useremail')
   const navigate = useNavigate();
+  const {confirmOTP} = authRoute();
   const [formValid, setFormValid] = useState(false); 
+  const [loading, setLoading] = useState(false);
+const [message, setMessage] = useState('');
+const [isSuccessful, setIsSuccessful] = useState(false);
+const [showModal, setShowModal] = useState(false);
+  
  
 
   const handleOTPChange = (e, index) => {
@@ -27,11 +37,16 @@ function OTP() {
     setFormValid(isComplete);
   }, [otp]);
 
-  const handleOTPSubmit = (e) => {
+  const handleOTPSubmit = async (e) => {
     e.preventDefault();
-
-    navigate("/new-password");
+  
+    const body = {
+      token: otp.join(''),
+    };
+    confirmOTP(body, setLoading,setIsSuccessful, setMessage, setShowModal, userEmail, setOtpVerified);
+   
   };
+  
 
   return (
     <div>
@@ -71,6 +86,12 @@ function OTP() {
           </div>
         </div>
       </div>
+      <LoginModal 
+        showModal={showModal}
+        isSuccess={isSuccessful}
+        closeModal={()=> setShowModal(false)}
+        modalText={message}
+      />
     </div>
   );
 }

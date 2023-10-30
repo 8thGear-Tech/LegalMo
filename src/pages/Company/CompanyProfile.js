@@ -33,7 +33,7 @@ function CompanyProfile() {
   return (
     <div>
       <UserNavbar/>
-     <section className='py-5 px-3 px-sm-5 mb-5'>
+     <section className='py-5 px-4 px-sm-5 mb-5'>
       {isEditing ? (
         <CompanyProfileForm initialDetails={details} onSave={handleSave} onCancel={handleCancel} /> ):(
           <div className='px-lg-5'>
@@ -53,45 +53,45 @@ function CompanyProfile() {
    
     
           <div className='mt-5 pt-sm-5 '>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Email Address</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.email}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Website</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Website</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.website}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-3"style={{fontWeight:'600', width:'70%'}}>Your Bio</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Your Bio</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.bio}
                 </p>
                 </div>
             </div>
         
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Phone Number</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.phoneNumber}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Physical Address</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Physical Address</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.physicalAddress}
                 </p>
                 </div>
             </div>
-            <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
-              <div className='card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1'>
+            <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Alternate Email</h6>
+              <div className='card pt-2 pb-1 px-md-2 col'>
                 <p>{details.alternateEmail}
                 </p>
                 </div>

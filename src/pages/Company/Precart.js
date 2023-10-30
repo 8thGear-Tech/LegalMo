@@ -54,7 +54,7 @@ export const ProductCarousel = ({shuffledProducts}) => {
                   <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product)}>
                     <img
                       src={product.productImage}
-                      className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '250px', width: '100%' }}
+                      className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '', width: '100%' , borderTopRightRadius:'25px', borderTopLeftRadius:'25px',}}
                       alt={product.productTitle}
                     />
                     <div className="card-body" style={{ borderRadius: '0px 0px 25px 25px', background: '#D1D2D3' }}>
@@ -260,6 +260,20 @@ const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
 const [shuffledProducts, setShuffledProducts] = useState([]);
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [isLoading, setIsLoading] = useState(true);
+useEffect(() => {
+
+  const token = localStorage.getItem('userToken');
+  if (token) {
+    setIsLoggedIn(true);
+  } else {
+
+    setIsLoggedIn(false);
+  }
+
+  setIsLoading(false);
+}, []);  
 
   useEffect(() => {
    
@@ -371,8 +385,8 @@ const handleReserve = () => {
 
 // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-if (!product) {
-  return <div className='justify-content-center align-items-center text-center my-5'>
+if (!product && isLoading) {
+  return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
  <div className="spinner-border text-secondary" role="status">
   <span className="visually-hidden">Loading...</span>
 </div>
@@ -382,15 +396,15 @@ if (!product) {
 
   return (
     <>
-    {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-    <GuestNavbar/>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+   
     <div> 
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
         <div className=' d-block d-sm-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
         <div className="card mb-3" style={{borderRadius: '25px', width:'20rem'}}>
-                    <img src={product.productImage} alt={product.productTitle}className="card-img-top" style={{borderRadius:'none'}} />
+                    <img src={product.productImage} alt={product.productTitle}className="" style={{borderRadius:'none'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
-        background:'#545454', height:'5rem',}}>
+        background:'#545454', height:'',}}>
                   
                     <p className="p-small text-white" style={{fontWeight:'500'}}>{product.productTitle}</p>
                     
@@ -415,6 +429,8 @@ if (!product) {
          </div>
          <p>₦{product.productAmount.toLocaleString()}</p>
          <h6 style={{fontWeight:'500'}}>Available</h6>
+
+         <p className='text-center' style={{fontSize:'16px', fontWeight:'600'}}>Your order will be delivered between 7-10 working days after purchase</p>
          <p className='text-center' style={{fontSize:'17px'}}>Your selection is available for immediate purchase</p>
 
          <Link to='/signup/asacompany' className='btn btn-primary' style={{width:'100%'}}>Purchase</Link>

@@ -19,6 +19,7 @@ const CompanySignUp = () => {
   const {signupAsCompany} = authRoute();
   const [formDataStep1, setFormDataStep1] = useState({})
   const [formDataStep2, setFormDataStep2] = useState({})
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   const companyFields = [
     { name: 'companyName', label: 'Company Name', type: 'text', required: true },
@@ -41,8 +42,15 @@ const CompanySignUp = () => {
     setStep(2);
   };
   
-
+  const handleAcceptTermsChange = () => {
+    setAcceptTerms(!acceptTerms);
+  };
   const handleCompanySignup = (formData) => {
+    if (!acceptTerms) {
+      
+      alert('Please accept the terms and conditions.');
+      return;
+    }
     setFormDataStep2(formData)
     
     const body = {
@@ -61,7 +69,13 @@ const CompanySignUp = () => {
     
     signupAsCompany(body, setMessage, setLoading, setIsSuccessful, setUserData, setShowModal)
   };
-
+  if (loading){
+    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+   <div className="spinner-border text-secondary" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+        </div>; 
+  }
   return (
     <>
       <GuestNavbar />
@@ -81,6 +95,10 @@ const CompanySignUp = () => {
             initialData={formDataStep1}
             onSubmit={handleCompanySignup}
             submitButtonLabel='Sign up'
+            acceptTerms={acceptTerms}
+            setAcceptTerms={setAcceptTerms}
+            handleAcceptTermsChange={handleAcceptTermsChange}
+            step={2}
           />
         )}
        

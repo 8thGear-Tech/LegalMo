@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
-  const error = (e, setMessage, setLoading, setIsSuccessful, setShowModal) => {
+  const error = (e, setMessage, setLoading, setIsSuccessful) => {
     console.log(e.response, "my error response")
     setLoading(false);
     if (e.toJSON().message === 'Network Error') {

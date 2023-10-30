@@ -11,9 +11,25 @@ const Cart = () => {
   const { cartItems, addToCart, removeFromCart, changeQuantity, selectedProduct } = useAppContext();
     const [shuffledProducts, setShuffledProducts] = useState([]);
     const [reservedItems, setReservedItems] = useState([]); 
-    const [subtotal, setSubtotal] = useState(0); 
+    const [total, setTotal] = useState(0); 
  
-  const [totalWithTax, setTotalWithTax] = useState(0); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      
+      setIsLoggedIn(true);
+    } else {
+ 
+      setIsLoggedIn(false);
+    }
+
+    setIsLoading(false);
+  }, []); 
+
     useEffect(() => {
       const shuffledArray = shuffleArray(ProductItem);
       setShuffledProducts(shuffledArray);
@@ -31,7 +47,7 @@ const Cart = () => {
       useEffect(() => {
         const filteredItems = ProductItem.filter((product) => cartItems[product.id] > 0);
         setReservedItems(filteredItems);
-        calculateSubtotal(filteredItems);
+        calculateTotal(filteredItems);
       }, [cartItems]);
     
       // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -46,29 +62,34 @@ const Cart = () => {
       };
 
      const taxAmount = 9375;
-      const calculateSubtotal = (items) => {
-        let subtotalAmount = 0;
+      const calculateTotal = (items) => {
+        let totalAmount = 0;
     
         items.forEach((product) => {
           const quantity = cartItems[product.id];
-          subtotalAmount += quantity * product.productAmount;
+          totalAmount += quantity * product.productAmount;
         });
     
-        setSubtotal(subtotalAmount);
+        setTotal(totalAmount);
        
-        const totalWithTaxAmount = subtotalAmount + taxAmount;
-        setTotalWithTax(totalWithTaxAmount);
+       
       };
 
     
-
+      if (isLoading){
+        return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+       <div className="spinner-border text-secondary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+            </div>; 
+      }
    
     
   return (
     
     <>
-      {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-      <GuestNavbar/>
+      {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+     
       <div className='d-block d-lg-flex py-5 px-3 px-md-5 gap-3 align-items-center' >
       <div >
        <p className='py-2' style={{color:'#373737', fontWeight:'500'}}>Your Selections</p>
@@ -83,7 +104,7 @@ const Cart = () => {
               <div key={product.id}>
               
                 <div className='d-block d-sm-flex gap-3 py-4 px-2 px-xxl-4 '>
-                <div className="card " style={{borderRadius: '25px', width:'15rem'}}>
+                <div className="card " style={{borderRadius: '25px', width:'15rem', }}>
                     <img src={product.productImage} alt={product.productTitle}className="card-img-top" style={{borderRadius:'none'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
         background:'#D1D2D3'}}>
@@ -91,7 +112,7 @@ const Cart = () => {
                     <p className="p-small text-white" style={{fontWeight:'500'}}>{product.productTitle}</p>
                     
                   </div>
-                  </div>
+                </div>
                   <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
                   <div className='d-flex flex-column'>
                     <p>Your selection is available for immediate purchase</p>
@@ -148,18 +169,16 @@ const Cart = () => {
         <h6  style={{color:'#7E7E7F'}}>Order Summary</h6>
         <div className='line my-3' style={{border:'1px solid #7E7E7F'}}></div>
         <div className='d-flex flex-column'  style={{color:'#7E7E7F'}}>
-          <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Subtotal</p> 
-          <p  style={{color:'#7E7E7F'}}>₦{subtotal.toLocaleString()}</p>
-          </div>
+          
           <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Tax <span className='p-small'>(incl)</span></p> 
-          <p  style={{color:'#7E7E7F'}}>₦{taxAmount.toLocaleString()}</p>
+         
           </div>
           <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Total</p> 
-          <p  style={{color:'#7E7E7F'}}>₦{totalWithTax.toLocaleString()}</p>
+          <p  style={{color:'#7E7E7F'}}>₦{total.toLocaleString()}</p>
           </div>
         
       </div>
-      <Link to='/payment' className='btn btn-primary w-100'>Purchase</Link>
+      <Link to='/signup/asacompany' className='btn btn-primary w-100'>Purchase</Link>
         </div>
       </div>
       ): (
