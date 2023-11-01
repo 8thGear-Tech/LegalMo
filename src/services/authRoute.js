@@ -79,7 +79,7 @@ export default () => {
     setLoading(true);
     http().then((axios) => {
       axios
-        .post('/api/login/company', body)
+        .post('/api/login/admin', body)
         .then(async (response) => {
             setLoading(false);
             setIsSuccessful(true);
@@ -96,7 +96,7 @@ export default () => {
                     setIsSuccessful(false);
                     setShowModal(false);
                     
-                    navigate('/company/dashboard');
+                    navigate('/admin/dashboard');
                     
                 }, 2500);
 
