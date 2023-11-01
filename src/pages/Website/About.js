@@ -45,7 +45,7 @@ function About() {
   }, []);  
 
   if (isLoading){
-    return <div className='justify-content-center align-items-center text-center'> style={{paddingTop:'350px'}}
+    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'350px'}}> 
    <div className="spinner-border text-secondary" role="status">
     <span className="visually-hidden">Loading...</span>
   </div>

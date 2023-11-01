@@ -45,6 +45,7 @@ export const AppContextProvider = (props) => {
       companyName: 'S&S Ltd',
       date: '10th July, 2023',
       reviewText: 'LegalMO’s service is really great',
+      
     },
   ]);
 

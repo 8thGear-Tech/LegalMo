@@ -6,6 +6,7 @@ import GuestNavbar from '../../components/Navbar/GuestNavbar';
 import UserNavbar from '../../components/Navbar/UserNavbar';
 import Footer from '../../components/Footer'
 import { useAppContext } from '../../AppContext';
+import axios from 'axios';
 
 
 export const shuffleArray = (array) => {
@@ -174,7 +175,7 @@ export function getRatingStars(rating) {
   return stars;
 }
 
-export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill })=> {
+export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill, handleDeleteReview, handleEditReview, isLoggedIn })=> {
   return (
     <div className='px-lg-5 mx-2 d-block d-sm-flex justify-content-between gap-4 flex-wrap review-container '> 
     <div className="d-flex flex-column gap-1 mb-5 average-review">
@@ -227,7 +228,9 @@ return (
   const { id, reviewText, reviewTitle, companyName, rating, date } = review;
   return (
     <div key={id} className={`col-12 col-md-${reviews.length === 1 ? '12' : '6'} mb-4 review-card${index >= 3 ? ' mt-4' : ''}`}>
-            <h4>{reviewTitle}</h4>
+      <div className='d-flex gap-3'>
+            <h4>{reviewTitle} </h4> 
+            </div>
             <div className='d-flex gap-2'>
             <div>{getRatingStars(review.rating)}</div>
             <h6>{date}</h6>
@@ -236,6 +239,14 @@ return (
             <h6>{reviewText}</h6>
       <h6> {companyName}</h6>
             </div>
+           
+           
+            {isLoggedIn && review.id !== 1 && (  
+              <div> <button onClick={() => handleEditReview(review)} className="btn btn-primary mt-2 me-2"><i className="bi bi-pencil-square"></i></button>
+
+      <button onClick={() => handleDeleteReview(review.id)} className="btn btn-danger mt-2"><i className="bi bi-trash" style={{color:''}}></i></button>
+      </div>
+    )}
           </div>
         )
       })}
@@ -251,7 +262,7 @@ const {productId} = useParams();
 const [product, setProduct] = useState(null);
 
 
-
+const [editReviewId, setEditReviewId] = useState(null);
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -288,46 +299,266 @@ useEffect(() => {
 }, [productId]);
 
 
-useEffect(() => {
-  const storedReviews = localStorage.getItem('reviews');
-  if (storedReviews) {
-    const parsedReviews = JSON.parse(storedReviews);
+// useEffect(() => {
+//   const storedReviews = localStorage.getItem('reviews');
+//   if (storedReviews) {
+//     const parsedReviews = JSON.parse(storedReviews);
 
-    setReviews(parsedReviews);
-  }
+//     setReviews(parsedReviews);
+//   }
+// }, []);
+
+
+
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://legalmo-server.onrender.com/api/rating');
+      const apiReviews = response.data.map(review => ({
+        id: review._id,
+        date: formatDateToWords(new Date(review.date)),
+        reviewTitle: '',
+        companyName: '',
+        reviewText: review.review,
+        rating: review.status,
+      }));
+
+    
+      const filteredApiReviews = apiReviews.filter(apiReview => (
+        !reviews.some(existingReview => existingReview.id === apiReview.id)
+      ));
+
+      
+      const mergedReviews = [
+        ...reviews, 
+        ...filteredApiReviews
+      ];
+
+      setReviews(mergedReviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
+
+  fetchData();
 }, []);
 
 const handleRatingClick = (rating) => {
   setSelectedRating(rating);
 };
 
-const handleReviewSubmit = (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
+  if (editReviewId) {
+    handleUpdateReview(); 
+  } else {
+    handleReviewSubmit(); 
+  }
+};
+
+const handleReviewSubmit = async () => {
+  if(!isLoggedIn){
+    return
+  }
+
 
   const currentDate = formatDateToWords(new Date());
 
-  const reviewToAdd = {
-    id: reviews.length + 1,
-    date: currentDate,
-    reviewTitle: newReview.reviewTitle,
-    companyName: newReview.companyName,
-    reviewText: newReview.reviewText,
-    rating: selectedRating,
+  const body = {
+    review: newReview.reviewText, 
+    status: selectedRating, 
   };
+  
 
-  const updatedReviews = [...reviews, reviewToAdd];
+ 
 
-  // Save reviews to database
-  localStorage.setItem('reviews', JSON.stringify(updatedReviews));
+  try {
+    const authToken = localStorage.getItem('userToken');
+  
 
-  setReviews(updatedReviews);
+  if (authToken) {
+    const headers = {
+      'Authorization': `Bearer ${authToken}`
+    };
+
+    const response = await axios.post('https://legalmo-server.onrender.com/api/rating', body , {headers});
+ 
+    const newReviewId = response.data._id;
+   
+
+ 
+    const updatedReviews = [
+      ...reviews,
+      // {
+      //   id: newReviewId,
+      //   date: currentDate,
+      //   reviewTitle: newReview.reviewTitle,
+      //   companyName: newReview.companyName,
+      //   reviewText: newReview.reviewText,
+      //   rating: selectedRating,
+      // }
+      {
+        id: newReviewId,
+        date: formatDateToWords(new Date(response.data.date)),
+        reviewTitle: '',
+        companyName: '',
+        reviewText: response.data.review,
+        rating: response.data.status,
+      }
+    ];
+
+    setReviews(updatedReviews);
+    setNewReview({
+      reviewTitle: '',
+      companyName: '',
+      reviewText: '',
+    });
+    setSelectedRating(0);
+  } else {
+    alert("User is not logged in");
+  }
+} catch (error) {
+  console.error('Error submitting review:', error);
+}
+};
+
+const handleEditReview = (review) => {
+  setEditReviewId(review.id);
+  console.log(review.id);
+  setNewReview({
+    reviewTitle: review.reviewTitle,
+    companyName: review.companyName,
+    reviewText: review.reviewText,
+  });
+  setSelectedRating(review.rating);
+
+};
+
+
+const handleCancelEdit = () => {
+  setEditReviewId(null); 
   setNewReview({
     reviewTitle: '',
     companyName: '',
     reviewText: '',
   });
-  setSelectedRating(0);
+  setSelectedRating(0); 
 };
+
+const handleUpdateReview = async () => {
+ 
+  if (editReviewId) {
+  
+    const body = {
+      review: newReview.reviewText,
+      status: selectedRating,
+    };
+
+    const authToken = localStorage.getItem('userToken');
+    if (authToken) {
+      const headers = {
+        Authorization: `Bearer ${authToken}`,
+      };
+      try {
+
+        const response = await axios.patch(
+          `https://legalmo-server.onrender.com/api/rating/${editReviewId}`,
+          body,
+          { headers }
+        );
+
+       
+        if (response.status === 200) {
+          
+          const updatedReviews = reviews.map((review) =>
+            review.id === editReviewId
+              ? {
+                  ...review,
+                  reviewText: newReview.reviewText,
+                  rating: selectedRating,
+                }
+              : review
+          );
+
+          setReviews(updatedReviews);
+
+          setEditReviewId(null);
+          setNewReview({
+            reviewTitle: '',
+            companyName: '',
+            reviewText: '',
+          });
+          setSelectedRating(0);
+        } else {
+          
+          console.error('Error updating review:', response.data);
+        }
+      } catch (error) {
+        
+        console.error('Error updating review:', error);
+      }
+    } else {
+      alert('User is not logged in');
+    }
+  } else {
+    
+    console.error('Invalid review ID');
+  }
+};
+
+
+
+const handleDeleteReview = async (reviewId) => {
+
+  try {
+    const authToken = localStorage.getItem('userToken');
+    if (authToken) {
+      const headers = {
+        'Authorization': `Bearer ${authToken}`
+      };
+      
+      await axios.delete(`https://legalmo-server.onrender.com/api/rating/${reviewId}`, { headers });
+      
+    
+      const updatedReviews = reviews.filter(review => review.id !== reviewId);
+      setReviews(updatedReviews);
+    } else {
+      alert("User is not logged in");
+    }
+  } catch (error) {
+    console.error('Error deleting review:', error);
+  }
+};
+
+
+// const handleReviewSubmit = (e) => {
+//   e.preventDefault();
+
+//   const currentDate = formatDateToWords(new Date());
+
+//   const reviewToAdd = {
+//     id: reviews.length + 1,
+//     date: currentDate,
+//     reviewTitle: newReview.reviewTitle,
+//     companyName: newReview.companyName,
+//     reviewText: newReview.reviewText,
+//     rating: selectedRating,
+//   };
+
+//   const updatedReviews = [...reviews, reviewToAdd];
+
+//   // Save reviews to database
+//   localStorage.setItem('reviews', JSON.stringify(updatedReviews));
+
+//   setReviews(updatedReviews);
+//   setNewReview({
+//     reviewTitle: '',
+//     companyName: '',
+//     reviewText: '',
+//   });
+//   setSelectedRating(0);
+// };
 
 
 const handleQuantityChange = (e) => {
@@ -383,7 +614,7 @@ const handleReserve = () => {
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
 
-// const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
 
 if (!product && isLoading) {
   return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
@@ -400,7 +631,7 @@ if (!product && isLoading) {
    
     <div> 
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
-        <div className=' d-block d-sm-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
+        <div className=' d-block d-md-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
         <div className="card mb-3" style={{borderRadius: '25px', width:'20rem'}}>
                     <img src={product.productImage} alt={product.productTitle}className="" style={{borderRadius:'none'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
@@ -411,7 +642,7 @@ if (!product && isLoading) {
     </div>
         </div>
         <div className='card p-4 mb-3' style={{border:'none', borderRadius:'0', backgroundColor:'#FBFCFD', maxWidth:'25rem'}}>
-        <div className="d-flex  flex-column justify-content-center align-items-center text-align-center gap-3">
+        <div className="d-flex  flex-column justify-content-center align-items-center text-align-center gap-2">
          <div className='form-group'>
           <select
             id="quantitySelect"
@@ -480,10 +711,12 @@ if (!product && isLoading) {
       totalReviews={totalReviews}
       progressReviews={progressReviews}
       label={label}
-      reviews={reviews} averageStarIconsFill={averageStarIconsFill}/>
+      reviews={reviews} averageStarIconsFill={averageStarIconsFill} handleDeleteReview={handleDeleteReview} handleEditReview={handleEditReview} isLoggedIn={isLoggedIn}/>
+
+      {isLoggedIn && (
         <div className='row justify-content-center mt-5'>
         <div className='col-sm-6 col-12  d-flex flex-column'>
-        <form onSubmit={handleReviewSubmit}>
+        <form onSubmit={handleSubmit}>
         <div className='text-center mb-3'>
           <h6>Your rating</h6>
           <div>
@@ -527,11 +760,18 @@ if (!product && isLoading) {
     ></textarea>
   </div>
         <div className='text-center mt-3'>
-          <button type='submit' className='btn btn-primary w-50' >Submit</button>
+          {editReviewId && (
+            <button type="button" onClick={handleCancelEdit} className="btn btn-danger me-3" style={{width:"40%"}}>
+            Cancel
+          </button>
+          )}
+          <button type='submit' className='btn btn-primary' style={{width:"40%"}} >Submit</button>
         </div>
       </form>
         </div>
         </div>
+      )}
+        
         
       </section>
       <section className='px-lg-2'>
