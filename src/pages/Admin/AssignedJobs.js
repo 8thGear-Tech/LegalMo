@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { lawyerLists } from './UnverifiedLawyers';
+import { lawyerLists } from './Lawyers';
 import { Pagination } from '../../components/Buttons/Admin';
 import AdminNavbar from '../../components/Navbar/AdminNavbar';
 import { useLocation, useNavigate } from 'react-router-dom';

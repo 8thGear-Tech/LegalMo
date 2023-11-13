@@ -22,12 +22,13 @@ export default () => {
       setIsSuccessful(false);
       
     } else {
-      Object.values(resMessage).map((msg) => {
-        msg.map((item, index) => {
-          setMessage(item);
-          setIsSuccessful(false);
+      Object?.values(resMessage)?.map((msg) => {
+        // msg?.map((item, index) => {
+        //   setMessage(item);
+        //   setIsSuccessful(false);
           
-        });
+        // });
+        console.log(msg)
       });
     }
     if (e.response.status == 401 || e.response == 405) {

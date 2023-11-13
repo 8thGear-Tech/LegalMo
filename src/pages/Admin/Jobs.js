@@ -5,7 +5,7 @@ import { Pagination } from '../../components/Buttons/Admin';
 import { ViewMoreModal } from '../../components/Cards/Admin';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../AppContext';
-
+import adminRoute from '../../services/adminRoute';
 
   const Jobs = () => {
     const {jobList, setJobList} = useAppContext();
@@ -20,7 +20,14 @@ import { useAppContext } from '../../AppContext';
 
   const [jobDetails, setJobDetails] = useState({});
   const [jobFiles, setJobFiles] = useState({});
-  
+  const {getPendingJobs, getUnassignedJobs, getCompletedJobs} = adminRoute();
+ 
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+ 
+  const [jobs, setJobs] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
 
  
@@ -35,6 +42,22 @@ import { useAppContext } from '../../AppContext';
     const [selectedFile, setSelectedFile] = useState(null);
 
     
+    // useEffect(() => {
+      
+    //   if (statusFilter === 'Unassigned') {
+       
+    //      getUnassignedJobs(setMessage, setLoading, setIsSuccessful, setJobs, setShowModal);
+    //   } else if (statusFilter === 'Pending') {
+        
+    //      getPendingJobs(setMessage, setLoading, setIsSuccessful, setJobs, setShowModal);
+    //   }else if (statusFilter === 'Completed') {
+        
+    //     getCompletedJobs(setMessage, setLoading, setIsSuccessful, setJobs, setShowModal);
+    //  }
+      
+    // }, [statusFilter]);
+
+
     const handleUploadClick = () => {
         fileInputRef.current.click();
       };

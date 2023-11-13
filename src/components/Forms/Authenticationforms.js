@@ -11,7 +11,7 @@ import { PrivacyModal, TermsModal } from '../Footer';
 
 
 
-export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess }) => {
+export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess, showResendConfirmation, onResendConfirmation }) => {
 
 
   return (
@@ -36,6 +36,11 @@ export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess
                 <h4 className='mt-5'style={{ fontWeight: '700' }}>{modalText}</h4>
                 {isSuccess && <p>{subText}</p>}
                 
+                {!isSuccess && showResendConfirmation && (
+            <button className='btn btn-primary mt-5' onClick={onResendConfirmation}>
+              Resend Confirmation Email
+            </button>
+          )}
               </div>
            
           </div>

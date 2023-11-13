@@ -11,7 +11,7 @@ import { LoginModal } from "../../components/Forms/Authenticationforms";
 function OTP({setOtpVerified}) {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
   const {userEmail} = useParams();
-  console.log(userEmail,'useremail')
+ 
   const navigate = useNavigate();
   const {confirmOTP} = authRoute();
   const [formValid, setFormValid] = useState(false); 

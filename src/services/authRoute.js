@@ -11,112 +11,66 @@ export default () => {
   const { error } = Error();
   const navigate = useNavigate();
  
-// const login = (
-//   body,
-//   setMessage,
-//   setLoading,
-//   setIsSuccessful,
-//   setUserData,
-//   setShowModal,
+const login = (
+  body,
+  setMessage,
+  setLoading,
+  setIsSuccessful,
+  setUserData,
+  setShowModal,
   
-// ) => {
-//   setLoading(true);
-//   http()
-//     .then((axios) => {
-//       axios
-//       .post(`/api/login/${body.userType}`, body)
-//         .then(async (response) => {
-//           setLoading(false);
-//           setIsSuccessful(true);
-
-//           const gotResponse = response?.data;
-//           if (gotResponse?.status === 'success') {
-//             setUserData(gotResponse?.data);
-//             localStorage.setItem('userToken', gotResponse?.data?.token);
-//             console.log('userToken', gotResponse?.data?.token);
-//             setMessage('Welcome back');
-//             setIsSuccessful(true);
-//             setShowModal(true);
-            
-//             const storedToken = localStorage.getItem('userToken')
-//             const decodedToken = jwt_decode(storedToken);
-//             console.log('Decoded Token:', decodedToken);
-//             const userType = decodedToken.userType;
-//             console.log('Decoded usertype:', userType);
-
-//             if (userType === 'company') {
-//               navigate('/company/dashboard');
-//             } else if (userType === 'lawyer') {
-//               navigate('/lawyer/dashboard');
-//             } else if (userType === 'admin') {
-//               navigate('/admin/dashboard');
-//             } else {
-//               // Handle unknown userType, maybe show an error message
-//               setMessage('Unknown user type');
-//             }
-//           } else {
-//             setIsSuccessful(false);
-//             setMessage('There was a problem logging in');
-//           }
-//         })
-       
-//         .catch((e) => {
-//           setIsSuccessful(false);
-//           setLoading(false);
-//           setShowModal(true);
-//           error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
-//         });
-//     });
-// };
-
-  
-  const login = (
-    body, setMessage, setLoading, setIsSuccessful, setUserData, setShowModal
-   
-  ) => {
- 
-    console.log(body)
-    setLoading(true);
-    http().then((axios) => {
+) => {
+  setLoading(true);
+  http()
+    .then((axios) => {
       axios
-        .post('/api/login/admin', body)
+      .post('/api/login', body)
         .then(async (response) => {
-            setLoading(false);
-            setIsSuccessful(true);
-        
-            const gotResponse =  response?.data;
-            if (gotResponse?.status === 'success'){
-                setUserData(gotResponse?.data);
-                localStorage.setItem("userToken", gotResponse?.data?.token)
-               console.log("userToken", gotResponse?.data?.token)
-                setMessage("Welcome back");
-                setIsSuccessful(true);
-             setShowModal(true);
-                setTimeout(() => {
-                    setIsSuccessful(false);
-                    setShowModal(false);
-                    
-                    navigate('/admin/dashboard');
-                    
-                }, 2500);
+          setLoading(false);
+          setIsSuccessful(true);
 
-                
-            } else{
-                setIsSuccessful(false);
-                
-                setMessage('There was a problem logging in')
-            }
+          const gotResponse = response?.data;
+          if (gotResponse?.status === 'success') {
+            setUserData(gotResponse?.data);
+            localStorage.setItem('userToken', gotResponse?.token);
+            localStorage.setItem('userType', gotResponse?.data?.user?.userType);
+            localStorage.setItem('userId', gotResponse?.data?.user?._id);
+            console.log('userId',gotResponse?.data?.user?._id )
+            setMessage('Welcome back');
+            setIsSuccessful(true);
+            setShowModal(true);
+            
+            setTimeout(() => {
+              const userType = gotResponse?.data?.user?.userType;
+
+              if (userType === 'admin') {
+                navigate('/admin/dashboard');
+              } else if (userType === 'company') {
+                navigate('/company/dashboard');
+              } else if (userType === 'lawyer') {
+                navigate('/lawyer/dashboard');
+              } else {
+               
+                setMessage('Unknown user type');
+              }
+            }, 2500); 
+          } else {
+            setIsSuccessful(false);
+            setMessage('There was a problem logging in');
+          }
         })
+       
         .catch((e) => {
-        
           setIsSuccessful(false);
           setLoading(false);
           setShowModal(true);
           error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
         });
     });
-  };
+};
 
+  
+ 
   const signupAsAdmin = (
     body, setMessage, setLoading, setIsSuccessful, setUserData, setShowModal
    
@@ -134,6 +88,9 @@ export default () => {
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
                 setUserData(gotResponse?.data);
+                localStorage.setItem('userToken', gotResponse?.token);
+                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
+                localStorage.setItem('userId', gotResponse?.data?.user?._id);
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
@@ -190,6 +147,9 @@ export default () => {
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
                 setUserData(gotResponse?.data);
+                localStorage.setItem('userToken', gotResponse?.token);
+                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
+                localStorage.setItem('userId', gotResponse?.data?.user?._id);
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
@@ -226,7 +186,7 @@ export default () => {
    
   ) => {
  
-   console.log(body)
+   
     setLoading(true);
     http().then((axios) => {
       axios
@@ -238,6 +198,9 @@ export default () => {
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
                 setUserData(gotResponse?.data);
+                localStorage.setItem('userToken', gotResponse?.token);
+                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
+                localStorage.setItem('userId', gotResponse?.data?.user?._id);
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
@@ -272,7 +235,9 @@ export default () => {
   const logout = () => {
  
      localStorage.removeItem('userToken');
-    //  localStorage.clear();
+     
+     localStorage.removeItem('userType');
+  
 
      navigate('/home');
      
@@ -281,13 +246,19 @@ export default () => {
 
   const forgotPassword = (body, setLoading,setIsSuccessful, setMessage, setShowModal, setEmailSubmitted) => {
  
-   console.log(body)
+   
    setLoading(true);
     http().then((axios) => {
       axios
-        .post('/api/forgot-password/admin', body)
+        .post('/api/forgot-password', body)
         .then(async (response) => {
+          
           setLoading(false);
+          
+          localStorage.setItem('userType', response?.data?.userType);
+          
+         
+        
           setIsSuccessful(true);
               setMessage('Password reset email sent');
               setShowModal(true);
@@ -296,7 +267,7 @@ export default () => {
 
                 setShowModal(false);
                 setEmailSubmitted(true);
-                console.log('Official Email:', body.officialEmail);
+               
                 navigate(`/otp/${encodeURIComponent(body.officialEmail)}`)
                 
             }, 2000);
@@ -316,7 +287,7 @@ export default () => {
  
   const confirmOTP = (body, setLoading,setIsSuccessful, setMessage, setShowModal, userEmail, setOtpVerified)=> {
  
-    console.log(body)
+    
     setLoading(true);
      http().then((axios) => {
        axios
@@ -355,11 +326,12 @@ export default () => {
 
    const newPassword = (body, setLoading,setIsSuccessful, setMessage, setShowModal, token,userEmail)=> {
  
-    console.log(body)
+    
     setLoading(true);
+    const userType =  localStorage.getItem('userType');
      http().then((axios) => {
       axios
-      .patch(`https://legalmo-server.onrender.com/api/reset-password?userType=admin&userEmail=${encodeURIComponent(userEmail)}&token=${token}`, body)
+      .patch(`https://legalmo-server.onrender.com/api/reset-password?userType=${userType}&userEmail=${encodeURIComponent(userEmail)}&token=${token}`, body)
          .then(async (response) => {
           setLoading(false);
            setIsSuccessful(true);
@@ -386,6 +358,46 @@ export default () => {
          
      });
    };
+
+
+   const resendConfirmationMail = (body, setLoading,setIsSuccessful, setMessage, setShowModal) => {
+ 
+   
+    setLoading(true);
+     http().then((axios) => {
+       axios
+         .post('api/resendconfirmemail', body)
+         .then(async (response) => {
+           
+           setLoading(false);
+           
+          
+         
+           setIsSuccessful(true);
+               setMessage('Confirmation email sent successfully');
+               setShowModal(true);
+               setTimeout(() => {
+                 setIsSuccessful(false);
+ 
+                 setShowModal(false);
+                
+                
+                 navigate('/login')
+                 
+             }, 2000);
+                    
+         
+         })
+         .catch((e) => {
+           setIsSuccessful(false);
+           setLoading(false);
+           setShowModal(true);
+       
+           error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+         })
+         
+     });
+   };
   return {
    
     login, 
@@ -393,6 +405,6 @@ export default () => {
     signupAsCompany,
     signupAsLawyer,
     logout, forgotPassword, 
-    confirmOTP,newPassword
+    confirmOTP,newPassword, resendConfirmationMail
     };
 };

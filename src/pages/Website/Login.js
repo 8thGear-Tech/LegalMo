@@ -111,6 +111,11 @@ function Login() {
        isSuccess={isSuccessful}
         closeModal={()=> setShowModal(false)}
         modalText={message}
+        showResendConfirmation={message === 'Please confirm your email address to log in.'} 
+        onResendConfirmation={() => {
+          
+          navigate('/resend-confirm');
+        }}
       />
 
 

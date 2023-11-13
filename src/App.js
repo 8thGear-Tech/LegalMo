@@ -27,7 +27,7 @@ import CreateProductPage from "./pages/Admin/CreateProductPage";
 import GetPaid from "./pages/Lawyer/GetPaid";
 import Ratings from "./pages/Admin/Ratings";
 import Companies from "./pages/Admin/Companies";
-import Lawyers from "./pages/Admin/UnverifiedLawyers";
+import Lawyers from "./pages/Admin/Lawyers";
 import Jobs from "./pages/Admin/Jobs";
 import GetPaidAdmin from "./pages/Admin/GetPaid";
 import AssignedJobs from "./pages/Admin/AssignedJobs";
@@ -35,22 +35,193 @@ import LawyerOTP from "./pages/Lawyer/OTP";
 import LawyerProfile from "./pages/Lawyer/LawyerProfile";
 import AvailableJobs from "./pages/Lawyer/AvailableJobs";
 import AvailableJobItem from "./pages/Lawyer/AvailableJobItem";
+import ResendConfirm from "./pages/Website/ResendConfirm";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
-const ProtectedRoute = ({ children }) => {
 
+
+// const ProtectedRoute = ({ children }) => {
+
+//   const authenticatedToken = localStorage.getItem("userToken");
+
+//   return authenticatedToken ? children : <Navigate to="/login" />;
+// };
+const authenticatedUserRole = localStorage.getItem('userType');
+const authenticatedToken = localStorage.getItem("userToken");
+
+const ProtectedRoute = ({ children, allowedRoles }) => {
+ 
+
+  const authenticatedUserRole = localStorage.getItem('userType');
   const authenticatedToken = localStorage.getItem("userToken");
+ 
 
-  return authenticatedToken ? children : <Navigate to="/login" />;
+  if (authenticatedUserRole === null) {
+    
+    return <Navigate to="/home" />;
+  }
+
+  if (authenticatedToken && authenticatedUserRole === 'admin' || allowedRoles.includes(authenticatedUserRole)) {
+    
+    return children;
+  } else {
+    
+    return <Navigate to="/login" />;
+  }
 };
-
 
 function App() {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   return (
+
+  //   <BrowserRouter>
+
+  //   <Routes>
+  //     {/*Website*/}
+  //       {/* Public Routes */}
+  //     <Route path="/" element={<Home />} />
+      
+  //     <Route path="/home" element={<Landing />} />
+
+  //     <Route path="/products" element={<Products />} />
+      
+  //     <Route path="/about-us" element={<About />} />
+  //     <Route path="/login" element={<Login/>} />
+    
+  //     <Route path="/password-reset" element={<PasswordReset  setEmailSubmitted={setEmailSubmitted}/>} />
+
+  //     <Route path="/otp/:userEmail" element={emailSubmitted ? (
+  //         <OTP setOtpVerified={setOtpVerified} />
+  //       ) : (
+  //         <Navigate to="/password-reset" />
+  //       )} />
+
+  //     <Route path="/new-password/:token/:userEmail" element={otpVerified ? (
+  //         <NewPassword />
+  //       ) : (
+  //         <Navigate to="/otp/:userEmail" />
+  //       )} />
+
+  //     <Route
+  //       path="Legal-Practitioners-Renumeration-Order-2023"
+  //       element={<LegalRenumerationOrder />}
+  //     />
+
+  //     {/*Company*/}
+      
+  //     {/* Public Routes */}
+  //     <Route path="/signup/asacompany" element={<CompanySignUp/>} />
+  //     {/* <Route path="/signup/nextcompany" element={<NextCompanySignUp/>} /> */}
+      
+  //     <Route path="/pre-cart/:productId"  element={<Precart/>} />
+  //     <Route path="/cart" element={<Cart/>} />
+
+  //     {/* Protected Routes */}
+  //     { authenticatedUserRole === 'admin' || authenticatedUserRole === 'company' && authenticatedToken && 
+  //     <>
+  //     <Route
+  //       path="/company/dashboard"
+  //       element={
+  //           <CompanyDashboard />
+  //       }/>
+  //     <Route
+  //       path="/company/profile"
+  //       element={  <CompanyProfile />
+  //       }/>
+  //       </>
+  //       }
+
+       
+   
+
+  //     {/*Lawyer*/}
+  //       {/* Public Routes */}
+        
+  //     <Route path="/signup/asalawyer" element={<LawyerSignUp/>} />
+  //     {/* <Route path="/signup/nextlawyer" element={<NextLawyerSignUp/>} /> */}
+
+  //      {/* Protected Routes */}
+  //      { authenticatedUserRole === 'admin' || authenticatedUserRole === 'lawyer' && authenticatedToken && 
+  //     <>
+  //     <Route path="/lawyer/dashboard" element={
+  //       <LawyerDashboard/>
+  //     } />
+
+  //     <Route path="/lawyer/get-paid" element={
+  //       <GetPaid/>
+  //     } />
+
+  //       <Route path="/lawyer/profile" element={
+  //         <LawyerProfile/>
+  //       } />
+
+  //       <Route path="/lawyer/otp" element={
+  //         <LawyerOTP/>
+  //       } />
+
+    
+  //       <Route path="/lawyer/available-jobs" element={
+  //         <AvailableJobs/>
+  //       } />
+
+  //       <Route path="/lawyer/available-job-item/:jobId"  element={
+  //         <AvailableJobItem/>
+  //       } />
+  //       </>
+  //       }
+        
+
+  //     {/*Admin*/}
+  //    {/* Public Routes */}
+  //     <Route path="/signup/asanadmin" element={<AdminSignUp/>} />
+      
+  //  {/* Protected Routes */}
+  //  { authenticatedUserRole === 'admin' && authenticatedToken && 
+  //     <>
+  //     <Route path="/admin/dashboard" element={
+  //       <AdminDashboard/>
+  //     } />
+
+  //     <Route path="/admin/ratings" element={
+  //       <Ratings/>
+  //     } />
+
+  //     <Route path="/admin/jobs" element={
+  //       <Jobs/>
+  //     } />
+
+  //     <Route path="/admin/lawyers" element={
+  //       <Lawyers/>
+  //     } />
+
+  //     <Route path="/admin/companies" element={
+  //       <Companies/>
+  //     } />
+
+  //       <Route path="/admin/new-product" element={
+  //         <CreateProductPage/>
+  //       } />
+
+  //       <Route path="/admin/assign-job" element={
+  //         <AssignedJobs/>
+  //       } />
+
+  //       <Route path="/admin/payment" element={
+  //         <Payment/>
+  //       } />
+
+  //       <Route path="/admin/get-paid" element={
+  //         <GetPaidAdmin/>
+  //       } />
+  //       </>
+  //       }
+        
+  //         <Route path="*" element={<Landing/> }/>
+  //   </Routes>
+  // </BrowserRouter>
     <BrowserRouter>
 
       <Routes>
@@ -61,10 +232,13 @@ function App() {
         <Route path="/home" element={<Landing />} />
 
         <Route path="/products" element={<Products />} />
-
+     
         <Route path="/about-us" element={<About />} />
-
         <Route path="/login" element={<Login/>} />
+        <Route path="/resend-confirm" element={<ResendConfirm/>} />
+       
+        
+        
 
         <Route path="/password-reset" element={<PasswordReset  setEmailSubmitted={setEmailSubmitted}/>} />
 
@@ -98,7 +272,7 @@ function App() {
         <Route
           path="/company/dashboard"
           element={
-            <ProtectedRoute>
+           <ProtectedRoute allowedRoles={['company']}>
               <CompanyDashboard />
             </ProtectedRoute>
           }/>
@@ -106,7 +280,7 @@ function App() {
          <Route
           path="/company/profile"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['company']}>
               <CompanyProfile />
             </ProtectedRoute>
           }/>
@@ -114,78 +288,78 @@ function App() {
 
         {/*Lawyer*/}
           {/* Public Routes */}
+          <>
         <Route path="/signup/asalawyer" element={<LawyerSignUp/>} />
         {/* <Route path="/signup/nextlawyer" element={<NextLawyerSignUp/>} /> */}
 
          {/* Protected Routes */}
-        <Route path="/lawyer/dashboard" element={<ProtectedRoute>
+        <Route path="/lawyer/dashboard" element={<ProtectedRoute allowedRoles={['lawyer']}>
           <LawyerDashboard/>
         </ProtectedRoute>} />
 
-        <Route path="/lawyer/get-paid" element={<ProtectedRoute>
+        <Route path="/lawyer/get-paid" element={<ProtectedRoute allowedRoles={['lawyer']}>
           <GetPaid/>
         </ProtectedRoute>} />
 
-          <Route path="/lawyer/profile" element={<ProtectedRoute>
+          <Route path="/lawyer/profile" element={<ProtectedRoute allowedRoles={['lawyer']}>
             <LawyerProfile/>
           </ProtectedRoute>} />
 
-          <Route path="/lawyer/otp" element={<ProtectedRoute>
+          <Route path="/lawyer/otp" element={<ProtectedRoute allowedRoles={['lawyer']}>
             <LawyerOTP/>
           </ProtectedRoute>} />
 
       
-          <Route path="/lawyer/available-jobs" element={<ProtectedRoute>
+          <Route path="/lawyer/available-jobs" element={<ProtectedRoute allowedRoles={['lawyer']}>
             <AvailableJobs/>
           </ProtectedRoute>} />
 
-          <Route path="/lawyer/available-job-item/:jobId"  element={<ProtectedRoute>
+          <Route path="/lawyer/available-job-item/:jobId"  element={<ProtectedRoute allowedRoles={['lawyer']}>
             <AvailableJobItem/>
           </ProtectedRoute>} />
-
+          </>
 
         {/*Admin*/}
        {/* Public Routes */}
         <Route path="/signup/asanadmin" element={<AdminSignUp/>} />
         
      {/* Protected Routes */}
-        <Route path="/admin/dashboard" element={<ProtectedRoute>
+        <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['admin']}>
           <AdminDashboard/>
         </ProtectedRoute>} />
 
-        <Route path="/admin/ratings" element={<ProtectedRoute>
+        <Route path="/admin/ratings" element={<ProtectedRoute allowedRoles={['admin']}>
           <Ratings/>
         </ProtectedRoute>} />
 
-        <Route path="/admin/jobs" element={<ProtectedRoute>
+        <Route path="/admin/jobs" element={<ProtectedRoute allowedRoles={['admin']}>
           <Jobs/>
         </ProtectedRoute>} />
 
-        <Route path="/admin/lawyers" element={<ProtectedRoute>
+        <Route path="/admin/lawyers" element={<ProtectedRoute allowedRoles={['admin']}>
           <Lawyers/>
         </ProtectedRoute>} />
 
-        <Route path="/admin/companies" element={<ProtectedRoute>
+        <Route path="/admin/companies" element={<ProtectedRoute allowedRoles={['admin']}>
           <Companies/>
         </ProtectedRoute>} />
 
-          <Route path="/admin/new-product" element={<ProtectedRoute>
+          <Route path="/admin/new-product" element={<ProtectedRoute allowedRoles={['admin']}>
             <CreateProductPage/>
           </ProtectedRoute>} />
 
-          <Route path="/admin/assign-job" element={<ProtectedRoute>
+          <Route path="/admin/assign-job" element={<ProtectedRoute allowedRoles={['admin']}>
             <AssignedJobs/>
           </ProtectedRoute>} />
 
-          <Route path="/admin/payment" element={<ProtectedRoute>
+          <Route path="/admin/payment" element={<ProtectedRoute allowedRoles={['admin']}>
             <Payment/>
           </ProtectedRoute>} />
 
-          <Route path="/admin/get-paid" element={<ProtectedRoute>
+          <Route path="/admin/get-paid" element={<ProtectedRoute allowedRoles={['admin']}>
             <GetPaidAdmin/>
           </ProtectedRoute>} />
           
-        
       </Routes>
     </BrowserRouter>
   );

@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CompanyDetailsForm } from '../../components/Forms/Company'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ProductItem } from './ProductItem';
 import GuestNavbar from '../../components/Navbar/GuestNavbar';
 import UserNavbar from '../../components/Navbar/UserNavbar';
 import Footer from '../../components/Footer'
 import { useAppContext } from '../../AppContext';
 import axios from 'axios';
+import productRoute from '../../services/productRoute';
 
 
 export const shuffleArray = (array) => {
@@ -18,7 +19,7 @@ export const shuffleArray = (array) => {
   return shuffledArray;
 };
 
-export const ProductCarousel = ({shuffledProducts}) => {
+export const ProductCarousel = ({shuffledProducts, handleProductClick}) => {
   const productsPerSlide = {
     xl: 5,
     lg: 4,
@@ -37,9 +38,7 @@ export const ProductCarousel = ({shuffledProducts}) => {
     productGroups.push(shuffledProducts.slice(i, i + productsPerSlide.xl)); 
   }
 
-  const handleProductClick = (product) => {
-    navigate(`/pre-cart/${product.id}`);
-   }
+
  
   return (
     <div id="productCarousel" className="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -51,16 +50,16 @@ export const ProductCarousel = ({shuffledProducts}) => {
           >
             <div className="d-flex gap-3 product-card">
               {productGroup.map((product, innerIndex) => (
-                <div key={product.id}  className={`col-xl-${12 / productsPerSlide.xl} col-lg-${12 / productsPerSlide.lg} col-md-${12 / productsPerSlide.md} col-sm-${12 / productsPerSlide.sm} col-12 mb-5`}>
-                  <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product)}>
+                <div key={product._id}  className={`col-xl-${12 / productsPerSlide.xl} col-lg-${12 / productsPerSlide.lg} col-md-${12 / productsPerSlide.md} col-sm-${12 / productsPerSlide.sm} col-12 mb-5`}>
+                  <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product?._id)}>
                     <img
-                      src={product.productImage}
+                      src={product?.productImage}
                       className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '', width: '100%' , borderTopRightRadius:'25px', borderTopLeftRadius:'25px',}}
-                      alt={product.productTitle}
+                      alt={product?.productName}
                     />
                     <div className="card-body" style={{ borderRadius: '0px 0px 25px 25px', background: '#D1D2D3' }}>
-                      <p className="p-small" style={{ fontWeight: '500' }}>{product.productTitle}</p>
-                      <p className="" style={{ fontWeight: '700' }}>₦{product.productAmount.toLocaleString()}</p>
+                      <p className="p-small" style={{ fontWeight: '500' }}>{product?.productName}</p>
+                      <p className="" style={{ fontWeight: '700' }}>₦{product?.productPrice.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -260,6 +259,8 @@ export function Precart() {
 const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label} = useAppContext();
 const {productId} = useParams();
 const [product, setProduct] = useState(null);
+const [productData, setProductData] = useState([]);
+
 
 
 const [editReviewId, setEditReviewId] = useState(null);
@@ -273,10 +274,18 @@ const [quantity, setQuantity] = useState(1);
 const [shuffledProducts, setShuffledProducts] = useState([]);
 const [isLoggedIn, setIsLoggedIn] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
+const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+ 
+  const [showModal, setShowModal] = useState(false);
+const {getOneProduct, getProducts}= productRoute()
+
 useEffect(() => {
 
+  const userType = localStorage.getItem('userType');
   const token = localStorage.getItem('userToken');
-  if (token) {
+    if (userType && token)  {
     setIsLoggedIn(true);
   } else {
 
@@ -286,30 +295,11 @@ useEffect(() => {
   setIsLoading(false);
 }, []);  
 
-  useEffect(() => {
-   
-    const shuffledArray = shuffleArray(ProductItem);
-    setShuffledProducts(shuffledArray);
-  }, []);
-
-
 useEffect(() => {
-  const selectedProductItem = ProductItem.find((item) => item.id === parseInt(productId, 10));
-  setProduct(selectedProductItem);
+  getOneProduct(
+    setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
+  );
 }, [productId]);
-
-
-// useEffect(() => {
-//   const storedReviews = localStorage.getItem('reviews');
-//   if (storedReviews) {
-//     const parsedReviews = JSON.parse(storedReviews);
-
-//     setReviews(parsedReviews);
-//   }
-// }, []);
-
-
-
 
 useEffect(() => {
   const fetchData = async () => {
@@ -342,7 +332,26 @@ useEffect(() => {
   };
 
   fetchData();
+}, [reviews]);
+
+useEffect(() => {
+  getProducts(setMessage, setLoading, setIsSuccessful, setProductData, setShowModal);
 }, []);
+
+
+useEffect(() => {
+  
+  if (productData.length > 1) {
+    const shuffledArray = shuffleArray(productData);
+    setShuffledProducts(shuffledArray);
+  }
+}, [productData]);
+
+
+
+
+
+
 
 const handleRatingClick = (rating) => {
   setSelectedRating(rating);
@@ -375,6 +384,7 @@ const handleReviewSubmit = async () => {
 
   try {
     const authToken = localStorage.getItem('userToken');
+    
   
 
   if (authToken) {
@@ -601,15 +611,41 @@ const handleDeleteClick = () => {
   }
 };
 
-const handleReserve = () => {
+const handleReserve = async() => {
   if (product) {
-    addToCart(product.id, quantity); 
+    const body={
+    
+      quantity: quantity,
+      detail:details,
+    };
+
+    try{
+
+      const response = await axios.post('https://legalmo-server.onrender.com/api/cart', body)
+       
+      addToCart(product.id, quantity); 
     setSelectedProduct(product);
     navigate('/cart');
+
+      
+    } catch (error){
+      console.error('Error creating cart:', error);
+    }
+    
   }
 };
 
+const handleProductClick = (productId) => {
+   
+  console.log(`Getting product with ID ${productId}`);
 
+  
+    
+  getOneProduct(
+    setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
+  )
+  
+};
 // const progressBarStyle = {
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
@@ -633,11 +669,11 @@ if (!product && isLoading) {
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
         <div className=' d-block d-md-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
         <div className="card mb-3" style={{borderRadius: '25px', width:'20rem'}}>
-                    <img src={product.productImage} alt={product.productTitle}className="" style={{borderRadius:'none'}} />
+                    <img src={product?.productImage} alt={product?.productName}className="" style={{borderRadius:'none', height:'319px'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
         background:'#545454', height:'',}}>
                   
-                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product.productTitle}</p>
+                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName}</p>
                     
     </div>
         </div>
@@ -658,7 +694,7 @@ if (!product && isLoading) {
     ))}
           </select>
          </div>
-         <p>₦{product.productAmount.toLocaleString()}</p>
+         <p>₦{product?.productPrice.toLocaleString()}</p>
          <h6 style={{fontWeight:'500'}}>Available</h6>
 
          <p className='text-center' style={{fontSize:'16px', fontWeight:'600'}}>Your order will be delivered between 7-10 working days after purchase</p>
@@ -777,7 +813,7 @@ if (!product && isLoading) {
       <section className='px-lg-2'>
         <h3 className='my-5 text-center'>You may also like</h3>
         <div className='px-sm-5 mb-5'>
-         <ProductCarousel shuffledProducts={shuffledProducts}/>
+         <ProductCarousel shuffledProducts={shuffledProducts} handleProductClick={handleProductClick}/>
         </div>
       </section>
       

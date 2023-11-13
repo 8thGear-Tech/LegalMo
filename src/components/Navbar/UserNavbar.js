@@ -13,8 +13,8 @@ const UserNavbar = () => {
   const navigate = useNavigate();
   const {logout} = authRoute();
 const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
-    const isCompanyRoute = location.pathname.includes('/company');
-    const isLawyerRoute = location.pathname.includes('/lawyer');
+    // const isCompanyRoute = location.pathname.includes('/company');
+    // const isLawyerRoute = location.pathname.includes('/lawyer');
 
   
 
@@ -28,7 +28,8 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
    
   };
   const isContactActive = showContactButtons ? 'navlink-active' : '';
- 
+  const userType = localStorage.getItem('userType');
+  const authenticatedToken = localStorage.getItem('userToken');
 
   const handleLogOut = ()=> {
    
@@ -51,7 +52,7 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
         <li className="nav-item">
           <NavLink className="nav-link"  to="/about-us" activeclassname='active'>About Us</NavLink>
         </li>
-        {isLawyerRoute && (
+        {userType === 'admin' || userType === 'lawyer' && authenticatedToken && (
          <li className="nav-item">
          <NavLink className="nav-link" to="/lawyer/dashboard" activeclassname="active">
            Dashboard
@@ -59,7 +60,7 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
        </li>
        )}
 
-{isLawyerRoute && (
+{userType === 'admin' || userType === 'lawyer' && authenticatedToken && (
          <li className="nav-item">
          <NavLink className="nav-link" to="/lawyer/available-jobs" activeclassname="active">
            Jobs
@@ -67,14 +68,14 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
        </li>
        )}
 
-{isCompanyRoute && (
+{userType === 'admin' || userType === 'company' && authenticatedToken && (
          <li className="nav-item">
          <NavLink className="nav-link" to="/company/dashboard" activeclassname="active">
            Dashboard
          </NavLink>
        </li>
        )}
-       {!isLawyerRoute && (
+       {userType === 'admin' || userType === 'company' && authenticatedToken && (
          <li className="nav-item">
          <NavLink className="nav-link" to="/products" activeclassname="active">
            Products
@@ -100,17 +101,17 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
       </ul>
       <div className="d-block d-lg-flex gap-2  align-items-center">
       <ul className="navbar-nav gap-1">
-      {!isLawyerRoute && ( <li className="nav-item">
+      {userType === 'company' && authenticatedToken && ( <li className="nav-item">
                     <NavLink className="nav-link my-lg-3
                     "  activeclassname='active' to="/cart" ><i className="bi bi-cart3 cart-icon"></i></NavLink>
                   </li>)}
 
-        {isCompanyRoute &&(
+        {userType === 'admin' || userType === 'company' && authenticatedToken &&(
               <li className="nav-item">
               <Link className="nav-link " to="/company/profile" ><img src={companyUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
             </li>
         )}
-          {isLawyerRoute &&(
+          {userType === 'admin' || userType === 'lawyer' && authenticatedToken &&(
               <li className="nav-item">
               <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
             </li>

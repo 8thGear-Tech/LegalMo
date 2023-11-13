@@ -18,8 +18,9 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
 
+    const userType = localStorage.getItem('userType');
     const token = localStorage.getItem('userToken');
-    if (token) {
+    if (userType && token)  {
       
       setIsLoggedIn(true);
     } else {

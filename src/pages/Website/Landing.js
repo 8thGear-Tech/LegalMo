@@ -99,9 +99,10 @@ const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
 
+    const userType = localStorage.getItem('userType');
     const token = localStorage.getItem('userToken');
-    if (token) {
-      // Token exists, user is authenticated
+    if (userType && token)  {
+      
       setIsLoggedIn(true);
     } else {
  
