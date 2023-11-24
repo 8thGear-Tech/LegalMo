@@ -55,7 +55,7 @@ export default () => {
     setLoading(true);
     http().then((axios) => {
       axios
-        .get('api/verifiedlawyers')
+        .get('/api/verifiedlawyers')
         .then(async (response) => {
       
             setLoading(false);
@@ -89,7 +89,7 @@ export default () => {
     setLoading(true);
     http().then((axios) => {
       axios
-        .get('api/unverifiedlawyers')
+        .get('/api/unverifiedlawyers')
         .then(async (response) => {
       
             setLoading(false);
@@ -102,6 +102,39 @@ export default () => {
  setIsSuccessful(true);
  setLawyers(gotResponse);
     
+        })
+        .catch((e) => {
+       
+        setIsSuccessful(false);
+        setLoading(false);
+        setShowModal(true);
+        error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+        });
+        
+    });
+  };
+
+  const verifyLawyer = (
+    setMessage, setLoading, setIsSuccessful, lawyerId, setShowModal
+   
+  ) => {
+   
+   
+    setLoading(true);
+    http().then((axios) => {
+      axios
+        .patch(`/api/verifylawyer/${lawyerId}`, 
+        {verified: true})
+        .then(async (response) => {
+      
+            setLoading(false);
+            console.log(response, 'verification response')
+ setMessage("Verification Successful");
+
+ setIsSuccessful(true);
+ setShowModal(true);
+ 
+
         })
         .catch((e) => {
        
@@ -214,8 +247,114 @@ export default () => {
         
     });
   };
+
+
+  const getLawyer = (
+    setMessage,
+    setLoading,
+    setIsSuccessful,
+    lawyerId,
+    setDetails
+  ) => {
+    // const userId = localStorage.getItem("userId");
+  
+    setLoading(true);
+  
+    http().then((axios) => {
+      axios
+        .get(`/api/lawyer/${lawyerId}`)
+        .then(async (response) => {
+          setLoading(false);
+  
+          console.log(response);
+          const lawyer = response?.data?.lawyer;
+         
+          
+            if (lawyer?._id === lawyerId) {
+              setMessage("You have successfully gotten  profile details");
+              setIsSuccessful(true);
+              setDetails(lawyer);
+              // setTimeout(() => {
+              //   setIsSuccessful(false);
+              
+                
+               
+              //   navigate('/lawyer/profile')
+              //   console.log('navigating....')
+                
+              // }, 2000);
+             
+            } else {
+              setMessage("You do not have permission to view these profile details.");
+              setIsSuccessful(false);
+            }
+          
+            
+          
+        })
+        .catch((e) => {
+          setIsSuccessful(false);
+          setLoading(false);
+          // Handle API request error
+          error(e, setMessage, setLoading, setIsSuccessful);
+        });
+    });
+  };
+
+ 
+  const getCompany = (
+    setMessage,
+    setLoading,
+    setIsSuccessful,
+    companyId,
+    setDetails
+  ) => {
+    // const userId = localStorage.getItem("userId");
+  
+    setLoading(true);
+  
+    http().then((axios) => {
+      axios
+        .get(`/api/company/${companyId}`)
+        .then(async (response) => {
+          setLoading(false);
+  
+          console.log(response);
+          const company = response?.data?.company;
+         
+          
+            if (company?._id === companyId) {
+              setMessage("You have successfully gotten  profile details");
+              setIsSuccessful(true);
+              setDetails(company);
+              // setTimeout(() => {
+              //   setIsSuccessful(false);
+              
+                
+               
+              //   navigate('/lawyer/profile')
+              //   console.log('navigating....')
+                
+              // }, 2000);
+             
+            } else {
+              setMessage("You do not have permission to view these profile details.");
+              setIsSuccessful(false);
+            }
+          
+            
+          
+        })
+        .catch((e) => {
+          setIsSuccessful(false);
+          setLoading(false);
+          // Handle API request error
+          error(e, setMessage, setLoading, setIsSuccessful);
+        });
+    });
+  };
   return {
    
-getCompanies, getVerifiedLawyers, getUnverifiedLawyers, getPendingJobs, getUnassignedJobs, getCompletedJobs
+getCompanies, getVerifiedLawyers, getUnverifiedLawyers, verifyLawyer, getPendingJobs, getUnassignedJobs, getCompletedJobs, getLawyer, getCompany
     };
 };

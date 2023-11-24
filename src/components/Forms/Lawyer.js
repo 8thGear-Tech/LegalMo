@@ -3,23 +3,61 @@ import React, { useRef, useState } from "react";
 import lawyerImage from '../../assets/images/lawyer-image.svg'
 import { useAppContext } from "../../AppContext";
 
-export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOptions })=> {
-  const{updateLawyerUserProfilePicture} = useAppContext();
- const [formData, setFormData] = useState({
-  ...initialDetails,
-});
+const areasOfPractiseOptions = [
+  'Maritime', 
+'International Trade and Investment', 
+'Tax Practise', 
+'Aviation and Space',
+'Sports',
+'Entertainment', 
+'Technology', 
+// 'Public Sector',
+// 'Debt Recovery and Insolvency', 
+// 'Dispute Resolution and Litigation',
+// 'Information Technology', 
+// 'Corporate Commercial', 
+// 'Corporate Advisory', 
+// 'Alternate Dispute Resolution', 
+// 'Arbitration', 
+// 'Banking and Finance', 
+// 'Compliance and Investigations', 
+// 'Capital Markets', 
+// 'Corporate Governance', 
+// 'Employment', 
+// 'Energy and Natural Resources', 
+// 'Intellectual Property', 
+// 'Mergers and Acquisition',
+// 'Media',
+// 'Oil and Gas', 
+// 'Power',
+// 'Real Estate'
+]
+
+export const LawyerProfileForm=({ initialDetails, onSave, onCancel })=> {
+  
+  const [formData, setFormData] = useState({
+    ...initialDetails,
+    areasOfPractise: initialDetails?.areasOfPractise || [], 
+  });
+  const {setLawyerUserProfilePicture}= useAppContext()
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
-
+const [areasOfPractise, setAreasOfPractise]= useState([])
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
+  
+  
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     
     setImageFile(file);
+   
     
   };
 
@@ -27,24 +65,28 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
     fileInputRef.current.click();
     
   };
-
+ 
+  
  
   const handleButtonClick = (option) => {
-    const updatedExpertise = formData.expertise.includes(option)
-      ? formData.expertise.filter((item) => item !== option)
-      : [...formData.expertise, option];
-    setFormData({ ...formData, expertise: updatedExpertise });
+    const updatedAreasofPractise = formData?.areasOfPractise.includes(option)
+      ? formData?.areasOfPractise.filter((item) => item !== option)
+      : [...formData?.areasOfPractise, option];
+      console.log(updatedAreasofPractise)
+      setAreasOfPractise(updatedAreasofPractise);
+    setFormData({ ...formData, areasOfPractise: updatedAreasofPractise });
+    setLawyerUserProfilePicture(imageFile);
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedDetails = {
-      ...formData,
-      lawyerImage: imageFile ? URL.createObjectURL(imageFile) : formData.lawyerImage,
-    };
-    updateLawyerUserProfilePicture(updatedDetails.lawyerImage)
-    onSave(updatedDetails);
+    
+    onSave(formData, imageFile, areasOfPractise);
   };
+
+
+ 
     return (
       <form className='' onSubmit={handleSubmit}>
         <div className="position-relative">
@@ -68,7 +110,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         ref={fileInputRef}
         type="file"
         id="profileImageInput"
-        
+        accept="image/*"
         style={{ display: 'none' }}
         onChange={handleImageUpload}
       /></i>
@@ -79,7 +121,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
         <div className="profile-container" >
         
           <div className="d-flex gap-3 align-items-center">
-      <img  src={imageFile ? URL.createObjectURL(imageFile) : formData.lawyerImage} alt='lawyer' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
+      <img  src={imageFile ? URL.createObjectURL(imageFile) : formData.profileImage?.url} alt='lawyer' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
       <h5 className="mt-2" style={{fontWeight:'500'}}>Profile</h5>
       </div>
       <div className="d-flex gap-2 mt-4 mt-sm-2">
@@ -95,11 +137,11 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
       <div>
         <h5 className="mt-sm-5 pt-sm-5" style={{fontWeight:'600'}}>Expertise</h5>
         <div className="mt-3">
-          {expertiseOptions.map((option, index) => (
+          {areasOfPractiseOptions.map((option, index) => (
             <button
               key={index}
               type="button"
-              className={`btn ${formData.expertise.includes(option) ? "btn-primary" : "btn-outline-secondary"} me-2 mb-2`}
+              className={`btn ${formData?.areasOfPractise.includes(option) ? "btn-primary" : "btn-outline-secondary"} me-2 mb-2`}
               onClick={() => handleButtonClick(option)}
             >
               {option}
@@ -115,8 +157,8 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               
               <input
         type="email"
-        name="email"
-        value={formData.email}
+        name="officialEmail"
+        value={formData?.officialEmail}
         onChange={handleInputChange} className="py-2 px-md-2 col"
       />
                 
@@ -126,7 +168,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               <input
         type="text"
         name="scn"
-        value={formData.scn}
+        value={formData?.scn}
         onChange={handleInputChange} className="py-2 px-md-2 col"
       />
             </div>
@@ -140,8 +182,8 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               <div className="col">
               <textarea
         type="text"
-        name="bio"
-        value={formData.bio}
+        name="yourBio"
+        value={formData?.yourBio || ''}
         onChange={handleInputChange} className="py-2 px-md-2 w-100" rows={5}></textarea>
         <p className="text-muted">400 characters left</p>
         </div>
@@ -150,10 +192,10 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
             <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
               <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Year of Call</h6>
               <input
-        type="date"
+        type="text"
         id="yearOfCall"
         name="yearOfCall"
-        value={formData.yearOfCall}
+        value={formData?.yearOfCall || ''}
         onChange={handleInputChange}className="py-2 px-md-2 col"
       />
             </div>
@@ -162,7 +204,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               <input
   type="text"
   name="phoneNumber"
-  value={formData.phoneNumber}
+  value={formData?.phoneNumber}
   onChange={(event) => {
     const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
     setFormData({ ...formData, phoneNumber: numericValue });
@@ -177,9 +219,9 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel, expertiseOpt
               <p className="text-muted">Enter an alternate email if you would like to be contacted via a different email</p>
               </div>
               <input
-        type="text"
-        name="alternateEmail"
-        value={formData.alternateEmail}
+        type="email"
+        name="alternativeEmailAddress"
+        value={formData?.alternativeEmailAddress || ''}
         onChange={handleInputChange} className="py-2 px-md-2 col"
       />
             </div>

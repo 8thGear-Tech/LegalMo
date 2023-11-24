@@ -14,7 +14,7 @@ export const CompanyDetailsForm=()=> {
   }
 
   export const CompanyProfileForm=({ initialDetails, onSave, onCancel })=> {
-    const {updateCompanyUserProfilePicture} = useAppContext();
+    // const {updateCompanyUserProfilePicture} = useAppContext();
 
     const [formData, setFormData] = useState({
       ...initialDetails,
@@ -24,13 +24,17 @@ export const CompanyDetailsForm=()=> {
   
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     };
   
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
       
       setImageFile(file);
+      console.log(imageFile)
       
     };
   
@@ -44,12 +48,9 @@ export const CompanyDetailsForm=()=> {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      const updatedDetails = {
-        ...formData,
-        companyImage: imageFile ? URL.createObjectURL(imageFile) : formData.companyImage,
-      };
-      updateCompanyUserProfilePicture(updatedDetails.companyImage)
-      onSave(updatedDetails);
+      console.log(imageFile)
+      onSave(formData, imageFile);
+     
     };
       return (
         <form className='' onSubmit={handleSubmit}>
@@ -73,6 +74,7 @@ export const CompanyDetailsForm=()=> {
                 <i className='bi bi-camera'> <input
           ref={fileInputRef}
           type="file"
+          accept="image/*"
           id="profileImageInput"
           
           style={{ display: 'none' }}
@@ -85,7 +87,7 @@ export const CompanyDetailsForm=()=> {
           <div className="profile-container" >
           
             <div className="d-flex gap-3 align-items-center">
-        <img  src={imageFile ? URL.createObjectURL(imageFile) : formData.companyImage} alt='company' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
+        <img  src={imageFile ? URL.createObjectURL(imageFile) : formData?.profileImage?.url} alt='company' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
         <h5 className="mt-2" style={{fontWeight:'500'}}>Profile</h5>
         </div>
         <div className="d-flex gap-2 mt-4 mt-sm-2">
@@ -104,8 +106,8 @@ export const CompanyDetailsForm=()=> {
                 
                 <input
           type="email"
-          name="email"
-          value={formData.email}
+          name="officialEmail"
+          value={formData?.officialEmail}
           onChange={handleInputChange} className="py-2 px-md-2 col"
         />
                   
@@ -115,7 +117,7 @@ export const CompanyDetailsForm=()=> {
                 <input
           type="text"
           name="website"
-          value={formData.website}
+          value={formData?.website || ''}
           onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
@@ -128,8 +130,8 @@ export const CompanyDetailsForm=()=> {
               <div className="col">
               <textarea
         type="text"
-        name="bio"
-        value={formData.bio}
+        name="yourBio"
+        value={formData?.yourBio || ''}
         onChange={handleInputChange} className="py-2 px-2 w-100" rows={5}></textarea>
         <p className="text-muted">400 characters left</p>
         </div>
@@ -141,7 +143,7 @@ export const CompanyDetailsForm=()=> {
                 <input
   type="text"
   name="phoneNumber"
-  value={formData.phoneNumber}
+  value={formData?.phoneNumber}
   onChange={(event) => {
     const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
     setFormData({ ...formData, phoneNumber: numericValue });
@@ -156,8 +158,8 @@ export const CompanyDetailsForm=()=> {
                 <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Physical Address</h6>
                 <input
           type="text"
-          name="physicalAddress"
-          value={formData.physicalAddress}
+          name="officeAddress"
+          value={formData?.officeAddress || ''}
           onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
@@ -168,8 +170,8 @@ export const CompanyDetailsForm=()=> {
                 </div>
                 <input
           type="text"
-          name="alternateEmail"
-          value={formData.alternateEmail}
+          name="alternativeEmailAddress"
+          value={formData?.alternativeEmailAddress || ''}
           onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>

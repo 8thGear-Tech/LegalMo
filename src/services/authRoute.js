@@ -31,7 +31,7 @@ const login = (
 
           const gotResponse = response?.data;
           if (gotResponse?.status === 'success') {
-            setUserData(gotResponse?.data);
+            setUserData(gotResponse?.data?.user);
             localStorage.setItem('userToken', gotResponse?.token);
             localStorage.setItem('userType', gotResponse?.data?.user?.userType);
             localStorage.setItem('userId', gotResponse?.data?.user?._id);
@@ -237,11 +237,21 @@ const login = (
      localStorage.removeItem('userToken');
      
      localStorage.removeItem('userType');
-  
+     localStorage.removeItem('userId');
 
-     navigate('/home');
-     
-  
+    http()
+      .then((axios) => {
+        axios
+        .post('/api/logout')
+          .then(async (response) => {  
+                navigate('/home')
+          })
+         
+          .catch((e) => {
+           
+            console.error('unable to log out')
+          });
+      });
   };
 
   const forgotPassword = (body, setLoading,setIsSuccessful, setMessage, setShowModal, setEmailSubmitted) => {

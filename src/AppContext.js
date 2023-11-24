@@ -3,8 +3,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import companyImage from './assets/images/adminprofile-lg.svg'
 import lawyerImage from './assets/images/lawyer-image.svg'
 
-import { ProductItem } from "./pages/Company/ProductItem";
+// import { ProductItem } from "./pages/Company/ProductItem";
 import { jobLists } from './pages/Admin/JobLists';
+import productRoute from './services/productRoute';
 
 
 
@@ -15,16 +16,17 @@ export const AppContext = createContext();
 export const AppContextProvider = (props) => {
   const [companyUserProfilePicture, setCompanyUserProfilePicture] = useState(companyImage);
   const [lawyerUserProfilePicture, setLawyerUserProfilePicture] = useState(lawyerImage);
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
   const [companyName, setCompanyName] = useState('');
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [submittedInfo, setSubmittedInfo] = useState(null);
-
+  const [productData, setProductData] = useState([]);
   const [jobList, setJobList] = useState(jobLists)
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData]= useState([]);
   // useEffect(() => {
   //   // Check local storage for authentication status when the component mounts
   //   const storedAuthStatus = localStorage.getItem('authenticated');
@@ -101,32 +103,87 @@ export const AppContextProvider = (props) => {
   }
   const selectedRange = calculateProgress(averageRating);
   const { label, minRating, maxRating } = selectedRange || {};
-  
-const addToCart = (itemId, quantity) => {
+ 
+  // const addToCart = (productId, quantity, details) => {
+  //   const existingProductIndex = cartItems.findIndex(
+  //     (item) => item.productId === productId
+  //   );
+
+  //   if (existingProductIndex !== -1) {
+  //     // If product already exists, update the quantity
+  //     const updatedCart = [...cartItems];
+  //     updatedCart[existingProductIndex].quantity += quantity;
+  //     updatedCart[existingProductIndex].details = details;
+  //     setCartItems(updatedCart);
+  //   } else {
+  //     // If the product is not in the list, add it as a new item in the cart
+  //     const newCartItem = {
+  //       productId: productId,
+  //       quantity: quantity,
+  //       details: details,
+  //       // Add other details as needed (e.g., product details)
+  //     };
+  //     setCartItems([...cartItems, newCartItem]);
+  //   }
+  // };
+
+  // const updateCartItem = (productId, newQuantity) => {
+  //   setCartItems((prevCartItems) =>
+  //     prevCartItems.map((item) =>
+  //       item.productId === productId ? { ...item, quantity: newQuantity } : item
+  //     )
+  //   );
+  // };
+
+const addToCart = (productId, quantity) => {
     setCartItems((prevCart) => {
       const newCart = { ...prevCart };
   
-      if (newCart[itemId]) {
-        newCart[itemId] += quantity; 
+      if (newCart[productId]) {
+        newCart[productId] = quantity; 
       } else {
-        newCart[itemId] = quantity; 
+        newCart[productId] = quantity; 
       }
   
       return newCart;
     });
   };
  
-  const removeFromCart = (itemId) => {
+
+
+
+// const addToCart = (productId, quantity) => {
+//   setCartItems((prevCart) => {
+//     const existingProductIndex = prevCart.findIndex((item) => item.productId === productId);
+
+//     if (existingProductIndex !== -1) {
+//       // If the product already exists in the cart, update the quantity
+//       const updatedCart = [...prevCart];
+//       updatedCart[existingProductIndex].quantity += quantity;
+//       return updatedCart;
+//     } else {
+//       // If the product is not in the cart, add it as a new item
+//       const newCartItem = {
+//         productId: productId,
+//         quantity: quantity,
+        
+//       };
+//       return [...prevCart, newCartItem];
+//     }
+//   });
+// };
+
+  const removeFromCart = (productId) => {
     setCartItems((prevCart) => {
  
       const newCart = { ...prevCart };
 
-      if (newCart[itemId]) {
+      if (newCart[productId]) {
        
-        newCart[itemId]--;
+        newCart[productId]--;
         
-        if (newCart[itemId] === 0) {
-          delete newCart[itemId];
+        if (newCart[productId] === 0) {
+          delete newCart[productId];
         }
       }
 
@@ -135,18 +192,18 @@ const addToCart = (itemId, quantity) => {
   };
 
  
-  const changeQuantity = (itemId, newQuantity) => {
+  const changeQuantity = (productId, newQuantity) => {
     setCartItems((prevCart) => {
       
       const newCart = { ...prevCart };
 
      
-      if (newCart[itemId]) {
+      if (newCart[productId]) {
         
-        newCart[itemId] = newQuantity;
+        newCart[productId] = newQuantity;
 
         if (newQuantity <= 0) {
-          delete newCart[itemId];
+          delete newCart[productId];
         }
       }
 
@@ -159,33 +216,33 @@ const addToCart = (itemId, quantity) => {
     let totalAmount = 0;
 
     
-    for (const itemId in cartItems) {
-      const itemQuantity = cartItems[itemId];
-      const itemInfo = ProductItem.find((product) => product.id === Number(itemId));
+    for (const productId in cartItems) {
+      const itemQuantity = cartItems[productId];
+      const itemInfo = productData?.find((product) => product.id === Number(productId));
 
       if (itemInfo) {
-        totalAmount += itemQuantity * itemInfo.productAmount;
+        totalAmount += itemQuantity * itemInfo.productPrice;
       }
     }
 
     return totalAmount;
   };
 
-  const updateCompanyUserProfilePicture = (newProfilePictureUrl) => {
-    setCompanyUserProfilePicture(newProfilePictureUrl);
-  };
+  // const updateCompanyUserProfilePicture = (newProfilePictureUrl) => {
+  //   setCompanyUserProfilePicture(newProfilePictureUrl);
+  // };
 
-  const updateLawyerUserProfilePicture = (newProfilePictureUrl) => {
-    setLawyerUserProfilePicture(newProfilePictureUrl);
-  };
+  // const updateLawyerUserProfilePicture = (newProfilePictureUrl) => {
+  //   setLawyerUserProfilePicture(newProfilePictureUrl);
+  // };
 
   const contextValue = {
     jobList, setJobList,
-    cartItems,
+    cartItems, setCartItems,
     addToCart,
     removeFromCart,
     changeQuantity,
-    getTotalCartAmount,selectedProduct,setSelectedProduct, selectedRating, setSelectedRating, companyName,setCompanyName, reviewTitle,setReviewTitle, reviewText,setReviewText, submittedInfo,setSubmittedInfo, reviews,setReviews,newReview,setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, calculateProgress,selectedRange, label, updateCompanyUserProfilePicture, updateLawyerUserProfilePicture, companyUserProfilePicture,lawyerUserProfilePicture, authenticated, setAuthenticated
+    getTotalCartAmount,selectedProduct,setSelectedProduct, selectedRating, setSelectedRating, companyName,setCompanyName, reviewTitle,setReviewTitle, reviewText,setReviewText, submittedInfo,setSubmittedInfo, reviews,setReviews,newReview,setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, calculateProgress,selectedRange, label, setCompanyUserProfilePicture, setLawyerUserProfilePicture, companyUserProfilePicture,lawyerUserProfilePicture, authenticated, setAuthenticated, userData, setUserData, productData, setProductData
   };
 
   return (

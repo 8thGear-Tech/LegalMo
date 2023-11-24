@@ -37,7 +37,7 @@ export default () => {
       setTimeout(() => {
         setIsSuccessful(false);
         
-        navigate('/login');
+       
       }, 2500);
     }
     if (e.response.status == 500) {

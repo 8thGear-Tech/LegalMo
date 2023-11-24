@@ -39,7 +39,7 @@ export default () => {
        
         setIsSuccessful(false);
         setLoading(false);
-        setShowModal(true);
+       
         error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
         });
         
@@ -82,6 +82,7 @@ console.log(token)
  setMessage("New Product Created");
 
  setIsSuccessful(true);
+ setShowModal(true);
  setProductData(gotResponse);
  setTimeout(() => {
   setIsSuccessful(false);
@@ -122,6 +123,7 @@ console.log(token)
  setMessage("Product deleted successfully");
 
  setIsSuccessful(true);
+ setShowModal(true)
  setProductData(updatedProductData);
     
         })
@@ -168,7 +170,7 @@ console.log(token)
        
         setIsSuccessful(false);
         setLoading(false);
-        setShowModal(true);
+        
         error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
         });
         

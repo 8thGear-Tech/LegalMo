@@ -77,151 +77,7 @@ function App() {
   const [otpVerified, setOtpVerified] = useState(false);
   return (
 
-  //   <BrowserRouter>
-
-  //   <Routes>
-  //     {/*Website*/}
-  //       {/* Public Routes */}
-  //     <Route path="/" element={<Home />} />
-      
-  //     <Route path="/home" element={<Landing />} />
-
-  //     <Route path="/products" element={<Products />} />
-      
-  //     <Route path="/about-us" element={<About />} />
-  //     <Route path="/login" element={<Login/>} />
-    
-  //     <Route path="/password-reset" element={<PasswordReset  setEmailSubmitted={setEmailSubmitted}/>} />
-
-  //     <Route path="/otp/:userEmail" element={emailSubmitted ? (
-  //         <OTP setOtpVerified={setOtpVerified} />
-  //       ) : (
-  //         <Navigate to="/password-reset" />
-  //       )} />
-
-  //     <Route path="/new-password/:token/:userEmail" element={otpVerified ? (
-  //         <NewPassword />
-  //       ) : (
-  //         <Navigate to="/otp/:userEmail" />
-  //       )} />
-
-  //     <Route
-  //       path="Legal-Practitioners-Renumeration-Order-2023"
-  //       element={<LegalRenumerationOrder />}
-  //     />
-
-  //     {/*Company*/}
-      
-  //     {/* Public Routes */}
-  //     <Route path="/signup/asacompany" element={<CompanySignUp/>} />
-  //     {/* <Route path="/signup/nextcompany" element={<NextCompanySignUp/>} /> */}
-      
-  //     <Route path="/pre-cart/:productId"  element={<Precart/>} />
-  //     <Route path="/cart" element={<Cart/>} />
-
-  //     {/* Protected Routes */}
-  //     { authenticatedUserRole === 'admin' || authenticatedUserRole === 'company' && authenticatedToken && 
-  //     <>
-  //     <Route
-  //       path="/company/dashboard"
-  //       element={
-  //           <CompanyDashboard />
-  //       }/>
-  //     <Route
-  //       path="/company/profile"
-  //       element={  <CompanyProfile />
-  //       }/>
-  //       </>
-  //       }
-
-       
-   
-
-  //     {/*Lawyer*/}
-  //       {/* Public Routes */}
-        
-  //     <Route path="/signup/asalawyer" element={<LawyerSignUp/>} />
-  //     {/* <Route path="/signup/nextlawyer" element={<NextLawyerSignUp/>} /> */}
-
-  //      {/* Protected Routes */}
-  //      { authenticatedUserRole === 'admin' || authenticatedUserRole === 'lawyer' && authenticatedToken && 
-  //     <>
-  //     <Route path="/lawyer/dashboard" element={
-  //       <LawyerDashboard/>
-  //     } />
-
-  //     <Route path="/lawyer/get-paid" element={
-  //       <GetPaid/>
-  //     } />
-
-  //       <Route path="/lawyer/profile" element={
-  //         <LawyerProfile/>
-  //       } />
-
-  //       <Route path="/lawyer/otp" element={
-  //         <LawyerOTP/>
-  //       } />
-
-    
-  //       <Route path="/lawyer/available-jobs" element={
-  //         <AvailableJobs/>
-  //       } />
-
-  //       <Route path="/lawyer/available-job-item/:jobId"  element={
-  //         <AvailableJobItem/>
-  //       } />
-  //       </>
-  //       }
-        
-
-  //     {/*Admin*/}
-  //    {/* Public Routes */}
-  //     <Route path="/signup/asanadmin" element={<AdminSignUp/>} />
-      
-  //  {/* Protected Routes */}
-  //  { authenticatedUserRole === 'admin' && authenticatedToken && 
-  //     <>
-  //     <Route path="/admin/dashboard" element={
-  //       <AdminDashboard/>
-  //     } />
-
-  //     <Route path="/admin/ratings" element={
-  //       <Ratings/>
-  //     } />
-
-  //     <Route path="/admin/jobs" element={
-  //       <Jobs/>
-  //     } />
-
-  //     <Route path="/admin/lawyers" element={
-  //       <Lawyers/>
-  //     } />
-
-  //     <Route path="/admin/companies" element={
-  //       <Companies/>
-  //     } />
-
-  //       <Route path="/admin/new-product" element={
-  //         <CreateProductPage/>
-  //       } />
-
-  //       <Route path="/admin/assign-job" element={
-  //         <AssignedJobs/>
-  //       } />
-
-  //       <Route path="/admin/payment" element={
-  //         <Payment/>
-  //       } />
-
-  //       <Route path="/admin/get-paid" element={
-  //         <GetPaidAdmin/>
-  //       } />
-  //       </>
-  //       }
-        
-  //         <Route path="*" element={<Landing/> }/>
-  //   </Routes>
-  // </BrowserRouter>
+  
     <BrowserRouter>
 
       <Routes>
@@ -278,7 +134,7 @@ function App() {
           }/>
 
          <Route
-          path="/company/profile"
+          path="/company/profile/:companyId"
           element={
             <ProtectedRoute allowedRoles={['company']}>
               <CompanyProfile />
@@ -301,7 +157,7 @@ function App() {
           <GetPaid/>
         </ProtectedRoute>} />
 
-          <Route path="/lawyer/profile" element={<ProtectedRoute allowedRoles={['lawyer']}>
+          <Route path="/lawyer/profile/:lawyerId" element={<ProtectedRoute allowedRoles={['lawyer']}>
             <LawyerProfile/>
           </ProtectedRoute>} />
 
@@ -310,7 +166,7 @@ function App() {
           </ProtectedRoute>} />
 
       
-          <Route path="/lawyer/available-jobs" element={<ProtectedRoute allowedRoles={['lawyer']}>
+          <Route path="/lawyer/available-jobs/:lawyerId" element={<ProtectedRoute allowedRoles={['lawyer']}>
             <AvailableJobs/>
           </ProtectedRoute>} />
 

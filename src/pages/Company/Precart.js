@@ -8,6 +8,9 @@ import Footer from '../../components/Footer'
 import { useAppContext } from '../../AppContext';
 import axios from 'axios';
 import productRoute from '../../services/productRoute';
+import ratingsRoute from '../../services/ratingsRoute';
+import companyRoute from '../../services/companyRoute';
+import { LoginModal } from '../../components/Forms/Authenticationforms';
 
 
 export const shuffleArray = (array) => {
@@ -175,6 +178,8 @@ export function getRatingStars(rating) {
 }
 
 export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill, handleDeleteReview, handleEditReview, isLoggedIn })=> {
+
+ 
   return (
     <div className='px-lg-5 mx-2 d-block d-sm-flex justify-content-between gap-4 flex-wrap review-container '> 
     <div className="d-flex flex-column gap-1 mb-5 average-review">
@@ -224,7 +229,11 @@ return (
     </div >
     <div className="d-flex flex-wrap">
 {reviews.map((review, index) => {
-  const { id, reviewText, reviewTitle, companyName, rating, date } = review;
+  const { id, reviewText, reviewTitle, companyName, rating, date, companyId } = review;
+
+  const userId= localStorage.getItem('userId')
+
+  const isLoggedInUserReview = isLoggedIn && (userId === companyId);
   return (
     <div key={id} className={`col-12 col-md-${reviews.length === 1 ? '12' : '6'} mb-4 review-card${index >= 3 ? ' mt-4' : ''}`}>
       <div className='d-flex gap-3'>
@@ -240,7 +249,7 @@ return (
             </div>
            
            
-            {isLoggedIn && review.id !== 1 && (  
+            {isLoggedInUserReview && review.id !== 1 &&  (  
               <div> <button onClick={() => handleEditReview(review)} className="btn btn-primary mt-2 me-2"><i className="bi bi-pencil-square"></i></button>
 
       <button onClick={() => handleDeleteReview(review.id)} className="btn btn-danger mt-2"><i className="bi bi-trash" style={{color:''}}></i></button>
@@ -256,10 +265,10 @@ return (
 }
 
 export function Precart() {
-const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label} = useAppContext();
+const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label, productData, setProductData, userData, cartItems, setCartItems} = useAppContext();
 const {productId} = useParams();
 const [product, setProduct] = useState(null);
-const [productData, setProductData] = useState([]);
+
 
 
 
@@ -268,6 +277,7 @@ const [editReviewId, setEditReviewId] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [details, setDetails] = useState('')
+  // const [companyId, setCompanyId] = useState('')
 const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
@@ -277,14 +287,17 @@ const [isLoading, setIsLoading] = useState(true);
 const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
- 
+  const [reservedItems, setReservedItems] = useState([]); 
   const [showModal, setShowModal] = useState(false);
 const {getOneProduct, getProducts}= productRoute()
+const {getAllRatings, createRating, editRating, deleteRating}= ratingsRoute()
+const {createCart, checkout} = companyRoute()
 
+const userType = localStorage.getItem('userType');
+  const token = localStorage.getItem('userToken');
 useEffect(() => {
 
-  const userType = localStorage.getItem('userType');
-  const token = localStorage.getItem('userToken');
+  
     if (userType && token)  {
     setIsLoggedIn(true);
   } else {
@@ -292,7 +305,7 @@ useEffect(() => {
     setIsLoggedIn(false);
   }
 
-  setIsLoading(false);
+  
 }, []);  
 
 useEffect(() => {
@@ -301,38 +314,13 @@ useEffect(() => {
   );
 }, [productId]);
 
+
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://legalmo-server.onrender.com/api/rating');
-      const apiReviews = response.data.map(review => ({
-        id: review._id,
-        date: formatDateToWords(new Date(review.date)),
-        reviewTitle: '',
-        companyName: '',
-        reviewText: review.review,
-        rating: review.status,
-      }));
+  getAllRatings(setMessage, setLoading, setIsSuccessful, reviews,setReviews, setShowModal);
+}, []);
 
-    
-      const filteredApiReviews = apiReviews.filter(apiReview => (
-        !reviews.some(existingReview => existingReview.id === apiReview.id)
-      ));
 
-      
-      const mergedReviews = [
-        ...reviews, 
-        ...filteredApiReviews
-      ];
 
-      setReviews(mergedReviews);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-  };
-
-  fetchData();
-}, [reviews]);
 
 useEffect(() => {
   getProducts(setMessage, setLoading, setIsSuccessful, setProductData, setShowModal);
@@ -348,11 +336,6 @@ useEffect(() => {
 }, [productData]);
 
 
-
-
-
-
-
 const handleRatingClick = (rating) => {
   setSelectedRating(rating);
 };
@@ -366,71 +349,33 @@ const handleSubmit = (e) => {
   }
 };
 
-const handleReviewSubmit = async () => {
+const handleReviewSubmit =  () => {
   if(!isLoggedIn){
     return
   }
 
 
-  const currentDate = formatDateToWords(new Date());
+ 
 
   const body = {
     review: newReview.reviewText, 
     status: selectedRating, 
+    reviewTitle:newReview.reviewTitle,
+    productId:productId,
   };
-  
 
+  console.log(body,'my body')
+ createRating(
+  body, setMessage, setLoading, setIsSuccessful, reviews, setReviews, setShowModal
  
-
-  try {
-    const authToken = localStorage.getItem('userToken');
-    
-  
-
-  if (authToken) {
-    const headers = {
-      'Authorization': `Bearer ${authToken}`
-    };
-
-    const response = await axios.post('https://legalmo-server.onrender.com/api/rating', body , {headers});
- 
-    const newReviewId = response.data._id;
-   
-
- 
-    const updatedReviews = [
-      ...reviews,
-      // {
-      //   id: newReviewId,
-      //   date: currentDate,
-      //   reviewTitle: newReview.reviewTitle,
-      //   companyName: newReview.companyName,
-      //   reviewText: newReview.reviewText,
-      //   rating: selectedRating,
-      // }
-      {
-        id: newReviewId,
-        date: formatDateToWords(new Date(response.data.date)),
-        reviewTitle: '',
-        companyName: '',
-        reviewText: response.data.review,
-        rating: response.data.status,
-      }
-    ];
-
-    setReviews(updatedReviews);
+)
     setNewReview({
       reviewTitle: '',
-      companyName: '',
+      // companyName: '',
       reviewText: '',
     });
     setSelectedRating(0);
-  } else {
-    alert("User is not logged in");
-  }
-} catch (error) {
-  console.error('Error submitting review:', error);
-}
+  
 };
 
 const handleEditReview = (review) => {
@@ -438,137 +383,68 @@ const handleEditReview = (review) => {
   console.log(review.id);
   setNewReview({
     reviewTitle: review.reviewTitle,
-    companyName: review.companyName,
+    // companyName: review.companyName,
     reviewText: review.reviewText,
   });
   setSelectedRating(review.rating);
 
 };
+const handleUpdateReview =  () => {
+  if (editReviewId) {
+    const body = {
+      review: newReview.reviewText,
+      status: selectedRating,
+      reviewTitle:newReview.reviewTitle,
+      productId:productId,
+    };
+    console.log(body,'my body')
+    editRating(
+      editReviewId,
+      body,
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setEditReviewId,
+      reviews,
+      setReviews,
+      setNewReview,
+      setShowModal
+    );
+  }
+  setEditReviewId(null);
+  setNewReview({
+    reviewTitle: '',
+    // companyName: '',
+    reviewText: '',
+  });
+  setSelectedRating(0);
+};
+
+
 
 
 const handleCancelEdit = () => {
   setEditReviewId(null); 
   setNewReview({
     reviewTitle: '',
-    companyName: '',
+    // companyName: '',
     reviewText: '',
   });
   setSelectedRating(0); 
 };
 
-const handleUpdateReview = async () => {
+
+
+
+
+const handleDeleteReview =  (reviewId) => {
+  deleteRating(
+    setMessage, setLoading, setIsSuccessful, reviewId, reviews, setReviews, setShowModal
+  )
  
-  if (editReviewId) {
-  
-    const body = {
-      review: newReview.reviewText,
-      status: selectedRating,
-    };
-
-    const authToken = localStorage.getItem('userToken');
-    if (authToken) {
-      const headers = {
-        Authorization: `Bearer ${authToken}`,
-      };
-      try {
-
-        const response = await axios.patch(
-          `https://legalmo-server.onrender.com/api/rating/${editReviewId}`,
-          body,
-          { headers }
-        );
-
-       
-        if (response.status === 200) {
-          
-          const updatedReviews = reviews.map((review) =>
-            review.id === editReviewId
-              ? {
-                  ...review,
-                  reviewText: newReview.reviewText,
-                  rating: selectedRating,
-                }
-              : review
-          );
-
-          setReviews(updatedReviews);
-
-          setEditReviewId(null);
-          setNewReview({
-            reviewTitle: '',
-            companyName: '',
-            reviewText: '',
-          });
-          setSelectedRating(0);
-        } else {
-          
-          console.error('Error updating review:', response.data);
-        }
-      } catch (error) {
-        
-        console.error('Error updating review:', error);
-      }
-    } else {
-      alert('User is not logged in');
-    }
-  } else {
-    
-    console.error('Invalid review ID');
-  }
 };
 
 
-
-const handleDeleteReview = async (reviewId) => {
-
-  try {
-    const authToken = localStorage.getItem('userToken');
-    if (authToken) {
-      const headers = {
-        'Authorization': `Bearer ${authToken}`
-      };
-      
-      await axios.delete(`https://legalmo-server.onrender.com/api/rating/${reviewId}`, { headers });
-      
-    
-      const updatedReviews = reviews.filter(review => review.id !== reviewId);
-      setReviews(updatedReviews);
-    } else {
-      alert("User is not logged in");
-    }
-  } catch (error) {
-    console.error('Error deleting review:', error);
-  }
-};
-
-
-// const handleReviewSubmit = (e) => {
-//   e.preventDefault();
-
-//   const currentDate = formatDateToWords(new Date());
-
-//   const reviewToAdd = {
-//     id: reviews.length + 1,
-//     date: currentDate,
-//     reviewTitle: newReview.reviewTitle,
-//     companyName: newReview.companyName,
-//     reviewText: newReview.reviewText,
-//     rating: selectedRating,
-//   };
-
-//   const updatedReviews = [...reviews, reviewToAdd];
-
-//   // Save reviews to database
-//   localStorage.setItem('reviews', JSON.stringify(updatedReviews));
-
-//   setReviews(updatedReviews);
-//   setNewReview({
-//     reviewTitle: '',
-//     companyName: '',
-//     reviewText: '',
-//   });
-//   setSelectedRating(0);
-// };
 
 
 const handleQuantityChange = (e) => {
@@ -611,30 +487,69 @@ const handleDeleteClick = () => {
   }
 };
 
-const handleReserve = async() => {
-  if (product) {
-    const body={
-    
-      quantity: quantity,
+const handleReserve= ()=> {
+  const userType=localStorage.getItem('userType')
+  if(userType === 'company'){
+
+  const body = {
+    productId: product?._id,
+      quantity:quantity,
       detail:details,
-    };
-
-    try{
-
-      const response = await axios.post('https://legalmo-server.onrender.com/api/cart', body)
-       
-      addToCart(product.id, quantity); 
-    setSelectedProduct(product);
-    navigate('/cart');
-
-      
-    } catch (error){
-      console.error('Error creating cart:', error);
-    }
-    
   }
-};
+  createCart(
+    body, 
+    setMessage,
+    setLoading,
+    setIsSuccessful
+  ) 
 
+  }else{
+
+    
+ 
+    const reservedItem = {
+      productId: product?._id,
+      price: product.productPrice,
+      name: product.productName,
+      productImage: product.productImage,
+      quantity: quantity,
+      detail: details,
+    };let existingReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || { products: [] };
+
+    // Ensure existingReservedItems.products is an array
+    if (!Array.isArray(existingReservedItems.products)) {
+      existingReservedItems.products = [];
+    }
+
+    const existingProductIndex = existingReservedItems.products.findIndex(
+      (item) => item.productId === reservedItem.productId
+    );
+
+    if (existingProductIndex !== -1) {
+      // Update existing item
+      existingReservedItems.products[existingProductIndex] = reservedItem;
+    } else {
+      // Add new item
+      existingReservedItems.products.push(reservedItem);
+    }
+
+    // Update localStorage with the modified items
+    try {
+      localStorage.setItem('reservedItems', JSON.stringify(existingReservedItems));
+      console.log('Data successfully stored in localStorage.');
+    } catch (error) {
+      console.error('Error storing data in localStorage:', error);
+    }
+
+    // Log to check the contents of storedReservedItems
+    const storedReservedItemsString = localStorage.getItem('reservedItems');
+    let storedReservedItems = storedReservedItemsString ? JSON.parse(storedReservedItemsString) : { products: [] };
+    console.log('Stored Reserved Items:', storedReservedItems);
+
+    // Navigate to the cart page
+    navigate('/cart');
+  }
+}
 const handleProductClick = (productId) => {
    
   console.log(`Getting product with ID ${productId}`);
@@ -652,7 +567,7 @@ const handleProductClick = (productId) => {
 
 
 
-if (!product && isLoading) {
+if (loading) {
   return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
  <div className="spinner-border text-secondary" role="status">
   <span className="visually-hidden">Loading...</span>
@@ -700,8 +615,8 @@ if (!product && isLoading) {
          <p className='text-center' style={{fontSize:'16px', fontWeight:'600'}}>Your order will be delivered between 7-10 working days after purchase</p>
          <p className='text-center' style={{fontSize:'17px'}}>Your selection is available for immediate purchase</p>
 
-         <Link to='/signup/asacompany' className='btn btn-primary' style={{width:'100%'}}>Purchase</Link>
-         <button onClick={handleReserve} className='btn btn-outline-primary'  style={{width:'100%'}}>Reserve</button>
+         
+         <button onClick={handleReserve} className='btn btn-primary'  style={{width:'100%'}}>Reserve</button>
         </div>
 
         </div>
@@ -765,7 +680,7 @@ if (!product && isLoading) {
             ))}
           </div>
         </div>
-        <div className='form-group mb-4'>
+        {/* <div className='form-group mb-4'>
     <label name="companyName" className="form-label">Company Name</label>
     <input
       type="text"
@@ -774,7 +689,7 @@ if (!product && isLoading) {
       value={newReview.companyName} 
       onChange={(e) => setNewReview({ ...newReview, companyName: e.target.value })} required
     />
-  </div>
+  </div> */}
   <div className='form-group mb-4'>
     <label name="reviewTitle" className="form-label">Title of your review</label>
     <input
@@ -820,6 +735,13 @@ if (!product && isLoading) {
     
     </div>
     <Footer/>
+    < LoginModal
+        showModal={showModal}
+        isSuccess={isSuccessful}
+        closeModal={() => setShowModal(false)}
+        modalText={message}
+        
+      />
     </>
     
   )

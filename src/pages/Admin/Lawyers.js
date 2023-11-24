@@ -4,6 +4,8 @@ import profileImage from '../../assets/images/lawyer-admin.svg'
 import { Pagination } from '../../components/Buttons/Admin';
 import { ViewMoreModal } from '../../components/Cards/Admin';
 import adminRoute from '../../services/adminRoute';
+import { LoginModal } from '../../components/Forms/Authenticationforms';
+import { useNavigate } from 'react-router-dom';
 
 export const lawyerLists = [
     {
@@ -133,9 +135,11 @@ export const lawyerLists = [
 
   const Lawyers = () => {
     const itemsPerPage = 5
+    const [selectedLawyer, setSelectedLawyer] = useState(null)
     const [statusFilter, setStatusFilter] = useState('Verified');
     const [showViewMoreModal, setShowViewMoreModal] = useState(false);
-    const {getVerifiedLawyers, getUnverifiedLawyers} = adminRoute();
+    const {getVerifiedLawyers, getUnverifiedLawyers, verifyLawyer, getLawyer} = adminRoute();
+    const navigate= useNavigate();
  
     const [pagination, setPagination] = useState({
       currentPage: 1,
@@ -144,7 +148,7 @@ export const lawyerLists = [
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');
     const [isSuccessful, setIsSuccessful] = useState(false);
-   
+   const [details, setDetails]= useState([])
     const [lawyers, setLawyers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     useEffect(() => {
@@ -160,12 +164,13 @@ export const lawyerLists = [
       
     }, [statusFilter]);
   
-    const handleViewMoreShow= () => {
-       
-      setShowViewMoreModal(true);
+    const handleViewMoreShow = (selectedLawyer) => {
+      setSelectedLawyer(selectedLawyer); 
+      setShowViewMoreModal(true); 
     };
   const handleViewMoreClose = () => {
   setShowViewMoreModal(false);
+  setSelectedLawyer(null)
   };
     const handleStatusFilterChange = (newStatus) => {
       setStatusFilter(newStatus);
@@ -188,7 +193,22 @@ export const lawyerLists = [
       return lawyers.slice(startIndex, endIndex);
     };
         
+    const handleVerify= (lawyerId) => {
+      console.log(`Getting lawyer with ID ${lawyerId}`);
+      verifyLawyer(
+        setMessage, setLoading, setIsSuccessful, lawyerId, setShowModal
+       
+      )
+      const updatedLawyers = lawyers.filter(lawyer => lawyer._id !== lawyerId);
+      setLawyers(updatedLawyers);
+  
+    }
+
+    const handleLawyerProfileNavigation = (lawyerId) => {
     
+
+      navigate(`/lawyer/profile/${lawyerId}`)
+    }
 
  
     
@@ -228,7 +248,7 @@ export const lawyerLists = [
                       style={{ borderBottom: '1px solid #CFCFCF' }}
                     >
 
-                      <img src={profileImage} alt={lawyer.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
+                      <img src={lawyer?.profileImage?.url} alt={lawyer.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
                       <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-3 gap-md-5 gap-sm-3'>
                         <h6>{lawyer.name}</h6>
 
@@ -241,7 +261,7 @@ export const lawyerLists = [
                             color: '#02143A',
                             backgroundColor: 'transparent',
                             border: 'none',
-                          }} onClick={handleViewMoreShow}
+                          }} onClick={() => handleViewMoreShow(lawyer)}
                           className='mb-2'
                         >
                           <h6>View more</h6>
@@ -263,7 +283,16 @@ export const lawyerLists = [
           </div>
         )}
         </div>
-        <ViewMoreModal handleViewMoreClose={handleViewMoreClose} handleViewMoreShow={handleViewMoreShow} showViewMoreModal={showViewMoreModal}/>
+        <ViewMoreModal handleViewMoreClose={handleViewMoreClose} handleViewMoreShow={handleViewMoreShow} showViewMoreModal={showViewMoreModal}
+        lawyer={selectedLawyer}
+        handleVerify={handleVerify} handleLawyerProfileNavigation={handleLawyerProfileNavigation}/>
+        <LoginModal
+        showModal={showModal}
+       isSuccess={isSuccessful}
+        closeModal={()=> setShowModal(false)}
+        modalText={message}
+       
+      />
       </AdminNavbar>
     
     );

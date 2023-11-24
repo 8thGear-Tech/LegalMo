@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import profileImage from '../../assets/images/adminprofile.png'
 import lawyerImage from '../../assets/images/lawyer-image.svg'
@@ -6,18 +6,25 @@ import legalMoLogo from "../../assets/images/legalmologo.svg";
 import { NavLoginbtn } from "../Buttons/Navbarbtns";
 import { useAppContext } from "../../AppContext";
 import authRoute from "../../services/authRoute";
-
+import { LawyerProfileForm } from "../Forms/Lawyer";
+import user from '../../assets/images/user.svg'
+import lawyerRoute from "../../services/lawyerRoute";
+import companyRoute from "../../services/companyRoute";
 
 const UserNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {logout} = authRoute();
-const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
-    // const isCompanyRoute = location.pathname.includes('/company');
-    // const isLawyerRoute = location.pathname.includes('/lawyer');
 
+    const {getLawyerProfile}= lawyerRoute()
+    const {getCompanyProfile}= companyRoute()
   
-
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
+    const [isSuccessful, setIsSuccessful] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+  
+    const [details, setDetails] = useState([]);
 
   
    const [showContactButtons, setShowContactButtons] = useState(false);
@@ -30,12 +37,39 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
   const isContactActive = showContactButtons ? 'navlink-active' : '';
   const userType = localStorage.getItem('userType');
   const authenticatedToken = localStorage.getItem('userToken');
+  const userId = localStorage.getItem('userId');
+ 
 
+  useEffect(()=>{
+    if (userType === 'company'){
+      const companyId= userId
+      getCompanyProfile(
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+        setDetails,
+        companyId
+      )}
+    else if(userType === 'lawyer'){
+      const lawyerId= userId
+    getLawyerProfile(
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setDetails, lawyerId
+    ) 
+    }
+  }, [])
+
+
+ 
   const handleLogOut = ()=> {
    
   logout();
   }
 
+
+  
   return (
     <>
     <nav className='navbar navbar-expand-lg guest-navbar navbar-special'>
@@ -62,9 +96,10 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
 
 {userType === 'admin' || userType === 'lawyer' && authenticatedToken && (
          <li className="nav-item">
-         <NavLink className="nav-link" to="/lawyer/available-jobs" activeclassname="active">
-           Jobs
-         </NavLink>
+        <NavLink className="nav-link" to={`/lawyer/available-jobs/${userId}`} activeClassName="active">
+  Jobs
+</NavLink>
+
        </li>
        )}
 
@@ -108,12 +143,16 @@ const { companyUserProfilePicture,lawyerUserProfilePicture} = useAppContext();
 
         {userType === 'admin' || userType === 'company' && authenticatedToken &&(
               <li className="nav-item">
-              <Link className="nav-link " to="/company/profile" ><img src={companyUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
+              <Link className="nav-link " to={`/company/profile/${userId} `}>  
+              <img src={details?.profileImage?.url || user} alt='profile-image' style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              </Link>
             </li>
         )}
           {userType === 'admin' || userType === 'lawyer' && authenticatedToken &&(
               <li className="nav-item">
-              <Link className="nav-link " to="/lawyer/profile" ><img src={lawyerUserProfilePicture} alt='profile-image' style={{width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover'}}/></Link>
+              <Link className="nav-link " to={`/lawyer/profile/${userId} `}>
+              <img src={details?.profileImage?.url || user} alt='profile-image' style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              </Link>
             </li>
         )}
        <li className="nav-item">

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react'
 import Footer from '../../components/Footer';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import lawyerRoute from '../../services/lawyerRoute.js';
+import { LoginModal } from '../../components/Forms/Authenticationforms.js';
+import axios from 'axios';
+import LawyerOTP from './OTP.js';
 
 const GetPaid = () => {
     const [selectedButton, setSelectedButton] = useState(0);
@@ -18,10 +21,13 @@ const GetPaid = () => {
     const [tempBank, setTempBank] = useState('');
     const navigate = useNavigate();
 const location = useLocation();
-const {getPaymentDetails, addPaymentDetails}= lawyerRoute();
+const {getPaymentDetails, addPaymentDetails, getOTP, confirmOTP, updatePaymentDetails}= lawyerRoute();
 const [loading, setLoading] = useState(true);
 const [message, setMessage] = useState('');
+const [showModal, setShowModal] = useState(false);
 const [isSuccessful, setIsSuccessful] = useState(false);
+const [step, setStep] = useState(1);
+const [otp, setOTP] = useState(["", "", "", "", "", ""]);
 
 useEffect(()=>{
   getPaymentDetails(
@@ -31,6 +37,20 @@ useEffect(()=>{
   console.log(accountNumber, accountName, bank, noPaymentDetails);
 
 }, [])
+
+// ... (other code remains unchanged)
+
+useEffect(() => {
+  if (accountNumber && accountName && bank) {
+    // Set the fetched payment details to the temporary state variables
+    setTempAccountNumber(accountNumber);
+    setTempAccountName(accountName);
+    setTempBank(bank);
+  }
+}, [accountNumber, accountName, bank]);
+
+// ... (other code remains unchanged)
+
 
    
     useEffect(() => {
@@ -45,45 +65,56 @@ useEffect(()=>{
       }
     }, [tempAccountName, tempAccountNumber, tempBank, ]);
     
-  useEffect(() => {
-    if (location.state && location.state.updatedDetails) {
-      const { accountNumber, accountName, bank } = location.state.updatedDetails;
-      setAccountNumber(accountNumber);
-      setAccountName(accountName);
-      setBank(bank);
-    }
-  }, [location.state]);
   
-    const handleEditDetails = () => {
-      setTempAccountNumber('');
-      setTempAccountName('');
-      setTempBank('');
-      setIsEditing(true);
+
+  const handleEditDetails = () => {
+    getOTP(
+    
+      setMessage,
+      setLoading,
+      setIsSuccessful, setStep,
+      setShowModal
+     
+    )
+  
+  }
+  const handleOTPSubmit = (e) => {
+    e.preventDefault();
+  
+    const body = {
+      OTP: otp.join(''),
     };
+    confirmOTP(
+      body,
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setStep,
+      setShowModal
+     
+    ) 
+   
   
-    const handleUpdate = (e) => {
-     e.preventDefault();
-      setIsEditing(false);
-      setAccountNumber(tempAccountNumber);
-      setAccountName(tempAccountName);
-      setBank(tempBank);
-   navigate('/lawyer/otp', {
-    state: {
-      updatedDetails: {
-        accountNumber: tempAccountNumber,
-        accountName: tempAccountName,
-        bank: tempBank,
-      },
-    },
-   })
-    }
+   
+    
+  };
+   
+  
+  const handleOTPChange = (e, index) => {
+    
+    const newDigit = e.target.value.replace(/[^0-9]/g, '');
+  
+    const newOTP = [...otp];
+    newOTP[index] = newDigit;
+    setOTP(newOTP);
+  };
 
     const handleAddPaymentDetails = (e) => {
       e.preventDefault();
       
-       setAccountNumber(tempAccountNumber);
-       setAccountName(tempAccountName);
-       setBank(tempBank);
+      //  setAccountNumber(tempAccountNumber);
+      //  setAccountName(tempAccountName);
+      //  setBank(tempBank);
    
 
       const body={
@@ -106,8 +137,9 @@ useEffect(()=>{
       );
 
      }
-    const handleClose = () => {
-      setIsEditing(false);
+    const handleClose = (e) => {
+      e.preventDefault()
+      navigate('/lawyer/get-paid')
     };
 
 
@@ -115,7 +147,35 @@ useEffect(()=>{
     const handleButtonClick = (buttonIndex) => {
       setSelectedButton(buttonIndex);
     };
+    const handleUpdate = (e) => {
+      e.preventDefault();
+    
+      // setAccountNumber(tempAccountNumber);
+      // setAccountName(tempAccountName);
+      // setBank(tempBank);
 
+      const body = {
+        accountNumber: tempAccountNumber,
+        accountName: tempAccountName,
+        bank: tempBank,
+      };
+
+      console.log(body,'my body')
+    
+      updatePaymentDetails(
+        body,
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+        setAccountNumber,
+        setAccountName,
+        setBank,
+        setStep,
+        setShowModal
+      )
+     
+    };
+    
 
 
     const paymentDetails = () => {
@@ -223,66 +283,21 @@ useEffect(()=>{
       
     };
     
-
-
-const editPaymentDetails = (
-  <div className='card p-sm-5 p-3 justify-content-center align-items-center'>
-
-  
-    <div className='gap-4 d-flex flex-column'>
-    <div className='d-flex align-items-center gap-5 text-center' >
-      <h5 style={{ fontWeight: '600' }}>Payment Account</h5>
-       <button type='button' className='btn-close' onClick={handleClose}></button>
+    if (loading) {
+      return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+     <div className="spinner-border text-secondary" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
-    <form className='gap-3' onSubmit={handleUpdate}>
-      <div className='mb-4 w-100'>
+          </div>; 
+    }
     
-        <input
-          type='text'
-          className='form-control'
-          id='accountNumber'
-          placeholder='Account number'
-          value={tempAccountNumber}
-          onChange={(e) => setTempAccountNumber(e.target.value)} required
-        />
-      </div>
-      <div className='mb-4 w-100'>
-       
-        <input
-          type='text'
-          className='form-control'
-          id='accountName'
-          placeholder='Account name'
-          value={tempAccountName}
-          onChange={(e) => setTempAccountName(e.target.value)} required
-        />
-      </div>
-      <div className='mb-4 w-100'>
-       
-        <input
-          type='text'
-          className='form-control'
-          id='bank'
-          placeholder='Bank'
-          value={tempBank}
-          onChange={(e) => setTempBank(e.target.value)} required
-        />
-      </div>
-     
-      <button type="submit" className={` btn w-100 ${formValid ? 'btn-primary btn-newPrimary' : 'btn-secondary'}`}
-     >Update</button>
-      
-    </form>
-    </div>
-   
-  
-  </div>
-);
+
+{/* <button type='button' className='btn-close' onClick={handleClose}></button> */}
 
   return (
     <>
     <UserNavbar/>
-    <div className='px-lg-5'>
+    { step === 1 && (<div className='px-lg-5'>
     <div className='d-block d-md-flex gap-md-5 p-5 mb-5 '>
       <div className='mt-5'>
       <div className='card py-2 mt-md-5' style={{height:'220px',width:'auto' ,borderRadius:'20px'}}>
@@ -314,7 +329,8 @@ const editPaymentDetails = (
         {selectedButton === 0 && (
   <div className='d-flex flex-column py-5 py-md-3 gap-4 w-100'>
     <h5 style={{ fontWeight: '600' }}>Payment Details</h5>
-    {isEditing ? editPaymentDetails() : paymentDetails()}
+    {/* {isEditing ? editPaymentDetails() : paymentDetails()} */}
+    {paymentDetails()}
   </div>
 )}
 
@@ -380,8 +396,77 @@ const editPaymentDetails = (
         </div>
 
     </div>
-    </div>
+    </div>)}
+
+    { step === 2 && (
+      <LawyerOTP otp={otp} setOTP={setOTP} handleOTPChange={handleOTPChange} handleOTPSubmit={handleOTPSubmit}/>
+    )}
+
+{ step === 3 && (
+     
+      <div className='m-5 card p-sm-5 p-3 justify-content-center align-items-center'>
+        <div className='gap-4 d-flex flex-column'>
+            <div className='d-flex align-items-center gap-5 text-center'>
+              <h5 style={{ fontWeight: '600' }}>Payment Account</h5>
+              </div>
+        <form onSubmit={handleUpdate} className='gap-3'>
+          <div className='mb-4 w-100'>
+            <input
+              type='text'
+              className='form-control'
+              id='editAccountNumber'
+              placeholder='Account number'
+              value={tempAccountNumber}
+              onChange={(e) => setTempAccountNumber(e.target.value)}
+              required
+            />
+          </div>
+          <div className='mb-4 w-100'>
+            <input
+              type='text'
+              className='form-control'
+              id='editAccountName'
+              placeholder='Account name'
+              value={tempAccountName}
+              onChange={(e) => setTempAccountName(e.target.value)}
+              required
+            />
+          </div>
+          <div className='mb-4 w-100'>
+            <input
+              type='text'
+              className='form-control'
+              id='editBank'
+              placeholder='Bank'
+              value={tempBank}
+              onChange={(e) => setTempBank(e.target.value)}
+              required
+            />
+          </div>
+          <div className='justify-content-center text-center'>
+          <button
+                type='submit'
+                className={` btn w-100 ${formValid ? 'btn-primary btn-newPrimary' : 'btn-secondary'}`}
+              >
+                Update
+              </button>
+          </div>
+        </form>
+      </div>
+      </div>
+      
+    )}
+    
+    
+    
       <Footer/>
+      <LoginModal
+        showModal={showModal}
+       isSuccess={isSuccessful}
+        closeModal={()=> setShowModal(false)}
+        modalText={message}
+        
+      />
     </>
   )
 }

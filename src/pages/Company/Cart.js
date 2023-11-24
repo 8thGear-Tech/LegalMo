@@ -3,23 +3,37 @@ import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 import { ProductCarousel, shuffleArray } from './Precart'
-import { ProductItem } from './ProductItem'
+// import { productData } from './ProductItem'
 import { useAppContext } from '../../AppContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import productRoute from '../../services/productRoute'
+import companyRoute from '../../services/companyRoute'
+import { LoginModal } from '../../components/Forms/Authenticationforms'
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart, changeQuantity, selectedProduct } = useAppContext();
+  const {productData, setProductData } = useAppContext();
     const [shuffledProducts, setShuffledProducts] = useState([]);
-    const [reservedItems, setReservedItems] = useState([]); 
-    const [total, setTotal] = useState(0); 
- 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [reservedItems, setReservedItems] = useState({});
+   
+    // const [bill, setBill] = useState(0); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-
+const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+      const [message, setMessage] = useState('');
+      const [isSuccessful, setIsSuccessful] = useState(false);
+     
+      const [showModal, setShowModal] = useState(false);
+    const {getProducts, getOneProduct}= productRoute()
+    const {getCart, deleteCartItem, clearCart, checkout}= companyRoute();
+const navigate= useNavigate();
+    const companyId = localStorage.getItem("userId");
     const userType = localStorage.getItem('userType');
     const token = localStorage.getItem('userToken');
+  useEffect(() => {
+
+    
     if (userType && token)  {
       
       setIsLoggedIn(true);
@@ -28,56 +42,107 @@ const Cart = () => {
       setIsLoggedIn(false);
     }
 
-    setIsLoading(false);
+    setLoading(false);
   }, []); 
+ 
 
-    useEffect(() => {
-      const shuffledArray = shuffleArray(ProductItem);
-      setShuffledProducts(shuffledArray);
-    }, []);
-  
-   
-
-    useEffect(() => {
-   
-        const shuffledArray = shuffleArray(ProductItem);
-        setShuffledProducts(shuffledArray);
-      }, []);
-
-
-      useEffect(() => {
-        const filteredItems = ProductItem.filter((product) => cartItems[product.id] > 0);
-        setReservedItems(filteredItems);
-        calculateTotal(filteredItems);
-      }, [cartItems]);
-    
-      // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
+  useEffect(() => {
+    if (userType === 'company') {
+      getCart(
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+        setReservedItems,
+        companyId
+      ); 
+    } else {
+     
       
-      const handleQuantityChange = (productId, newQuantity) => {
-        changeQuantity(productId, newQuantity);
-      };
+      console.log('show me cart');
+    }
+  }, []);
+  
+
+
+  useEffect(() => {
+    getProducts(setMessage, setLoading, setIsSuccessful, setProductData, setShowModal);
+  }, []);
+
+  useEffect(() => {
+  
+    if (productData.length > 1) {
+      const shuffledArray = shuffleArray(productData);
+      setShuffledProducts(shuffledArray);
+    }
+  }, [productData]);
+
+
+      
       const handleRemove = (productId) => {
-       
-        removeFromCart(productId);
+        console.log(productId,'productId')
+       if(userType === 'company'){
+        deleteCartItem(
+          reservedItems,
+         setReservedItems, 
+         productId,
+          setMessage,
+          setLoading,
+          setIsSuccessful
+          
+         
+        )
+       }else{
+        console.log('clear')
+       }
+        
       };
 
-     const taxAmount = 9375;
-      const calculateTotal = (items) => {
-        let totalAmount = 0;
+      const handleClearCart = () => {
+        
+       if(userType === 'company'){
+        clearCart (
+          setReservedItems, 
+     setMessage,
+     setLoading,
+     setIsSuccessful
     
-        items.forEach((product) => {
-          const quantity = cartItems[product.id];
-          totalAmount += quantity * product.productAmount;
-        });
-    
-        setTotal(totalAmount);
-       
-       
+   )
+       }else{
+        console.log('clear')
+       }
+        
       };
 
+      const handlePurchase = () => {
+        
+        if(userType === 'company'){
+         checkout (
+          setMessage,
+          setLoading,
+          setIsSuccessful,
+          setShowModal
+        )
     
-      if (isLoading){
+        }else{
+        navigate('/signup/asacompany')
+        }
+         
+       };
+    
+    
+      const handleProductClick = (productId) => {
+   
+        console.log(`Getting product with ID ${productId}`);
+      
+        
+          
+        getOneProduct(
+          setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
+        )
+        
+      };
+    
+      if (loading){
         return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
        <div className="spinner-border text-secondary" role="status">
         <span className="visually-hidden">Loading...</span>
@@ -91,45 +156,47 @@ const Cart = () => {
     <>
       {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
      
-      <div className='d-block d-lg-flex py-5 px-3 px-md-5 gap-3 align-items-center' >
+      <div className='py-5 px-3 px-md-5 ' >
       <div >
        <p className='py-2' style={{color:'#373737', fontWeight:'500'}}>Your Selections</p>
-       <div className='line ' style={{border:'1px solid #7E7E7F'}}></div>
-       {reservedItems.length > 0 ? (
-      <div className='cartItems'>
-        {reservedItems.map((product) => {
-          const quantityInCart = cartItems[product.id] || 0;
+       <div className='line mb-3' style={{border:'1px solid #7E7E7F'}}></div>
+       {reservedItems?.products?.length > 0 ? (
+        <div>
+        <div className='d-block d-lg-flex gap-4 align-items-center '>
+      <div className=' cartItems'>
+        {reservedItems?.products.map((product) => {
+          
 
-          if (quantityInCart > 0) {
+          
             return (
-              <div key={product.id}>
+              <div key={product?.productId}>
               
                 <div className='d-block d-sm-flex gap-3 py-4 px-2 px-xxl-4 '>
                 <div className="card " style={{borderRadius: '25px', width:'15rem', }}>
-                    <img src={product.productImage} alt={product.productTitle}className="card-img-top" style={{borderRadius:'none'}} />
+                    <img src={product?.productImage} alt={product?.productName}className="card-img-top" style={{borderRadius:'none'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
         background:'#D1D2D3'}}>
                   
-                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product.productTitle}</p>
+                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName}</p>
                     
                   </div>
                 </div>
                   <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
                   <div className='d-flex flex-column'>
+                    <p><span style={{color: '#032773'}}> Details:</span>  {product?.detail}</p>
                     <p>Your selection is available for immediate purchase</p>
                     <div className='d-flex gap-5'>
-                      <p>Edit</p>
-                      <div style={{borderLeft: '2px solid black'}}></div>
-                      <p onClick={() => handleRemove(product.id)}style={{cursor:'pointer'}}>Remove</p>
+                     
+                      <p onClick={() => handleRemove(product?.productId)}style={{cursor:'pointer'}}>Remove</p>
                     </div>
                   </div>
-                  <div className='mt-3 mt-md-0'>
+                  <div className='mt-3 mt-md-0 text-align-center text-center' >
                       <p>QTY:</p>
-                      <select
-                          id={`quantitySelect-${product.id}`}
+                      {/* <select
+                          id={`quantitySelect-${product?._id}`}
                           className='form-select'
-                          value={quantityInCart}
-                          onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10))}
+                          value={product.quantity}
+                          onChange={(e) => handleQuantityChange(product?._id, parseInt(e.target.value, 10))}
                         >
                           {Array.from({ length: 10 }, (_, i) => (
                             <option
@@ -140,11 +207,19 @@ const Cart = () => {
                               {i + 1}
                             </option>
                           ))}
-                        </select>
+                        </select> */}
+                        
+                        <button 
+                             
+                             className='px-2'
+                             style={{backgroundColor:'white'}}
+                           >
+                            {product.quantity}
+                           </button>
                     </div>
                 
                   <div className='mt-3 mt-md-0'>
-                    <p>₦{product.productAmount.toLocaleString()}{product.year}</p>
+                    <p>₦{product?.price.toLocaleString()}</p>
                   </div>
                   </div>
                 
@@ -155,17 +230,13 @@ const Cart = () => {
 
               </div>
             );
-          }
+          
 
           return null
         })}
+         
       </div>
-       ) : (
-        <p className='mt-4'>Your cart is empty</p>
-       )}
-      </div>
-      {reservedItems.length > 0 ? (
-        <div className='card p-3 mt-xl-0 mt-lg-5 mt-5' style={{borderRadius:'none',width:'18rem', height:'auto', color:'#7E7E7F'}}>
+      <div className='card p-3 mt-xl-0 mt-lg-5 mt-5' style={{borderRadius:'none',width:'18rem', color:'#7E7E7F'}}>
           <div className=''>
         <h6  style={{color:'#7E7E7F'}}>Order Summary</h6>
         <div className='line my-3' style={{border:'1px solid #7E7E7F'}}></div>
@@ -175,25 +246,38 @@ const Cart = () => {
          
           </div>
           <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Total</p> 
-          <p  style={{color:'#7E7E7F'}}>₦{total.toLocaleString()}</p>
+          <p  style={{color:'#7E7E7F'}}>₦{reservedItems?.bill.toLocaleString()}</p>
           </div>
         
       </div>
-      <Link to='/signup/asacompany' className='btn btn-primary w-100'>Purchase</Link>
+      <a onClick={handlePurchase} className='btn btn-primary w-100'>Purchase</a>
         </div>
       </div>
-      ): (
-       <div></div>
-      )}
       
+      </div>
+      <div className='text-center py-5'> <a onClick={handleClearCart} className='btn btn-primary px-5 py-2'>Clear Cart</a></div>
+      </div>
+       ) : (
+        <p className='mt-4'>Your cart is empty</p>
+       )}
+      </div>
+     
+     
       </div>
       <section className='px-lg-2'>
         <h3 className='my-5 text-center'>You may also like</h3>
         <div className='px-sm-5 mb-5'>
-         <ProductCarousel shuffledProducts={shuffledProducts}/>
+        <ProductCarousel shuffledProducts={shuffledProducts} handleProductClick={handleProductClick}/>
         </div>
       </section>
       <Footer/>
+      < LoginModal
+        showModal={showModal}
+        isSuccess={isSuccessful}
+        closeModal={() => setShowModal(false)}
+        modalText={message}
+        
+      />
     </>
   )
 }
