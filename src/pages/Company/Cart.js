@@ -13,9 +13,9 @@ import { LoginModal } from '../../components/Forms/Authenticationforms'
 const Cart = () => {
   const {productData, setProductData } = useAppContext();
     const [shuffledProducts, setShuffledProducts] = useState([]);
-    const [reservedItems, setReservedItems] = useState({});
+    const [reservedItems, setReservedItems] = useState([]);
    
-    // const [bill, setBill] = useState(0); 
+    const [bill, setBill] = useState(0); 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -53,12 +53,14 @@ const navigate= useNavigate();
         setLoading,
         setIsSuccessful,
         setReservedItems,
+        setBill,
         companyId
       ); 
     } else {
      
-      
-      console.log('show me cart');
+      const storedReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || [];
+      setReservedItems(storedReservedItems);
+      console.log('show me cart', storedReservedItems);
     }
   }, []);
   
@@ -77,9 +79,28 @@ const navigate= useNavigate();
   }, [productData]);
 
 
+
+  // const calculateTotalBill = () => {
+  //   let total = 0;
+  //   reservedItems.forEach((product) => {
+  //     total += product.price * product.quantity;
+  //   });
+  //   return total;
+  // };
+  
+  useEffect(() => {
+    if (reservedItems.length > 0) {
+      let total = reservedItems.reduce((acc, product) => {
+        return acc + product.price * product.quantity;
+      }, 0);
+      setBill(total);
+    } else {
+      setBill(0);
+    }
+  }, [reservedItems]);
+  
       
       const handleRemove = (productId) => {
-        console.log(productId,'productId')
        if(userType === 'company'){
         deleteCartItem(
           reservedItems,
@@ -92,7 +113,17 @@ const navigate= useNavigate();
          
         )
        }else{
-        console.log('clear')
+
+        const updatedReservedItems = reservedItems.filter(
+          (item) => item.productId !== productId
+        );
+    
+      
+        setReservedItems(updatedReservedItems);
+    
+      
+        localStorage.setItem('reservedItems', JSON.stringify(updatedReservedItems));
+       
        }
         
       };
@@ -108,7 +139,11 @@ const navigate= useNavigate();
     
    )
        }else{
-        console.log('clear')
+        setReservedItems([]);
+    
+     
+        localStorage.removeItem('reservedItems');
+       
        }
         
       };
@@ -124,6 +159,7 @@ const navigate= useNavigate();
         )
     
         }else{
+        localStorage.removeItem('reservedItems');
         navigate('/signup/asacompany')
         }
          
@@ -132,10 +168,6 @@ const navigate= useNavigate();
     
       const handleProductClick = (productId) => {
    
-        console.log(`Getting product with ID ${productId}`);
-      
-        
-          
         getOneProduct(
           setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
         )
@@ -160,11 +192,11 @@ const navigate= useNavigate();
       <div >
        <p className='py-2' style={{color:'#373737', fontWeight:'500'}}>Your Selections</p>
        <div className='line mb-3' style={{border:'1px solid #7E7E7F'}}></div>
-       {reservedItems?.products?.length > 0 ? (
+       {reservedItems?.length > 0 ? (
         <div>
         <div className='d-block d-lg-flex gap-4 align-items-center '>
       <div className=' cartItems'>
-        {reservedItems?.products.map((product) => {
+        {reservedItems?.map((product) => {
           
 
           
@@ -183,7 +215,7 @@ const navigate= useNavigate();
                 </div>
                   <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
                   <div className='d-flex flex-column'>
-                    <p><span style={{color: '#032773'}}> Details:</span>  {product?.detail}</p>
+                    {product?.detail && (<p><span style={{color: '#032773'}}> Details:</span>  {product?.detail}</p>)}
                     <p>Your selection is available for immediate purchase</p>
                     <div className='d-flex gap-5'>
                      
@@ -246,7 +278,7 @@ const navigate= useNavigate();
          
           </div>
           <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Total</p> 
-          <p  style={{color:'#7E7E7F'}}>₦{reservedItems?.bill.toLocaleString()}</p>
+          <p  style={{color:'#7E7E7F'}}>₦{bill.toLocaleString()}</p>
           </div>
         
       </div>

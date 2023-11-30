@@ -294,20 +294,51 @@ if (accountDetails && accountDetails.length > 0) {
     setLoading(true);
     const form = new FormData();
 
-    form.append('officialEmail', body.officialEmail)
-    form.append('scn', body.scn)
-    form.append('yourBio', body.yourBio)
-    form.append('yearOfCall', body.yearOfCall)
-    form.append('phoneNumber', body.phoneNumber)
-    form.append('alternativeEmailAddress', body.alternativeEmailAddress)
-    body.areasOfPractise.forEach((area) => {
+    // form.append('officialEmail', body.officialEmail)
+    // form.append('scn', body.scn)
+    // form.append('yourBio', body.yourBio)
+    // form.append('yearOfCall', body.yearOfCall)
+    // form.append('phoneNumber', body.phoneNumber)
+    // form.append('alternativeEmailAddress', body.alternativeEmailAddress)
+    // body.areasOfPractise.forEach((area) => {
      
-      form.append('areasOfPractise[]', area);
-    });
-    // form.append('areasOfPractise', JSON.stringify(body.areasOfPractise));
+    //   form.append('areasOfPractise[]', area);
+    // });
+    // // form.append('areasOfPractise', JSON.stringify(body.areasOfPractise));
 
-    // form.append('areasOfPractise', body.areasOfPractise)
-    form.append('profileImage', body.profileImage)
+    // // form.append('areasOfPractise', body.areasOfPractise)
+    // form.append('profileImage', body.profileImage)
+
+    if (body.officialEmail !== undefined && body.officialEmail !== null) {
+      form.append('officialEmail', body.officialEmail);
+    }
+    if (body.scn !== undefined && body.scn !== null) {
+      form.append('scn', body.scn);
+    }
+    if (body.yourBio !== undefined && body.yourBio !== null) {
+      form.append('yourBio', body.yourBio);
+    }
+    if (body.phoneNumber !== undefined && body.phoneNumber !== null) {
+      form.append('phoneNumber', body.phoneNumber);
+    }
+    if (body.yearOfCall !== undefined && body.yearOfCall !== null) {
+      form.append('yearOfCall', body.yearOfCall);
+    }
+    if (body.alternativeEmailAddress !== undefined && body.alternativeEmailAddress !== null) {
+      form.append('alternativeEmailAddress', body.alternativeEmailAddress);
+    }
+  
+    // Check if the imageFile exists before appending it
+    if (body.profileImage) {
+      form.append('profileImage', body.profileImage);
+    }
+
+    if (Array.isArray(body.areasOfPractise) && body.areasOfPractise.length > 0) {
+      body.areasOfPractise.forEach((area) => {
+        form.append('areasOfPractise[]', area);
+      });
+    }
+    
   const token= localStorage.getItem('userToken')
 console.log(token)
     console.log(form, 'my form');
@@ -375,7 +406,7 @@ console.log(token)
   
           console.log(response);
           const jobsData= response?.data
-          const availableJobs = jobsData.filter(job => job.assignedTo.length === 0);
+          const availableJobs = jobsData.filter(job => job.assignedTo.length === 0 && job.status === 'unassigned');
 
       if (statusFilter === 'Best fit') {
         setJobs(availableJobs);
@@ -401,7 +432,7 @@ console.log(token)
   };
 
   const getOneJob = (
-    setMessage, setLoading, setIsSuccessful, jobId, setSelectedJob
+    setMessage, setLoading, setIsSuccessful, jobId, lawyerId,setSelectedJob
   )=> {
    
   
@@ -409,7 +440,7 @@ console.log(token)
   
     http().then((axios) => {
       axios
-        .get(`/job-api/jobs/${jobId}`)
+        .get(`/job-api/job/${jobId}`)
         .then(async (response) => {
           setLoading(false);
   
@@ -418,12 +449,11 @@ console.log(token)
           const product= response.data
             console.log(product)
         
-            setMessage("Job gotten successfully");
-
+          
             setIsSuccessful(true);
            
             setSelectedJob(product)
-             navigate(`/lawyer/available-job-item/${jobId}`)
+             navigate(`/lawyer/available-job-item/${jobId}?lawyerId=${lawyerId}`)
         })
         .catch((e) => {
           setIsSuccessful(false);
@@ -433,8 +463,148 @@ console.log(token)
         });
     });
   };
+
+
+  const requestDetail = (
+   body, setMessage, setLoading, setIsSuccessful, jobId, setShowModal
+  )=> {
+   
+  
+    setLoading(true);
+  
+    http().then((axios) => {
+      axios
+        .post(`/job-api/requestmorejobdetails/${jobId}`, body)
+        .then(async (response) => {
+          setLoading(false);
+  
+          console.log(response);
+
+          
+        
+            setMessage("Request sent successfully");
+
+            setIsSuccessful(true);
+            setShowModal(true)
+            setTimeout(() => {
+              setShowModal(false)
+            }, 2000);
+           
+        })
+        .catch((e) => {
+          setIsSuccessful(false);
+          setLoading(false);
+          setShowModal(true)
+          error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+        });
+    });
+  };
+
+  const applyJob = (
+    setMessage, setLoading, setIsSuccessful, jobId,setShowModal
+   )=> {
+    
+   
+     setLoading(true);
+   
+     http().then((axios) => {
+       axios
+         .post(`/job-api/applyforjob/${jobId}`)
+         .then(async (response) => {
+           setLoading(false);
+   
+           console.log(response);
+ 
+           
+         
+             setMessage("Job applied successfully");
+ 
+             setIsSuccessful(true);
+           
+             setShowModal(true)
+             setTimeout(() => {
+               setShowModal(false)
+               
+             }, 2000);
+         })
+         .catch((e) => {
+           setIsSuccessful(false);
+           setLoading(false);
+           setShowModal(true)
+           
+           error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+         });
+     });
+   };
+
+
+   const getPendingJobs = (
+   setJobs, setMessage, setLoading, setIsSuccessful
+  )=> {
+   
+  
+    setLoading(true);
+  
+    http().then((axios) => {
+      axios
+        .get('/job-api/lawyer/pendingjobs')
+        .then(async (response) => {
+          setLoading(false);
+  
+          console.log(response);
+
+          const job= response.data
+            console.log(job,'the jobs')
+        
+          
+            setIsSuccessful(true);
+           
+            setJobs(job)
+            
+        })
+        .catch((e) => {
+          setIsSuccessful(false);
+          setLoading(false);
+          // Handle API request error
+          error(e, setMessage, setLoading, setIsSuccessful);
+        });
+    });
+  };
+
+  const getCompletedJobs = (
+    setJobs, setMessage, setLoading, setIsSuccessful
+   )=> {
+    
+   
+     setLoading(true);
+   
+     http().then((axios) => {
+       axios
+         .get('/job-api/lawyer/completedjobs')
+         .then(async (response) => {
+           setLoading(false);
+   
+           console.log(response);
+ 
+           const job= response.data
+             console.log(job,'the jobs')
+         
+           
+             setIsSuccessful(true);
+            
+             setJobs(job)
+             
+         })
+         .catch((e) => {
+           setIsSuccessful(false);
+           setLoading(false);
+           // Handle API request error
+           error(e, setMessage, setLoading, setIsSuccessful);
+         });
+     });
+   };
   return {
    
-getPaymentDetails, addPaymentDetails, getOTP, confirmOTP, getLawyerProfile, updateProfile,updatePaymentDetails, getJobs, getOneJob
+getPaymentDetails, addPaymentDetails, getOTP, confirmOTP, getLawyerProfile, updateProfile,updatePaymentDetails, getJobs, getOneJob, requestDetail, applyJob,getPendingJobs, getCompletedJobs
     };
 };

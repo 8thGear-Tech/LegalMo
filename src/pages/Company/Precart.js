@@ -277,7 +277,7 @@ const [editReviewId, setEditReviewId] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [details, setDetails] = useState('')
-  // const [companyId, setCompanyId] = useState('')
+ 
 const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
@@ -363,15 +363,12 @@ const handleReviewSubmit =  () => {
     reviewTitle:newReview.reviewTitle,
     productId:productId,
   };
-
-  console.log(body,'my body')
  createRating(
   body, setMessage, setLoading, setIsSuccessful, reviews, setReviews, setShowModal
  
 )
     setNewReview({
       reviewTitle: '',
-      // companyName: '',
       reviewText: '',
     });
     setSelectedRating(0);
@@ -380,10 +377,8 @@ const handleReviewSubmit =  () => {
 
 const handleEditReview = (review) => {
   setEditReviewId(review.id);
-  console.log(review.id);
   setNewReview({
     reviewTitle: review.reviewTitle,
-    // companyName: review.companyName,
     reviewText: review.reviewText,
   });
   setSelectedRating(review.rating);
@@ -397,7 +392,6 @@ const handleUpdateReview =  () => {
       reviewTitle:newReview.reviewTitle,
       productId:productId,
     };
-    console.log(body,'my body')
     editRating(
       editReviewId,
       body,
@@ -414,7 +408,6 @@ const handleUpdateReview =  () => {
   setEditReviewId(null);
   setNewReview({
     reviewTitle: '',
-    // companyName: '',
     reviewText: '',
   });
   setSelectedRating(0);
@@ -427,7 +420,6 @@ const handleCancelEdit = () => {
   setEditReviewId(null); 
   setNewReview({
     reviewTitle: '',
-    // companyName: '',
     reviewText: '',
   });
   setSelectedRating(0); 
@@ -494,8 +486,11 @@ const handleReserve= ()=> {
   const body = {
     productId: product?._id,
       quantity:quantity,
-      detail:details,
   }
+      if (details !== '' && details !== null && details !== undefined) {
+        body.detail = details;
+      }
+  
   createCart(
     body, 
     setMessage,
@@ -514,48 +509,31 @@ const handleReserve= ()=> {
       productImage: product.productImage,
       quantity: quantity,
       detail: details,
-    };let existingReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || { products: [] };
+    };
+    let existingReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || [];
 
-    // Ensure existingReservedItems.products is an array
-    if (!Array.isArray(existingReservedItems.products)) {
-      existingReservedItems.products = [];
-    }
+    
+      const existingProductIndex = existingReservedItems.findIndex(
+        (item) => item.productId === reservedItem.productId
+      );
 
-    const existingProductIndex = existingReservedItems.products.findIndex(
-      (item) => item.productId === reservedItem.productId
-    );
+      if (existingProductIndex !== -1) {
+    
+        existingReservedItems[existingProductIndex].quantity = quantity;
+        existingReservedItems[existingProductIndex].detail = details;
+      } else {
+     
+        existingReservedItems.push(reservedItem);
+      }
 
-    if (existingProductIndex !== -1) {
-      // Update existing item
-      existingReservedItems.products[existingProductIndex] = reservedItem;
-    } else {
-      // Add new item
-      existingReservedItems.products.push(reservedItem);
-    }
-
-    // Update localStorage with the modified items
-    try {
       localStorage.setItem('reservedItems', JSON.stringify(existingReservedItems));
-      console.log('Data successfully stored in localStorage.');
-    } catch (error) {
-      console.error('Error storing data in localStorage:', error);
-    }
 
-    // Log to check the contents of storedReservedItems
-    const storedReservedItemsString = localStorage.getItem('reservedItems');
-    let storedReservedItems = storedReservedItemsString ? JSON.parse(storedReservedItemsString) : { products: [] };
-    console.log('Stored Reserved Items:', storedReservedItems);
-
-    // Navigate to the cart page
+ 
     navigate('/cart');
   }
 }
 const handleProductClick = (productId) => {
-   
-  console.log(`Getting product with ID ${productId}`);
-
   
-    
   getOneProduct(
     setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
   )

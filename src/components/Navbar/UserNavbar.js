@@ -96,7 +96,7 @@ const UserNavbar = () => {
 
 {userType === 'admin' || userType === 'lawyer' && authenticatedToken && (
          <li className="nav-item">
-        <NavLink className="nav-link" to={`/lawyer/available-jobs/${userId}`} activeClassName="active">
+        <NavLink className="nav-link" to={`/lawyer/available-jobs/${userId}`} activeclassname="active">
   Jobs
 </NavLink>
 

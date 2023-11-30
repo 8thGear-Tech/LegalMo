@@ -56,31 +56,71 @@ function CompanyProfile() {
        
       }, []); 
 
-  const handleSave = (formData, imageFile) => {
+      const handleSave = (formData, imageFile) => {
+        setIsEditing(false);
+      
+        const body = {
+          profileImage: imageFile,
+        };
+      
+        if (formData.officialEmail !== '' && formData.officialEmail !== null && formData.officialEmail !== undefined) {
+          body.officialEmail = formData.officialEmail;
+        }
+        if (formData.website !== '' && formData.website !== null && formData.website !== undefined) {
+          body.website = formData.website;
+        }
+        if (formData.yourBio !== '' && formData.yourBio !== null && formData.yourBio !== undefined) {
+          body.yourBio = formData.yourBio;
+        }
+        if (formData.phoneNumber !== '' && formData.phoneNumber !== null && formData.phoneNumber !== undefined) {
+          body.phoneNumber = formData.phoneNumber;
+        }
+        if (formData.alternativeEmailAddress !== '' && formData.alternativeEmailAddress !== null && formData.alternativeEmailAddress !== undefined) {
+          body.alternativeEmailAddress = formData.alternativeEmailAddress;
+        }
+        if (formData.officeAddress !== '' && formData.officeAddress !== null && formData.officeAddress !== undefined) {
+          body.officeAddress = formData.officeAddress;
+        }
+      
+        console.log(body);
+      
+        updateProfile(
+          body,
+          setMessage,
+          setLoading,
+          setIsSuccessful,
+          setDetails,
+          companyId,
+          setShowModal
+        );
+      };
+      
+      
+
+  // const handleSave = (formData, imageFile) => {
     
-    setIsEditing(false);
-    console.log(formData, 'my formData')
+  //   setIsEditing(false);
+  //   console.log(formData, 'my formData')
    
 
-    const body ={
-      officialEmail: formData.officialEmail ,
-      website: formData.website,
-      yourBio:formData.yourBio,
+  //   const body ={
+  //     officialEmail: formData.officialEmail,
+  //     website: formData.website,
+  //     yourBio:formData.yourBio,
       
-      phoneNumber: formData.phoneNumber,
-      alternativeEmailAddress:formData.alternativeEmailAddress,
-      officeAddress: formData.officeAddress ,
-      profileImage: imageFile,
-    }
+  //     phoneNumber: formData.phoneNumber,
+  //     alternativeEmailAddress:formData.alternativeEmailAddress,
+  //     officeAddress: formData.officeAddress ,
+  //     profileImage: imageFile,
+  //   }
 
 
-
-    console.log(body)
-    updateProfile(
-      body, setMessage, setLoading, setIsSuccessful, setDetails, companyId, setShowModal
+  //   console.log(body)
+  //   updateProfile(
+  //     body, setMessage, setLoading, setIsSuccessful, setDetails, companyId, setShowModal
      
-    )
-  };
+  //   )
+  // };
 
   const handleCancel= () => {
     setIsEditing(false)
@@ -108,7 +148,7 @@ function CompanyProfile() {
                 <img src={details?.profileImage?.url} alt='company' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px'}}/>
             </div>
             <div className='mt-3 d-flex flex-column action'>
-                <h5 style={{ fontWeight: '500' }}>{details?.companyName}</h5>
+                <h5 style={{ fontWeight: '500' }}>{details?.companyName || details?.name }</h5>
                 
                     <p className='text-secondary' style={{color:''}} onClick={() => setIsEditing(true)}>Update your details  <span><i className="bi bi-pencil"></i></span></p>
         

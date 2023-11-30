@@ -55,7 +55,7 @@ export const CompanyDetailsForm=()=> {
       return (
         <form className='' onSubmit={handleSubmit}>
           <div className="position-relative">
-          <div style={{background:'#CFCFCF', borderRadius: '20px 20px 0px 0px', height:'190px'}} className="position-relative ">
+          <div style={{background:'#CFCFCF', borderRadius: '20px 20px 0px 0px', height:'190px'}} className="position-relative">
             <div className="d-flex justify-content-end ">
               
            
@@ -69,7 +69,7 @@ export const CompanyDetailsForm=()=> {
                   border: 'none',
                   cursor: 'pointer',marginTop:'150px', zIndex:'1'
                 }}
-                onClick={handleCameraIconClick}
+                onClick={handleCameraIconClick} 
                className="me-3">
                 <i className='bi bi-camera'> <input
           ref={fileInputRef}

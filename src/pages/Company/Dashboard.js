@@ -1,59 +1,67 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
-import { allJobDetails } from '../Lawyer/Dashboard'
+
 import { useAppContext } from '../../AppContext'
 import { useNavigate } from 'react-router-dom'
-
-const CompanyDetails = () => {
-
-  
-  return (
-    <div>
-      {allJobDetails.map((job) =>{
-        const {id,jobName,jobPrice} = job;
-        return(
-          <div className='d-block d-sm-flex justify-content-between align-items-center gap-md-3 gap-sm-3 px-lg-5 px-3 pt-3 pb-2' key={id} style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <div className='d-flex flex-column gap-4'>
-                <h6>{jobName}</h6>
-                <p style={{color:'#5F5F5F'}}>Amount: ₦{jobPrice.toLocaleString()}</p>
-              </div>
-              <div className='d-block d-sm-flex gap-5'>
-              <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
-                <p>Schedule a call</p>
-                <i className="bi bi-telephone mb-3"></i>
-              </div>
-              <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
-                <p>Chat with a lawyer</p>
-                <i className="bi bi-chat mb-3"></i>
-              </div>
-              </div>
-            
-          </div>
-        )
-      })}
-    </div>
-  )
-}
+import companyRoute from '../../services/companyRoute'
 
 const CompanyDashboard = () => {
 
  const navigate = useNavigate()
-  const [selectedButton, setSelectedButton] = useState(0);
-  const handleButtonClick = (buttonIndex) => {
-    setSelectedButton(buttonIndex);
-  };
-  const [jobList, setJobList] = useState(allJobDetails);
-  const [newDetails, setNewDetails] = useState('');
-    const [selectedJob, setSelectedJob] = useState(null);
-    const [showMoreDetailsModal, setShowMoreDetailsModal] = useState(false);
-    const [jobDetails, setJobDetails] = useState({});
-    const [jobFiles, setJobFiles] = useState({});
-    const fileInputRef = useRef(null);
-   
-    const [selectedFile, setSelectedFile] = useState(null);
 
+
+ const [jobs, setJobs] = useState([]);
+ 
+  const [statusFilter, setStatusFilter] = useState('Pending jobs');
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+ const [options, setOptions]= useState([])
+ 
+  const [showModal, setShowModal] = useState(false);
+const {getPendingJobs, getCompletedJobs}= companyRoute()
+const [selectedButton, setSelectedButton] = useState(0);
+
+
+const [newDetails, setNewDetails] = useState('');
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showMoreDetailsModal, setShowMoreDetailsModal] = useState(false);
+  const [jobDetails, setJobDetails] = useState({});
+  const [jobFiles, setJobFiles] = useState({});
+  const fileInputRef = useRef(null);
+ 
+  const [selectedFile, setSelectedFile] = useState(null);
+
+
+
+  useEffect(() => {
+  
+
+    if (statusFilter === 'Pending') {
+      getPendingJobs(
+        setJobs, setMessage, setLoading, setIsSuccessful
+       )
+   
+      
+    } else if (statusFilter === 'Completed') {
+      getCompletedJobs(
+        setJobs, setMessage, setLoading, setIsSuccessful
+       )
+ 
+    }
     
+  }, [statusFilter]);
+
+
+
+  const handleStatusFilterChange = (newStatus) => {
+    setStatusFilter(newStatus);
+   
+  
+  };
+ 
+
     const handleUploadClick = () => {
         fileInputRef.current.click();
       };
@@ -90,12 +98,12 @@ const CompanyDashboard = () => {
        
       };
 
-      const handleMoreDetailsShow = (job) => {
-        setSelectedJob(job);
-        setNewDetails(job.initialDetails);
+      const handleMoreDetailsShow = () => {
+        // setSelectedJob(job);
+        // setNewDetails(job.initialDetails);
         setShowMoreDetailsModal(true);
         
-        setSelectedFile(job.uploadedFile); 
+        // setSelectedFile(job.uploadedFile); 
       };
        
 const handleMoreDetailsClose = () => {
@@ -104,10 +112,10 @@ const handleMoreDetailsClose = () => {
 };
 
 const handleMoreDetailsSend = () => {
-  if (selectedJob) {
-    selectedJob.initialDetails = newDetails;
-    selectedJob.uploadedFile = selectedFile; 
-  }
+  // if (selectedJob) {
+  //   selectedJob.initialDetails = newDetails;
+  //   selectedJob.uploadedFile = selectedFile; 
+  // }
 
   setShowMoreDetailsModal(false);
 };
@@ -120,54 +128,77 @@ const handleMoreDetailsSend = () => {
         <div className='card'>
         <div className='d-flex gap-5 py-3 px-lg-5 px-1 'style={{ borderBottom: '1px solid #CFCFCF' }}>
             
-            <p className={
-                      selectedButton === 0
+             
+        <p className={
+                      statusFilter === 'Pending'
                         ? "active-p-text"
                         : " p-text"
                     }
-                    onClick={() => handleButtonClick(0)}>Pending</p>
+                    onClick={() => handleStatusFilterChange('Pending')}>Pending </p>
             
             <p className={
-                      selectedButton === 1
+                      statusFilter === 'Completed'
                         ? "active-p-text"
                         : "p-text"
                     }
-                    onClick={() => handleButtonClick(1)}>Completed</p>
-           
+                    onClick={() => handleStatusFilterChange('Completed')}>Completed </p>
            
         </div>
-        <div>
-        {selectedButton === 0 && (
-          <CompanyDetails/>
-        )}
-          {selectedButton === 1 && (
-          <CompanyDetails/>
-        )}
-       
-        </div>
-
+        <div>{jobs.length === 0 ? (
+    <p className='justify-content-center text-center py-5'>No jobs</p>
+  ) : (
+    <div>
+      {jobs.map((job) =>{
+      
+        return(
+          <div className='d-block d-sm-flex justify-content-between align-items-center gap-md-3 gap-sm-3 px-lg-5 px-3 pt-3 pb-2' key={job?._id} style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <div className='d-flex flex-column gap-4'>
+                <h6>{job?.productId?.productName}</h6>
+                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
+              </div>
+              <div className='d-block d-sm-flex gap-5'>
+              <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
+                <p>Schedule a call</p>
+                <i className="bi bi-telephone mb-3"></i>
+              </div>
+              <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
+                <p>Chat with a lawyer</p>
+                <i className="bi bi-chat mb-3"></i>
+              </div>
+              </div>
+            
+          </div>
+        )
+      })}
+      </div>
+  )}
+    </div>
         </div>
        <div className='card px-sm-5 py-5 px-3 gap-5 my-5'>
   <h4 className='text-center'>Notifications</h4>
-  {jobList.slice(0,2).map((job)=>
-  {
-    const {id, jobName, jobPrice, initialDetails} = job;
-    return(
-      <div className='d-block d-md-flex gap-5 align-items-center' key={job.id}>
-      <div className='d-flex flex-column gap-3'>
-        <h6>{jobName}</h6>
-        <p style={{color:'#5F5F5F'}}>{initialDetails}</p>
-      </div>
-      <div className='
-      ' >
-      <button type='submit' className='btn btn-outline-primary' style={{width:'180px'}}  onClick={() => handleMoreDetailsShow(job)}>Give more details</button>
-      </div>
-      
+ 
+  <div className='d-block d-md-flex gap-5 align-items-center'>
+    <div className='d-flex flex-column gap-3'>
+      <h6>Contract Drafting and Review</h6>
+      <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....</p>
     </div>
-    )
-  }
-  
-  )}
+    <div className='
+    ' >
+    <button type='submit' className='btn btn-outline-primary' style={{width:'180px'}}onClick={handleMoreDetailsShow}>Give more details</button>
+    </div>
+    
+  </div>
+  <div className='d-block d-md-flex gap-5 align-items-center'>
+    <div className='d-flex flex-column gap-3'>
+      <h6>Contract Drafting and Review</h6>
+      <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....</p>
+    </div>
+    <div className='
+    ' >
+      <button type='submit' className='btn btn-outline-primary' style={{width:'180px'}}onClick={handleMoreDetailsShow}>Give more details</button>
+    </div>
+    
+  </div>
  
   
       </div>

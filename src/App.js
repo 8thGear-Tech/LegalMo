@@ -204,7 +204,7 @@ function App() {
             <CreateProductPage/>
           </ProtectedRoute>} />
 
-          <Route path="/admin/assign-job" element={<ProtectedRoute allowedRoles={['admin']}>
+          <Route path="/admin/assign-job/:jobId" element={<ProtectedRoute allowedRoles={['admin']}>
             <AssignedJobs/>
           </ProtectedRoute>} />
 

@@ -54,7 +54,7 @@ const CompanySignUp = () => {
     setFormDataStep2(formData)
     
     const body = {
-      companyName: formData.companyName,
+      name: formData.companyName,
  contactName: formData.contactName,
  phoneNumber: formData.phoneNumber,
  officialEmail: formData.email,

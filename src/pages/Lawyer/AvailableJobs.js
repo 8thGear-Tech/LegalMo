@@ -147,13 +147,11 @@ const AvailableJobs = () => {
     const [isSuccessful, setIsSuccessful] = useState(false);
     const [details, setDetails] = useState([]);
     const [jobs, setJobs] = useState([]);
-    const [selectedJob, setSelectedJob] = useState([]);
+    const [selectedJob, setSelectedJob] = useState({});
     const [showModal, setShowModal] = useState(false);
     const {getJobs, getLawyerProfile, getOneJob} = lawyerRoute()
     const {lawyerId} = useParams();
 
-
-  console.log(lawyerId)
 
     useEffect(() => {
       getJobs(
@@ -185,8 +183,9 @@ const AvailableJobs = () => {
     };
       const handleJobClick = (jobId) => {
         console.log(`Getting product with ID ${jobId}`);
+        console.log(`Getting product with LAWYERiD ${lawyerId}`);
         getOneJob(
-          setMessage, setLoading, setIsSuccessful, jobId, setSelectedJob
+          setMessage, setLoading, setIsSuccessful, jobId, lawyerId, setSelectedJob
         )
         
        }
@@ -216,17 +215,23 @@ const AvailableJobs = () => {
         </p>
           
         </div>
-
+        <div>{jobs.length === 0 ? (
+    <p className='justify-content-center text-center py-5'>No projects</p>
+  ) : (
         <div>
     {jobs?.map((job) => (
         <div key={job?._id} className='d-flex flex-column gap-3 p-4 ' style={{ borderBottom: '1px solid #CFCFCF' }}>
             <div className='action'>
-            <h6 className='' onClick={() => handleJobClick(job?.productId)}>{job?.detail}
+            <h6 className='' onClick={() => handleJobClick(job?._id)}>{job?.productId?.productName}
             </h6>
           
             </div>
             <div>
-                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.jobPrice}</p>
+                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
+                <p style={{color:'#5F5F5F'}}>
+                {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
+                {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
+                </p>
                 <p style={{color:'#5F5F5F'}}>
                 {job?.detail.split(' ').slice(0, 17).join(' ')}
                 {job?.detail.split(' ').length > 17 ? '...' : ''}
@@ -234,6 +239,7 @@ const AvailableJobs = () => {
             </div>
         </div>
     ))}
+</div>)}
 </div>
 
                     </div>

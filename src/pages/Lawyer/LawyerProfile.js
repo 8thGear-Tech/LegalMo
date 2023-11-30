@@ -53,19 +53,46 @@ console.log(details, 'my details')
     console.log(formData, 'my formData')
     setIsEditing(false);
 console.log(areasOfPractise, 'pratise')
-    const body ={
-      officialEmail: formData.officialEmail,
-      scn: formData.scn,
-      yourBio:formData.yourBio,
-      yearOfCall:formData.yearOfCall,
-      phoneNumber: formData.phoneNumber ,
-      alternativeEmailAddress:formData.alternativeEmailAddress,
-      areasOfPractise: areasOfPractise,
-      profileImage: imageFile ,
+    // const body ={
+    //   officialEmail: formData.officialEmail,
+    //   scn: formData.scn,
+    //   yourBio:formData.yourBio,
+    //   yearOfCall:formData.yearOfCall,
+    //   phoneNumber: formData.phoneNumber ,
+    //   alternativeEmailAddress:formData.alternativeEmailAddress,
+    //   areasOfPractise: areasOfPractise,
+    //   profileImage: imageFile ,
+    // }
+
+
+    const body = {
+      profileImage: imageFile,
+    };
+  
+    if (formData.officialEmail !== '' && formData.officialEmail !== null && formData.officialEmail !== undefined) {
+      body.officialEmail = formData.officialEmail;
+    }
+    if (formData.scn !== '' && formData.scn !== null && formData.scn !== undefined) {
+      body.scn = formData.scn;
+    }
+    if (formData.yourBio !== '' && formData.yourBio !== null && formData.yourBio !== undefined) {
+      body.yourBio = formData.yourBio;
+    }
+    if (formData.phoneNumber !== '' && formData.phoneNumber !== null && formData.phoneNumber !== undefined) {
+      body.phoneNumber = formData.phoneNumber;
+    }
+    if (formData.alternativeEmailAddress !== '' && formData.alternativeEmailAddress !== null && formData.alternativeEmailAddress !== undefined) {
+      body.alternativeEmailAddress = formData.alternativeEmailAddress;
+    }
+    if (formData.yearOfCall !== '' && formData.yearOfCall !== null && formData.yearOfCall !== undefined) {
+      body.yearOfCall = formData.yearOfCall;
     }
 
-
-
+    if (formData.areasOfPractise !== '' && formData.areasOfPractise !== null && formData.areasOfPractise !== undefined) {
+      body.areasOfPractise = formData.areasOfPractise;
+    }
+  
+    console.log(body);
     console.log(body, 'body')
     updateProfile(
       body, setMessage, setLoading, setIsSuccessful, setDetails, lawyerId, setShowModal

@@ -63,15 +63,41 @@ export default () => {
     setLoading(true);
     const form = new FormData();
 
-    form.append('officialEmail', body.officialEmail)
-    form.append('website', body.website)
-    form.append('yourBio', body.yourBio)
+    // form.append('officialEmail', body.officialEmail)
+    // form.append('website', body.website)
+    // form.append('yourBio', body.yourBio)
   
-    form.append('phoneNumber', body.phoneNumber)
-    form.append('officeAddress', body.officeAddress)
-    form.append('alternativeEmailAddress', body.alternativeEmailAddress)
+    // form.append('phoneNumber', body.phoneNumber)
+    // form.append('officeAddress', body.officeAddress)
+    // form.append('alternativeEmailAddress', body.alternativeEmailAddress)
    
-    form.append('profileImage', body.profileImage)
+    // form.append('profileImage', body.profileImage)
+
+    if (body.officialEmail !== undefined && body.officialEmail !== null) {
+      form.append('officialEmail', body.officialEmail);
+    }
+    if (body.website !== undefined && body.website !== null) {
+      form.append('website', body.website);
+    }
+    if (body.yourBio !== undefined && body.yourBio !== null) {
+      form.append('yourBio', body.yourBio);
+    }
+    if (body.phoneNumber !== undefined && body.phoneNumber !== null) {
+      form.append('phoneNumber', body.phoneNumber);
+    }
+    if (body.officeAddress !== undefined && body.officeAddress !== null) {
+      form.append('officeAddress', body.officeAddress);
+    }
+    if (body.alternativeEmailAddress !== undefined && body.alternativeEmailAddress !== null) {
+      form.append('alternativeEmailAddress', body.alternativeEmailAddress);
+    }
+  
+    // Check if the imageFile exists before appending it
+    if (body.profileImage) {
+      form.append('profileImage', body.profileImage);
+    }
+
+    
   const token= localStorage.getItem('userToken')
 console.log(token)
     console.log(form, 'my form');
@@ -157,6 +183,7 @@ console.log(token)
     setLoading,
     setIsSuccessful,
     setReservedItems,
+    setBill,
     companyId
   ) => {
     setLoading(true);
@@ -170,9 +197,11 @@ console.log(token)
           console.log(response.data, 'getCart response');
   
           if (Array.isArray(response.data) && response.data.length > 0) {
-            const cart = response.data[0]; 
+            const cart = response.data[0].products; 
+            const bill = response.data[0].bill; 
   
             setReservedItems(cart);
+            setBill(bill)
             setMessage("Cart retrieved successfully");
             setIsSuccessful(true);
   
@@ -295,8 +324,73 @@ console.log(token)
     });
   };
   
+  const getPendingJobs = (
+    setJobs, setMessage, setLoading, setIsSuccessful
+   )=> {
+    
+   
+     setLoading(true);
+   
+     http().then((axios) => {
+       axios
+         .get('/job-api/company/pendingjobs')
+         .then(async (response) => {
+           setLoading(false);
+   
+           console.log(response);
+ 
+           const job= response.data
+             console.log(job,'the jobs')
+         
+           
+             setIsSuccessful(true);
+            
+             setJobs(job)
+             
+         })
+         .catch((e) => {
+           setIsSuccessful(false);
+           setLoading(false);
+           // Handle API request error
+           error(e, setMessage, setLoading, setIsSuccessful);
+         });
+     });
+   };
+ 
+   const getCompletedJobs = (
+     setJobs, setMessage, setLoading, setIsSuccessful
+    )=> {
+     
+    
+      setLoading(true);
+    
+      http().then((axios) => {
+        axios
+          .get('/job-api/company/completedjobs')
+          .then(async (response) => {
+            setLoading(false);
+    
+            console.log(response);
+  
+            const job= response.data
+              console.log(job,'the jobs')
+          
+            
+              setIsSuccessful(true);
+             
+              setJobs(job)
+              
+          })
+          .catch((e) => {
+            setIsSuccessful(false);
+            setLoading(false);
+            // Handle API request error
+            error(e, setMessage, setLoading, setIsSuccessful);
+          });
+      });
+    };
   return {
    
-getCompanyProfile, createCart, updateProfile, getCart, deleteCartItem, clearCart, checkout
+getCompanyProfile, createCart, updateProfile, getCart, deleteCartItem, clearCart, checkout, getPendingJobs, getCompletedJobs
     };
 };

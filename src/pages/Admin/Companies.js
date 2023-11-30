@@ -187,8 +187,9 @@ setSelectedCompany(null)
 const handleCompanyProfileNavigation = (companyId) => {
 
 
-  navigate(`/company/profile/${companyId}`)
-}
+  navigate(`/company/profile/${companyId}`)}
+
+
 
 
   return (
@@ -214,20 +215,21 @@ const handleCompanyProfileNavigation = (companyId) => {
         <div className='py-3'>
         {displayedCompanies().map((company)  => {
             return (
-              <div key={company._id} className='mb-4'>
+              <div key={company?._id} className='mb-4'>
                 <div
                   className='d-flex gap-3 py-3 px-0 px-md-3 align-items-center'
                   style={{ borderBottom: '1px solid #CFCFCF' }}
                 >
                  
-                  <img src={company?.profileImage?.url} alt={company.companyName} className='img-fluid' style={{width:'150px', height:'100px'}}/>
+                  <img src={company?.profileImage?.url} alt={company?.companyName} className='img-fluid' style={{width:'150px', height:'100px'}}/>
                   <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-3 gap-md-5 gap-sm-3'>
-                  <h6>{company.companyName}</h6>
+                  <h6>{company?.companyName || company?.name}</h6>
                  
-                  <p style={{ color: '#373737' }}>{company.cac}</p>
-                  <p style={{ color: '#373737' }}>{company.industry}</p>
+                  <p style={{ color: '#373737' }}>{company?.cac}</p>
+                  <p style={{ color: '#373737' }}>{company?.industry}</p>
                   {/* <p style={{ color: '#373737' }}>{company.dateofReg}</p> */}
-                  <p style={{ color: '#373737' }}>01/01/1999</p>
+                  {company?.createdAt && <p style={{ color: '#373737' }}>{company.createdAt.split('T')[0]}</p>}
+
                  
                   <button
                     style={{

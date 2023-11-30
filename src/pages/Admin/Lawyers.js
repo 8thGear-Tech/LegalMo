@@ -210,7 +210,7 @@ export const lawyerLists = [
       navigate(`/lawyer/profile/${lawyerId}`)
     }
 
- 
+     
     
     return (
       <AdminNavbar>
@@ -248,13 +248,13 @@ export const lawyerLists = [
                       style={{ borderBottom: '1px solid #CFCFCF' }}
                     >
 
-                      <img src={lawyer?.profileImage?.url} alt={lawyer.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
+                      <img src={lawyer?.profileImage?.url} alt={lawyer?.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
                       <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-3 gap-md-5 gap-sm-3'>
                         <h6>{lawyer.name}</h6>
 
                         <p style={{ color: '#373737' }}>{lawyer.scn}</p>
 
-                        <p style={{ color: '#373737' }}>01/11/1999</p>
+                     {lawyer?.createdAt && <p style={{ color: '#373737' }}>{lawyer?.createdAt.split('T')[0]}</p>}
 
                         <button
                           style={{
