@@ -10,6 +10,7 @@ export default () => {
 
   const login = (
     body,
+    userType,
     setMessage,
     setLoading,
     setIsSuccessful,
@@ -19,7 +20,8 @@ export default () => {
     setLoading(true);
     http().then((axios) => {
       axios
-        .post(`/api/login/${body.userType}`, body)
+        .post(`/api/login/${userType}`)
+        // .post(`/api/login/${body.userType}`, body)
         .then(async (response) => {
           setLoading(false);
           setIsSuccessful(true);

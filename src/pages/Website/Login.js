@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { LoginForm, LoginModal } from '../../components/Forms/Authenticationforms'
-import GuestNavbar from '../../components/Navbar/GuestNavbar'
-import Footer from '../../components/Footer'
-import loginRoute from '../../services/authRoute'
-import { useNavigate } from 'react-router-dom'
-import authRoute from '../../services/authRoute'
+import React, { useState, useEffect } from "react";
+import {
+  LoginForm,
+  LoginModal,
+} from "../../components/Forms/Authenticationforms";
+import GuestNavbar from "../../components/Navbar/GuestNavbar";
+import Footer from "../../components/Footer";
+import loginRoute from "../../services/authRoute";
+import { useNavigate } from "react-router-dom";
+import authRoute from "../../services/authRoute";
 
 function Login() {
+  const { login } = authRoute();
 
-  const {login} = authRoute();
-  
   const [showModal, setShowModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isSuccessful, setIsSuccessful] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [userData, setUserData] = useState({});
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
-   
 
   useEffect(() => {
-   
-    if (email.trim() !== '' && password.trim() !== '') {
+    if (email.trim() !== "" && password.trim() !== "") {
       setFormValid(true);
     } else {
       setFormValid(false);
@@ -39,52 +39,49 @@ function Login() {
     setShowSignUpButtons(!showSignUpButtons);
   };
 
-
- 
-
   const handleLogIn = (e) => {
-   e.preventDefault();
-   setEmailError('');
-    setPasswordError('');
- 
+    e.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+
     let hasError = false;
- 
+
     if (!email) {
-      setEmailError('Please enter your email address');
+      setEmailError("Please enter your email address");
       hasError = true;
     }
- 
+
     if (!password) {
-      setPasswordError('Please enter your password');
+      setPasswordError("Please enter your password");
       hasError = true;
     }
- 
+
     if (hasError) {
       return;
     }
 
     const body = {
-      
       officialEmail: email,
-     password: password,
-    }
-    login(body, setMessage, setLoading, setIsSuccessful, setUserData, setShowModal)
+      password: password,
+    };
+    login(
+      body,
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setUserData,
+      setShowModal
+    );
+  };
 
-  
-    
-     
-   
-  }
-  
- 
   return (
-    <div><GuestNavbar/>
-     <div className='justify-content-center align-items-center text-align-center py-5 px-4 mb-5'>
-     <LoginForm
+    <div>
+      <GuestNavbar />
+      <div className="justify-content-center align-items-center text-align-center py-5 px-4 mb-5">
+        <LoginForm
           setShowModal={setShowModal}
-      
-          modalText='Welcome back'
-          handleLogIn= {handleLogIn}
+          modalText="Welcome back"
+          handleLogIn={handleLogIn}
           formValid={formValid}
           password={password}
           email={email}
@@ -98,17 +95,15 @@ function Login() {
           setShowSignUpButtons={setShowSignUpButtons}
           toggleSignUpButtons={toggleSignUpButtons}
         />
-     </div>
-     <LoginModal
+      </div>
+      <LoginModal
         showModal={showModal}
-       isSuccess={isSuccessful}
-        closeModal={()=> setShowModal(false)}
+        isSuccess={isSuccessful}
+        closeModal={() => setShowModal(false)}
         modalText={message}
       />
-
-
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
