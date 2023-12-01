@@ -8,16 +8,18 @@ import Footer from "../../components/Footer";
 import loginRoute from "../../services/authRoute";
 import { useNavigate } from "react-router-dom";
 import authRoute from "../../services/authRoute";
+import { useAppContext } from "../../AppContext";
 
 function Login() {
   const { login } = authRoute();
+  const { setUserData } = useAppContext();
 
   const [showModal, setShowModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [email, setEmail] = useState("");
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -74,6 +76,19 @@ function Login() {
     );
   };
 
+  if (loading) {
+    return (
+      <div
+        className="justify-content-center align-items-center text-center"
+        style={{ paddingTop: "300px" }}
+      >
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <GuestNavbar />
@@ -101,6 +116,12 @@ function Login() {
         isSuccess={isSuccessful}
         closeModal={() => setShowModal(false)}
         modalText={message}
+        showResendConfirmation={
+          message === "Please confirm your email address to log in."
+        }
+        onResendConfirmation={() => {
+          navigate("/resend-confirm");
+        }}
       />
     </div>
   );

@@ -1,24 +1,42 @@
-import React, { useState } from 'react'
-import { lawyerLists } from './UnverifiedLawyers';
+import React, { useEffect, useState } from 'react'
+import { lawyerLists } from './Lawyers';
 import { Pagination } from '../../components/Buttons/Admin';
 import AdminNavbar from '../../components/Navbar/AdminNavbar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useAppContext } from '../../AppContext';
+import adminRoute from '../../services/adminRoute';
 
 const AssignedJobs = () => {
     const location = useLocation();
     const itemsPerPage = 5
     const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
-  const jobId = queryParams.get('id');
-
-  const jobName = queryParams.get('jobName');
-  const jobDetails = queryParams.get('details');
+    const {getOneJob, getVerifiedLawyers,assignJob} = adminRoute()
+    const [loading, setLoading] = useState(true);
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [message, setMessage] = useState('');
+    const [isSuccessful, setIsSuccessful] = useState(false);
+   const [details, setDetails]= useState([])
+    const [lawyers, setLawyers] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+ 
   const [selectedLawyer, setSelectedLawyer] = useState(null);
-  const {jobList, setJobList} = useAppContext();
+
+
+  const {jobId}= useParams();
+
+  useEffect(()=>{
+    getVerifiedLawyers(setMessage, setLoading, setIsSuccessful, setLawyers, setShowModal)
+  },[])
+
+  useEffect(()=>{
+    getOneJob(
+      setMessage, setLoading, setIsSuccessful, jobId,setSelectedJob
+  );
+  },[])
 const handleCheckboxChange = (lawyerId) => {
     setSelectedLawyer(lawyerId);
+    console.log(selectedLawyer,'selected lawyer')
   };
 
   
@@ -30,28 +48,15 @@ const handleCheckboxChange = (lawyerId) => {
       return;
     }
   
- 
+  const body={
+    jobId:jobId,
+    lawyerId:selectedLawyer
+  }
   
- 
-    const jobIndex = jobList.findIndex((job) => job.id === jobId);
-  
-
-    if (jobIndex !== -1) {
-      const updatedJobList = [...jobList]; 
-      updatedJobList[jobIndex].statusVerification = 'Pending'; 
-  
-  
-  
-      setJobList(updatedJobList);
-     
-    }
-
-  
-    const lawyerName = lawyerLists.find((lawyer) => lawyer.id === selectedLawyer).lawyerName;
-    alert(`Job "${jobName}" has been assigned to Lawyer "${lawyerName}".`);
-  
- 
-      navigate('/admin/jobs');
+  console.log(body,'assignbody')
+  assignJob(
+    body,setMessage, setLoading, setIsSuccessful
+  )
   };
   
  
@@ -61,7 +66,7 @@ const handleCheckboxChange = (lawyerId) => {
     });
 
   
-    const totalPages = Math.ceil(lawyerLists.length / pagination.itemsPerPage);
+    const totalPages = Math.ceil(lawyers.length / pagination.itemsPerPage);
  
     const handlePageChange = (newPage) => {
       if (newPage >= 1 && newPage <= totalPages) {
@@ -72,9 +77,17 @@ const handleCheckboxChange = (lawyerId) => {
     const getCurrentPageData = () => {
       const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage;
       const endIndex = startIndex + pagination.itemsPerPage;
-      return lawyerLists.slice(startIndex, endIndex);
+      return lawyers.slice(startIndex, endIndex);
     };
-            
+      
+    if (loading) {
+      return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+     <div className="spinner-border text-secondary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+          </div>; 
+    }
+          
     return (
       <AdminNavbar>
         <div className='py-5 my-3 px-2 px-sm-3'>
@@ -83,7 +96,8 @@ const handleCheckboxChange = (lawyerId) => {
                 <h5 className='modal-title' id='editPaymentModal' style={{fontWeight:'600'}}>
                 Details
               </h5>
-    <h6 className='' style={{fontWeight:''}}>{jobDetails}</h6>
+              <h6 className='' style={{fontWeight:''}}> {selectedJob?.productId?.productDescription}</h6>
+    <h6 className='' style={{fontWeight:''}}>{selectedJob?.detail}</h6>
              
           
               
@@ -96,7 +110,7 @@ const handleCheckboxChange = (lawyerId) => {
        
       
         {getCurrentPageData().map((lawyer) => (
-              <div key={lawyer.id} className='mb-4'>
+              <div key={lawyer._id} className='mb-4'>
              
  
             <div
@@ -105,18 +119,18 @@ const handleCheckboxChange = (lawyerId) => {
               >
                         <input
             type="checkbox"
-            value={lawyer.id}
-            checked={selectedLawyer === lawyer.id}
-            onChange={() => handleCheckboxChange(lawyer.id)}
+            value={lawyer._id}
+            checked={selectedLawyer === lawyer._id}
+            onChange={() => handleCheckboxChange(lawyer._id)}
           />
 
-                <img src={lawyer.lawyerImage} alt={lawyer.lawyerName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
+                <img src={lawyer?.profileImage?.url} alt={lawyer?.name} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
                 <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-4 gap-md-5 gap-sm-5'>
-                <h6>{lawyer.lawyerName}</h6>
+                <h6>{lawyer?.name}</h6>
                
-                <p style={{ color: '#373737' }}>{lawyer.snRegNo}</p>
+                <p style={{ color: '#373737' }}>{lawyer?.scn}</p>
                 
-                <p style={{ color: '#373737' }}>{lawyer.dateofReg}</p>
+                {lawyer?.createdAt && <p style={{ color: '#373737' }}>{lawyer?.createdAt.split('T')[0]}</p>}
                
             
                 </div>

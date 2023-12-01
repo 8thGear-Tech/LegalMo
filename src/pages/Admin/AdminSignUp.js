@@ -62,6 +62,19 @@ function AdminSignUp() {
     );
   };
 
+  if (loading) {
+    return (
+      <div
+        className="justify-content-center align-items-center text-center"
+        style={{ paddingTop: "300px" }}
+      >
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <GuestNavbar />

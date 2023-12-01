@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0 !important;
   overflow-x: hidden !important;
+  
 }
 
 h1 {
@@ -629,14 +630,6 @@ p {
     font-size: 16px !important;
   }
 }
-.login-card .form-label {
-  position: absolute;
-  background-color: white;
-  z-index: 1;
-  padding: 0 2px;
-  top: -30%;
-  left: 3%;
-}
 .login-card .btn-group {
   gap: 2px;
   background-color: #032773;
@@ -692,7 +685,7 @@ p {
 }
 
 .img-fixed-height {
-  height: 250px !important;
+  height: 11rem !important;
 }
 
 @media (max-width: 576px) {

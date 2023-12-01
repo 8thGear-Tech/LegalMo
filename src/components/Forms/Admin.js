@@ -4,56 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import priceBox from '../../assets/images/price-box.svg'
 import { useNavigate } from "react-router-dom";
 
-export const  CreateProductForm=({ setShowModal, setSuccessMessage})=> {
+export const  CreateProductForm=({ setShowModal, setSuccessMessage , handleProductCreation, handleFileChange, handleImageUpload,fileInputRef,productName, setProductName, productDescription, setProductDescription, productPrice, setProductPrice, formValid})=> {
 
-  const [productName, setProductName] = useState('');
-  const [productDescription, setProductDescription] = useState('');
-  const [productPrice, setProductPrice] = useState('');
-  const [formValid, setFormValid] = useState(false); 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const navigate = useNavigate()
-
-  
-
-
-  useEffect(() => {
-    if (
-      productName.trim() !== '' &&
-      productPrice.trim() !== '' &&
-      productDescription.trim() !== '' && selectedImage !== null
-    ) {
-      setFormValid(true);
-    } else {
-      setFormValid(false);
-    }
-  }, [productName, productPrice, productDescription, selectedImage]);
-
-  const fileInputRef = useRef(null);
-
-  const handleImageUpload = () => {
-    fileInputRef.current.click();
-  
-  };
-  
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImage(file.name);
-      document.getElementById('imageTextInput').value = file.name;
-      setFormValid(true); 
-    }
-  };
-
-
-  const handleProductCreation =(e) => {
-    e.preventDefault();
-    setShowModal(true);
-    setSuccessMessage(true);
-   
-    setTimeout(() => {
-      navigate('/products');
-    }, 3000);
-  }
 
     return (
       <form className="login-card" onSubmit={handleProductCreation}>
@@ -106,14 +58,19 @@ export const  CreateProductForm=({ setShowModal, setSuccessMessage})=> {
               </label>
               <div className="input-group position-relative" style={{width:'60%'}}>
                 
-                <input
-                  type='number'
-                  className="form-control py-2 "
-                  name='productPrice'
-                  placeholder="Textbox"
-                  value={productPrice}
-                 onChange={(event) => setProductPrice(event.target.value)} required
-                />
+              <input
+  type='text'  // Use text type to prevent the default number input behavior
+  className="form-control py-2"
+  name='productPrice'
+  placeholder="Textbox"
+  value={productPrice}
+  onChange={(event) => {
+    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    setProductPrice(numericValue);
+  }} // Pattern to match any number
+  required
+/>
+
                 <img src={priceBox} alt='box' className='' style={{position:'absolute',top:'30%',right:'3%'}}/>
                
               </div>

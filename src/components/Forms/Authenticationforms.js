@@ -7,10 +7,11 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import check from '../../assets/images/check.svg'
 import error from '../../assets/images/icon-error.png'
+import { PrivacyModal, TermsModal } from '../Footer';
 
 
 
-export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess }) => {
+export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess, showResendConfirmation, onResendConfirmation }) => {
 
 
   return (
@@ -35,6 +36,11 @@ export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess
                 <h4 className='mt-5'style={{ fontWeight: '700' }}>{modalText}</h4>
                 {isSuccess && <p>{subText}</p>}
                 
+                {!isSuccess && showResendConfirmation && (
+            <button className='btn btn-primary mt-5' onClick={onResendConfirmation}>
+              Resend Confirmation Email
+            </button>
+          )}
               </div>
            
           </div>
@@ -52,7 +58,7 @@ export const LoginModal = ({ showModal, closeModal, modalText,subText, isSuccess
 
 
 
-export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, initialData }) {
+export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, initialData, acceptTerms, handleAcceptTermsChange, step, setAcceptTerms }) {
   const [formData, setFormData] = useState(initialData || {});
   const [newFormData, setNewFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -60,6 +66,15 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
   const [isFormComplete, setIsFormComplete] = useState(false);
   const hasPasswordFields = fields.some((field) => field.type === 'password'); 
   const hasPhoneNumberField = fields.some((field) => field.type === 'number');
+  const inputRefs = {};
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+ 
+ 
+  
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  
+  
+
   
   useEffect(() => {
     setFormData(initialData || {});
@@ -67,13 +82,14 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
 
   useEffect(() => {
     const isComplete =
-      fields.every((field) => !!formData[field.name]) &&
+      fields.every((field) => field.name === 'cacNumber' || !!formData[field.name]) &&
       (!hasPasswordFields ||
         (formData.password === formData.confirmPassword && checkPasswordStrength(formData.password))) &&
       (!hasPhoneNumberField || (!formData.phoneNumber || formData.phoneNumber.length === 11));
-
+  
     setIsFormComplete(isComplete);
   }, [formData, fields, hasPasswordFields, hasPhoneNumberField]);
+  
 
   
   const handleChange = (event) => {
@@ -100,6 +116,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
       [name]: '',
     });
   };
+ 
 
   
   const handleTogglePassword = () => {
@@ -114,12 +131,13 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
   const handleNext = (e) => {
     e.preventDefault();
     const validationErrors = {};
-
     fields.forEach((field) => {
-      if (!formData[field.name]) {
+      // Check for required fields except cacNumber
+      if (field.required && field.name !== 'cacNumber' && !formData[field.name]) {
         validationErrors[field.name] = `Please enter your ${field.label}`;
       }
     });
+  
 
     if (hasPasswordFields) {
       if (!formData.confirmPassword) {
@@ -138,7 +156,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
     }
 
     setErrors(validationErrors);
-
+    if (Object.keys(validationErrors).length === 0) {
     if (initialData) {
       // Merge new form data with existing form data
       const mergedFormData = { ...formData, ...newFormData };
@@ -148,13 +166,35 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
       // If there are no steps, directly submit the form data
       onSubmit(formData);
     }
+  }
+  };
+
+  const handleLabelClick = (fieldName) => {
+    // Focus on the corresponding input element when the label is clicked
+    inputRefs[fieldName].focus();
   };
   
+  const togglePrivacyModal = () => {
+    setShowPrivacyModal(!showPrivacyModal);
+    
+  };
 
+  const closePrivacyModal = () => {
+    setShowPrivacyModal(false);
+  };
+
+  const toggleTermsModal = () => {
+    setShowTermsModal(!showTermsModal);
+  };
+  const closeTermsModal = () => {
+    setShowTermsModal(false);
+  };
+
+  
   return (
     <div className='login-card mt-lg-3'>
-      <div className='card p-5  m-auto'>
-        <div className='text-center mb-5'>
+      <div className='card py-5 px-sm-5 px-4 m-auto'>
+        <div className='text-center mb-4'>
           <h5 className='mb-2' style={{fontWeight:'700', color:'#323233'}}>{formTitle}</h5>
           <p className='text-center p-small mt-4' style={{color: ' #7E7E7F'}}>
             Already have an account?{' '}
@@ -168,32 +208,49 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
 
         <form onSubmit={(e)=> handleNext(e)}>
           {fields.map((field) => (
-            <div className="mb-5" style={{ position: 'relative' }} key={field.name}>
-              <label htmlFor={field.name} className="form-label">
+            <div className="mb-4"  key={field.name}>
+              <label htmlFor={field.name} className="form-label"     >
                 {field.label} {field.required && <sup className='' style={{ color: 'red' }}>*</sup>}
               </label>
               <div className="input-group">
-                <input
-                  type={field.type === 'password' ? (showPassword ? 'text' : 'password') : field.type}
-                  className="form-control py-2"
-                  name={field.name}
-                  value={formData[field.name] || ''}
-                  onChange={handleChange}
-                />
-                {field.type === 'password' && (
-                  <span
-                    className="input-group-text"
-                    onClick={handleTogglePassword}
-                    style={{ cursor: 'pointer', background: 'white' }}
-                  >
-                    {showPassword ? (
-                      <i className="bi bi-eye-slash"></i> 
-                    ) : (
-                      <i className="bi bi-eye"></i>
-                    )}
-                  </span>
-                )}
-              </div>
+  {field.type === 'select' ? (
+   <select
+   name={field.name}
+   value={formData[field.name] || ''}
+   onChange={handleChange}
+   className="form-select py-2" 
+   required={field.required}
+ >
+   <option value=""></option>
+   {field.options.map((option) => (
+     <option key={option.value} value={option.value}>
+       {option.label}
+     </option>
+   ))}
+ </select>
+ 
+  ) : (
+    <input
+      type={field.type === 'password' ? (showPassword ? 'text' : 'password') : 'text'}
+      className="form-control py-2"
+      name={field.name}
+      value={formData[field.name] || ''}
+      onChange={handleChange}
+      pattern={field.type === 'number' ? "[0-9]*" : undefined}  // Apply pattern only for number fields
+      required={field.required}
+    />
+  )}
+  {field.type === 'password' && (
+    <span
+      className="input-group-text"
+      onClick={handleTogglePassword}
+      style={{ cursor: 'pointer', background: 'white' }}
+    >
+      {showPassword ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+    </span>
+  )}
+</div>
+
               {errors[field.name] && <div className="text-danger">{errors[field.name]}</div>}
             </div>
           ))}
@@ -205,8 +262,27 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
           >
             {submitButtonLabel}
           </button>
+
+          {step === 2 && (
+          <div className='my-3 form-check mx-0 mx-sm-4 mx-lg-4 align-items-center'>
+            <input
+              type='checkbox'
+              className='form-check-input'
+              id='acceptTermsCheckbox'
+              checked={acceptTerms}
+              onChange={() => setAcceptTerms(!acceptTerms)}
+            />
+            <label className='form-check-label' htmlFor='acceptTermsCheckbox' style={{fontSize:'12px'}}>
+            By joining, you agree to the <a onClick={toggleTermsModal} className='text-decoration-none' style={{color:'#032773'}}>terms</a> and <a onClick={togglePrivacyModal} className='text-decoration-none' style={{color:'#032773'}}>privacy policy</a>
+            </label>
+          </div>
+        )}
+
         </form>
       </div>
+      <PrivacyModal showPrivacyModal={showPrivacyModal} closePrivacyModal={closePrivacyModal}/>
+
+<TermsModal showTermsModal={showTermsModal} closeTermsModal={closeTermsModal}/>
     </div>
   );
 }
@@ -214,60 +290,26 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
 
 
 
-export const ResetPasswordForm=()=> {
-  const [email, setEmail] = useState('');
-
-  const [emailError, setEmailError] = useState('');
- 
-const navigate = useNavigate();
-const [formValid, setFormValid] = useState(false); 
-
-useEffect(() => {
+export const ResetPasswordForm=({formValid,
+  email,
+  setEmail,
+  emailError,
+  setEmailError,
+  handlePasswordReset})=> {
   
-  if (email.trim() !== '' ) {
-    setFormValid(true);
-  } else {
-    setFormValid(false);
-  }
-}, [email]);
-
-
-const handlePasswordReset = (e) => {
-  e.preventDefault();
-
-  setEmailError('');
-  
-
-  let hasError = false;
-
-  
-  if (!email) {
-    setEmailError('Please enter your email address');
-    hasError = true;
-  }
-
-  if (hasError) {
-   
-    return;
-  }
-
-  
-  navigate('/otp');
-};
-
 
 
   return (
     <div className='login-card '>
     <div className='card p-5  m-auto'>
-      <div className='text-center mb-5'>
+      <div className='text-center mb-4'>
       <h5 className='mb-2' style={{fontWeight:'600'}}>Reset Password</h5>
       
       </div>
         
-        <form onSubmit={handlePasswordReset}>
+        <form onSubmit={(e)=> handlePasswordReset(e)}>
           
-            <div className="mb-4" style={{position:'relative'}}>
+            <div className="mb-4" >
   <label htmlFor="email" className="form-label" >Email</label>
   <input
 type="email"
@@ -311,13 +353,13 @@ export const LoginForm = ({ setShowModal, setSuccessMessage, handleLogIn,
    
     <div className="login-card mt-lg-5" style={{backgroundColor: '#FEFEFF'}}>
       <div className='card p-5 m-auto'>
-        <div className='text-center mb-5'>
+        <div className='text-center mb-4'>
         <h5 className='mb-2' style={{fontWeight:'600'}}>Log In</h5>
           <p className='p-small' style={{color:'#7E7E7F'}}>Welcome back!</p>
         </div>
 
         <form onSubmit={(e)=> handleLogIn(e)}>
-          <div className='mb-5' style={{ position: 'relative' }}>
+          <div className='mb-4' >
             <label htmlFor='email' className='form-label'>
               Email
             </label>
@@ -329,7 +371,7 @@ export const LoginForm = ({ setShowModal, setSuccessMessage, handleLogIn,
             />
             {emailError && <div className='text-danger'>{emailError}</div>}
           </div>
-          <div className='mb-2' style={{ position: 'relative' }}>
+          <div className='mb-2'>
             <label htmlFor='password' className='form-label'>
               Password
             </label>

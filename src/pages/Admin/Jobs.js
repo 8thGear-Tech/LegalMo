@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import AdminNavbar from '../../components/Navbar/AdminNavbar'
 import jobImage from '../../assets/images/non-compliance.svg'
 import { Pagination } from '../../components/Buttons/Admin';
 import { ViewMoreModal } from '../../components/Cards/Admin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../AppContext';
+import adminRoute from '../../services/adminRoute';
 
 
   const Jobs = () => {
-    const {jobList, setJobList} = useAppContext();
+    // const {jobList, setJobList} = useAppContext();
     const itemsPerPage = 5
     const [newDetails, setNewDetails] = useState('');
     const [selectedJob, setSelectedJob] = useState(null);
@@ -16,14 +17,22 @@ import { useAppContext } from '../../AppContext';
     const [showViewMoreModal, setShowViewMoreModal] = useState(false);
     const [statusFilter, setStatusFilter] = useState('Unassigned');
    
-  
+    const [markCompletedCheckbox, setMarkCompletedCheckbox] = useState(false);
+
 
   const [jobDetails, setJobDetails] = useState({});
   const [jobFiles, setJobFiles] = useState({});
-  
-
-
+  const {getPendingJobs, getUnassignedJobs, getCompletedJobs,editJobDetail, completeJob} = adminRoute();
  
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+ 
+  const [jobs, setJobs] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+
+ const navigate= useNavigate()
     const [pagination, setPagination] = useState({
       currentPage: 1,
       itemsPerPage: 5,
@@ -32,34 +41,80 @@ import { useAppContext } from '../../AppContext';
 
     const fileInputRef = useRef(null);
    
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile , setSelectedFile] = useState(null);
+    const [selectedFileUrl, setSelectedFileUrl] = useState(null);
+const cloudinaryRef = useRef();
+const widgetRef = useRef();  
+    useEffect(() => {
+      
+      if (statusFilter === 'Unassigned') {
+       
+         getUnassignedJobs(setMessage, setLoading, setIsSuccessful, setJobs);
+      } else if (statusFilter === 'Pending') {
+        
+         getPendingJobs(setMessage, setLoading, setIsSuccessful, setJobs);
+      }else if (statusFilter === 'Completed') {
+        
+        getCompletedJobs(setMessage, setLoading, setIsSuccessful, setJobs);
+     }
+      
+    }, [statusFilter]);
 
-    
+ 
+
+    useEffect(() => {
+      if (window.cloudinary) {
+        cloudinaryRef.current = window.cloudinary;
+        widgetRef.current = cloudinaryRef.current.createUploadWidget(
+          {
+            cloudName: 'do03u50qn',
+            uploadPreset: 'LegalMoUpload',
+          },
+          (error, result) => {
+            console.log(result,'result')
+            if (!error && result && result.event === 'success') {
+              const fileName = result.info.original_filename || '';
+              setSelectedFile(fileName);
+
+              const fileUrl = result.info.secure_url || '';
+              setSelectedFileUrl(fileUrl)
+              console.log(selectedFileUrl,'url')
+            }
+          }
+        );
+      }
+    }, []);
+    const openUploadWidget = () => {
+      if (widgetRef.current) {
+        widgetRef.current.open();
+      }
+    };
     const handleUploadClick = () => {
         fileInputRef.current.click();
       };
       
       
-      const handleFileChange = (e) => {
-        const newSelectedFile = e.target.files[0];
       
-        if (newSelectedFile) {
-          const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      // const handleFileChange = (e) => {
+      //   const newSelectedFile = e.target.files[0];
       
-          if (newSelectedFile.size <= maxSizeInBytes) {
-            setSelectedFile(newSelectedFile);
+      //   if (newSelectedFile) {
+      //     const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      
+      //     if (newSelectedFile.size <= maxSizeInBytes) {
+      //       setSelectedFile(newSelectedFile);
         
-          } else {
-            alert('File size exceeds the limit of 5MB. Please choose a smaller file.');
-            e.target.value = null;
-            setSelectedFile(null);
+      //     } else {
+      //       alert('File size exceeds the limit of 5MB. Please choose a smaller file.');
+      //       e.target.value = null;
+      //       setSelectedFile(null);
            
-          }
-        } else {
-          setSelectedFile(null);
+      //     }
+      //   } else {
+      //     setSelectedFile(null);
          
-        }
-      };
+      //   }
+      // };
       
       const handleDeleteClick = () => {
         
@@ -80,21 +135,47 @@ const handleMoreDetailsClose = () => {
 
 const handleMoreDetailsShow = (job) => {
   setSelectedJob(job);
-  setNewDetails(job.initialDetails);
+  setNewDetails(job.detail);
   setShowMoreDetailsModal(true);
-  
-  setSelectedFile(job.uploadedFile); 
+  setSelectedFileUrl(job.fileUrl || selectedFileUrl);
+
+  setSelectedFile(selectedFile); 
 };
 
 
 
 const handleMoreDetailsSend = () => {
-  if (selectedJob) {
-    selectedJob.initialDetails = newDetails;
-    selectedJob.uploadedFile = selectedFile; 
+  // if (selectedJob) {
+  //   // selectedJob.initialDetails = newDetails;
+  //   selectedJob.uploadedFile = selectedFile; 
+  // }
+const jobId= selectedJob?._id
+
+  const body={
+detail:newDetails,
+file:selectedFileUrl,
   }
 
+  console.log(body)
+
+  editJobDetail(
+    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFile,selectedJob
+   )
+
   setShowMoreDetailsModal(false);
+};
+const handleCheckboxChange = (event) => {
+  setMarkCompletedCheckbox(event.target.checked);
+  
+  const jobId= selectedJob?._id
+
+
+  completeJob(
+    setMessage, setLoading, setIsSuccessful, jobId, setJobs,jobs
+  )
+
+  setShowViewMoreModal(false);
+  setMarkCompletedCheckbox(false);
 };
 
 
@@ -102,7 +183,7 @@ const handleViewMoreShow = (job) => {
  
   setSelectedJob(job);
   setShowViewMoreModal(true);
-  setSelectedFile(job.uploadedFile); 
+  setSelectedFile(selectedFile); 
 };
 
 
@@ -115,13 +196,18 @@ const handleViewMoreShow = (job) => {
      
       setPagination({ currentPage: 1, itemsPerPage: 5 });
     };
+
+    const handleAssign = (jobId)=>{
+      console.log(jobId);
+      navigate(`/admin/assign-job/${jobId}`)
+    }
   
-    const filteredJobs = jobList.filter(
-      (job) => job.statusVerification === statusFilter
+    // const filteredJobs = jobList.filter(
+    //   (job) => job.statusVerification === statusFilter
        
-    );
+    // );
   
-    const totalPages = Math.ceil(filteredJobs.length / pagination.itemsPerPage);
+    const totalPages = Math.ceil(jobs.length / pagination.itemsPerPage);
  
     const handlePageChange = (newPage) => {
       if (newPage >= 1 && newPage <= totalPages) {
@@ -132,9 +218,15 @@ const handleViewMoreShow = (job) => {
     const getCurrentPageData = () => {
       const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage;
       const endIndex = startIndex + pagination.itemsPerPage;
-      return filteredJobs.slice(startIndex, endIndex);
+      return jobs.slice(startIndex, endIndex);
     };
-   
+    if (loading) {
+      return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+     <div className="spinner-border text-secondary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+          </div>; 
+    }
             
     return (
       <AdminNavbar>
@@ -151,21 +243,23 @@ const handleViewMoreShow = (job) => {
           <button  onClick={() => handleStatusFilterChange('Completed')}
           className={statusFilter === 'Completed' ? 'verify-active' : 'verify-button'}>Completed jobs</button>
            </div>
-       
+           <div>{jobs.length === 0 ? (
+    <p className='justify-content-center text-center py-5'>No projects</p>
+  ) : (<div>
       
           {getCurrentPageData().map((job) => (
             
-              <div key={job.id} className='mb-4'>
+              <div key={job?._id} className='mb-4'>
               <div
                 className='d-flex justify-content-between gap-5 gap-sm-3 py-3  align-items-center'
                 style={{ borderBottom: '1px solid #CFCFCF' }}
               >
                
-                <img src={job.jobImage} alt={job.jobName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
+                <img src={job?.productId?.productImage} alt={job?.productId?.productName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
                 <div className='d-block d-sm-flex justify-content-between gap-xl-4 gap-lg-3 gap-md-4 gap-sm-3 align-items-center'>
-                <h6>{job.jobName}</h6>
+                <h6>{job?.productId?.productName}</h6>
                
-                <h6 style={{ color: '#373737' }}>{job.jobPrice}</h6>
+                <h6 style={{ color: '#373737' }}>₦{job?.productId?.productPrice.toLocaleString()}</h6>
                 
                
                
@@ -179,22 +273,28 @@ const handleViewMoreShow = (job) => {
                 >
                   <h6>View more</h6>
                 </button>
-                <button  onClick={() => handleMoreDetailsShow(job)}
-                  style={{
-                    color: '#02143A',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                  }}
-                  className='mb-2'
-                >
-                  <h6>Add details</h6>
-                </button>
+               
+      {statusFilter !== 'Completed' && (  // Check the status filter value here
+        <button
+          onClick={() => handleMoreDetailsShow(job)}
+          style={{
+            color: '#02143A',
+            backgroundColor: 'transparent',
+            border: 'none',
+          }}
+          className='mb-2'
+        >
+          <h6>Add details</h6>
+        </button>
+      )}
                 </div>
             
             </div>
             </div>
           ))}
        </div>
+  )}
+  </div>
      
        <Pagination
        pagination={pagination}
@@ -215,13 +315,13 @@ const handleViewMoreShow = (job) => {
             tabIndex='-1'
             role='dialog'
             aria-labelledby=''
-            aria-hidden='true'
+            aria-hidden='true' onClick={handleViewMoreClose}
           >
             <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
-              <div className='modal-content gap-3 p-3 p-sm-5'>
+              <div className='modal-content gap-3 p-3 p-sm-5' style={{width:'90%'}}>
                 <div className='modal-header'>
                   <h5 className='modal-title' id='' style={{ fontWeight: '600' }}>
-                  {selectedJob ? selectedJob.jobName : ''}
+                  {selectedJob?.productId?.productName}
                   </h5>
       
                   <button type='button' className='btn-close' onClick={handleViewMoreClose}></button>
@@ -229,7 +329,7 @@ const handleViewMoreShow = (job) => {
                 <div className='modal-body '>
                  
                   <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
-                    We are looking for an employment law expert who will prepare an employment contract .
+                  {selectedJob?.productId?.productDescription}
                   </h6>
       
                   <div className='form-group gap-2 mt-5'>
@@ -238,33 +338,54 @@ const handleViewMoreShow = (job) => {
                     </h6>
                     <div className='card p-3'>
                       <div>
-                        <p>{selectedJob.initialDetails}</p>
+                        <p>{selectedJob.detail}</p>
                       </div>
                     </div>
-                    <div className='d-flex justify-content-between mt-3'>
+                    <div className='d-flex justify-content-between gap-5 mt-3 align-items-center' style={{maxWidth:'auto'}}>
                       <div>
-                    {selectedFile && selectedFile.name && (
-                <p>
+                    {selectedFileUrl &&  (
+                      <div className='d-flex my-2'>
+                <p className='p-small' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                   {' '}
                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                  {selectedFile.name}
-                </p>
+                  {selectedFile}
+               
+                
+               </p>
+               </div>
               )}
               </div>
               <div>
-                      {selectedJob.statusVerification === 'Unassigned' && (
-                        <Link
-                        to={`/admin/assign-job?id=${selectedJob.id}&details=${encodeURIComponent(selectedJob.initialDetails)}&jobName=${encodeURIComponent(selectedJob.jobName)}`}
+                      {statusFilter === 'Unassigned' &&(
+                        <a onClick={()=> handleAssign(selectedJob?._id)}
+                        
                         className='text-dark'
                       >
                         Assign
-                      </Link>
+                      </a>
                       )}
-                      {(selectedJob.statusVerification === 'Pending' || selectedJob.statusVerification === 'Completed') && (
-                        <Link className='text-dark'>Assigned to Asher Daniels</Link>
-                      )}
-                      </div>
+                         {(statusFilter === 'Completed' || statusFilter === 'Pending') && selectedJob.assignedTo.length > 0 && (
+        <Link className='text-dark'>
+          Assigned to {selectedJob.assignedTo[0].name}
+        </Link>
+      )}
+                      </div> 
                     </div>
                   </div>
+                  {statusFilter === 'Pending' && (
+    <div className='form-check justify-content-center text-center mt-5'>
+      <input
+        className='form-check-input'
+        type='checkbox'
+        id='markCompletedCheckbox'
+        checked={markCompletedCheckbox}
+        onChange={handleCheckboxChange}
+      />
+      <label className='form-check-label' htmlFor='markCompletedCheckbox'>
+        Mark as Completed
+      </label>
+    </div>
+  )}
                 </div>
               </div>
             </div>
@@ -283,21 +404,21 @@ const handleViewMoreShow = (job) => {
    style={{ display: showMoreDetailsModal ? 'block' : 'none' }}
    tabIndex='-1'
    role='dialog'
-   aria-labelledby=''
-   aria-hidden='true'
+   aria-labelledby='' 
+   aria-hidden='true' onClick={handleMoreDetailsClose}
  >
    <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
-     <div className='modal-content gap-3 p-3 p-sm-5'>
+     <div className='modal-content gap-3 p-3 p-sm-5' >
        <div className='modal-header'>
          <h5 className='modal-title' id='editPaymentModal' style={{ fontWeight: '600' }}>
-         {selectedJob ? selectedJob.jobName : ''}
+         {selectedJob?.productId?.productName}
          </h5>
 
          <button type='button' className='btn-close' onClick={handleMoreDetailsClose}></button>
        </div>
        <div className='modal-body '>
          <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
-           We are looking for an employment law expert who will prepare an employment contract stating lorem ipsum lorem ipsum.....
+         {selectedJob?.productId?.productDescription}
          </h6>
 
          <div className='form-group gap-2 mt-5'>
@@ -316,31 +437,22 @@ const handleViewMoreShow = (job) => {
          </div>
          <div className='d-flex flex-column mt-5'>
            <div>
-             <input
-               type='file'
-               ref={fileInputRef}
-               style={{ display: 'none' }}
-               onChange={handleFileChange}
-               accept='.pdf, .doc, .docx'
-             />
-
-             {!selectedFile && (
-               <button
-                 className='d-flex gap-2 btn btn-outline-primary justify-content-center'
-                 onClick={handleUploadClick}
-                 style={{ width: '250px' }}
-               >
-                 Upload Document
-                 <i className='bi bi-cloud-upload'></i>
-               </button>
-             )}
-
-             {selectedFile && (
-               <div className='d-flex my-2'>
-                 <p className='p-small'>
-                   {' '}
+            
+           {!selectedFileUrl && (
+        <button
+          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
+          onClick={openUploadWidget}
+          style={{ width: '250px' }}
+        >
+          Upload Document <i className="bi bi-cloud-upload"></i>
+        </button>
+      )}
+             {selectedFileUrl && (
+               <div className='d-flex my-2' style={{flexWrap:'wrap' }}>
+                 <p className='p-small' style={{ }}>
+                   
                    <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   {selectedFile.name}
+                   {selectedFile}
                    <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
                      <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
                    </button>
@@ -360,7 +472,7 @@ const handleViewMoreShow = (job) => {
 </div>
 
   )}
-   
+   </div>
    
       </AdminNavbar>
     );

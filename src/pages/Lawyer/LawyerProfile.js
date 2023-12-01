@@ -1,46 +1,143 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LawyerProfileForm } from "../../components/Forms/Lawyer";
 import UserNavbar from "../../components/Navbar/UserNavbar";
 import Footer from "../../components/Footer";
-import lawyerImage from "../../assets/images/lawyer-image.svg";
-
-export const initialLawyerProfileDetails = {
-  email: "amberdaniels@yahoo.com",
-  scn: "000123",
-  bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  yearOfCall: "1999-01-01",
-  phoneNumber: "09012345678",
-  alternateEmail: "amberdaniels2@yahoo.com",
-  lawyerImage: lawyerImage,
-  expertise: [],
-};
-
-const expertiseOptions = [
-  "Maritime",
-  "International Trade and Investment",
-  "Tax Practice",
-  "Sports",
-  "Entertainment",
-  "Technology",
-  "Oil and Gas",
-  "Banking",
-  "Telecommunications",
-  "Transportation",
-  "Aviation and Space",
-];
+// import lawyerImage from '../../assets/images/lawyer-image.svg'
+import lawyerRoute from "../../services/lawyerRoute";
+import { useParams } from "react-router-dom";
+import adminRoute from "../../services/adminRoute";
+import { useAppContext } from "../../AppContext";
+import { LoginModal } from "../../components/Forms/Authenticationforms";
 
 function LawyerProfile() {
+  const { userData } = useAppContext();
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [details, setDetails] = useState(initialLawyerProfileDetails);
+  const [details, setDetails] = useState([]);
+  const { getLawyerProfile, updateProfile } = lawyerRoute();
+  const { getLawyer } = adminRoute();
+  const { lawyerId } = useParams();
 
-  const handleSave = (updatedDetails) => {
-    setDetails(updatedDetails);
+  console.log(lawyerId);
+
+  useEffect(() => {
+    const userType = localStorage.getItem("userType");
+    if (userType === "admin") {
+      getLawyer(setMessage, setLoading, setIsSuccessful, lawyerId, setDetails);
+    } else {
+      getLawyerProfile(
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+        setDetails,
+        lawyerId
+      );
+    }
+  }, []);
+  console.log(details, "my details");
+  const handleSave = (formData, imageFile, areasOfPractise) => {
+    console.log(formData, "my formData");
     setIsEditing(false);
+    console.log(areasOfPractise, "pratise");
+    // const body ={
+    //   officialEmail: formData.officialEmail,
+    //   scn: formData.scn,
+    //   yourBio:formData.yourBio,
+    //   yearOfCall:formData.yearOfCall,
+    //   phoneNumber: formData.phoneNumber ,
+    //   alternativeEmailAddress:formData.alternativeEmailAddress,
+    //   areasOfPractise: areasOfPractise,
+    //   profileImage: imageFile ,
+    // }
+
+    const body = {
+      profileImage: imageFile,
+    };
+
+    if (
+      formData.officialEmail !== "" &&
+      formData.officialEmail !== null &&
+      formData.officialEmail !== undefined
+    ) {
+      body.officialEmail = formData.officialEmail;
+    }
+    if (
+      formData.scn !== "" &&
+      formData.scn !== null &&
+      formData.scn !== undefined
+    ) {
+      body.scn = formData.scn;
+    }
+    if (
+      formData.yourBio !== "" &&
+      formData.yourBio !== null &&
+      formData.yourBio !== undefined
+    ) {
+      body.yourBio = formData.yourBio;
+    }
+    if (
+      formData.phoneNumber !== "" &&
+      formData.phoneNumber !== null &&
+      formData.phoneNumber !== undefined
+    ) {
+      body.phoneNumber = formData.phoneNumber;
+    }
+    if (
+      formData.alternativeEmailAddress !== "" &&
+      formData.alternativeEmailAddress !== null &&
+      formData.alternativeEmailAddress !== undefined
+    ) {
+      body.alternativeEmailAddress = formData.alternativeEmailAddress;
+    }
+    if (
+      formData.yearOfCall !== "" &&
+      formData.yearOfCall !== null &&
+      formData.yearOfCall !== undefined
+    ) {
+      body.yearOfCall = formData.yearOfCall;
+    }
+
+    if (
+      formData.areasOfPractise !== "" &&
+      formData.areasOfPractise !== null &&
+      formData.areasOfPractise !== undefined
+    ) {
+      body.areasOfPractise = formData.areasOfPractise;
+    }
+
+    console.log(body);
+    console.log(body, "body");
+    updateProfile(
+      body,
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setDetails,
+      lawyerId,
+      setShowModal
+    );
   };
 
   const handleCancel = () => {
     setIsEditing(false);
   };
+
+  if (loading) {
+    return (
+      <div
+        className="justify-content-center align-items-center text-center my-5"
+        style={{ paddingTop: "200px" }}
+      >
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <UserNavbar />
@@ -50,7 +147,6 @@ function LawyerProfile() {
             initialDetails={details}
             onSave={handleSave}
             onCancel={handleCancel}
-            expertiseOptions={expertiseOptions}
           />
         ) : (
           <div className="px-lg-5">
@@ -60,13 +156,13 @@ function LawyerProfile() {
                   Expertise
                 </h6>
                 <div className="d-flex gap-3 flex-wrap mt-3">
-                  {(details.expertise?.length ?? 0) > 0 ? (
-                    details.expertise.map((expertise, index) => (
+                  {details.areasOfPractise?.length > 0 ? (
+                    details.areasOfPractise.map((practise, index) => (
                       <button
                         key={index}
                         className="btn btn-outline-secondary me-5"
                       >
-                        {expertise}
+                        {practise}
                       </button>
                     ))
                   ) : (
@@ -82,7 +178,7 @@ function LawyerProfile() {
               <div className="d-flex flex-column text-center order-md-2 order-1">
                 <div>
                   <img
-                    src={details.lawyerImage}
+                    src={details?.profileImage?.url}
                     alt="lawyer"
                     className="profile-img"
                     style={{
@@ -94,7 +190,7 @@ function LawyerProfile() {
                   />
                 </div>
                 <div className="mt-3 d-flex flex-column text-align-center text-center action">
-                  <h5 style={{ fontWeight: "500" }}>Amber Daniels</h5>
+                  <h5 style={{ fontWeight: "500" }}>{details?.name}</h5>
 
                   <p
                     className="text-secondary"
@@ -112,69 +208,72 @@ function LawyerProfile() {
 
             <div className="mt-5 ">
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-md-5 me-3" style={{ fontWeight: "600" }}>
+                <h6 className="col-12 col-md-3" style={{ fontWeight: "600" }}>
                   Email Address
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{details.email}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.officialEmail}</p>
                 </div>
               </div>
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-md-5 me-3" style={{ fontWeight: "600" }}>
+                <h6 className="col-12 col-md-3" style={{ fontWeight: "600" }}>
                   SCN
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{details.scn}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.scn}</p>
                 </div>
               </div>
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-3" style={{ fontWeight: "600", width: "" }}>
+                <h6
+                  className="col-12 col-md-3"
+                  style={{ fontWeight: "600", width: "" }}
+                >
                   Your Bio
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{details.bio}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.yourBio}</p>
                 </div>
               </div>
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-md-5 me-3" style={{ fontWeight: "600" }}>
+                <h6 className="col-12 col-md-3" style={{ fontWeight: "600" }}>
                   Year of Call
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{new Date(details.yearOfCall).toLocaleDateString()}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.yearOfCall}</p>
                 </div>
               </div>
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-md-5 me-3" style={{ fontWeight: "600" }}>
+                <h6 className="col-12 col-md-3" style={{ fontWeight: "600" }}>
                   Phone Number
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{details.phoneNumber}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.phoneNumber}</p>
                 </div>
               </div>
               <div
-                className="py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3"
+                className="py-3 row mb-3"
                 style={{ borderBottom: "1px solid #CFCFCF" }}
               >
-                <h6 className="me-md-5 me-1" style={{ fontWeight: "600" }}>
+                <h6 className="col-12 col-md-3" style={{ fontWeight: "600" }}>
                   Alternate Email
                 </h6>
-                <div className="card pt-2 pb-1 px-md-2 flex-grow-1 mx-md-5 ps-1">
-                  <p>{details.alternateEmail}</p>
+                <div className="card pt-2 pb-1 px-md-2 col">
+                  <p>{details?.alternativeEmailAddress}</p>
                 </div>
               </div>
             </div>
@@ -182,6 +281,12 @@ function LawyerProfile() {
         )}
       </section>
       <Footer />
+      <LoginModal
+        showModal={showModal}
+        isSuccess={isSuccessful}
+        closeModal={() => setShowModal(false)}
+        modalText={message}
+      />
     </div>
   );
 }

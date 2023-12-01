@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import lawyerImage from '../../assets/images/lawyer-image.svg'
+import lawyerRoute from '../../services/lawyerRoute';
 
 export const jobRecommendations = [
     {
@@ -140,28 +141,65 @@ export const jobRecommendations = [
 
 const AvailableJobs = () => {
     const navigate = useNavigate()
-    const [selectedButton, setSelectedButton] = useState('Best fit');
-    const [filteredJobs, setFilteredJobs] = useState(
-        jobRecommendations.filter(job => job.recommendation === 'Best')
-      );
-    
-      const handleButtonClick = (buttonType) => {
-        if (buttonType === 'Best fit') {
-          setFilteredJobs(jobRecommendations.filter(job => job.recommendation === 'Best'));
-        } else if (buttonType === 'Recent jobs') {
-          setFilteredJobs(jobRecommendations);
-        }
-    
-        setSelectedButton(buttonType);
-      };
+    const[statusFilter, setStatusFilter] = useState('Best fit');
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
+    const [isSuccessful, setIsSuccessful] = useState(false);
+    const [details, setDetails] = useState([]);
+    const [jobs, setJobs] = useState([]);
+    const [selectedJob, setSelectedJob] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const {getJobs, getLawyerProfile, getOneJob} = lawyerRoute()
+    const {lawyerId} = useParams();
 
+
+    useEffect(() => {
+      getJobs(
+        setJobs,
+        statusFilter,
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+       
+      )
+
+    }, [statusFilter]);
+
+    useEffect(() => {
+      getLawyerProfile(
+        setMessage,
+        setLoading,
+        setIsSuccessful,
+        setDetails,
+        lawyerId
+      )
+
+    }, []);
+  
+    const handleStatusFilterChange = (newStatus) => {
+      setStatusFilter(newStatus);
+     
+   
+    };
       const handleJobClick = (jobId) => {
-        navigate(`/lawyer/available-job-item/${jobId}`);
+        console.log(`Getting product with ID ${jobId}`);
+        console.log(`Getting product with LAWYERiD ${lawyerId}`);
+        getOneJob(
+          setMessage, setLoading, setIsSuccessful, jobId, lawyerId, setSelectedJob
+        )
+        
        }
   return (
     <div>
         <UserNavbar/>
         <section className='py-5 px-3 px-sm-5'>
+        {loading ? (
+          <div className="text-center"style={{paddingTop:'150px', paddingBottom:'100px'}}>
+            <div className="spinner-border" role="status" >
+              <span className="visually-hidden" >Loading...</span>
+            </div>
+            <p>Loading available jobs...</p>
+          </div>):(
             <div className='row'>
                 <div className='col-12 col-lg-8'>
                     <div className='card'>
@@ -169,30 +207,39 @@ const AvailableJobs = () => {
                             <h3>Available Jobs</h3>
                         </div>
                         <div className='d-flex gap-5 py-3 px-5'style={{ borderBottom: '1px solid #CFCFCF' }}>
-                        <p className={selectedButton === 'Best fit' ? 'active-p-text' : 'p-text'} onClick={() => handleButtonClick('Best fit')}>
+                        <p className={statusFilter === 'Best fit' ? 'active-p-text' : 'p-text'} onClick={() => handleStatusFilterChange('Best fit')}>
           Best fit
         </p>
-        <p className={selectedButton === 'Recent jobs' ? 'active-p-text' : 'p-text'} onClick={() => handleButtonClick('Recent jobs')}>
+        <p className={statusFilter === 'Recent jobs' ? 'active-p-text' : 'p-text'} onClick={() => handleStatusFilterChange('Recent jobs')}>
           Recent jobs
         </p>
           
         </div>
-
+        <div>{jobs.length === 0 ? (
+    <p className='justify-content-center text-center py-5'>No projects</p>
+  ) : (
         <div>
-    {filteredJobs.map((job) => (
-        <div key={job.id} className='d-flex flex-column gap-3 p-4 ' style={{ borderBottom: '1px solid #CFCFCF' }}>
+    {jobs?.map((job) => (
+        <div key={job?._id} className='d-flex flex-column gap-3 p-4 ' style={{ borderBottom: '1px solid #CFCFCF' }}>
             <div className='action'>
-            <h6 className='' onClick={() => handleJobClick(job.id)}>{job.jobName}</h6>
+            <h6 className='' onClick={() => handleJobClick(job?._id)}>{job?.productId?.productName}
+            </h6>
+          
             </div>
             <div>
-                <p style={{color:'#5F5F5F'}}>Amount: ₦{job.jobPrice.toLocaleString()}</p>
+                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
                 <p style={{color:'#5F5F5F'}}>
-                {job.jobDetails.split(' ').slice(0, 17).join(' ')}
-                {job.jobDetails.split(' ').length > 17 ? '...' : ''}
+                {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
+                {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
+                </p>
+                <p style={{color:'#5F5F5F'}}>
+                {job?.detail.split(' ').slice(0, 17).join(' ')}
+                {job?.detail.split(' ').length > 17 ? '...' : ''}
                 </p>
             </div>
         </div>
     ))}
+</div>)}
 </div>
 
                     </div>
@@ -202,9 +249,9 @@ const AvailableJobs = () => {
                     <div className='d-block gap-4 mt-4 mt-lg-0'>
                         <div className='card p-3' style={{borderRadius:'20px', width:'100%'}}>
                             <div className='d-flex flex-column text-center '>
-                                <img src={lawyerImage} alt='lawyer' style={{height:'120px'}}/>
+                                <img src={details?.profileImage?.url} alt='lawyer' style={{height:'120px'}}/>
                                 <div className='mt-2'>
-                                    <p style={{fontWeight:'500'}}>Amber Daniel</p>
+                                    <p style={{fontWeight:'500'}}>{details?.name}</p>
                                     <p style={{ color:'#545454'}}>Legal Practitioner</p>
                                 </div>
 
@@ -234,7 +281,7 @@ const AvailableJobs = () => {
                     </div>
                 </div>
             </div>
-
+          )}
         </section>
       <Footer/>
     </div>

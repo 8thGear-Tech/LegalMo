@@ -16,11 +16,14 @@ export const setHeaders = async (headers = null) => {
 
 
     headerData = {
-      'Content-type': 'application/json',
+      
+      "Content-type": "application/json",
+      
       Accept: 'application/json',
       ...(token && {
-        Authorization: `Bearer  ${token}`,
+        Authorization: `Bearer ${token}`,
       }),
+     
     };
 
     if (headers) {

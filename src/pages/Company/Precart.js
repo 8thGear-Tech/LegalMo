@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CompanyDetailsForm } from '../../components/Forms/Company'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ProductItem } from './ProductItem';
 import GuestNavbar from '../../components/Navbar/GuestNavbar';
 import UserNavbar from '../../components/Navbar/UserNavbar';
 import Footer from '../../components/Footer'
 import { useAppContext } from '../../AppContext';
+import axios from 'axios';
+import productRoute from '../../services/productRoute';
+import ratingsRoute from '../../services/ratingsRoute';
+import companyRoute from '../../services/companyRoute';
+import { LoginModal } from '../../components/Forms/Authenticationforms';
 
 
 export const shuffleArray = (array) => {
@@ -17,7 +22,7 @@ export const shuffleArray = (array) => {
   return shuffledArray;
 };
 
-export const ProductCarousel = ({shuffledProducts}) => {
+export const ProductCarousel = ({shuffledProducts, handleProductClick}) => {
   const productsPerSlide = {
     xl: 5,
     lg: 4,
@@ -36,9 +41,7 @@ export const ProductCarousel = ({shuffledProducts}) => {
     productGroups.push(shuffledProducts.slice(i, i + productsPerSlide.xl)); 
   }
 
-  const handleProductClick = (product) => {
-    navigate(`/pre-cart/${product.id}`);
-   }
+
  
   return (
     <div id="productCarousel" className="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -50,16 +53,16 @@ export const ProductCarousel = ({shuffledProducts}) => {
           >
             <div className="d-flex gap-3 product-card">
               {productGroup.map((product, innerIndex) => (
-                <div key={product.id}  className={`col-xl-${12 / productsPerSlide.xl} col-lg-${12 / productsPerSlide.lg} col-md-${12 / productsPerSlide.md} col-sm-${12 / productsPerSlide.sm} col-12 mb-5`}>
-                  <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product)}>
+                <div key={product._id}  className={`col-xl-${12 / productsPerSlide.xl} col-lg-${12 / productsPerSlide.lg} col-md-${12 / productsPerSlide.md} col-sm-${12 / productsPerSlide.sm} col-12 mb-5`}>
+                  <div className="card h-100" style={{ borderRadius: '25px' }} onClick={() => handleProductClick(product?._id)}>
                     <img
-                      src={product.productImage}
-                      className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '250px', width: '100%' }}
-                      alt={product.productTitle}
+                      src={product?.productImage}
+                      className="card-img-top img-fixed-height" style={{ objectFit: 'cover', height: '', width: '100%' , borderTopRightRadius:'25px', borderTopLeftRadius:'25px',}}
+                      alt={product?.productName}
                     />
                     <div className="card-body" style={{ borderRadius: '0px 0px 25px 25px', background: '#D1D2D3' }}>
-                      <p className="p-small" style={{ fontWeight: '500' }}>{product.productTitle}</p>
-                      <p className="" style={{ fontWeight: '700' }}>₦{product.productAmount.toLocaleString()}</p>
+                      <p className="p-small" style={{ fontWeight: '500' }}>{product?.productName}</p>
+                      <p className="" style={{ fontWeight: '700' }}>₦{product?.productPrice.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -174,7 +177,9 @@ export function getRatingStars(rating) {
   return stars;
 }
 
-export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill })=> {
+export const ReviewContainer = ({ averageRating, totalReviews, progressReviews, label, reviews, averageStarIconsFill, handleDeleteReview, handleEditReview, isLoggedIn })=> {
+
+ 
   return (
     <div className='px-lg-5 mx-2 d-block d-sm-flex justify-content-between gap-4 flex-wrap review-container '> 
     <div className="d-flex flex-column gap-1 mb-5 average-review">
@@ -224,10 +229,16 @@ return (
     </div >
     <div className="d-flex flex-wrap">
 {reviews.map((review, index) => {
-  const { id, reviewText, reviewTitle, companyName, rating, date } = review;
+  const { id, reviewText, reviewTitle, companyName, rating, date, companyId } = review;
+
+  const userId= localStorage.getItem('userId')
+
+  const isLoggedInUserReview = isLoggedIn && (userId === companyId);
   return (
     <div key={id} className={`col-12 col-md-${reviews.length === 1 ? '12' : '6'} mb-4 review-card${index >= 3 ? ' mt-4' : ''}`}>
-            <h4>{reviewTitle}</h4>
+      <div className='d-flex gap-3'>
+            <h4>{reviewTitle} </h4> 
+            </div>
             <div className='d-flex gap-2'>
             <div>{getRatingStars(review.rating)}</div>
             <h6>{date}</h6>
@@ -236,6 +247,14 @@ return (
             <h6>{reviewText}</h6>
       <h6> {companyName}</h6>
             </div>
+           
+           
+            {isLoggedInUserReview && review.id !== 1 &&  (  
+              <div> <button onClick={() => handleEditReview(review)} className="btn btn-primary mt-2 me-2"><i className="bi bi-pencil-square"></i></button>
+
+      <button onClick={() => handleDeleteReview(review.id)} className="btn btn-danger mt-2"><i className="bi bi-trash" style={{color:''}}></i></button>
+      </div>
+    )}
           </div>
         )
       })}
@@ -246,74 +265,178 @@ return (
 }
 
 export function Precart() {
-const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label} = useAppContext();
+const {addToCart, setSelectedProduct, selectedRating, setSelectedRating,reviews,setReviews,newReview, setNewReview,totalRating,totalReviews, averageRating, averageStarIconsFill, label, productData, setProductData, userData, cartItems, setCartItems} = useAppContext();
 const {productId} = useParams();
 const [product, setProduct] = useState(null);
 
 
 
+
+const [editReviewId, setEditReviewId] = useState(null);
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [details, setDetails] = useState('')
+ 
 const navigate = useNavigate()
 const [quantity, setQuantity] = useState(1);
 
 const [shuffledProducts, setShuffledProducts] = useState([]);
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [isLoading, setIsLoading] = useState(true);
+const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [reservedItems, setReservedItems] = useState([]); 
+  const [showModal, setShowModal] = useState(false);
+const {getOneProduct, getProducts}= productRoute()
+const {getAllRatings, createRating, editRating, deleteRating}= ratingsRoute()
+const {createCart, checkout} = companyRoute()
 
-  useEffect(() => {
-   
-    const shuffledArray = shuffleArray(ProductItem);
-    setShuffledProducts(shuffledArray);
-  }, []);
+const userType = localStorage.getItem('userType');
+  const token = localStorage.getItem('userToken');
+useEffect(() => {
 
+  
+    if (userType && token)  {
+    setIsLoggedIn(true);
+  } else {
+
+    setIsLoggedIn(false);
+  }
+
+  
+}, []);  
 
 useEffect(() => {
-  const selectedProductItem = ProductItem.find((item) => item.id === parseInt(productId, 10));
-  setProduct(selectedProductItem);
+  getOneProduct(
+    setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
+  );
 }, [productId]);
 
 
 useEffect(() => {
-  const storedReviews = localStorage.getItem('reviews');
-  if (storedReviews) {
-    const parsedReviews = JSON.parse(storedReviews);
-
-    setReviews(parsedReviews);
-  }
+  getAllRatings(setMessage, setLoading, setIsSuccessful, reviews,setReviews, setShowModal);
 }, []);
+
+
+
+
+useEffect(() => {
+  getProducts(setMessage, setLoading, setIsSuccessful, setProductData, setShowModal);
+}, []);
+
+
+useEffect(() => {
+  
+  if (productData.length > 1) {
+    const shuffledArray = shuffleArray(productData);
+    setShuffledProducts(shuffledArray);
+  }
+}, [productData]);
+
 
 const handleRatingClick = (rating) => {
   setSelectedRating(rating);
 };
 
-const handleReviewSubmit = (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
+  if (editReviewId) {
+    handleUpdateReview(); 
+  } else {
+    handleReviewSubmit(); 
+  }
+};
 
-  const currentDate = formatDateToWords(new Date());
+const handleReviewSubmit =  () => {
+  if(!isLoggedIn){
+    return
+  }
 
-  const reviewToAdd = {
-    id: reviews.length + 1,
-    date: currentDate,
-    reviewTitle: newReview.reviewTitle,
-    companyName: newReview.companyName,
-    reviewText: newReview.reviewText,
-    rating: selectedRating,
+
+ 
+
+  const body = {
+    review: newReview.reviewText, 
+    status: selectedRating, 
+    reviewTitle:newReview.reviewTitle,
+    productId:productId,
   };
+ createRating(
+  body, setMessage, setLoading, setIsSuccessful, reviews, setReviews, setShowModal
+ 
+)
+    setNewReview({
+      reviewTitle: '',
+      reviewText: '',
+    });
+    setSelectedRating(0);
+  
+};
 
-  const updatedReviews = [...reviews, reviewToAdd];
+const handleEditReview = (review) => {
+  setEditReviewId(review.id);
+  setNewReview({
+    reviewTitle: review.reviewTitle,
+    reviewText: review.reviewText,
+  });
+  setSelectedRating(review.rating);
 
-  // Save reviews to database
-  localStorage.setItem('reviews', JSON.stringify(updatedReviews));
-
-  setReviews(updatedReviews);
+};
+const handleUpdateReview =  () => {
+  if (editReviewId) {
+    const body = {
+      review: newReview.reviewText,
+      status: selectedRating,
+      reviewTitle:newReview.reviewTitle,
+      productId:productId,
+    };
+    editRating(
+      editReviewId,
+      body,
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setEditReviewId,
+      reviews,
+      setReviews,
+      setNewReview,
+      setShowModal
+    );
+  }
+  setEditReviewId(null);
   setNewReview({
     reviewTitle: '',
-    companyName: '',
     reviewText: '',
   });
   setSelectedRating(0);
 };
+
+
+
+
+const handleCancelEdit = () => {
+  setEditReviewId(null); 
+  setNewReview({
+    reviewTitle: '',
+    reviewText: '',
+  });
+  setSelectedRating(0); 
+};
+
+
+
+
+
+const handleDeleteReview =  (reviewId) => {
+  deleteRating(
+    setMessage, setLoading, setIsSuccessful, reviewId, reviews, setReviews, setShowModal
+  )
+ 
+};
+
+
 
 
 const handleQuantityChange = (e) => {
@@ -356,23 +479,74 @@ const handleDeleteClick = () => {
   }
 };
 
-const handleReserve = () => {
-  if (product) {
-    addToCart(product.id, quantity); 
-    setSelectedProduct(product);
+const handleReserve= ()=> {
+  const userType=localStorage.getItem('userType')
+  if(userType === 'company'){
+
+  const body = {
+    productId: product?._id,
+      quantity:quantity,
+  }
+      if (details !== '' && details !== null && details !== undefined) {
+        body.detail = details;
+      }
+  
+  createCart(
+    body, 
+    setMessage,
+    setLoading,
+    setIsSuccessful
+  ) 
+
+  }else{
+
+    
+ 
+    const reservedItem = {
+      productId: product?._id,
+      price: product.productPrice,
+      name: product.productName,
+      productImage: product.productImage,
+      quantity: quantity,
+      detail: details,
+    };
+    let existingReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || [];
+
+    
+      const existingProductIndex = existingReservedItems.findIndex(
+        (item) => item.productId === reservedItem.productId
+      );
+
+      if (existingProductIndex !== -1) {
+    
+        existingReservedItems[existingProductIndex].quantity = quantity;
+        existingReservedItems[existingProductIndex].detail = details;
+      } else {
+     
+        existingReservedItems.push(reservedItem);
+      }
+
+      localStorage.setItem('reservedItems', JSON.stringify(existingReservedItems));
+
+ 
     navigate('/cart');
   }
+}
+const handleProductClick = (productId) => {
+  
+  getOneProduct(
+    setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
+  )
+  
 };
-
-
 // const progressBarStyle = {
 //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
 // };
 
-// const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-if (!product) {
-  return <div className='justify-content-center align-items-center text-center my-5'>
+
+if (loading) {
+  return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
  <div className="spinner-border text-secondary" role="status">
   <span className="visually-hidden">Loading...</span>
 </div>
@@ -382,22 +556,22 @@ if (!product) {
 
   return (
     <>
-    {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-    <GuestNavbar/>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+   
     <div> 
       <section style={{backgroundColor:'#CFCFCF'}} className='p-5 '>
-        <div className=' d-block d-sm-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
+        <div className=' d-block d-md-flex gap-5 justify-content-center text-align-center align-content-center text-center'>
         <div className="card mb-3" style={{borderRadius: '25px', width:'20rem'}}>
-                    <img src={product.productImage} alt={product.productTitle}className="card-img-top" style={{borderRadius:'none'}} />
+                    <img src={product?.productImage} alt={product?.productName}className="" style={{borderRadius:'none', height:'319px'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
-        background:'#545454', height:'5rem',}}>
+        background:'#545454', height:'',}}>
                   
-                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product.productTitle}</p>
+                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName}</p>
                     
     </div>
         </div>
         <div className='card p-4 mb-3' style={{border:'none', borderRadius:'0', backgroundColor:'#FBFCFD', maxWidth:'25rem'}}>
-        <div className="d-flex  flex-column justify-content-center align-items-center text-align-center gap-3">
+        <div className="d-flex  flex-column justify-content-center align-items-center text-align-center gap-2">
          <div className='form-group'>
           <select
             id="quantitySelect"
@@ -413,12 +587,14 @@ if (!product) {
     ))}
           </select>
          </div>
-         <p>₦{product.productAmount.toLocaleString()}</p>
+         <p>₦{product?.productPrice.toLocaleString()}</p>
          <h6 style={{fontWeight:'500'}}>Available</h6>
+
+         <p className='text-center' style={{fontSize:'16px', fontWeight:'600'}}>Your order will be delivered between 7-10 working days after purchase</p>
          <p className='text-center' style={{fontSize:'17px'}}>Your selection is available for immediate purchase</p>
 
-         <Link to='/signup/asacompany' className='btn btn-primary' style={{width:'100%'}}>Purchase</Link>
-         <button onClick={handleReserve} className='btn btn-outline-primary'  style={{width:'100%'}}>Reserve</button>
+         
+         <button onClick={handleReserve} className='btn btn-primary'  style={{width:'100%'}}>Reserve</button>
         </div>
 
         </div>
@@ -464,10 +640,12 @@ if (!product) {
       totalReviews={totalReviews}
       progressReviews={progressReviews}
       label={label}
-      reviews={reviews} averageStarIconsFill={averageStarIconsFill}/>
+      reviews={reviews} averageStarIconsFill={averageStarIconsFill} handleDeleteReview={handleDeleteReview} handleEditReview={handleEditReview} isLoggedIn={isLoggedIn}/>
+
+      {isLoggedIn && (
         <div className='row justify-content-center mt-5'>
         <div className='col-sm-6 col-12  d-flex flex-column'>
-        <form onSubmit={handleReviewSubmit}>
+        <form onSubmit={handleSubmit}>
         <div className='text-center mb-3'>
           <h6>Your rating</h6>
           <div>
@@ -480,7 +658,7 @@ if (!product) {
             ))}
           </div>
         </div>
-        <div className='form-group mb-4'>
+        {/* <div className='form-group mb-4'>
     <label name="companyName" className="form-label">Company Name</label>
     <input
       type="text"
@@ -489,7 +667,7 @@ if (!product) {
       value={newReview.companyName} 
       onChange={(e) => setNewReview({ ...newReview, companyName: e.target.value })} required
     />
-  </div>
+  </div> */}
   <div className='form-group mb-4'>
     <label name="reviewTitle" className="form-label">Title of your review</label>
     <input
@@ -511,23 +689,37 @@ if (!product) {
     ></textarea>
   </div>
         <div className='text-center mt-3'>
-          <button type='submit' className='btn btn-primary w-50' >Submit</button>
+          {editReviewId && (
+            <button type="button" onClick={handleCancelEdit} className="btn btn-danger me-3" style={{width:"40%"}}>
+            Cancel
+          </button>
+          )}
+          <button type='submit' className='btn btn-primary' style={{width:"40%"}} >Submit</button>
         </div>
       </form>
         </div>
         </div>
+      )}
+        
         
       </section>
       <section className='px-lg-2'>
         <h3 className='my-5 text-center'>You may also like</h3>
         <div className='px-sm-5 mb-5'>
-         <ProductCarousel shuffledProducts={shuffledProducts}/>
+         <ProductCarousel shuffledProducts={shuffledProducts} handleProductClick={handleProductClick}/>
         </div>
       </section>
       
     
     </div>
     <Footer/>
+    < LoginModal
+        showModal={showModal}
+        isSuccess={isSuccessful}
+        closeModal={() => setShowModal(false)}
+        modalText={message}
+        
+      />
     </>
     
   )

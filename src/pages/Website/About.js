@@ -9,6 +9,8 @@ import team2 from "../../assets/images/team-2.svg";
 
 import { Link } from "react-router-dom";
 import UserNavbar from "../../components/Navbar/UserNavbar";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const teams = [
   {
@@ -26,11 +28,34 @@ const teams = [
 ];
 
 function About() {
-  // const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+
+    const userType = localStorage.getItem('userType');
+    const token = localStorage.getItem('userToken');
+    if (userType && token)  {
+     
+      setIsLoggedIn(true);
+    } else {
+ 
+      setIsLoggedIn(false);
+    }
+
+    setIsLoading(false);
+  }, []);  
+
+  if (isLoading){
+    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'350px'}}> 
+   <div className="spinner-border text-secondary" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+        </div>; 
+  }
   return (
   <>
-    {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-    <GuestNavbar/>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+   
     <div className=''>
     <div className="card about-hero-card"  style={{border:'none', borderRadius:'0'}}>
   <div className="card-body p-sm-5 p-4 mx-lg-5">

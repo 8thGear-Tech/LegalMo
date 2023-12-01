@@ -2,20 +2,27 @@ import React from 'react'
 import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import Footer from '../../components/Footer'
 import { ResetPasswordbtn } from '../../components/Buttons/Authenticationbtns'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import axios from 'axios';
+import { LoginModal } from '../../components/Forms/Authenticationforms';
+import authRoute from '../../services/authRoute';
 
 function NewPassword() {
   const [password, setPassword] = useState('');
-
+  const { token, userEmail } = useParams();
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
- 
+  const [loading, setLoading] = useState(false);
+const [message, setMessage] = useState('');
+const [isSuccessful, setIsSuccessful] = useState(false);
+const [showModal, setShowModal] = useState(false);
 const navigate = useNavigate();
 const [showPassword, setShowPassword] = useState(false);
+const {newPassword} = authRoute();
 
 const [formValid, setFormValid] = useState(false); 
 
@@ -39,8 +46,10 @@ const handleTogglePassword = () => {
 };
 
 
-const handlePasswordReset = (e) => {
+const handlePasswordReset = async(e, token, userEmail) => {
   e.preventDefault();
+  console.log('Token:', token);
+  console.log('User Email:', userEmail);
 
   setConfirmPasswordError('');
   setPasswordError('');
@@ -71,7 +80,14 @@ const handlePasswordReset = (e) => {
     return;
   }
 
-  navigate('/login');
+  const body={
+    password: password,
+ passwordConfirm: confirmPassword,
+  }
+
+  newPassword(body, setLoading,setIsSuccessful, setMessage, setShowModal, token,userEmail);
+  
+ 
 };
 
 
@@ -82,9 +98,9 @@ const handlePasswordReset = (e) => {
     <div className='card p-5  m-auto'>
      
         
-        <form onSubmit={handlePasswordReset}>
+        <form onSubmit={(e) => handlePasswordReset(e, token, userEmail)}>
           
-            <div className="mb-5" style={{position:'relative'}}>
+            <div className="mb-5" >
   <label htmlFor="password" className="form-label" >Password</label>
   <div className="input-group">
   <input
@@ -107,7 +123,7 @@ onChange={(event) => setPassword(event.target.value)}
 {passwordError && <div className="text-danger">{passwordError}</div>}
  
 </div>
-<div className="mb-4" style={{ position: 'relative' }}>
+<div className="mb-4" >
   <label htmlFor="confirmPassword" className="form-label">
     Confirm password
   </label>
@@ -143,7 +159,10 @@ onChange={(event) => setPassword(event.target.value)}
   
     </div>
     
-    
+    <LoginModal   showModal={showModal}
+      isSuccess={isSuccessful}
+        closeModal={()=> setShowModal(false)}
+        modalText={message}/>
     </div>
   
   )

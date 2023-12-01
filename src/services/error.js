@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
-  const error = (e, setMessage, setLoading, setIsSuccessful, setShowModal) => {
+  const error = (e, setMessage, setLoading, setIsSuccessful) => {
     console.log(e.response, "my error response")
     setLoading(false);
     if (e.toJSON().message === 'Network Error') {
@@ -22,12 +22,13 @@ export default () => {
       setIsSuccessful(false);
       
     } else {
-      Object.values(resMessage).map((msg) => {
-        msg.map((item, index) => {
-          setMessage(item);
-          setIsSuccessful(false);
+      Object?.values(resMessage)?.map((msg) => {
+        // msg?.map((item, index) => {
+        //   setMessage(item);
+        //   setIsSuccessful(false);
           
-        });
+        // });
+        console.log(msg)
       });
     }
     if (e.response.status == 401 || e.response == 405) {
@@ -36,7 +37,7 @@ export default () => {
       setTimeout(() => {
         setIsSuccessful(false);
         
-        navigate('/login');
+       
       }, 2500);
     }
     if (e.response.status == 500) {
@@ -48,7 +49,7 @@ export default () => {
         setIsSuccessful(false);
         
     }
-   
+   setMessage(resMessage)
     setIsSuccessful(false);
     
   };

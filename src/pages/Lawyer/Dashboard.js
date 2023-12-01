@@ -1,38 +1,100 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
+import lawyerRoute from '../../services/lawyerRoute'
 
-export const allJobDetails = [
-  {
-    id:1,
-    jobName: 'Contract Drafting and Review',
-    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
-    jobPrice: 100000,
-  },
-  {
-    id:2,
-    jobName: 'Contract Drafting and Review',
-    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
-    jobPrice: 100000,
-  },
-  {
-    id:3,
-    jobName: 'Contract Drafting and Review',
-    initialDetails:'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....',
-    jobPrice: 100000,
-  }
-]
 
-const LawyerDetails = () => {
+const LawyerDashboard = () => {
+  const [jobs, setJobs] = useState([]);
+ 
+  const [statusFilter, setStatusFilter] = useState('Pending projects');
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+ const [options, setOptions]= useState([])
+ 
+  const [showModal, setShowModal] = useState(false);
+const {getPendingJobs, getCompletedJobs}= lawyerRoute()
+
+
+
+  useEffect(() => {
+  
+
+    if (statusFilter === 'Pending projects') {
+      getPendingJobs(
+        setJobs, setMessage, setLoading, setIsSuccessful
+       )
+   
+      
+    } else if (statusFilter === 'Completed projects') {
+      getCompletedJobs(
+        setJobs, setMessage, setLoading, setIsSuccessful
+       )
+ 
+    }
+    
+  }, [statusFilter]);
+
+
+
+  const handleStatusFilterChange = (newStatus) => {
+    setStatusFilter(newStatus);
+   
+  
+  };
+
   return (
     <div>
-      {allJobDetails.map((jobDetail) =>{
-        const {id,jobName,jobPrice} = jobDetail;
+       <UserNavbar/>
+       <div className='p-3 p-sm-5 '>
+        <div className='card'>
+          <div className='py-3 px-lg-5 px-1 'style={{ borderBottom: '1px solid #CFCFCF' }}>
+        <div className='d-none d-md-flex gap-5'>
+            
+            <p className={
+                      statusFilter === 'Pending projects'
+                        ? "active-p-text"
+                        : " p-text"
+                    }
+                    onClick={() => handleStatusFilterChange('Pending projects')}>Pending projects</p>
+            
+            <p className={
+                      statusFilter === 'Completed projects'
+                        ? "active-p-text"
+                        : "p-text"
+                    }
+                    onClick={() => handleStatusFilterChange('Completed projects')}>Completed projects</p>
+           
+       
+        </div>
+        <div className='d-flex d-md-none px-2'>
+          <div className='dropdown'>
+         
+    <select value={statusFilter} onChange={(e) => handleStatusFilterChange(e.target.value)} className='p-2'>
+  <option value="Pending projects">Pending project</option>
+  <option value="Completed projects">Completed Project</option>
+
+</select>
+
+          </div>
+        </div>
+        </div>
+       
+
+       
+
+<div>{jobs.length === 0 ? (
+    <p className='justify-content-center text-center py-5'>No projects</p>
+  ) : (
+    <div>
+      {jobs.map((job) =>{
+      
         return(
-          <div className='d-block d-sm-flex justify-content-between align-items-center gap-md-3 gap-sm-3 px-lg-5 px-3 pt-3 pb-2' key={id} style={{ borderBottom: '1px solid #CFCFCF' }}>
+          <div className='d-block d-sm-flex justify-content-between align-items-center gap-md-3 gap-sm-3 px-lg-5 px-3 pt-3 pb-2' key={job?._id} style={{ borderBottom: '1px solid #CFCFCF' }}>
               <div className='d-flex flex-column gap-4'>
-                <h6>{jobName}</h6>
-                <p style={{color:'#5F5F5F'}}>Amount: ₦{jobPrice.toLocaleString()}</p>
+                <h6>{job?.productId?.productName}</h6>
+                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
               </div>
               <div className='d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action'>
                 <p>Schedule a call</p>
@@ -49,66 +111,9 @@ const LawyerDetails = () => {
           </div>
         )
       })}
+      </div>
+  )}
     </div>
-  )
-}
-
-
-const LawyerDashboard = () => {
-
-  const [selectedButton, setSelectedButton] = useState(0);
-  const handleButtonClick = (buttonIndex) => {
-    setSelectedButton(buttonIndex);
-  };
-  return (
-    <div>
-       <UserNavbar/>
-       <div className='p-3 p-sm-5 '>
-        <div className='card'>
-        <div className='d-flex justify-content-between py-3 px-lg-5 px-1 'style={{ borderBottom: '1px solid #CFCFCF' }}>
-            
-            <p className={
-                      selectedButton === 0
-                        ? "active-p-text"
-                        : " p-text"
-                    }
-                    onClick={() => handleButtonClick(0)}>Pending project</p>
-            
-            <p className={
-                      selectedButton === 1
-                        ? "active-p-text"
-                        : "p-text"
-                    }
-                    onClick={() => handleButtonClick(1)}>Completed Project</p>
-           
-           <p className={
-                      selectedButton === 2
-                        ? "active-p-text"
-                        : " p-text"
-                    }
-                    onClick={() => handleButtonClick(2)}>Pending payment</p>
-            
-            <p className={
-                      selectedButton === 3
-                        ? "active-p-text"
-                        : "p-text"
-                    }
-                    onClick={() => handleButtonClick(3)}>Completed payment</p>
-        </div>
-        <div>
-        {selectedButton === 0 && (
-          <LawyerDetails/>
-        )}
-          {selectedButton === 1 && (
-          <LawyerDetails/>
-        )}
-          {selectedButton === 2 && (
-          <LawyerDetails/>
-        )}
-          {selectedButton === 3 && (
-          <LawyerDetails/>
-        )}
-        </div>
 
         </div>
        <div className='card px-sm-5 py-5 px-3 gap-5 my-5'>

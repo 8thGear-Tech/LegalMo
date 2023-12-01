@@ -14,7 +14,7 @@ export const CompanyDetailsForm=()=> {
   }
 
   export const CompanyProfileForm=({ initialDetails, onSave, onCancel })=> {
-    const {updateCompanyUserProfilePicture} = useAppContext();
+    // const {updateCompanyUserProfilePicture} = useAppContext();
 
     const [formData, setFormData] = useState({
       ...initialDetails,
@@ -24,13 +24,17 @@ export const CompanyDetailsForm=()=> {
   
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     };
   
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
       
       setImageFile(file);
+      console.log(imageFile)
       
     };
   
@@ -44,17 +48,14 @@ export const CompanyDetailsForm=()=> {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      const updatedDetails = {
-        ...formData,
-        companyImage: imageFile ? URL.createObjectURL(imageFile) : formData.companyImage,
-      };
-      updateCompanyUserProfilePicture(updatedDetails.companyImage)
-      onSave(updatedDetails);
+      console.log(imageFile)
+      onSave(formData, imageFile);
+     
     };
       return (
         <form className='' onSubmit={handleSubmit}>
           <div className="position-relative">
-          <div style={{background:'#CFCFCF', borderRadius: '20px 20px 0px 0px', height:'190px'}} className="position-relative ">
+          <div style={{background:'#CFCFCF', borderRadius: '20px 20px 0px 0px', height:'190px'}} className="position-relative">
             <div className="d-flex justify-content-end ">
               
            
@@ -68,11 +69,12 @@ export const CompanyDetailsForm=()=> {
                   border: 'none',
                   cursor: 'pointer',marginTop:'150px', zIndex:'1'
                 }}
-                onClick={handleCameraIconClick}
+                onClick={handleCameraIconClick} 
                className="me-3">
                 <i className='bi bi-camera'> <input
           ref={fileInputRef}
           type="file"
+          accept="image/*"
           id="profileImageInput"
           
           style={{ display: 'none' }}
@@ -85,7 +87,7 @@ export const CompanyDetailsForm=()=> {
           <div className="profile-container" >
           
             <div className="d-flex gap-3 align-items-center">
-        <img  src={imageFile ? URL.createObjectURL(imageFile) : formData.companyImage} alt='company' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
+        <img  src={imageFile ? URL.createObjectURL(imageFile) : formData?.profileImage?.url} alt='company' className='profile-img' style={{ background: '#FFF', padding: '10px', borderRadius: '200px', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)'}}/>
         <h5 className="mt-2" style={{fontWeight:'500'}}>Profile</h5>
         </div>
         <div className="d-flex gap-2 mt-4 mt-sm-2">
@@ -97,74 +99,80 @@ export const CompanyDetailsForm=()=> {
         </div>
         </div>
              
-       <div className="mt-5 pt-5" >
+       <div className="mt-5 pt-5 px-lg-1" >
           <div className='mt-5 pt-sm-5'>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Email Address</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Email Address</h6>
                 
                 <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          name="officialEmail"
+          value={formData?.officialEmail}
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
                   
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Website</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Website</h6>
                 <input
           type="text"
           name="website"
-          value={formData.website}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          value={formData?.website || ''}
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-              <div>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+              <div className="col-12 col-md-3">
 
-             
-              <h6  className="me-3"style={{fontWeight:'600', width:'100%'}}>Your Bio</h6>
+              <h6  className=""style={{fontWeight:'600'}}>Your Bio</h6>
               <p className="text-muted">Write a short introduction</p>
               </div>
-              <div className=" mx-md-5 w-100">
+              <div className="col">
               <textarea
         type="text"
-        name="bio"
-        value={formData.bio}
-        onChange={handleInputChange} className="py-2 px-md-2  ps-1 w-100" rows={5}></textarea>
+        name="yourBio"
+        value={formData?.yourBio || ''}
+        onChange={handleInputChange} className="py-2 px-2 w-100" rows={5}></textarea>
         <p className="text-muted">400 characters left</p>
         </div>
      
             </div>
              
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Phone Number</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Phone Number</h6>
                 <input
-          type="number"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
-        />
+  type="text"
+  name="phoneNumber"
+  value={formData?.phoneNumber}
+  onChange={(event) => {
+    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    setFormData({ ...formData, phoneNumber: numericValue });
+  }}
+  className="py-2 px-md-2 col"
+ 
+/>
+
+        
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <h6  className="me-md-5 me-3"style={{fontWeight:'600'}}>Physical Address</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h6  className="col-12 col-md-3"style={{fontWeight:'600'}}>Physical Address</h6>
                 <input
           type="text"
-          name="physicalAddress"
-          value={formData.physicalAddress}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1"
+          name="officeAddress"
+          value={formData?.officeAddress || ''}
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
-              <div className='py-3 d-block d-md-flex justify-content-between align-items-center product-card pe-md-5 mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                <div>
-                <h6  className="me-md-5 me-1"style={{fontWeight:'600'}}>Alternate Email</h6>
+              <div className='py-3 row mb-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <div className="col-12 col-md-3">
+                <h6  style={{fontWeight:'600'}}>Alternate Email</h6>
                 <p className="text-muted">Enter an alternate email if you would like to be contacted via a different email</p>
                 </div>
                 <input
           type="text"
-          name="alternateEmail"
-          value={formData.alternateEmail}
-          onChange={handleInputChange} className="py-2 px-md-2 flex-grow-1 mx-md-5 ps-1 w-100"
+          name="alternativeEmailAddress"
+          value={formData?.alternativeEmailAddress || ''}
+          onChange={handleInputChange} className="py-2 px-md-2 col"
         />
               </div>
             </div>
