@@ -35,7 +35,7 @@ const login = (
             localStorage.setItem('userToken', gotResponse?.token);
             localStorage.setItem('userType', gotResponse?.data?.user?.userType);
             localStorage.setItem('userId', gotResponse?.data?.user?._id);
-            console.log('userId',gotResponse?.data?.user?._id )
+          
             setMessage('Welcome back');
             setIsSuccessful(true);
             setShowModal(true);
@@ -109,15 +109,9 @@ const login = (
                 setShowModal(true);
             }
 
-        //   localStorage.setItem(
-        //     'userData',
-        //     JSON.stringify(userData),
-        //   );
          
 
-         
-
-            // 
+            
         })
         .catch((e) => {
        
@@ -341,7 +335,7 @@ const login = (
     const userType =  localStorage.getItem('userType');
      http().then((axios) => {
       axios
-      .patch(`https://legalmo-server.onrender.com/api/reset-password?userType=${userType}&userEmail=${encodeURIComponent(userEmail)}&token=${token}`, body)
+      .patch(`/api/reset-password?userType=${userType}&userEmail=${encodeURIComponent(userEmail)}&token=${token}`, body)
          .then(async (response) => {
           setLoading(false);
            setIsSuccessful(true);

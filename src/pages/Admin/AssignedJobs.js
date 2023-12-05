@@ -36,7 +36,7 @@ const AssignedJobs = () => {
   },[])
 const handleCheckboxChange = (lawyerId) => {
     setSelectedLawyer(lawyerId);
-    console.log(selectedLawyer,'selected lawyer')
+  
   };
 
   
@@ -52,8 +52,7 @@ const handleCheckboxChange = (lawyerId) => {
     jobId:jobId,
     lawyerId:selectedLawyer
   }
-  
-  console.log(body,'assignbody')
+
   assignJob(
     body,setMessage, setLoading, setIsSuccessful
   )

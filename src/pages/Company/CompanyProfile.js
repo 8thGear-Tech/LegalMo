@@ -82,7 +82,7 @@ function CompanyProfile() {
           body.officeAddress = formData.officeAddress;
         }
       
-        console.log(body);
+     
       
         updateProfile(
           body,
@@ -96,31 +96,6 @@ function CompanyProfile() {
       };
       
       
-
-  // const handleSave = (formData, imageFile) => {
-    
-  //   setIsEditing(false);
-  //   console.log(formData, 'my formData')
-   
-
-  //   const body ={
-  //     officialEmail: formData.officialEmail,
-  //     website: formData.website,
-  //     yourBio:formData.yourBio,
-      
-  //     phoneNumber: formData.phoneNumber,
-  //     alternativeEmailAddress:formData.alternativeEmailAddress,
-  //     officeAddress: formData.officeAddress ,
-  //     profileImage: imageFile,
-  //   }
-
-
-  //   console.log(body)
-  //   updateProfile(
-  //     body, setMessage, setLoading, setIsSuccessful, setDetails, companyId, setShowModal
-     
-  //   )
-  // };
 
   const handleCancel= () => {
     setIsEditing(false)

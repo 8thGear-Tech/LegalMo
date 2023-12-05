@@ -47,8 +47,7 @@ const {getProducts, deleteProduct, getOneProduct} = productRoute();
 
   const handleDeleteClick = (productId) => {
    
-    console.log(`Deleting product with ID ${productId}`);
-
+   
     const updatedProductData = productData.filter(product => product._id !== productId);
       
     deleteProduct(
@@ -60,9 +59,6 @@ const {getProducts, deleteProduct, getOneProduct} = productRoute();
 
   const handleProductClick = (productId) => {
    
-    console.log(`Getting product with ID ${productId}`);
-
-    
       
     getOneProduct(
       setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal

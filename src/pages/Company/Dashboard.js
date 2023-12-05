@@ -20,7 +20,7 @@ const CompanyDashboard = () => {
  const [options, setOptions]= useState([])
  
   const [showModal, setShowModal] = useState(false);
-const {getPendingJobs, getCompletedJobs}= companyRoute()
+const {getPendingJobs, getCompletedJobs, editJobDetail}= companyRoute()
 const [selectedButton, setSelectedButton] = useState(0);
 
 
@@ -32,7 +32,9 @@ const [newDetails, setNewDetails] = useState('');
   const fileInputRef = useRef(null);
  
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [selectedFileUrl, setSelectedFileUrl] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();  
 
 
   useEffect(() => {
@@ -53,73 +55,155 @@ const [newDetails, setNewDetails] = useState('');
     
   }, [statusFilter]);
 
+  useEffect(() => {
+    getPendingJobs(
+      setJobs, setMessage, setLoading, setIsSuccessful
+     )
+  }, []);
 
+  const renderPendingNotifications = () => {
+    const pendingJobsWithDetails = jobs.filter(
+      job => job.status === 'pending' && job.lawyerRequestedDetail
 
+    );
+
+    // Sort pending jobs by updatedAt in descending order
+    const sortedPendingJobs = pendingJobsWithDetails.sort((a, b) =>
+      new Date(b.updatedAt) - new Date(a.updatedAt)
+    );
+
+    return ( 
+    <div className='card px-sm-5 py-5 px-3 gap-5 my-5' >
+       <h4 className='text-center'>Notifications</h4>
+       {sortedPendingJobs.length === 0 ? (
+          <p className='text-center mt-4 mb-3'>No notifications</p>
+        ) : (
+          <div>
+      {sortedPendingJobs.map(job => (
+      
+     
+      <div className='d-block d-md-flex justify-content-between align-items-center mb-5 mb-md-3' key={job?._id}>
+        <div className='d-flex flex-column gap-2 gap-md-3'>
+          <h6>{job?.productId?.productName}</h6>
+          <p style={{ color: '#5F5F5F' }}>
+            {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
+            {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
+          </p>
+        </div>
+        <div>
+          <button
+            type='submit'
+            className='btn btn-outline-primary'
+            style={{ width: '180px' }}
+            onClick={() => handleMoreDetailsShow(job)}
+          >
+            Give more details
+          </button>
+        </div>
+      </div>
+      ))}
+      </div>)}
+    </div>
+    
+    );
+  };
   const handleStatusFilterChange = (newStatus) => {
     setStatusFilter(newStatus);
    
   
   };
  
-
-    const handleUploadClick = () => {
-        fileInputRef.current.click();
-      };
-      
-      
-      const handleFileChange = (e) => {
-        const newSelectedFile = e.target.files[0];
-      
-        if (newSelectedFile) {
-          const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      
-          if (newSelectedFile.size <= maxSizeInBytes) {
-            setSelectedFile(newSelectedFile);
+  const openUploadWidget = () => {
+    if (window.cloudinary) {
+      cloudinaryRef.current = window.cloudinary;
+      widgetRef.current = cloudinaryRef.current.createUploadWidget(
+        {
+          cloudName: 'do03u50qn',
+          uploadPreset: 'LegalMoUpload',
+        },
+        (error, result) => {
         
-          } else {
-            alert('File size exceeds the limit of 5MB. Please choose a smaller file.');
-            e.target.value = null;
-            setSelectedFile(null);
-           
+          if (!error && result && result.event === 'success') {
+            const fileName = result.info.original_filename || '';
+            setSelectedFile(fileName);
+  
+            const fileUrl = result.info.url || '';
+            setSelectedFileUrl(fileUrl);
+            
           }
-        } else {
-          setSelectedFile(null);
-         
         }
-      };
+      );
+  
+   
+      if (widgetRef.current) {
+        widgetRef.current.open();
+      }
+    }
+  };
+  
+      
+ 
       
       const handleDeleteClick = () => {
         
-        setSelectedFile(null);
-      
-        if (fileInputRef.current) {
-          fileInputRef.current.value = null;
-        }
+       
+        setSelectedFileUrl(null);
+        
        
       };
 
-      const handleMoreDetailsShow = () => {
-        // setSelectedJob(job);
-        // setNewDetails(job.initialDetails);
-        setShowMoreDetailsModal(true);
-        
-        // setSelectedFile(job.uploadedFile); 
+      const handleMoreDetailsShow = (job) => {
+        setSelectedJob(job);
+  setNewDetails(job?.companyDetail);
+  setShowMoreDetailsModal(true);
+  setSelectedFileUrl(job?.companyFile);
       };
        
-const handleMoreDetailsClose = () => {
-  setSelectedJob(null)
-  setShowMoreDetailsModal(false);
-};
+
+      const handleMoreDetailsClose = () => {
+        setSelectedJob(null)
+        setShowMoreDetailsModal(false);
+      };
+
+
+
+
 
 const handleMoreDetailsSend = () => {
-  // if (selectedJob) {
-  //   selectedJob.initialDetails = newDetails;
-  //   selectedJob.uploadedFile = selectedFile; 
-  // }
+  if (newDetails === ''){
+      
+    alert('Kindly add/edit details')
+    return;
+  }
+ 
+  const jobId= selectedJob?._id
+  
+  
+  
+    const body={
+  detail:newDetails,
+  
+    }
+   
+  
+    if (selectedFileUrl !== '' && selectedFileUrl !== null && selectedFileUrl !== undefined) {
+      body.file = selectedFileUrl;
+    }
+   
 
-  setShowMoreDetailsModal(false);
-};
-
+    editJobDetail(
+      body, setMessage, setLoading, setIsSuccessful, jobId, setJobs
+     )
+  
+    setShowMoreDetailsModal(false);
+  };
+if (loading) {
+  return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
+ <div className="spinner-border text-secondary" role="status">
+  <span className="visually-hidden">Loading...</span>
+</div>
+      </div>; 
+}
 
   return (
     <div>
@@ -174,57 +258,38 @@ const handleMoreDetailsSend = () => {
   )}
     </div>
         </div>
-       <div className='card px-sm-5 py-5 px-3 gap-5 my-5'>
-  <h4 className='text-center'>Notifications</h4>
- 
-  <div className='d-block d-md-flex gap-5 align-items-center'>
-    <div className='d-flex flex-column gap-3'>
-      <h6>Contract Drafting and Review</h6>
-      <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....</p>
-    </div>
-    <div className='
-    ' >
-    <button type='submit' className='btn btn-outline-primary' style={{width:'180px'}}onClick={handleMoreDetailsShow}>Give more details</button>
-    </div>
-    
-  </div>
-  <div className='d-block d-md-flex gap-5 align-items-center'>
-    <div className='d-flex flex-column gap-3'>
-      <h6>Contract Drafting and Review</h6>
-      <p style={{color:'#5F5F5F'}}>We are looking for an employment law expert who will prepare and employment contract stating lorem ipsom lorem ipsom.....</p>
-    </div>
-    <div className='
-    ' >
-      <button type='submit' className='btn btn-outline-primary' style={{width:'180px'}}onClick={handleMoreDetailsShow}>Give more details</button>
-    </div>
-    
-  </div>
- 
-  
-      </div>
+      
+      {renderPendingNotifications()}
        </div>
 
-       <div>
+      <Footer/>
+
+        {/* More details modal      */}
+  {selectedJob && (
+ <div>
  <div
    className={`modal fade px-2 ${showMoreDetailsModal ? 'show' : ''}`}
    style={{ display: showMoreDetailsModal ? 'block' : 'none' }}
    tabIndex='-1'
    role='dialog'
-   aria-labelledby=''
+   aria-labelledby='' 
    aria-hidden='true'
  >
    <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
-     <div className='modal-content gap-3 p-3 p-sm-5'>
+     <div className='modal-content gap-3 p-3 p-sm-5' >
        <div className='modal-header'>
          <h5 className='modal-title' id='editPaymentModal' style={{ fontWeight: '600' }}>
-         {selectedJob ? selectedJob.jobName : ''}
+         {selectedJob?.productId?.productName}
          </h5>
 
          <button type='button' className='btn-close' onClick={handleMoreDetailsClose}></button>
        </div>
        <div className='modal-body '>
-         <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
-         {selectedJob ? selectedJob.initialDetails : ''}
+         <h6 className='mb-4' style={{ color: '#5F5F5F' }}>
+         {selectedJob?.productId?.productDescription}
+         </h6>
+         <h6 className='mb-2' style={{ color: '#032773' }}>
+         Requested Details: {selectedJob?.lawyerRequestedDetail}
          </h6>
 
          <div className='form-group gap-2 mt-5'>
@@ -241,33 +306,24 @@ const handleMoreDetailsSend = () => {
                onChange={(e) => setNewDetails(e.target.value)}
            ></textarea>
          </div>
-         <div className='d-flex flex-column mt-5'>
+         <div className='d-flex flex-column mt-4'>
            <div>
-             <input
-               type='file'
-               ref={fileInputRef}
-               style={{ display: 'none' }}
-               onChange={handleFileChange}
-               accept='.pdf, .doc, .docx'
-             />
-
-             {!selectedFile && (
-               <button
-                 className='d-flex gap-2 btn btn-outline-primary justify-content-center'
-                 onClick={handleUploadClick}
-                 style={{ width: '250px' }}
-               >
-                 Upload Document
-                 <i className='bi bi-cloud-upload'></i>
-               </button>
-             )}
-
-             {selectedFile && (
+            
+           {!selectedFileUrl && (
+        <button
+          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
+          onClick={openUploadWidget}
+          style={{ width: '250px' }}
+        >
+          Upload Document <i className="bi bi-cloud-upload"></i>
+        </button>
+      )}
+             {selectedFileUrl && (
                <div className='d-flex my-2'>
-                 <p className='p-small'>
-                   {' '}
+                 <p className='p-small' style={{ }}>
+                   
                    <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   {selectedFile.name}
+                   <a href={selectedFileUrl}>LegalMo-{selectedJob?.companyId?.companyName}-{selectedJob?.productId?.productName}-details.pdf</a>
                    <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
                      <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
                    </button>
@@ -285,8 +341,8 @@ const handleMoreDetailsSend = () => {
  </div>
  <div className={`modal-backdrop fade ${showMoreDetailsModal ? 'show' : ''}`} style={{ display: showMoreDetailsModal ? 'block' : 'none' }}></div>
 </div>
-     
-      <Footer/>
+
+  )}
     </div>
   )
 }

@@ -59,15 +59,15 @@ export const  CreateProductForm=({ setShowModal, setSuccessMessage , handleProdu
               <div className="input-group position-relative" style={{width:'60%'}}>
                 
               <input
-  type='text'  // Use text type to prevent the default number input behavior
+  type='text'  
   className="form-control py-2"
   name='productPrice'
   placeholder="Textbox"
   value={productPrice}
   onChange={(event) => {
-    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    const numericValue = event.target.value.replace(/\D/g, ''); 
     setProductPrice(numericValue);
-  }} // Pattern to match any number
+  }} 
   required
 />
 

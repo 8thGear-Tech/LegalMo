@@ -19,8 +19,7 @@ export default () => {
     setIsSuccessful,
     setDetails, companyId
   ) => {
-    // const userId = localStorage.getItem("userId");
-    console.log(companyId, 'Company ID')
+ 
     setLoading(true);
   
     http().then((axios) => {
@@ -29,7 +28,7 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
+     
           const company = response?.data;
          
           
@@ -48,7 +47,7 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+          
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -59,19 +58,10 @@ export default () => {
    
   ) => {
     
-   console.log(body, 'my profile body')
+ 
     setLoading(true);
     const form = new FormData();
 
-    // form.append('officialEmail', body.officialEmail)
-    // form.append('website', body.website)
-    // form.append('yourBio', body.yourBio)
-  
-    // form.append('phoneNumber', body.phoneNumber)
-    // form.append('officeAddress', body.officeAddress)
-    // form.append('alternativeEmailAddress', body.alternativeEmailAddress)
-   
-    // form.append('profileImage', body.profileImage)
 
     if (body.officialEmail !== undefined && body.officialEmail !== null) {
       form.append('officialEmail', body.officialEmail);
@@ -92,15 +82,14 @@ export default () => {
       form.append('alternativeEmailAddress', body.alternativeEmailAddress);
     }
   
-    // Check if the imageFile exists before appending it
+ 
     if (body.profileImage) {
       form.append('profileImage', body.profileImage);
     }
 
     
   const token= localStorage.getItem('userToken')
-console.log(token)
-    console.log(form, 'my form');
+
     http().then((axios) => {
       axios
         .patch(`/api/updateprofile?_id=${companyId}`, form,{
@@ -109,14 +98,13 @@ console.log(token)
           ...(token && {
             Authorization: `Bearer ${token}`,
           }),
-          "Content-Type": "multipart/form-data", // Override for FormData
+          "Content-Type": "multipart/form-data", 
         },
       })
         .then(async (response) => {
       
             setLoading(false);
             const gotResponse =  response?.data?.company;
- console.log(response,"my product response");
 
  setMessage("Profile Updated Successfully");
 
@@ -160,10 +148,9 @@ console.log(token)
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response, 'my response');
+         
           const cart = response?.data?.products;
-         console.log(cart,'mycart')
-          
+      
               setMessage("You have successfully added to cart");
               setIsSuccessful(true);
               navigate('/cart')
@@ -172,7 +159,7 @@ console.log(token)
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+          
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -193,8 +180,7 @@ console.log(token)
         .get('/api/cart')
         .then(async (response) => {
           setLoading(false);
-  
-          console.log(response.data, 'getCart response');
+      
   
           if (Array.isArray(response.data) && response.data.length > 0) {
             const cart = response.data[0].products; 
@@ -235,14 +221,12 @@ console.log(token)
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response, 'deleteCartItem response');
-  
-          // Filter out the deleted product from the cart
+         
           const updatedProducts = reservedItems.products.filter(
             (product) => product.productId !== productId
           );
   
-          // Update the reservedItems with the updated products array after removal
+      
           const updatedReservedItems = {
             ...reservedItems,
             products: updatedProducts,
@@ -252,7 +236,6 @@ console.log(token)
           setMessage("Product removed from the cart");
           setIsSuccessful(true);
   
-          console.log(updatedReservedItems, 'updated cart');
         })
         .catch((e) => {
           setLoading(false);
@@ -308,13 +291,10 @@ console.log(token)
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response, 'clearCart response');
-          
-         
           setMessage("Cart cleared successfully");
           setIsSuccessful(true);
           setReservedItems({ products: [] }); 
-          console.log('Cart cleared');
+         
         })
         .catch((e) => {
           setLoading(false);
@@ -337,11 +317,8 @@ console.log(token)
          .then(async (response) => {
            setLoading(false);
    
-           console.log(response);
  
            const job= response.data
-             console.log(job,'the jobs')
-         
            
              setIsSuccessful(true);
             
@@ -351,7 +328,7 @@ console.log(token)
          .catch((e) => {
            setIsSuccessful(false);
            setLoading(false);
-           // Handle API request error
+           
            error(e, setMessage, setLoading, setIsSuccessful);
          });
      });
@@ -370,11 +347,9 @@ console.log(token)
           .then(async (response) => {
             setLoading(false);
     
-            console.log(response);
   
             const job= response.data
-              console.log(job,'the jobs')
-          
+        
             
               setIsSuccessful(true);
              
@@ -384,13 +359,50 @@ console.log(token)
           .catch((e) => {
             setIsSuccessful(false);
             setLoading(false);
-            // Handle API request error
+            
             error(e, setMessage, setLoading, setIsSuccessful);
           });
       });
     };
+
+    const editJobDetail = (
+      body, setMessage, setLoading, setIsSuccessful, jobId, setJobs
+     )=> {
+      
+     
+       setLoading(true);
+     
+       http().then((axios) => {
+         axios
+           .put(`/job-api/company/editjobdetails/${jobId}`, body)
+           .then(async (response) => {
+         
+             setLoading(false);
+     
+           
+               setMessage("Edited successfully");
+   
+               setIsSuccessful(true);
+
+               setJobs((prevJobs) =>
+               prevJobs.map((job) =>
+                 job._id === jobId ? { ...job, companyDetail: body.detail, companyFile: body.file } : job
+               )
+             );
+             
+             
+           
+           })
+           .catch((e) => {
+             setIsSuccessful(false);
+             setLoading(false);
+           
+             error(e, setMessage, setLoading, setIsSuccessful);
+           });
+       });
+     };
   return {
    
-getCompanyProfile, createCart, updateProfile, getCart, deleteCartItem, clearCart, checkout, getPendingJobs, getCompletedJobs
+getCompanyProfile, createCart, updateProfile, getCart, deleteCartItem, clearCart, checkout, getPendingJobs, getCompletedJobs,editJobDetail
     };
 };

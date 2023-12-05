@@ -182,8 +182,7 @@ const AvailableJobs = () => {
    
     };
       const handleJobClick = (jobId) => {
-        console.log(`Getting product with ID ${jobId}`);
-        console.log(`Getting product with LAWYERiD ${lawyerId}`);
+     
         getOneJob(
           setMessage, setLoading, setIsSuccessful, jobId, lawyerId, setSelectedJob
         )
@@ -216,7 +215,7 @@ const AvailableJobs = () => {
           
         </div>
         <div>{jobs.length === 0 ? (
-    <p className='justify-content-center text-center py-5'>No projects</p>
+    <p className='justify-content-center text-center py-5'>No jobs</p>
   ) : (
         <div>
     {jobs?.map((job) => (
@@ -228,14 +227,22 @@ const AvailableJobs = () => {
             </div>
             <div>
                 <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
-                <p style={{color:'#5F5F5F'}}>
+
+                {
+                  job?.productId && (
+                    <p style={{color:'#5F5F5F'}}>
                 {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
                 {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
                 </p>
-                <p style={{color:'#5F5F5F'}}>
-                {job?.detail.split(' ').slice(0, 17).join(' ')}
-                {job?.detail.split(' ').length > 17 ? '...' : ''}
-                </p>
+                  )
+                }
+                {job?.detail || job?.companyDetail && (
+ <p style={{color:'#5F5F5F'}}>
+ {job?.detail.split(' ').slice(0, 17).join(' ') || job?.companyDetail.split(' ').slice(0, 17).join(' ')}
+ {job?.detail.split(' ').length > 17 ? '...' : '' || job?.companyDetail.split(' ').length > 17 ? '...' : ''}
+ </p>
+                )}
+               
             </div>
         </div>
     ))}

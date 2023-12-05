@@ -27,13 +27,6 @@ export const AppContextProvider = (props) => {
   const [jobList, setJobList] = useState(jobLists)
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData]= useState([]);
-  // useEffect(() => {
-  //   // Check local storage for authentication status when the component mounts
-  //   const storedAuthStatus = localStorage.getItem('authenticated');
-  //   if (storedAuthStatus === 'true') {
-  //     setAuthenticated(true);
-  //   }
-  // }, []); // Run this effect only once during component mount
 
   
   
@@ -104,36 +97,6 @@ export const AppContextProvider = (props) => {
   const selectedRange = calculateProgress(averageRating);
   const { label, minRating, maxRating } = selectedRange || {};
  
-  // const addToCart = (productId, quantity, details) => {
-  //   const existingProductIndex = cartItems.findIndex(
-  //     (item) => item.productId === productId
-  //   );
-
-  //   if (existingProductIndex !== -1) {
-  //     // If product already exists, update the quantity
-  //     const updatedCart = [...cartItems];
-  //     updatedCart[existingProductIndex].quantity += quantity;
-  //     updatedCart[existingProductIndex].details = details;
-  //     setCartItems(updatedCart);
-  //   } else {
-  //     // If the product is not in the list, add it as a new item in the cart
-  //     const newCartItem = {
-  //       productId: productId,
-  //       quantity: quantity,
-  //       details: details,
-  //       // Add other details as needed (e.g., product details)
-  //     };
-  //     setCartItems([...cartItems, newCartItem]);
-  //   }
-  // };
-
-  // const updateCartItem = (productId, newQuantity) => {
-  //   setCartItems((prevCartItems) =>
-  //     prevCartItems.map((item) =>
-  //       item.productId === productId ? { ...item, quantity: newQuantity } : item
-  //     )
-  //   );
-  // };
 
 const addToCart = (productId, quantity) => {
     setCartItems((prevCart) => {
@@ -152,26 +115,7 @@ const addToCart = (productId, quantity) => {
 
 
 
-// const addToCart = (productId, quantity) => {
-//   setCartItems((prevCart) => {
-//     const existingProductIndex = prevCart.findIndex((item) => item.productId === productId);
 
-//     if (existingProductIndex !== -1) {
-//       // If the product already exists in the cart, update the quantity
-//       const updatedCart = [...prevCart];
-//       updatedCart[existingProductIndex].quantity += quantity;
-//       return updatedCart;
-//     } else {
-//       // If the product is not in the cart, add it as a new item
-//       const newCartItem = {
-//         productId: productId,
-//         quantity: quantity,
-        
-//       };
-//       return [...prevCart, newCartItem];
-//     }
-//   });
-// };
 
   const removeFromCart = (productId) => {
     setCartItems((prevCart) => {
@@ -228,13 +172,6 @@ const addToCart = (productId, quantity) => {
     return totalAmount;
   };
 
-  // const updateCompanyUserProfilePicture = (newProfilePictureUrl) => {
-  //   setCompanyUserProfilePicture(newProfilePictureUrl);
-  // };
-
-  // const updateLawyerUserProfilePicture = (newProfilePictureUrl) => {
-  //   setLawyerUserProfilePicture(newProfilePictureUrl);
-  // };
 
   const contextValue = {
     jobList, setJobList,

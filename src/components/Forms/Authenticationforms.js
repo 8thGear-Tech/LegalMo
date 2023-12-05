@@ -132,7 +132,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
     e.preventDefault();
     const validationErrors = {};
     fields.forEach((field) => {
-      // Check for required fields except cacNumber
+   
       if (field.required && field.name !== 'cacNumber' && !formData[field.name]) {
         validationErrors[field.name] = `Please enter your ${field.label}`;
       }
@@ -170,7 +170,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
   };
 
   const handleLabelClick = (fieldName) => {
-    // Focus on the corresponding input element when the label is clicked
+    
     inputRefs[fieldName].focus();
   };
   
@@ -236,7 +236,7 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
       name={field.name}
       value={formData[field.name] || ''}
       onChange={handleChange}
-      pattern={field.type === 'number' ? "[0-9]*" : undefined}  // Apply pattern only for number fields
+      pattern={field.type === 'number' ? "[0-9]*" : undefined}  
       required={field.required}
     />
   )}

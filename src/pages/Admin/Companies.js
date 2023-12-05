@@ -6,128 +6,6 @@ import { Pagination } from '../../components/Buttons/Admin'
 import { ViewMoreModal } from '../../components/Cards/Admin';
 import adminRoute from '../../services/adminRoute';
 
-// const companyLists = [
-//   {
-//     id:1,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:2,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:3,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:4,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:5,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:6,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:7,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:8,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:9,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC536',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:10,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC559',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:11,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:12,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:13,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:14,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   },
-//   {
-//     id:15,
-//     companyName:'LegalMo',
-//     cacRegNo: 'CAC123',
-//     industry:'Law',
-//     dateofReg:'01/01/1999',
-//     companyImage: profileImage,
-//   }
-// ]
 
 
 const Companies = () => {
@@ -217,12 +95,42 @@ const handleCompanyProfileNavigation = (companyId) => {
             return (
               <div key={company?._id} className='mb-4'>
                 <div
-                  className='d-flex gap-3 py-3 px-0 px-md-3 align-items-center'
+                  className='row py-3 px-0 px-md-3 align-items-center d-sm-flex d-none'
+                  style={{ borderBottom: '1px solid #CFCFCF' }}
+                >
+                 <div className='col'>
+                  <img src={company?.profileImage?.url} alt={company?.companyName} className='img-fluid' style={{width:'150px', height:'100px'}}/>
+                  </div>
+                  
+                  <h6 className='col'>{company?.companyName || company?.name}</h6>
+                 
+                  <p style={{ color: '#373737' }} className='col'>{company?.cac}</p>
+                  <p style={{ color: '#373737' }} className='col'>{company?.industry}</p>
+                  {/* <p style={{ color: '#373737' }}>{company.dateofReg}</p> */}
+                  {company?.createdAt && <p style={{ color: '#373737' }} className='col'>{company.createdAt.split('T')[0]}</p>}
+
+                <div className='col'> 
+                  <button
+                    style={{
+                      color: '#02143A',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                    }}
+                    className='mb-2'
+                  onClick={()=> handleViewMoreShow(company)}>
+                    <h6>View more</h6>
+                  </button>
+                 
+                  </div>
+              
+              </div>
+              <div
+                  className='d-flex gap-3 py-3 px-0 px-md-3 align-items-center d-sm-none'
                   style={{ borderBottom: '1px solid #CFCFCF' }}
                 >
                  
                   <img src={company?.profileImage?.url} alt={company?.companyName} className='img-fluid' style={{width:'150px', height:'100px'}}/>
-                  <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-3 gap-md-5 gap-sm-3'>
+                  <div className='d-block gap-2'>
                   <h6>{company?.companyName || company?.name}</h6>
                  
                   <p style={{ color: '#373737' }}>{company?.cac}</p>

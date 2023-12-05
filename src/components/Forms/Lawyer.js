@@ -1,7 +1,6 @@
 
 import React, { useRef, useState } from "react";
-import lawyerImage from '../../assets/images/lawyer-image.svg'
-import { useAppContext } from "../../AppContext";
+
 
 const areasOfPractiseOptions = [
   'Maritime', 
@@ -39,7 +38,7 @@ export const LawyerProfileForm=({ initialDetails, onSave, onCancel })=> {
     ...initialDetails,
     areasOfPractise: initialDetails?.areasOfPractise || [], 
   });
-  const {setLawyerUserProfilePicture}= useAppContext()
+
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
 const [areasOfPractise, setAreasOfPractise]= useState([])
@@ -72,10 +71,10 @@ const [areasOfPractise, setAreasOfPractise]= useState([])
     const updatedAreasofPractise = formData?.areasOfPractise.includes(option)
       ? formData?.areasOfPractise.filter((item) => item !== option)
       : [...formData?.areasOfPractise, option];
-      console.log(updatedAreasofPractise)
+      
       setAreasOfPractise(updatedAreasofPractise);
     setFormData({ ...formData, areasOfPractise: updatedAreasofPractise });
-    setLawyerUserProfilePicture(imageFile);
+   
 
   };
 

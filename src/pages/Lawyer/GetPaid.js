@@ -34,23 +34,19 @@ useEffect(()=>{
     setMessage, setLoading, setIsSuccessful, setAccountNumber, setAccountName,setBank, setNoPaymentDetails
    
   )
-  console.log(accountNumber, accountName, bank, noPaymentDetails);
 
 }, [])
 
-// ... (other code remains unchanged)
+
 
 useEffect(() => {
   if (accountNumber && accountName && bank) {
-    // Set the fetched payment details to the temporary state variables
+
     setTempAccountNumber(accountNumber);
     setTempAccountName(accountName);
     setTempBank(bank);
   }
 }, [accountNumber, accountName, bank]);
-
-// ... (other code remains unchanged)
-
 
    
     useEffect(() => {
@@ -111,11 +107,7 @@ useEffect(() => {
 
     const handleAddPaymentDetails = (e) => {
       e.preventDefault();
-      
-      //  setAccountNumber(tempAccountNumber);
-      //  setAccountName(tempAccountName);
-      //  setBank(tempBank);
-   
+    
 
       const body={
         accountNumber: tempAccountNumber,
@@ -124,7 +116,7 @@ useEffect(() => {
    
       }
 
-      console.log(body)
+    
       addPaymentDetails (
         body,
         setMessage,
@@ -149,10 +141,6 @@ useEffect(() => {
     };
     const handleUpdate = (e) => {
       e.preventDefault();
-    
-      // setAccountNumber(tempAccountNumber);
-      // setAccountName(tempAccountName);
-      // setBank(tempBank);
 
       const body = {
         accountNumber: tempAccountNumber,
@@ -160,7 +148,7 @@ useEffect(() => {
         bank: tempBank,
       };
 
-      console.log(body,'my body')
+
     
       updatePaymentDetails(
         body,

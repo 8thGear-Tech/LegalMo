@@ -10,7 +10,7 @@ import lawyerRoute from '../../services/lawyerRoute';
 
 const AvailableJobItem = () => {
     const { jobId } = useParams();
-    const [moreDetails, setMoreDetails] = useState('')
+    // const [moreDetails, setMoreDetails] = useState('')
 
 const navigate = useNavigate()
 const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const [loading, setLoading] = useState(true);
     const location = useLocation();
     const lawyerId = new URLSearchParams(location.search).get('lawyerId');
     const [displayedJobs, setDisplayedJobs] = useState([]);
-    const [showRequestDetailsModal, setShowRequestDetailsModal] = useState(false);
+  
 
   useEffect(() => {
     getOneJob(
@@ -58,7 +58,7 @@ const [loading, setLoading] = useState(true);
     }, []);
 
     useEffect(() => {
-      // Assuming 'jobs' is fetched somehow and stored in allJobs
+    
       const shuffledJobs = shuffleArray(jobs);
      
       setDisplayedJobs(shuffledJobs.slice(0, 2));
@@ -75,35 +75,10 @@ const [loading, setLoading] = useState(true);
 
 
 
-  const handleRequestDetailsClose = () => {
-   
-    setShowRequestDetailsModal(false);
-  };
-  
-  const handleRequestDetailsShow = () => {
-   
-    setShowRequestDetailsModal(true);
-    
-    
-  };
-
-  const handleRequestDetailsSend = () => {
-
-    
-    const body = {
-      detail: moreDetails,
-    };
-  console.log(moreDetails, 'detail')
-    
-    requestDetail(body, setMessage, setLoading, setIsSuccessful, jobId, setShowModal);
-    
-    setShowRequestDetailsModal(false);
-    setMoreDetails('')
-  };
   
   const handleApplyClick =() => {
    applyJob(
-    setMessage, setLoading, setIsSuccessful, jobId,setShowModal
+    setMessage, setLoading, setIsSuccessful, jobId,lawyerId,setShowModal
    )
   }
   const handleJobClick = (jobId) => {
@@ -134,10 +109,12 @@ const [loading, setLoading] = useState(true);
                     <div className='card py-5 px-3 gap-2'>
                        <h5 style={{fontWeight:'500'}}>{selectedJob?.productId?.productName}</h5>
                        <p style={{color:'#5F5F5F'}}>{selectedJob?.productId?.productDescription}</p>
-                       <p style={{color:'#5F5F5F'}}>{selectedJob?.detail}</p>
+                       <p style={{color:'#5F5F5F'}}>{selectedJob?.detail || selectedJob?.companyDetail}</p>
+
+
                        <p>Amount: ₦{selectedJob.productId?.productPrice.toLocaleString()}</p>
                        
-                        <button type='submit' className='btn btn-outline-primary py-2' style={{width:'300px'}}  onClick={handleRequestDetailsShow}>Request more details</button>
+                      
                         <button type='submit' className='btn btn-primary py-2' style={{width:'300px'}} onClick={handleApplyClick}>Apply now</button>
                        
                     </div>
@@ -155,15 +132,20 @@ const [loading, setLoading] = useState(true);
             </h6>
             </div>
             <div>
-                <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
-                <p style={{color:'#5F5F5F'}}>
+              {
+                  job?.productId && (
+                    <p style={{color:'#5F5F5F'}}>
                 {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
                 {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
                 </p>
-                <p style={{color:'#5F5F5F'}}>
-                {job?.detail.split(' ').slice(0, 17).join(' ')}
-                {job?.detail.split(' ').length > 17 ? '...' : ''}
-                </p>
+                  )
+                }
+                {job?.detail || job?.companyDetail && (
+ <p style={{color:'#5F5F5F'}}>
+ {job?.detail.split(' ').slice(0, 17).join(' ') || job?.companyDetail.split(' ').slice(0, 17).join(' ')}
+ {job?.detail.split(' ').length > 17 ? '...' : '' || job?.companyDetail.split(' ').length > 17 ? '...' : ''}
+ </p>
+                )}
             </div>
         </div>
     ))}
@@ -218,52 +200,7 @@ const [loading, setLoading] = useState(true);
         modalText={message}
       />
        
-        <div>
- <div
-   className={`modal fade px-2 px-md-0 ${showRequestDetailsModal ? 'show' : ''}`}
-   style={{ display: showRequestDetailsModal ? 'block' : 'none' }}
-   tabIndex='-1'
-   role='dialog'
-   aria-labelledby=''
-   aria-hidden='true'
- >
-   <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
-     <div className='modal-content gap-3 p-3 p-sm-5'>
-       <div className='modal-header'>
-         <h5 className='modal-title' id='editPaymentModal' style={{ fontWeight: '600' }}>
-         {selectedJob?.productId?.productName}
-         </h5>
-
-         <button type='button' className='btn-close' onClick={handleRequestDetailsClose}></button>
-       </div>
-       <div className='modal-body '>
-         <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
        
-                {selectedJob?.productId?.productDescription}
-               
-               
-         </h6>
-         <p style={{color:'#5F5F5F'}}>
-                {selectedJob?.detail}
-                </p>
-         <div className='form-group gap-2 mt-5'>
-           <h6 name='exampleFormControlTextarea1' className='form-label'>
-             Request more details
-           </h6>
-           <textarea className="form-control bg-white" id="exampleFormControlTextarea1" rows="8" placeholder='Start typing....' value={moreDetails} onChange={(event) => setMoreDetails(event.target.value)}></textarea>
-          
-         </div>
-         <div className='d-flex flex-column mt-5'>
-           <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleRequestDetailsSend}>
-             Send
-           </button>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
- <div className={`modal-backdrop fade ${showRequestDetailsModal ? 'show' : ''}`} style={{ display: showRequestDetailsModal ? 'block' : 'none' }}></div>
-        </div>
         <Footer/>
       
     </div>

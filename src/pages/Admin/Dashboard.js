@@ -49,9 +49,8 @@ const dashboardMenu=[
 ]
 
 const AdminDashboard = () => {
-  const firstRowMenu = dashboardMenu.slice(0, 3); // First three menu items
-  const secondRowMenu = dashboardMenu.slice(3);   // Remaining menu items
-
+  const firstRowMenu = dashboardMenu.slice(0, 3); 
+  const secondRowMenu = dashboardMenu.slice(3);   
   return (
     <>
       <AdminNavbar>

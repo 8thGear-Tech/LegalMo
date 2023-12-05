@@ -7,130 +7,6 @@ import adminRoute from '../../services/adminRoute';
 import { LoginModal } from '../../components/Forms/Authenticationforms';
 import { useNavigate } from 'react-router-dom';
 
-export const lawyerLists = [
-    {
-      id:1,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:2,
-      lawyerName:'Omoba Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:3,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:4,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:5,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:6,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:7,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:8,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:9,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'CAC536',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:10,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'CAC559',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:11,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:12,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:13,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:14,
-      lawyerName:'Asher Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Unverified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    },
-    {
-      id:15,
-      lawyerName:'Lionel Daniels',
-      snRegNo: 'SCN123',
-      statusVerification:'Verified',
-      dateofReg:'01/01/1999',
-     lawyerImage: profileImage,
-    }
-  ]
-
-
 
 
   const Lawyers = () => {
@@ -194,7 +70,7 @@ export const lawyerLists = [
     };
         
     const handleVerify= (lawyerId) => {
-      console.log(`Getting lawyer with ID ${lawyerId}`);
+
       verifyLawyer(
         setMessage, setLoading, setIsSuccessful, lawyerId, setShowModal
        
@@ -243,13 +119,42 @@ export const lawyerLists = [
 
                 {getCurrentPageData().map((lawyer) => (
                   <div key={lawyer._id} className='mb-4'>
+                     <div
+                      className='row py-3 px-0 px-md-3 align-items-center d-sm-flex d-none'
+                      style={{ borderBottom: '1px solid #CFCFCF' }}
+                    >
+<div className='col'>
+                      <img src={lawyer?.profileImage?.url} alt={lawyer?.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
+                      </div>
+                     
+                        <h6 className='col'>{lawyer.name}</h6>
+
+                        <p style={{ color: '#373737' }} className='col'>{lawyer.scn}</p>
+
+                     {lawyer?.createdAt && <p style={{ color: '#373737' }}className='col'>{lawyer?.createdAt.split('T')[0]}</p>}
+<div className='col'>
+                        <button
+                          style={{
+                            color: '#02143A',
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                          }} onClick={() => handleViewMoreShow(lawyer)}
+                          className='mb-2'
+                        >
+                          <h6>View more</h6>
+                        </button>
+
+                        </div>
+                      {/* </div> */}
+
+                    </div>
                     <div
-                      className='d-flex justify-content-between py-3 px-0 px-md-3 align-items-center'
+                      className='d-flex gap-3 py-3 px-0 px-md-3 align-items-center d-sm-none'
                       style={{ borderBottom: '1px solid #CFCFCF' }}
                     >
 
                       <img src={lawyer?.profileImage?.url} alt={lawyer?.name} className='img-fluid' style={{ minWidth: '70px', maxWidth: '150px' }} />
-                      <div className='d-block d-sm-flex justify-content-between gap-xl-5 gap-lg-3 gap-md-5 gap-sm-3'>
+                      <div className='d-block gap-2'>
                         <h6>{lawyer.name}</h6>
 
                         <p style={{ color: '#373737' }}>{lawyer.scn}</p>

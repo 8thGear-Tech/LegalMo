@@ -3,7 +3,7 @@ import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import UserNavbar from '../../components/Navbar/UserNavbar'
 import Footer from '../../components/Footer'
 import { ProductCarousel, shuffleArray } from './Precart'
-// import { productData } from './ProductItem'
+
 import { useAppContext } from '../../AppContext'
 import { Link, useNavigate } from 'react-router-dom'
 import productRoute from '../../services/productRoute'
@@ -17,7 +17,7 @@ const Cart = () => {
    
     const [bill, setBill] = useState(0); 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+
 
 const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ const navigate= useNavigate();
      
       const storedReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || [];
       setReservedItems(storedReservedItems);
-      console.log('show me cart', storedReservedItems);
+      
     }
   }, []);
   
@@ -79,18 +79,10 @@ const navigate= useNavigate();
   }, [productData]);
 
 
-
-  // const calculateTotalBill = () => {
-  //   let total = 0;
-  //   reservedItems.forEach((product) => {
-  //     total += product.price * product.quantity;
-  //   });
-  //   return total;
-  // };
   
   useEffect(() => {
-    if (reservedItems.length > 0) {
-      let total = reservedItems.reduce((acc, product) => {
+    if (reservedItems?.length > 0) {
+      let total = reservedItems?.reduce((acc, product) => {
         return acc + product.price * product.quantity;
       }, 0);
       setBill(total);
@@ -162,7 +154,7 @@ const navigate= useNavigate();
         localStorage.removeItem('reservedItems');
         navigate('/signup/asacompany')
         }
-         
+        setReservedItems([]);
        };
     
     
@@ -201,21 +193,22 @@ const navigate= useNavigate();
 
           
             return (
-              <div key={product?.productId}>
+              <div key={product?._id}>
               
                 <div className='d-block d-sm-flex gap-3 py-4 px-2 px-xxl-4 '>
                 <div className="card " style={{borderRadius: '25px', width:'15rem', }}>
-                    <img src={product?.productImage} alt={product?.productName}className="card-img-top" style={{borderRadius:'none'}} />
+                    <img src={product?.productImage || product?.productId?.productImage } alt={product?.productName || product?.productId?.productName}className="card-img-top" style={{borderRadius:'none'}} />
                     <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
         background:'#D1D2D3'}}>
                   
-                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName}</p>
+                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName || product?.productId?.productName}</p>
                     
                   </div>
                 </div>
                   <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
                   <div className='d-flex flex-column'>
-                    {product?.detail && (<p><span style={{color: '#032773'}}> Details:</span>  {product?.detail}</p>)}
+                    {product?.detail && (<p><span style={{color: '#032773'}}> Details:</span>  {product?.detail || product?.companyDetail}</p>)}
+                    {product?.file && (<a href={product?.file} style={{color: '#032773'}} className='mb-1'>  LegalMo-{product?.companyId?.name}-{product?.productId?.productName}-details.pdf</a>)}
                     <p>Your selection is available for immediate purchase</p>
                     <div className='d-flex gap-5'>
                      
@@ -224,22 +217,7 @@ const navigate= useNavigate();
                   </div>
                   <div className='mt-3 mt-md-0 text-align-center text-center' >
                       <p>QTY:</p>
-                      {/* <select
-                          id={`quantitySelect-${product?._id}`}
-                          className='form-select'
-                          value={product.quantity}
-                          onChange={(e) => handleQuantityChange(product?._id, parseInt(e.target.value, 10))}
-                        >
-                          {Array.from({ length: 10 }, (_, i) => (
-                            <option
-                              key={i + 1}
-                              value={i + 1}
-                              className='justify-content-center align-items-center text-align-center'
-                            >
-                              {i + 1}
-                            </option>
-                          ))}
-                        </select> */}
+                     
                         
                         <button 
                              
@@ -251,7 +229,7 @@ const navigate= useNavigate();
                     </div>
                 
                   <div className='mt-3 mt-md-0'>
-                    <p>₦{product?.price.toLocaleString()}</p>
+                    <p>₦{product?.productPrice?.toLocaleString() || product?.productId?.productPrice.toLocaleString() }</p>
                   </div>
                   </div>
                 

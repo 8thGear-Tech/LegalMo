@@ -7,7 +7,6 @@ body {
   margin: 0;
   padding: 0 !important;
   overflow-x: hidden !important;
-  
 }
 
 h1 {
@@ -661,6 +660,12 @@ p {
 .action:hover i {
   color: #032773 !important;
   font-weight: 500;
+}
+
+.modal-body {
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-y: hidden;
 }
 
 .product-card .card {

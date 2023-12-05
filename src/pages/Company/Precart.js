@@ -291,8 +291,10 @@ const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 const {getOneProduct, getProducts}= productRoute()
 const {getAllRatings, createRating, editRating, deleteRating}= ratingsRoute()
-const {createCart, checkout} = companyRoute()
-
+const {createCart} = companyRoute()
+const [selectedFileUrl, setSelectedFileUrl] = useState(null);
+const cloudinaryRef = useRef();
+const widgetRef = useRef();  
 const userType = localStorage.getItem('userType');
   const token = localStorage.getItem('userToken');
 useEffect(() => {
@@ -443,6 +445,34 @@ const handleQuantityChange = (e) => {
   setQuantity(e.target.value);
 };
 
+const openUploadWidget = () => {
+  if (window.cloudinary) {
+    cloudinaryRef.current = window.cloudinary;
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'do03u50qn',
+        uploadPreset: 'LegalMoUpload',
+      },
+      (error, result) => {
+      
+        if (!error && result && result.event === 'success') {
+          const fileName = result.info.original_filename || '';
+          setSelectedFile(fileName);
+
+          const fileUrl = result.info.url || '';
+          setSelectedFileUrl(fileUrl);
+         
+        }
+      }
+    );
+
+ 
+    if (widgetRef.current) {
+      widgetRef.current.open();
+    }
+  }
+};
+
 const handleUploadClick = () => {
   fileInputRef.current.click();
 };
@@ -472,11 +502,11 @@ const handleFileChange = (e) => {
 
 const handleDeleteClick = () => {
   
-  setSelectedFile(null);
 
-  if (fileInputRef.current) {
-    fileInputRef.current.value = null;
-  }
+  setSelectedFileUrl(null);
+      
+
+
 };
 
 const handleReserve= ()=> {
@@ -490,6 +520,12 @@ const handleReserve= ()=> {
       if (details !== '' && details !== null && details !== undefined) {
         body.detail = details;
       }
+      
+    
+      if (selectedFileUrl !== '' && selectedFileUrl !== null && selectedFileUrl !== undefined) {
+        body.file = selectedFileUrl;
+      }
+  
   
   createCart(
     body, 
@@ -504,8 +540,8 @@ const handleReserve= ()=> {
  
     const reservedItem = {
       productId: product?._id,
-      price: product.productPrice,
-      name: product.productName,
+      productPrice: product.productPrice,
+      productName: product.productName,
       productImage: product.productImage,
       quantity: quantity,
       detail: details,
@@ -539,9 +575,7 @@ const handleProductClick = (productId) => {
   )
   
 };
-// const progressBarStyle = {
-//   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
-// };
+
 
 
 
@@ -604,30 +638,31 @@ if (loading) {
   <h6 name="exampleFormControlTextarea1" className="form-label">Give details</h6>
   <textarea className="form-control bg-white" id="exampleFormControlTextarea1" rows="8" placeholder='Type more details about your purchase' value={details} onChange={(event) => setDetails(event.target.value)}></textarea>
   <div className='mt-4'>
-    <input
-  type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        accept=".pdf, .doc, .docx"
-      />
-     
-     {!selectedFile && (
-      <button className=" d-flex gap-2" style={{border:'none', backgroundColor:'#CFCFCF'}} onClick={handleUploadClick}>Upload Document
-      <i className="bi bi-cloud-upload"></i>
-      </button>
-     )}
+   
 
-      {selectedFile && (
-        <div className='d-flex mt-1'>
-         <p className=' p-small'> <i className="bi bi-file-earmark-text-fill" style={{color:'wine'}}></i> &nbsp;
-         {selectedFile.name}
-            <button className="btn btn-danger" onClick={handleDeleteClick}  style={{border:'none', backgroundColor:'transparent'}} >
-              <i className="bi bi-trash" style={{color:'red', fill:"red"}}></i> 
-            </button>
-          </p>
-        </div>
+{!selectedFileUrl && (
+       <button className=" d-flex gap-2" style={{border:'none', backgroundColor:'#CFCFCF'}}
+          onClick={openUploadWidget}
+         
+        >
+          Upload Document <i className="bi bi-cloud-upload"></i>
+        </button>
       )}
+
+{selectedFileUrl && (
+               <div className='d-flex my-2' style={{flexWrap:'wrap' }}>
+                 <p className='p-small' style={{ }}>
+                   
+                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+                   <a href={selectedFileUrl}>LegalMo-{product?.productName}-details.pdf</a>
+                   <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
+                     <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
+                   </button>
+                 </p>
+               </div>
+             )}
+
+     
     </div>
 </div>
         </div>

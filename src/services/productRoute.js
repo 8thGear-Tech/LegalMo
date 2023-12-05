@@ -27,7 +27,6 @@ export default () => {
       
             setLoading(false);
             const gotResponse =  response?.data?.products;
- console.log(gotResponse);
 
  setMessage("You have successfully gotten all products");
 
@@ -52,7 +51,7 @@ export default () => {
    
   ) => {
     
-   console.log(body, 'my product body')
+
     setLoading(true);
     const form = new FormData();
     form.append('productName', body.productName)
@@ -60,8 +59,7 @@ export default () => {
     form.append('productDescription', body.productDescription)
     form.append('productImage', body.productImage)
   const token= localStorage.getItem('userToken')
-console.log(token)
-    console.log(form, 'my form');
+
     http().then((axios) => {
       axios
         .post('/api/create', form,{
@@ -70,14 +68,13 @@ console.log(token)
           ...(token && {
             Authorization: `Bearer ${token}`,
           }),
-          "Content-Type": "multipart/form-data", // Override for FormData
+          "Content-Type": "multipart/form-data", 
         },
       })
         .then(async (response) => {
       
             setLoading(false);
             const gotResponse =  response?.data;
- console.log(response,"my product response");
 
  setMessage("New Product Created");
 
@@ -152,7 +149,7 @@ console.log(token)
       
             setLoading(false);
             const product= response.data
-            console.log(product)
+          
            
  setMessage("Product gotten successfully");
 
