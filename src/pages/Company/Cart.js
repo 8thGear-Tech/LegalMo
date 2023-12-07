@@ -1,53 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import GuestNavbar from '../../components/Navbar/GuestNavbar'
-import UserNavbar from '../../components/Navbar/UserNavbar'
-import Footer from '../../components/Footer'
-import { ProductCarousel, shuffleArray } from './Precart'
+import React, { useEffect, useState } from "react";
+import GuestNavbar from "../../components/Navbar/GuestNavbar";
+import UserNavbar from "../../components/Navbar/UserNavbar";
+import Footer from "../../components/Footer";
+import { ProductCarousel, shuffleArray } from "./Precart";
 // import { productData } from './ProductItem'
-import { useAppContext } from '../../AppContext'
-import { Link, useNavigate } from 'react-router-dom'
-import productRoute from '../../services/productRoute'
-import companyRoute from '../../services/companyRoute'
-import { LoginModal } from '../../components/Forms/Authenticationforms'
+import { useAppContext } from "../../AppContext";
+import { Link, useNavigate } from "react-router-dom";
+import productRoute from "../../services/productRoute";
+import companyRoute from "../../services/companyRoute";
+import { LoginModal } from "../../components/Forms/Authenticationforms";
 
 const Cart = () => {
-  const {productData, setProductData } = useAppContext();
-    const [shuffledProducts, setShuffledProducts] = useState([]);
-    const [reservedItems, setReservedItems] = useState([]);
-   
-    const [bill, setBill] = useState(0); 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+  const { productData, setProductData } = useAppContext();
+  const [shuffledProducts, setShuffledProducts] = useState([]);
+  const [reservedItems, setReservedItems] = useState([]);
 
-const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-      const [message, setMessage] = useState('');
-      const [isSuccessful, setIsSuccessful] = useState(false);
-     
-      const [showModal, setShowModal] = useState(false);
-    const {getProducts, getOneProduct}= productRoute()
-    const {getCart, deleteCartItem, clearCart, checkout}= companyRoute();
-const navigate= useNavigate();
-    const companyId = localStorage.getItem("userId");
-    const userType = localStorage.getItem('userType');
-    const token = localStorage.getItem('userToken');
+  const [bill, setBill] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isSuccessful, setIsSuccessful] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const { getProducts, getOneProduct } = productRoute();
+  const { getCart, deleteCartItem, clearCart, checkout } = companyRoute();
+  const navigate = useNavigate();
+  const companyId = localStorage.getItem("userId");
+  const userType = localStorage.getItem("userType");
+  const token = localStorage.getItem("userToken");
   useEffect(() => {
-
-    
-    if (userType && token)  {
-      
+    if (userType && token) {
       setIsLoggedIn(true);
     } else {
- 
       setIsLoggedIn(false);
     }
 
     setLoading(false);
-  }, []); 
- 
+  }, []);
 
   useEffect(() => {
-    if (userType === 'company') {
+    if (userType === "company") {
       getCart(
         setMessage,
         setLoading,
@@ -55,30 +50,31 @@ const navigate= useNavigate();
         setReservedItems,
         setBill,
         companyId
-      ); 
+      );
     } else {
-     
-      const storedReservedItems = JSON.parse(localStorage.getItem('reservedItems')) || [];
+      const storedReservedItems =
+        JSON.parse(localStorage.getItem("reservedItems")) || [];
       setReservedItems(storedReservedItems);
-      console.log('show me cart', storedReservedItems);
+      console.log("show me cart", storedReservedItems);
     }
   }, []);
-  
-
 
   useEffect(() => {
-    getProducts(setMessage, setLoading, setIsSuccessful, setProductData, setShowModal);
+    getProducts(
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      setProductData,
+      setShowModal
+    );
   }, []);
 
   useEffect(() => {
-  
     if (productData.length > 1) {
       const shuffledArray = shuffleArray(productData);
       setShuffledProducts(shuffledArray);
     }
   }, [productData]);
-
-
 
   // const calculateTotalBill = () => {
   //   let total = 0;
@@ -87,7 +83,7 @@ const navigate= useNavigate();
   //   });
   //   return total;
   // };
-  
+
   useEffect(() => {
     if (reservedItems.length > 0) {
       let total = reservedItems.reduce((acc, product) => {
@@ -98,133 +94,149 @@ const navigate= useNavigate();
       setBill(0);
     }
   }, [reservedItems]);
-  
-      
-      const handleRemove = (productId) => {
-       if(userType === 'company'){
-        deleteCartItem(
-          reservedItems,
-         setReservedItems, 
-         productId,
-          setMessage,
-          setLoading,
-          setIsSuccessful
-          
-         
-        )
-       }else{
 
-        const updatedReservedItems = reservedItems.filter(
-          (item) => item.productId !== productId
-        );
-    
-      
-        setReservedItems(updatedReservedItems);
-    
-      
-        localStorage.setItem('reservedItems', JSON.stringify(updatedReservedItems));
-       
-       }
-        
-      };
+  const handleRemove = (productId) => {
+    if (userType === "company") {
+      deleteCartItem(
+        reservedItems,
+        setReservedItems,
+        productId,
+        setMessage,
+        setLoading,
+        setIsSuccessful
+      );
+    } else {
+      const updatedReservedItems = reservedItems.filter(
+        (item) => item.productId !== productId
+      );
 
-      const handleClearCart = () => {
-        
-       if(userType === 'company'){
-        clearCart (
-          setReservedItems, 
-     setMessage,
-     setLoading,
-     setIsSuccessful
-    
-   )
-       }else{
-        setReservedItems([]);
-    
-     
-        localStorage.removeItem('reservedItems');
-       
-       }
-        
-      };
+      setReservedItems(updatedReservedItems);
 
-      const handlePurchase = () => {
-        
-        if(userType === 'company'){
-         checkout (
-          setMessage,
-          setLoading,
-          setIsSuccessful,
-          setShowModal
-        )
-    
-        }else{
-        localStorage.removeItem('reservedItems');
-        navigate('/signup/asacompany')
-        }
-         
-       };
-    
-    
-      const handleProductClick = (productId) => {
-   
-        getOneProduct(
-          setMessage, setLoading, setIsSuccessful, productId, setProduct, setShowModal
-        )
-        
-      };
-    
-      if (loading){
-        return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
-       <div className="spinner-border text-secondary" role="status">
-        <span className="visually-hidden">Loading...</span>
+      localStorage.setItem(
+        "reservedItems",
+        JSON.stringify(updatedReservedItems)
+      );
+    }
+  };
+
+  const handleClearCart = () => {
+    if (userType === "company") {
+      clearCart(setReservedItems, setMessage, setLoading, setIsSuccessful);
+    } else {
+      setReservedItems([]);
+
+      localStorage.removeItem("reservedItems");
+    }
+  };
+
+  const handlePurchase = () => {
+    if (userType === "company") {
+      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
+
+  const handleProductClick = (productId) => {
+    getOneProduct(
+      setMessage,
+      setLoading,
+      setIsSuccessful,
+      productId,
+      setProduct,
+      setShowModal
+    );
+  };
+
+  if (loading) {
+    return (
+      <div
+        className="justify-content-center align-items-center text-center"
+        style={{ paddingTop: "300px" }}
+      >
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
-            </div>; 
-      }
-   
-    
+    );
+  }
+
   return (
-    
     <>
       {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
-     
-      <div className='py-5 px-3 px-md-5 ' >
-      <div >
-       <p className='py-2' style={{color:'#373737', fontWeight:'500'}}>Your Selections</p>
-       <div className='line mb-3' style={{border:'1px solid #7E7E7F'}}></div>
-       {reservedItems?.length > 0 ? (
-        <div>
-        <div className='d-block d-lg-flex gap-4 align-items-center '>
-      <div className=' cartItems'>
-        {reservedItems?.map((product) => {
-          
 
-          
-            return (
-              <div key={product?.productId}>
-              
-                <div className='d-block d-sm-flex gap-3 py-4 px-2 px-xxl-4 '>
-                <div className="card " style={{borderRadius: '25px', width:'15rem', }}>
-                    <img src={product?.productImage} alt={product?.productName}className="card-img-top" style={{borderRadius:'none'}} />
-                    <div className="card-body justify-content-center align-items-center" style={{borderRadius: '0px 0px 20px 20px',
-        background:'#D1D2D3'}}>
-                  
-                    <p className="p-small text-white" style={{fontWeight:'500'}}>{product?.productName}</p>
-                    
-                  </div>
-                </div>
-                  <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
-                  <div className='d-flex flex-column'>
-                    {product?.detail && (<p><span style={{color: '#032773'}}> Details:</span>  {product?.detail}</p>)}
-                    <p>Your selection is available for immediate purchase</p>
-                    <div className='d-flex gap-5'>
-                     
-                      <p onClick={() => handleRemove(product?.productId)}style={{cursor:'pointer'}}>Remove</p>
-                    </div>
-                  </div>
-                  <div className='mt-3 mt-md-0 text-align-center text-center' >
-                      <p>QTY:</p>
-                      {/* <select
+      <div className="py-5 px-3 px-md-5 ">
+        <div>
+          <p className="py-2" style={{ color: "#373737", fontWeight: "500" }}>
+            Your Selections
+          </p>
+          <div
+            className="line mb-3"
+            style={{ border: "1px solid #7E7E7F" }}
+          ></div>
+          {reservedItems?.length > 0 ? (
+            <div>
+              <div className="d-block d-lg-flex gap-4 align-items-center ">
+                <div className=" cartItems">
+                  {reservedItems?.map((product) => {
+                    return (
+                      <div key={product?.productId}>
+                        <div className="d-block d-sm-flex gap-3 py-4 px-2 px-xxl-4 ">
+                          <div
+                            className="card "
+                            style={{ borderRadius: "25px", width: "15rem" }}
+                          >
+                            <img
+                              src={product?.productImage}
+                              alt={product?.productName}
+                              className="card-img-top"
+                              style={{ borderRadius: "none" }}
+                            />
+                            <div
+                              className="card-body justify-content-center align-items-center"
+                              style={{
+                                borderRadius: "0px 0px 20px 20px",
+                                background: "#D1D2D3",
+                              }}
+                            >
+                              <p
+                                className="p-small text-white"
+                                style={{ fontWeight: "500" }}
+                              >
+                                {product?.productName}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-block d-md-flex gap-4 mt-3 mt-md-0">
+                            <div className="d-flex flex-column">
+                              {product?.detail && (
+                                <p>
+                                  <span style={{ color: "#032773" }}>
+                                    {" "}
+                                    Details:
+                                  </span>{" "}
+                                  {product?.detail}
+                                </p>
+                              )}
+                              <p>
+                                Your selection is available for immediate
+                                purchase
+                              </p>
+                              <div className="d-flex gap-5">
+                                <p
+                                  onClick={() =>
+                                    handleRemove(product?.productId)
+                                  }
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  Remove
+                                </p>
+                              </div>
+                            </div>
+                            <div className="mt-3 mt-md-0 text-align-center text-center">
+                              <p>QTY:</p>
+                              {/* <select
                           id={`quantitySelect-${product?._id}`}
                           className='form-select'
                           value={product.quantity}
@@ -240,78 +252,104 @@ const navigate= useNavigate();
                             </option>
                           ))}
                         </select> */}
-                        
-                        <button 
-                             
-                             className='px-2'
-                             style={{backgroundColor:'white'}}
-                           >
-                            {product.quantity}
-                           </button>
-                    </div>
-                
-                  <div className='mt-3 mt-md-0'>
-                    <p>₦{product?.price.toLocaleString()}</p>
-                  </div>
-                  </div>
-                
-                 
-                
+
+                              <button
+                                className="px-2"
+                                style={{ backgroundColor: "white" }}
+                              >
+                                {product.quantity}
+                              </button>
+                            </div>
+
+                            <div className="mt-3 mt-md-0">
+                              <p>₦{product?.price.toLocaleString()}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="line "
+                          style={{ border: "1px solid #7E7E7F" }}
+                        ></div>
+                      </div>
+                    );
+
+                    return null;
+                  })}
                 </div>
-                <div className='line ' style={{border:'1px solid #7E7E7F'}}></div>
-
+                <div
+                  className="card p-3 mt-xl-0 mt-lg-5 mt-5"
+                  style={{
+                    borderRadius: "none",
+                    width: "18rem",
+                    color: "#7E7E7F",
+                  }}
+                >
+                  <div className="">
+                    <h6 style={{ color: "#7E7E7F" }}>Order Summary</h6>
+                    <div
+                      className="line my-3"
+                      style={{ border: "1px solid #7E7E7F" }}
+                    ></div>
+                    <div
+                      className="d-flex flex-column"
+                      style={{ color: "#7E7E7F" }}
+                    >
+                      <div className="d-flex justify-content-between">
+                        {" "}
+                        <p style={{ color: "#7E7E7F" }}>
+                          Tax <span className="p-small">(incl)</span>
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        {" "}
+                        <p style={{ color: "#7E7E7F" }}>Total</p>
+                        <p style={{ color: "#7E7E7F" }}>
+                          ₦{bill.toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      onClick={handlePurchase}
+                      className="btn btn-primary w-100"
+                    >
+                      Purchase
+                    </a>
+                  </div>
+                </div>
               </div>
-            );
-          
-
-          return null
-        })}
-         
-      </div>
-      <div className='card p-3 mt-xl-0 mt-lg-5 mt-5' style={{borderRadius:'none',width:'18rem', color:'#7E7E7F'}}>
-          <div className=''>
-        <h6  style={{color:'#7E7E7F'}}>Order Summary</h6>
-        <div className='line my-3' style={{border:'1px solid #7E7E7F'}}></div>
-        <div className='d-flex flex-column'  style={{color:'#7E7E7F'}}>
-          
-          <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Tax <span className='p-small'>(incl)</span></p> 
-         
-          </div>
-          <div className='d-flex justify-content-between'> <p  style={{color:'#7E7E7F'}}>Total</p> 
-          <p  style={{color:'#7E7E7F'}}>₦{bill.toLocaleString()}</p>
-          </div>
-        
-      </div>
-      <a onClick={handlePurchase} className='btn btn-primary w-100'>Purchase</a>
+              <div className="text-center py-5">
+                {" "}
+                <a
+                  onClick={handleClearCart}
+                  className="btn btn-primary px-5 py-2"
+                >
+                  Clear Cart
+                </a>
+              </div>
+            </div>
+          ) : (
+            <p className="mt-4">Your cart is empty</p>
+          )}
         </div>
       </div>
-      
-      </div>
-      <div className='text-center py-5'> <a onClick={handleClearCart} className='btn btn-primary px-5 py-2'>Clear Cart</a></div>
-      </div>
-       ) : (
-        <p className='mt-4'>Your cart is empty</p>
-       )}
-      </div>
-     
-     
-      </div>
-      <section className='px-lg-2'>
-        <h3 className='my-5 text-center'>You may also like</h3>
-        <div className='px-sm-5 mb-5'>
-        <ProductCarousel shuffledProducts={shuffledProducts} handleProductClick={handleProductClick}/>
+      <section className="px-lg-2">
+        <h3 className="my-5 text-center">You may also like</h3>
+        <div className="px-sm-5 mb-5">
+          <ProductCarousel
+            shuffledProducts={shuffledProducts}
+            handleProductClick={handleProductClick}
+          />
         </div>
       </section>
-      <Footer/>
-      < LoginModal
+      <Footer />
+      <LoginModal
         showModal={showModal}
         isSuccess={isSuccessful}
         closeModal={() => setShowModal(false)}
         modalText={message}
-        
       />
     </>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
