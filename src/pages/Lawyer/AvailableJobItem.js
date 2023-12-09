@@ -119,39 +119,45 @@ const [loading, setLoading] = useState(true);
                        
                     </div>
                     <div className='mt-3'>
-                        <div className='text-center py-4' style={{ borderBottom: '1px solid #CFCFCF' }}>
-                            <h3>Similar Jobs</h3>
-                        </div>
-                       
-
+    {displayedSimilarJobs.length > 1 && (
         <div>
-        {displayedSimilarJobs.map((job) => (
-        <div key={job._id} className='d-flex flex-column gap-3 p-4 '>
-            <div className='action'>
-            <h6 className='' onClick={() => handleJobClick(job?._id)}>{job?.productId?.productName}
-            </h6>
+            <div className='text-center py-4' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                <h3>Similar Jobs</h3>
             </div>
+
             <div>
-              {
-                  job?.productId && (
-                    <p style={{color:'#5F5F5F'}}>
-                {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
-                {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
-                </p>
-                  )
-                }
-                {job?.detail || job?.companyDetail && (
- <p style={{color:'#5F5F5F'}}>
- {job?.detail.split(' ').slice(0, 17).join(' ') || job?.companyDetail.split(' ').slice(0, 17).join(' ')}
- {job?.detail.split(' ').length > 17 ? '...' : '' || job?.companyDetail.split(' ').length > 17 ? '...' : ''}
- </p>
-                )}
+                {displayedSimilarJobs.map((job) => (
+                    <div key={job._id} className='d-flex flex-column gap-3 p-4 '>
+                        <div className='action'>
+                            <h6 className='' onClick={() => handleJobClick(job?._id)}>{job?.productId?.productName}</h6>
+                        </div>
+                        <div>
+                            {job?.productId && (
+                                <p style={{ color: '#5F5F5F' }}>
+                                    {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
+                                    {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
+                                </p>
+                            )}
+                            {(job?.detail || job?.companyDetail) && (
+                                <p style={{ color: '#5F5F5F' }}>
+                                    {((job?.detail || job?.companyDetail)?.split(' ').slice(0, 17).join(' ') || '') +
+                                        (((job?.detail || job?.companyDetail)?.split(' ').length > 17) ? '...' : '')}
+                                </p>
+                            )}
+                            {job?.companyFile && job?.companyFileName && (
+                                <p className='p-small'>
+                                    <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i>&nbsp;
+                                    <a href={job?.companyFile}>{job?.companyFileName}</a>
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
-    ))}
+    )}
 </div>
 
-                    </div>
 
 
                 </div>

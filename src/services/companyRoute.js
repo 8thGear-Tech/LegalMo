@@ -316,8 +316,7 @@ export default () => {
          .get('/job-api/company/pendingjobs')
          .then(async (response) => {
            setLoading(false);
-   
- 
+          
            const job= response.data
            
              setIsSuccessful(true);
@@ -376,7 +375,7 @@ export default () => {
          axios
            .put(`/job-api/company/editjobdetails/${jobId}`, body)
            .then(async (response) => {
-         
+        
              setLoading(false);
      
            
@@ -386,7 +385,7 @@ export default () => {
 
                setJobs((prevJobs) =>
                prevJobs.map((job) =>
-                 job._id === jobId ? { ...job, companyDetail: body.detail, companyFile: body.file } : job
+                 job._id === jobId ? { ...job, companyDetail: body.detail, companyFile: body.file, companyFileName:body.fileName } : job
                )
              );
              

@@ -208,7 +208,7 @@ const navigate= useNavigate();
                   <div className='d-block d-md-flex gap-4 mt-3 mt-md-0'>
                   <div className='d-flex flex-column'>
                     {product?.detail && (<p><span style={{color: '#032773'}}> Details:</span>  {product?.detail || product?.companyDetail}</p>)}
-                    {product?.file && (<a href={product?.file} style={{color: '#032773'}} className='mb-1'>  LegalMo-{product?.companyId?.name}-{product?.productId?.productName}-details.pdf</a>)}
+                    {product?.file && product?.fileName && (<a href={product?.file} style={{color: '#032773'}} className='mb-1'>  L{product?.fileName}</a>)}
                     <p>Your selection is available for immediate purchase</p>
                     <div className='d-flex gap-5'>
                      

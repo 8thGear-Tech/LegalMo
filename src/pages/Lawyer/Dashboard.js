@@ -300,15 +300,12 @@ if(moreDetails === ''){
                     )}
                     <div className='d-flex justify-content-between gap-5 mt-3 align-items-center' style={{maxWidth:'auto'}}>
                       <div>
-                    {selectedJob.companyFile &&  (
+                    {selectedJob.companyFile && selectedJob?.companyFileName && (
                       <div className='d-flex my-2'>
                 <p className='p-small'>
-                   
-                  <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                  <a href={selectedJob?.companyFile}>LegalMo-{selectedJob?.companyId?.companyName || selectedJob?.companyId?.name}-{selectedJob?.productId?.productName}-details.pdf</a>
-               
-                
-               </p>
+                    <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+                    <a href={selectedJob?.companyFile}>{selectedJob?.companyFileName}</a>
+                    </p>
                </div>
               )}
               </div>

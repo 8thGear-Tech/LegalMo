@@ -90,14 +90,15 @@ const openUploadWidget = () => {
 
    
       
-      const handleDeleteClick = () => {
-        
-        
-        setSelectedFileUrl(null);
-      
-       
-       
-      };
+const handleDeleteClick = () => {
+  setSelectedFileUrl(prevUrl => {
+  
+    return null;
+  });
+
+
+};
+
 
      
        
@@ -111,7 +112,7 @@ const handleMoreDetailsShow = (job) => {
   setNewDetails(job?.adminDetail);
   setShowMoreDetailsModal(true);
   setSelectedFileUrl(job?.adminFile);
-
+  setSelectedFile(job?.adminFileName);
 };
 
 
@@ -124,6 +125,7 @@ const handleMoreDetailsSend = () => {
   }
 const jobId= selectedJob?._id
 
+
 const body ={}
 
   if (newDetails !== '' && newDetails !== null && newDetails !== undefined) {
@@ -134,9 +136,13 @@ const body ={}
     body.file = selectedFileUrl;
   }
 
+  if (selectedFile !== '' && selectedFile !== null && selectedFile !== undefined) {
+    body.fileName = selectedFile;
+  }
+
 
   editJobDetail(
-    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFile,selectedJob
+    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFileUrl
    )
 
   setShowMoreDetailsModal(false);
@@ -162,6 +168,7 @@ const handleViewMoreShow = (job) => {
 
   setShowViewMoreModal(true);
   setSelectedFileUrl(job?.adminFile);
+  setSelectedFile(job?.adminFileName);
 };
 
 
@@ -253,7 +260,7 @@ const handleViewMoreShow = (job) => {
                 </div>
                 
                
-      {statusFilter !== 'Completed' && (  // Check the status filter value here
+      {statusFilter !== 'Completed' && ( 
       <div  className='col'>
         <button
           onClick={() => handleMoreDetailsShow(job)}
@@ -368,12 +375,12 @@ const handleViewMoreShow = (job) => {
                     )}
                     <div className='d-flex justify-content-between gap-5 mt-3 align-items-center' style={{maxWidth:'auto'}}>
                       <div>
-                    {selectedFileUrl &&  (
+                    {selectedFileUrl && selectedFile && (
                       <div className='d-flex my-2'>
-                <p className='p-small' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                   {' '}
+                <p className='p-small'>
+                  
                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                  <a href={selectedFileUrl}>LegalMo-{selectedJob?.companyId?.companyName || selectedJob?.companyId?.name}-{selectedJob?.productId?.productName}-details.pdf</a>
+                  <a href={selectedFileUrl}>{selectedFile}</a>
                
                 
                </p>
@@ -463,27 +470,28 @@ const handleViewMoreShow = (job) => {
          <div className='d-flex flex-column mt-5'>
            <div>
             
-           {!selectedFileUrl && (
-        <button
-          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
-          onClick={openUploadWidget}
-          style={{ width: '250px' }}
-        >
-          Upload Document <i className="bi bi-cloud-upload"></i>
-        </button>
-      )}
-             {selectedFileUrl && (
-               <div className='d-flex my-2' style={{flexWrap:'wrap' }}>
-                 <p className='p-small' style={{ }}>
-                   
-                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   <a href={selectedFileUrl}>LegalMo-{selectedJob?.companyId?.companyName || selectedJob?.companyId?.name}-{selectedJob?.productId?.productName}-details.pdf</a>
-                   <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
-                     <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
-                   </button>
-                 </p>
-               </div>
-             )}
+           {(!selectedFileUrl || !selectedFile) && (
+  <button
+    className="d-flex gap-2 btn btn-outline-primary justify-content-center"
+    onClick={openUploadWidget}
+    style={{ width: '250px' }}
+  >
+    Upload Document <i className="bi bi-cloud-upload"></i>
+  </button>
+)}
+
+{(selectedFileUrl && selectedFile) && (
+  <div className='d-flex my-2' style={{ flexWrap: 'wrap' }}>
+    <p className='p-small'>
+      <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+      <a href={selectedFileUrl}>{selectedFile}</a>
+      <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
+        <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
+      </button>
+    </p>
+  </div>
+)}
+
            </div>
            <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleMoreDetailsSend}>
              Send

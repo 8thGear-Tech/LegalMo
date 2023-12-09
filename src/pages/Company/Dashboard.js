@@ -147,7 +147,11 @@ const [newDetails, setNewDetails] = useState('');
       const handleDeleteClick = () => {
         
        
-        setSelectedFileUrl(null);
+        setSelectedFileUrl(prevUrl => {
+        
+          return null;
+        });
+
         
        
       };
@@ -157,6 +161,7 @@ const [newDetails, setNewDetails] = useState('');
   setNewDetails(job?.companyDetail);
   setShowMoreDetailsModal(true);
   setSelectedFileUrl(job?.companyFile);
+  setSelectedFile(job?.companyFileName);
       };
        
 
@@ -190,6 +195,9 @@ const handleMoreDetailsSend = () => {
       body.file = selectedFileUrl;
     }
    
+    if (selectedFile !== '' && selectedFile !== null && selectedFile !== undefined) {
+      body.fileName = selectedFile;
+    }
 
     editJobDetail(
       body, setMessage, setLoading, setIsSuccessful, jobId, setJobs
@@ -309,27 +317,27 @@ if (loading) {
          <div className='d-flex flex-column mt-4'>
            <div>
             
-           {!selectedFileUrl && (
-        <button
-          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
-          onClick={openUploadWidget}
-          style={{ width: '250px' }}
-        >
-          Upload Document <i className="bi bi-cloud-upload"></i>
-        </button>
-      )}
-             {selectedFileUrl && (
-               <div className='d-flex my-2'>
-                 <p className='p-small' style={{ }}>
-                   
-                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   <a href={selectedFileUrl}>LegalMo-{selectedJob?.companyId?.companyName}-{selectedJob?.productId?.productName}-details.pdf</a>
-                   <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
-                     <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
-                   </button>
-                 </p>
-               </div>
-             )}
+           {(!selectedFileUrl || !selectedFile) && (
+  <button
+    className="d-flex gap-2 btn btn-outline-primary justify-content-center"
+    onClick={openUploadWidget}
+    style={{ width: '250px' }}
+  >
+    Upload Document <i className="bi bi-cloud-upload"></i>
+  </button>
+)}
+
+{(selectedFileUrl && selectedFile) && (
+  <div className='d-flex my-2' style={{ flexWrap: 'wrap' }}>
+    <p className='p-small'>
+      <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+      <a href={selectedFileUrl}>{selectedFile}</a>
+      <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
+        <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
+      </button>
+    </p>
+  </div>
+)}
            </div>
            <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleMoreDetailsSend}>
              Send

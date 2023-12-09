@@ -391,6 +391,7 @@ if (accountDetails && accountDetails.length > 0) {
   
           const jobsData= response?.data
           const availableJobs = jobsData.filter(job => job.assignedTo.length === 0 && job.status === 'unassigned');
+       
 
       if (statusFilter === 'Best fit') {
         setJobs(availableJobs);
@@ -403,6 +404,7 @@ if (accountDetails && accountDetails.length > 0) {
       }
       else{
         setJobs(availableJobs)
+        
       }
           
         })

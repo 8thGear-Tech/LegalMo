@@ -473,38 +473,12 @@ const openUploadWidget = () => {
   }
 };
 
-const handleUploadClick = () => {
-  fileInputRef.current.click();
-};
-
-
-const handleFileChange = (e) => {
-  const newSelectedFile = e.target.files[0];
-
-  if (newSelectedFile) {
-  
-    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-    if (newSelectedFile.size <= maxSizeInBytes) {
-    
-      setSelectedFile(newSelectedFile);
-    } else {
-      alert('File size exceeds the limit of 5MB. Please choose a smaller file.');
-    
-      e.target.value = null;
-      
-      setSelectedFile(null);
-    }
-  } else {
-  
-    setSelectedFile(null);
-  }
-};
 
 const handleDeleteClick = () => {
   
 
   setSelectedFileUrl(null);
-      
+  setSelectedFile(null);
 
 
 };
@@ -526,6 +500,10 @@ const handleReserve= ()=> {
         body.file = selectedFileUrl;
       }
   
+      if (selectedFile !== '' && selectedFile !== null && selectedFile !== undefined) {
+        body.fileName = selectedFile;
+      }
+    
   
   createCart(
     body, 
@@ -654,7 +632,7 @@ if (loading) {
                  <p className='p-small' style={{ }}>
                    
                    <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   <a href={selectedFileUrl}>LegalMo-{product?.productName}-details.pdf</a>
+                   <a href={selectedFileUrl}>{selectedFile}</a>
                    <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
                      <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
                    </button>

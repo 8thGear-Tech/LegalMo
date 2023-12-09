@@ -161,6 +161,7 @@ export default () => {
       
             setLoading(false);
             const gotResponse = response?.data;
+            
            
 
  setMessage("You have successfully gotten all pending jobs ");
@@ -338,10 +339,9 @@ export default () => {
   };
 
   const editJobDetail = (
-    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFile,job
+    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs
    )=> {
-    
-   
+  
      setLoading(true);
    
      http().then((axios) => {
@@ -349,6 +349,7 @@ export default () => {
          .put(`/job-api/editjobdetails/${jobId}`, body)
          .then(async (response) => {
            setLoading(false);
+          
    
          
              setMessage("Edited successfully");
@@ -356,13 +357,11 @@ export default () => {
              setIsSuccessful(true);
            
              setJobs((prevJobs) =>
-            prevJobs.map((job) =>
-              job._id === jobId ? { ...job, detail: body.detail, uploadedFile: body.file } : job
-            )
-          );
+             prevJobs.map((job) =>
+               job._id === jobId ? { ...job, adminDetail: body.detail, adminFile: body.file, adminFileName:body.fileName } : job
+             )
+           );
 
-          if(job._id == jobId){  setSelectedFile(body.file);
-          }
 
          
          })
