@@ -183,7 +183,7 @@ const [loading, setLoading] = useState(true);
 </div>
 
 
-                            <Link to='/lawyer/profile' className='text-decoration-none action ' style={{ color:'#545454'}}>
+                            <Link to='/lawyer/profile' className='text-decoration-none action' style={{ color:'#545454'}}>
                                 <p>Complete Profile</p></Link>
                             </div>
                         </div>

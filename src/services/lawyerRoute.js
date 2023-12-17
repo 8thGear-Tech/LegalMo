@@ -505,8 +505,8 @@ if (accountDetails && accountDetails.length > 0) {
          .catch((e) => {
            setIsSuccessful(false);
            setLoading(false);
-           setShowModal(true)
-           
+           setShowModal(true);
+           setMessage("Unverified lawyers cannot apply for a job. Kindly contact LegalMo for further enquiry on verification process");
            error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
          });
      });
@@ -526,6 +526,7 @@ if (accountDetails && accountDetails.length > 0) {
         .then(async (response) => {
           setLoading(false);
           const job= response.data
+          console.log(job,'my pending jobs');
        
 
             setIsSuccessful(true);

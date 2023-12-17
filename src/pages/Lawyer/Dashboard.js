@@ -95,8 +95,15 @@ if(moreDetails === ''){
 
 
     const renderPendingNotifications = () => {
+      // const pendingJobsWithDetails = jobs.filter(
+      //   job => job.status === 'pending' && (job.companyDetail || job.companyFile || job.adminDetail || job.adminFile)
+      // );
+
       const pendingJobsWithDetails = jobs.filter(
-        job => job.status === 'pending' && (job.companyDetail || job.companyFile)
+        job => job.status === 'pending' && (
+          (job.companyDetail || job.companyFile || job.companyFileName) || 
+          (job.adminDetail || job.adminFile || job.adminFileName)
+        )
       );
   
       // Sort pending jobs by updatedAt in descending order
@@ -226,36 +233,7 @@ if(moreDetails === ''){
         </div>
 
         {renderPendingNotifications()}
-        {/* {jobs?.map((job) => {
-  if (job?.status === 'pending' && (job?.companyDetail || job?.companyFile)) {
-    return (
-      <div className='card px-sm-5 py-5 px-3 gap-5 my-5' key={job?._id}>
-        <h4 className='text-center'>Notifications</h4>
-        <div className='d-block d-md-flex gap-5 align-items-center'>
-          <div className='d-flex flex-column gap-3'>
-            <h6>{job?.productId?.productName}</h6>
-            <p style={{ color: '#5F5F5F' }}>
-              {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
-              {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
-            </p>
-          </div>
-          <div>
-            <button
-              type='submit'
-              className='btn btn-outline-primary'
-              style={{ width: '180px' }}
-              onClick={() => handleViewMoreShow(job)}
-            >
-              View more details
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return null; // Return null for jobs that don't meet the conditions
-})} */}
-
+      
        </div>
      
       <Footer/>
@@ -286,28 +264,28 @@ if(moreDetails === ''){
                   </h6>
       
                   <div className='form-group gap-2 mt-5'>
-                  {selectedJob.companyDetail && (
+                  {selectedJob.companyDetail || selectedJob.adminDetail && (
                       <div>
                       <h6 name='exampleFormControlTextarea1' className='form-label'>
                         Details
                       </h6>
                       <div className='card p-3'>
                       
-                          <p>{selectedJob.companyDetail}</p>
+                          <p>{selectedJob.companyDetail || selectedJob.adminDetail}</p>
                        
                       </div>
                       </div>
                     )}
                     <div className='d-flex justify-content-between gap-5 mt-3 align-items-center' style={{maxWidth:'auto'}}>
                       <div>
-                    {selectedJob.companyFile && selectedJob?.companyFileName && (
+                    {(selectedJob?.companyFile && selectedJob?.companyFileName) || (selectedJob?.adminFile && selectedJob?.adminFileName) ? (
                       <div className='d-flex my-2'>
                 <p className='p-small'>
                     <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                    <a href={selectedJob?.companyFile}>{selectedJob?.companyFileName}</a>
+                    <a href={selectedJob?.companyFile || selectedJob?.adminFile}>{selectedJob?.companyFileName || selectedJob.adminFileName}</a>
                     </p>
-               </div>
-              )}
+               </div> ): null }
+               
               </div>
           
                     </div>

@@ -42,13 +42,13 @@ const login = (
             
             setTimeout(() => {
               const userType = gotResponse?.data?.user?.userType;
-
+              const userId= gotResponse?.data?.user?._id;
               if (userType === 'admin') {
                 navigate('/admin/dashboard');
               } else if (userType === 'company') {
-                navigate('/company/dashboard');
+                navigate('/products');
               } else if (userType === 'lawyer') {
-                navigate('/lawyer/dashboard');
+                navigate(`/lawyer/available-jobs/${userId}`);
               } else {
                
                 setMessage('Unknown user type');

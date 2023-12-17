@@ -405,7 +405,7 @@ const handleViewMoreShow = (job) => {
                     </div>
                   </div>
                   {statusFilter === 'Pending' && (
-    <div className='form-check justify-content-center text-center mt-5'>
+    <div className='form-check mt-5'>
       <input
         className='form-check-input'
         type='checkbox'
