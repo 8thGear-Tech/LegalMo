@@ -551,16 +551,22 @@ const Landing = () => {
                   aria-label="Basic example"
                   className="btn-group position-absolute landing-contact-btn"
                 >
-                  <button type="button" className="btn btn-primary">
+                  {/* <button type="button" className="btn btn-primary">
                     Send an Email
-                  </button>
+                  </button> */}
+                  <a href="mailto:info@legalmo.biz" className="btn btn-primary">
+                    Send an Email
+                  </a>
                   <div
                     className="my-2"
                     style={{ borderLeft: "1px solid white" }}
                   ></div>
-                  <button type="button" className="btn btn-primary">
+                  {/* <button type="button" className="btn btn-primary">
                     Speak to an Agent
-                  </button>
+                  </button> */}
+                  <a href="tel:+2348094818884" className="btn btn-primary">
+                    Speak to an Agent
+                  </a>
                 </div>
               )}
             </div>
