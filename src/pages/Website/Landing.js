@@ -98,19 +98,16 @@ const Landing = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-
-    const userType = localStorage.getItem('userType');
-    const token = localStorage.getItem('userToken');
-    if (userType && token)  {
-      
+    const userType = localStorage.getItem("userType");
+    const token = localStorage.getItem("userToken");
+    if (userType && token) {
       setIsLoggedIn(true);
     } else {
- 
       setIsLoggedIn(false);
     }
 
     setIsLoading(false);
-  }, []);  
+  }, []);
 
   const toggleContactButtons = () => {
     setShowContactButtons(!showContactButtons);
@@ -120,20 +117,23 @@ const Landing = () => {
     setSelectedButton(buttonIndex);
   };
 
-
-  if (isLoading){
-    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'300px'}}>
-   <div className="spinner-border text-secondary" role="status">
-    <span className="visually-hidden">Loading...</span>
-  </div>
-        </div>; 
+  if (isLoading) {
+    return (
+      <div
+        className="justify-content-center align-items-center text-center"
+        style={{ paddingTop: "300px" }}
+      >
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
-  
+
   return (
-    
     <>
       {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
-     
+
       <div>
         <div className="card" style={{ border: "none", borderRadius: "0" }}>
           <img
@@ -143,14 +143,21 @@ const Landing = () => {
             style={{ minHeight: "400px" }}
           />
           <div className="card-img-overlay landing-hero-card my-lg-5 my-md-0 my-3 py-xl-5 px-3 ps-lg-5 ms-md-2">
-            <h1 className="card-title mb-lg-4 mb-3 mt-xxl-5 pt-xl-5 pt-lg-0 pt-sm-3" style={{color:'#021a4d', lineHeight:'74px'}}>
+            <h1
+              className="card-title mb-lg-4 mb-3 mt-xxl-5 pt-xl-5 pt-lg-0 pt-sm-3"
+              style={{ color: "#021a4d", lineHeight: "74px" }}
+            >
               Give Your Business
               <br />
               Adequate Legal Health Cover
             </h1>
             <h6
               className="card-text mb-lg-4 mb-3"
-              style={{ maxWidth: "37rem", lineHeight:'28px', fontWeight:'500' }}
+              style={{
+                maxWidth: "37rem",
+                lineHeight: "28px",
+                fontWeight: "500",
+              }}
             >
               We provide easy access to legal services tailored for your
               business needs.
@@ -158,7 +165,7 @@ const Landing = () => {
             <a href="#" className="btn btn-primary mb-lg-4 mb-3">
               Learn More
             </a>
-            <p className="card-text-small"  style={{  lineHeight:'23px' }}>
+            <p className="card-text-small" style={{ lineHeight: "23px" }}>
               Start protecting your business today
             </p>
           </div>
@@ -166,7 +173,9 @@ const Landing = () => {
         <div className="container-fluid p-md-5 p-2 my-5">
           <section className="services-section">
             <div className="text-center mb-5">
-              <h3 className="mb-4" style={{lineHeight:'48px'}}>Our Services</h3>
+              <h3 className="mb-4" style={{ lineHeight: "48px" }}>
+                Our Services
+              </h3>
               <h6 className="pb-4">Explore our wide range of legal services</h6>
             </div>
             <div className="row  mb-5 px-xl-5 px-lg-0 p-md-0 px-4">
@@ -185,7 +194,11 @@ const Landing = () => {
                       <div className="card-body">
                         <h6
                           className="mb-3"
-                          style={{ fontWeight: "600", color: "#5F5F5F", lineHeight:'28px'}}
+                          style={{
+                            fontWeight: "600",
+                            color: "#5F5F5F",
+                            lineHeight: "28px",
+                          }}
                         >
                           Contract Law
                         </h6>
@@ -210,7 +223,11 @@ const Landing = () => {
                       <div className="card-body">
                         <h6
                           className="mb-3"
-                          style={{ fontWeight: "600", color: "#5F5F5F", lineHeight:'28px' }}
+                          style={{
+                            fontWeight: "600",
+                            color: "#5F5F5F",
+                            lineHeight: "28px",
+                          }}
                         >
                           Intellectual Property
                         </h6>
@@ -235,7 +252,11 @@ const Landing = () => {
                       <div className="card-body">
                         <h6
                           className="mb-3"
-                          style={{ fontWeight: "600", color: "#5F5F5F", lineHeight:'28px' }}
+                          style={{
+                            fontWeight: "600",
+                            color: "#5F5F5F",
+                            lineHeight: "28px",
+                          }}
                         >
                           Employment Law
                         </h6>
@@ -382,7 +403,9 @@ const Landing = () => {
           <section className="py-5 px-xxl-5 px-md-0 px-4 works-section">
             <div className="row gap-4">
               <div className="col-12 col-lg-4">
-                <h2 className="mb-4" style={{fontWeight:'500'}}>How it Works</h2>
+                <h2 className="mb-4" style={{ fontWeight: "500" }}>
+                  How it Works
+                </h2>
                 <h5>
                   Understand how to easily navigate through our site in order to
                   get the best service.
@@ -436,15 +459,12 @@ const Landing = () => {
                         const { id, action, detail } = select;
                         return (
                           <div key={id}>
-                            <div
-                              className="row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4"
-                              
-                            >
+                            <div className="row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4">
                               <div className="col-sm-7 col-4  d-flex align-items-center">
                                 <h4> {action}</h4>
                               </div>
                               <div className="col">
-                                <p style={{color:'#545454'}}>{detail}</p>
+                                <p style={{ color: "#545454" }}>{detail}</p>
                               </div>
                             </div>
                             <div className="line"></div>
@@ -459,15 +479,12 @@ const Landing = () => {
                         const { id, action, detail } = select;
                         return (
                           <div key={id}>
-                            <div
-                              className="row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4"
-                              
-                            >
+                            <div className="row gap-sm-4 gap-3 px-sm-4 px-2 py-4 py-sm-4">
                               <div className="col-sm-7 col-4  d-flex align-items-center">
                                 <h4> {action}</h4>
                               </div>
                               <div className="col">
-                                <p style={{color:'#545454'}}>{detail}</p>
+                                <p style={{ color: "#545454" }}>{detail}</p>
                               </div>
                             </div>
                             <div className="line"></div>
@@ -490,7 +507,7 @@ const Landing = () => {
                                 <h4> {action}</h4>
                               </div>
                               <div className="col">
-                                <p style={{color:'#545454'}}>{detail}</p>
+                                <p style={{ color: "#545454" }}>{detail}</p>
                               </div>
                             </div>
                             <div className="line"></div>
@@ -515,10 +532,12 @@ const Landing = () => {
             style={{ minHeight: "350px" }}
           />
           <div className="card-img-overlay text-align-center text-center justify-content-center py-5">
-          <h2 className="text-white mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3">
+            <h2 className="text-white mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3">
               Ready to protect your business?
             </h2>
-            <p className="card-text mb-5 text-white">Get in touch with us today</p>
+            <p className="card-text mb-5 text-white">
+              Get in touch with us today
+            </p>
             <div className="position-relative">
               <a
                 onClick={toggleContactButtons}
