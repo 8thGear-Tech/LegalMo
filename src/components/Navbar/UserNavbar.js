@@ -66,7 +66,7 @@ const UserNavbar = () => {
     <>
       <nav className="navbar navbar-expand-lg guest-navbar navbar-special">
         <div className="container-fluid px-md-5 px-3 justify-content-between ">
-          <Link className="navbar-brand" to="/home">
+          <Link className="navbar-brand" to="/">
             <img src={legalMoLogo} alt="legalMoLogo" />
           </Link>
           <button
@@ -83,11 +83,7 @@ const UserNavbar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-2 gap-lg-3 short-links">
               <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  to="/home"
-                  activeclassname="active"
-                >
+                <NavLink className="nav-link" to="/" activeclassname="active">
                   Home
                 </NavLink>
               </li>

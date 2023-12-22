@@ -53,7 +53,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const authenticatedToken = localStorage.getItem("userToken");
 
   if (authenticatedUserRole === null) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
 
   if (

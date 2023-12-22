@@ -39,7 +39,7 @@ const GuestNavbar = () => {
     <>
       <nav className={`navbar navbar-expand-lg guest-navbar ${navbarClass}`}>
         <div className="container-fluid px-md-5 px-3 justify-content-between ">
-          <Link className="navbar-brand" to="/home">
+          <Link className="navbar-brand" to="/">
             <img src={legalMoLogo} alt="legalMoLogo" />
           </Link>
           <button
