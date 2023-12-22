@@ -710,7 +710,7 @@ export const TermsModal = ({ showTermsModal, closeTermsModal }) => {
               <div>
                 <p style={{ fontSize: "10px" }}>
                   We provide Startups and SMEs access to affordable legal
-                  services You can contact us by phone at 08137686118, email at
+                  services You can contact us by phone at 08094818884, email at
                   Legalmoplatform@gmail.com, or by mail to No 41, CMD Road,
                   Magodo, Lagos State 100248, Nigeria.{" "}
                 </p>

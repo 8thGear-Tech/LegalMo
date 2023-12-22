@@ -289,6 +289,15 @@ function App() {
           }
         />
       </Routes>
+      {/* WhatsApp icon */}
+      <a
+        href="https://wa.me/2348094818884"
+        class="whatsapp_float"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="bi bi-whatsapp whatsapp-icon"></i>
+      </a>
     </BrowserRouter>
   );
 }

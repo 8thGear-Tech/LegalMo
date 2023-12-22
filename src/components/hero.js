@@ -27,18 +27,18 @@ export const HomeHero = () => {
             <div className="">
               <div className="d-flex justify-content-center mt-5 pt-5">
                 <a
-                  href="mailto:bukola@legalmo.biz"
+                  href="mailto:info@legalmo.biz"
                   className="text-decoration-none"
                 >
                   <p className="paragraphColor mx-3 textShow m-0 p-1">
-                    bukola@legalmo.biz
+                    info@legalmo.biz
                   </p>
                 </a>
               </div>{" "}
               <div className="d-flex justify-content-center">
-                <a href="tel:2348137686118" className="text-decoration-none">
+                <a href="tel:2348094818884" className="text-decoration-none">
                   <p className="paragraphColor mx-3 textShow m-0 p-1">
-                    +2348137686118
+                    +2348094818884
                   </p>
                 </a>
               </div>
