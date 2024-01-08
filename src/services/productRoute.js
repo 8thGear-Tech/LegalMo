@@ -173,8 +173,67 @@ export default () => {
         
     });
   };
+
+  const updateProduct = (
+    productId, body, setMessage, setLoading, setIsSuccessful, setShowModal
+   
+  ) => {
+    
+
+    setLoading(true);
+    const form = new FormData();
+    form.append('productName', body.productName)
+    form.append('productPrice', body.productPrice)
+    form.append('productDescription', body.productDescription)
+    form.append('productImage', body.productImage)
+
+    console.log('form', form)
+  const token= localStorage.getItem('userToken')
+
+    http().then((axios) => {
+      axios
+        .put(`/api/update/${productId}`, form,{
+        headers: {
+          Accept: 'application/json',
+          ...(token && {
+            Authorization: `Bearer ${token}`,
+          }),
+          "Content-Type": "multipart/form-data", 
+        },
+      })
+        .then(async (response) => {
+      
+            setLoading(false);
+            console.log('response', response)
+            const gotResponse =  response?.data;
+            console.log('gotresponse', gotResponse)
+
+ setMessage(" Product Updated");
+
+ setIsSuccessful(true);
+ setShowModal(true);
+ setTimeout(() => {
+  setIsSuccessful(false);
+
+  setShowModal(false);
+ 
+  navigate('/products')
+  
+}, 2000);
+    
+        })
+        .catch((e) => {
+       
+        setIsSuccessful(false);
+        setLoading(false);
+        setShowModal(true);
+        error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+        });
+        
+    });
+  };
   return {
    
-getProducts, createProduct, deleteProduct, getOneProduct
+getProducts, createProduct, deleteProduct, getOneProduct, updateProduct
     };
 };

@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import companyImage from './assets/images/adminprofile-lg.svg'
 import lawyerImage from './assets/images/lawyer-image.svg'
 
-// import { ProductItem } from "./pages/Company/ProductItem";
+
 import { jobLists } from './pages/Admin/JobLists';
 import productRoute from './services/productRoute';
 

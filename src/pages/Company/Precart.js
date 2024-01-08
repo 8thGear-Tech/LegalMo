@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CompanyDetailsForm } from '../../components/Forms/Company'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { ProductItem } from './ProductItem';
+
 import GuestNavbar from '../../components/Navbar/GuestNavbar';
 import UserNavbar from '../../components/Navbar/UserNavbar';
 import Footer from '../../components/Footer'

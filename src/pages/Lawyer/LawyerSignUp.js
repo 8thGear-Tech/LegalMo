@@ -24,12 +24,12 @@ const LawyerSignUp = () => {
     { name: 'firstName', label: 'Name', type: 'text', required: true },
     { name: 'phoneNumber', label: 'Phone Number', type: 'number', required: true },
     { name: 'email', label: 'Official Email Address', type: 'email', required: true },
-    { name: 'firmName', label: 'Name of Firm', type: 'text', required: true },
-    { name: 'address', label: 'Address of Law Firm', type: 'text', required: true },
+    { name: 'firmName', label: 'Name of Firm', type: 'text', required: false },
+    { name: 'lawFirmAddress', label: 'Address of Law Firm', type: 'text', required: false },
   ];
   
   const nextLawyerFields = [
-    { name: 'sceNumber', label: 'Supreme Court Enrollment Number (SCN)', type: 'text', required: true },
+    { name: 'scnNumber', label: 'Supreme Court Enrollment Number (SCN)', type: 'text', required: true },
     { name: 'cacNumber', label: 'CAC Accreditation Number', type: 'text', required: false },
  
     { name: 'password', label: 'Password', type: 'password', required: true },
@@ -92,8 +92,8 @@ const LawyerSignUp = () => {
  phoneNumber: formData.phoneNumber,
  officialEmail: formData.email,
  lawFirmName: formData.firmName,
- lawFirmAddress: formData.address,
- scn: formData.sceNumber,
+ lawFirmAddress: formData.lawFirmAddress,
+ scn: formData.scnNumber,
  cac: formData.cacNumber,
  password: formData.password,
  passwordConfirm: formData.confirmPassword,

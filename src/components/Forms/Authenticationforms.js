@@ -80,15 +80,32 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
     setFormData(initialData || {});
   }, [initialData]);
 
+  // useEffect(() => {
+  //   const isComplete =
+  //     fields.every((field) => field.name === 'cacNumber' || !!formData[field.name]) &&
+  //     (!hasPasswordFields ||
+  //       (formData.password === formData.confirmPassword && checkPasswordStrength(formData.password))) &&
+  //     (!hasPhoneNumberField || (!formData.phoneNumber || formData.phoneNumber.length === 11));
+  
+  //   setIsFormComplete(isComplete);
+  // }, [formData, fields, hasPasswordFields, hasPhoneNumberField]);
+
   useEffect(() => {
     const isComplete =
-      fields.every((field) => field.name === 'cacNumber' || !!formData[field.name]) &&
+      fields
+        .filter(
+          (field) =>
+            !['cacNumber', 'firmName', 'lawFirmAddress'].includes(field.name) // Exclude non-required fields
+        )
+        .every((field) => !!formData[field.name]) && // Check for completion excluding non-required fields
       (!hasPasswordFields ||
-        (formData.password === formData.confirmPassword && checkPasswordStrength(formData.password))) &&
+        (formData.password === formData.confirmPassword &&
+          checkPasswordStrength(formData.password))) &&
       (!hasPhoneNumberField || (!formData.phoneNumber || formData.phoneNumber.length === 11));
   
     setIsFormComplete(isComplete);
   }, [formData, fields, hasPasswordFields, hasPhoneNumberField]);
+  
   
 
   
@@ -131,12 +148,25 @@ export function SignUpForm({ formTitle, fields, onSubmit, submitButtonLabel, ini
   const handleNext = (e) => {
     e.preventDefault();
     const validationErrors = {};
-    fields.forEach((field) => {
+    // fields.forEach((field) => {
    
-      if (field.required && field.name !== 'cacNumber' && !formData[field.name]) {
+    //   if (field.required && field.name !== 'cacNumber' && !formData[field.name]) {
+    //     validationErrors[field.name] = `Please enter your ${field.label}`;
+    //   }
+    // });
+
+    fields.forEach((field) => {
+      if (
+        field.required &&
+        field.name !== 'cacNumber' &&
+        field.name !== 'firmName' && // Exclude 'firmName'
+        field.name !== 'lawFirmAddress' && // Exclude 'lawFirmAddress'
+        !formData[field.name]
+      ) {
         validationErrors[field.name] = `Please enter your ${field.label}`;
       }
     });
+    
   
 
     if (hasPasswordFields) {
