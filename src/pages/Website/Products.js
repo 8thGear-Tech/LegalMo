@@ -212,9 +212,9 @@ const [editedProduct, setEditedProduct] = useState(null);
 
   const handleUpdate = (product) => {
   
-    console.log('Edited Product:', product);
+  
     const productId = product._id;
-    console.log(productId, 'productid')
+  
     const body = {
       productName:product.productName,
     productPrice: product.productPrice,
@@ -222,8 +222,6 @@ const [editedProduct, setEditedProduct] = useState(null);
    productImage:product.productImage,
      }
 
-
-     console.log('Edited Product Body:', body);
 
      updateProduct(
       productId, body, setMessage, setLoading, setIsSuccessful, setShowModal

@@ -95,9 +95,7 @@ if(moreDetails === ''){
 
 
     const renderPendingNotifications = () => {
-      // const pendingJobsWithDetails = jobs.filter(
-      //   job => job.status === 'pending' && (job.companyDetail || job.companyFile || job.adminDetail || job.adminFile)
-      // );
+      
 
       const pendingJobsWithDetails = jobs.filter(
         job => job.status === 'pending' && (

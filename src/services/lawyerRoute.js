@@ -526,8 +526,6 @@ if (accountDetails && accountDetails.length > 0) {
         .then(async (response) => {
           setLoading(false);
           const job= response.data
-          console.log(job,'my pending jobs');
-       
 
             setIsSuccessful(true);
            

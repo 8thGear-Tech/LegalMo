@@ -10,8 +10,7 @@ import lawyerRoute from '../../services/lawyerRoute';
 
 const AvailableJobItem = () => {
     const { jobId } = useParams();
-    // const [moreDetails, setMoreDetails] = useState('')
-
+  
 const navigate = useNavigate()
 const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');

@@ -24,7 +24,6 @@ export default () => {
       axios
         .get('/product-api/products')
         .then(async (response) => {
-      
             setLoading(false);
             const gotResponse =  response?.data?.products;
 
@@ -72,7 +71,6 @@ export default () => {
         },
       })
         .then(async (response) => {
-      
             setLoading(false);
             const gotResponse =  response?.data;
 
@@ -187,7 +185,6 @@ export default () => {
     form.append('productDescription', body.productDescription)
     form.append('productImage', body.productImage)
 
-    console.log('form', form)
   const token= localStorage.getItem('userToken')
 
     http().then((axios) => {
@@ -204,9 +201,9 @@ export default () => {
         .then(async (response) => {
       
             setLoading(false);
-            console.log('response', response)
+            
             const gotResponse =  response?.data;
-            console.log('gotresponse', gotResponse)
+           
 
  setMessage(" Product Updated");
 

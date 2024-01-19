@@ -37,7 +37,7 @@ function Login() {
 
   useEffect(()=>{
     if(token?.length > 0){
-      console.log(token,"token");
+     
       setMessage('Email verified. You can now login')
       setShowModal(true)
       setTimeout(() => {

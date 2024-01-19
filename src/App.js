@@ -40,17 +40,6 @@ import ResendConfirm from "./pages/Website/ResendConfirm";
 import { useState, useEffect } from "react";
 
 
-
-
-// const ProtectedRoute = ({ children }) => {
-
-//   const authenticatedToken = localStorage.getItem("userToken");
-
-//   return authenticatedToken ? children : <Navigate to="/login" />;
-// };
-const authenticatedUserRole = localStorage.getItem('userType');
-const authenticatedToken = localStorage.getItem("userToken");
-
 const ProtectedRoute = ({ children, allowedRoles }) => {
  
 
