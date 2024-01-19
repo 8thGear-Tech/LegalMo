@@ -204,7 +204,9 @@ function App() {
           <Route path="/admin/get-paid" element={<ProtectedRoute allowedRoles={['admin']}>
             <GetPaidAdmin/>
           </ProtectedRoute>} />
-          
+
+          {/* * */}
+          <Route path="*" element={<Navigate to="/home" />} />    
       </Routes>
     </BrowserRouter>
   );
