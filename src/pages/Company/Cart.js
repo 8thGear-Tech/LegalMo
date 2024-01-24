@@ -137,24 +137,41 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
+  // const handlePurchase = async () => {
+  //   try {
+  //     if (userType === "company") {
+  //       const response = await checkout(); // Call your backend API to initiate the payment
+  //       if (response.status === 201) {
+  //         // Redirect the user to the payment link
+  //         window.location.href = response.data.link;
+  //       } else {
+  //         // Handle error, show a message, etc.
+  //         console.error("Failed to initiate payment");
+  //       }
+  //     } else {
+  //       localStorage.removeItem("reservedItems");
+  //       navigate("/signup/asacompany");
+  //     }
+  //   } catch (error) {
+  //     // Handle errors from the API call
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   const handlePurchase = async () => {
-    try {
-      if (userType === "company") {
-        const response = await checkout(); // Call your backend API to initiate the payment
-        if (response.status === 201) {
-          // Redirect the user to the payment link
-          window.location.href = response.data.link;
-        } else {
-          // Handle error, show a message, etc.
-          console.error("Failed to initiate payment");
-        }
-      } else {
-        localStorage.removeItem("reservedItems");
-        navigate("/signup/asacompany");
+    if (userType === "company") {
+      try {
+        // Call your checkout function to initiate payment
+        await checkout();
+
+        // Note: The checkout function should handle the redirection to the Flutterwave payment page
+      } catch (error) {
+        console.error("Error initiating payment:", error);
+        // Handle error, show an alert, or redirect to an error page
       }
-    } catch (error) {
-      // Handle errors from the API call
-      console.error("Error:", error);
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
     }
   };
 
