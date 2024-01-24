@@ -184,7 +184,7 @@ const Cart = () => {
           setIsSuccessful,
           setShowModal
         );
-        const { paymentLink } = response.data.link;
+        const { paymentLink } = response.data.data.link;
 
         // Redirect to the payment link
         window.location.href = paymentLink;
