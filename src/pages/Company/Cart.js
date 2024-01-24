@@ -129,14 +129,14 @@ const Cart = () => {
     }
   };
 
-  // const handlePurchase = () => {
-  //   if (userType === "company") {
-  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
+  const handlePurchase = () => {
+    if (userType === "company") {
+      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
   // const handlePurchase = async () => {
   //   try {
   //     if (userType === "company") {
@@ -158,22 +158,22 @@ const Cart = () => {
   //   }
   // };
 
-  const handlePurchase = async () => {
-    if (userType === "company") {
-      try {
-        // Call your checkout function to initiate payment
-        await checkout();
+  // const handlePurchase = async () => {
+  //   if (userType === "company") {
+  //     try {
+  //       // Call your checkout function to initiate payment
+  //       await checkout();
 
-        // Note: The checkout function should handle the redirection to the Flutterwave payment page
-      } catch (error) {
-        console.error("Error initiating payment:", error);
-        // Handle error, show an alert, or redirect to an error page
-      }
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-  };
+  //       // Note: The checkout function should handle the redirection to the Flutterwave payment page
+  //     } catch (error) {
+  //       console.error("Error initiating payment:", error);
+  //       // Handle error, show an alert, or redirect to an error page
+  //     }
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
 
   const handleProductClick = (productId) => {
     getOneProduct(
