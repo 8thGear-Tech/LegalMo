@@ -184,13 +184,19 @@ const Cart = () => {
           setIsSuccessful,
           setShowModal
         );
-        const { paymentLink } = response.data.data.link;
 
-        // Redirect to the payment link
-        window.location.href = paymentLink;
+        if (response && response.paymentLink) {
+          const paymentLink = response.paymentLink;
+
+          // Redirect to the payment link
+          window.location.href = paymentLink;
+        } else {
+          console.error("Invalid response structure:", response);
+          // Handle the case where the response structure is not as expected
+        }
       } catch (error) {
-        console.error(error);
-        // Handle error appropriately
+        console.error("Error during purchase:", error);
+        // Handle other errors during the purchase process
       }
     } else {
       localStorage.removeItem("reservedItems");
