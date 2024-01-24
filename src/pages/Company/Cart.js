@@ -129,14 +129,14 @@ const Cart = () => {
     }
   };
 
-  const handlePurchase = () => {
-    if (userType === "company") {
-      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-  };
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
   // const handlePurchase = async () => {
   //   try {
   //     if (userType === "company") {
@@ -174,6 +174,29 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
+
+  const handlePurchase = async () => {
+    if (userType === "company") {
+      try {
+        const response = await checkout(
+          setMessage,
+          setLoading,
+          setIsSuccessful,
+          setShowModal
+        );
+        const { paymentLink } = response.data;
+
+        // Redirect to the payment link
+        window.location.href = paymentLink;
+      } catch (error) {
+        console.error(error);
+        // Handle error appropriately
+      }
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
 
   const handleProductClick = (productId) => {
     getOneProduct(
