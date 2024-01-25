@@ -129,14 +129,36 @@ const Cart = () => {
     }
   };
 
-  const handlePurchase = () => {
-    if (userType === "company") {
-      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
+  const handlePurchase = async () => {
+    try {
+      setLoading(true);
+
+      if (userType === "company") {
+        const response = await checkout(); // Call your 'checkout' function
+        // Redirect to the Flutterwave link
+        window.location.href = response.link;
+      } else {
+        localStorage.removeItem("reservedItems");
+        navigate("/signup/asacompany");
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("Error during purchase:", error.message);
+      setMessage("Error during purchase. Please try again.");
+      setIsSuccessful(false);
+    } finally {
+      setLoading(false);
     }
   };
+
   // const handlePurchase = async () => {
   //   try {
   //     if (userType === "company") {
