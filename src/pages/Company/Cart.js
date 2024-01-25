@@ -130,7 +130,7 @@ const Cart = () => {
   };
 
   const handlePurchase = () => {
-    if (userType === "companyy") {
+    if (userType === "company") {
       checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
     } else {
       localStorage.removeItem("reservedItems");
