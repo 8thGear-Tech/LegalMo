@@ -129,14 +129,14 @@ const Cart = () => {
     }
   };
 
-  // const handlePurchase = () => {
-  //   if (userType === "company") {
-  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
+  const handlePurchase = () => {
+    if (userType === "companyy") {
+      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
   // const handlePurchase = async () => {
   //   try {
   //     if (userType === "company") {
@@ -175,34 +175,34 @@ const Cart = () => {
   //   }
   // };
 
-  const handlePurchase = async () => {
-    if (userType === "company") {
-      try {
-        const response = await checkout(
-          setMessage,
-          setLoading,
-          setIsSuccessful,
-          setShowModal
-        );
+  // const handlePurchase = async () => {
+  //   if (userType === "company") {
+  //     try {
+  //       const response = await checkout(
+  //         setMessage,
+  //         setLoading,
+  //         setIsSuccessful,
+  //         setShowModal
+  //       );
 
-        if (response && response.paymentLink) {
-          const paymentLink = response.paymentLink;
+  //       if (response && response.paymentLink) {
+  //         const paymentLink = response.paymentLink;
 
-          // Redirect to the payment link
-          window.location.href = paymentLink;
-        } else {
-          console.error("Invalid response structure:", response);
-          // Handle the case where the response structure is not as expected
-        }
-      } catch (error) {
-        console.error("Error during purchase:", error);
-        // Handle other errors during the purchase process
-      }
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-  };
+  //         // Redirect to the payment link
+  //         window.location.href = paymentLink;
+  //       } else {
+  //         console.error("Invalid response structure:", response);
+  //         // Handle the case where the response structure is not as expected
+  //       }
+  //     } catch (error) {
+  //       console.error("Error during purchase:", error);
+  //       // Handle other errors during the purchase process
+  //     }
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
 
   const handleProductClick = (productId) => {
     getOneProduct(
