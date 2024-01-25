@@ -131,8 +131,7 @@ const Cart = () => {
 
   const handlePurchase = () => {
     if (userType === "company") {
-      checkout();
-      // checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
     } else {
       localStorage.removeItem("reservedItems");
       navigate("/signup/asacompany");
