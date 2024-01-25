@@ -129,14 +129,33 @@ const Cart = () => {
     }
   };
 
-  const handlePurchase = () => {
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
+  const handlePurchase = async () => {
     if (userType === "company") {
-      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+      try {
+        // Call the modified checkout function to get the payment link
+        const paymentLink = await checkout();
+
+        // Redirect the user to the payment link
+        window.location.href = paymentLink;
+      } catch (error) {
+        // Handle errors appropriately
+        console.error(error.message);
+        // Optionally, set an error message for the user
+      }
     } else {
       localStorage.removeItem("reservedItems");
       navigate("/signup/asacompany");
     }
   };
+
   // const handlePurchase = async () => {
   //   try {
   //     setLoading(true);
