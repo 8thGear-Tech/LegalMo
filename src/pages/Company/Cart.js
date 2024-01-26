@@ -144,12 +144,48 @@ const Cart = () => {
   // };
 
   const handleFlutterPayment = useFlutterwave();
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     const config = {
+  //       public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
+  //       tx_ref: Date.now(),
+  //       price: bill, // Use the appropriate variable for the total amount
+
+  //       currency: "NGN",
+  //       payment_options: "card,mobilemoney,ussd",
+  //       customer: {
+  //         email: "user@gmail.com",
+  //         phone_number: "070********",
+  //         name: "john doe",
+  //       },
+  //     };
+
+  //     handleFlutterPayment({
+  //       ...config,
+  //       callback: (response) => {
+  //         console.log(response);
+  //         closePaymentModal();
+  //         // Additional logic after successful payment, if needed
+  //         checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //       },
+  //       onClose: () => {
+  //         // Additional logic on payment modal close, if needed
+  //       },
+  //     });
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
   const handlePurchase = () => {
     if (userType === "company") {
+      // Calculate the total bill from reserved items
       const totalBill = reservedItems?.reduce(
         (accumulator, product) => accumulator + (product?.price || 0),
         0
       );
+
+      console.log("totalBill:", totalBill); // Add this line for debugging
 
       if (!totalBill) {
         console.error("Total bill is not valid.");
@@ -159,7 +195,7 @@ const Cart = () => {
       const config = {
         public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
         tx_ref: Date.now(),
-        amount: totalBill,
+        amount: totalBill * 100, // Convert to kobo
         currency: "NGN",
         payment_options: "card,mobilemoney,ussd",
         customer: {
@@ -168,20 +204,8 @@ const Cart = () => {
           name: "john doe",
         },
       };
-      // const config = {
-      //   public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
-      //   tx_ref: Date.now(),
-      //   price: bill, // Use the appropriate variable for the total amount
 
-      //   currency: "NGN",
-      //   payment_options: "card,mobilemoney,ussd",
-      //   customer: {
-      //     email: "user@gmail.com",
-      //     phone_number: "070********",
-      //     name: "john doe",
-      //   },
-
-      // };
+      console.log("config:", config); // Add this line for debugging
 
       handleFlutterPayment({
         ...config,
