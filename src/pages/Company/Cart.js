@@ -258,6 +258,8 @@ const Cart = () => {
           // You can also update other fields based on user details
         };
 
+        console.log("configWithUserDetails:", configWithUserDetails);
+
         await handleFlutterPayment({
           ...configWithUserDetails,
           callback: (response) => {
