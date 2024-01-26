@@ -132,7 +132,7 @@ const Cart = () => {
     }
   };
 
-  const [paymentAmount, setPaymentAmount] = useState(0); // Set the initial value as needed
+  // const [paymentAmount, setPaymentAmount] = useState(0); // Set the initial value as needed
 
   // const handlePurchase = () => {
   //   if (userType === "company") {
@@ -143,7 +143,6 @@ const Cart = () => {
   //   }
   // };
 
-  const handleFlutterPayment = useFlutterwave();
   // const handlePurchase = () => {
   //   if (userType === "company") {
   //     const config = {
@@ -177,53 +176,53 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
-  const handlePurchase = () => {
-    if (userType === "company") {
-      // Calculate the total bill from reserved items
-      const totalBill = reservedItems?.reduce(
-        (accumulator, product) => accumulator + (product?.price || 0),
-        0
-      );
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     // Calculate the total bill from reserved items
+  //     const totalBill = reservedItems?.reduce(
+  //       (accumulator, product) => accumulator + (product?.price || 0),
+  //       0
+  //     );
 
-      console.log("totalBill:", totalBill); // Add this line for debugging
+  //     console.log("totalBill:", totalBill); // Add this line for debugging
 
-      if (!totalBill) {
-        console.error("Total bill is not valid.");
-        return;
-      }
+  //     if (!totalBill) {
+  //       console.error("Total bill is not valid.");
+  //       return;
+  //     }
 
-      const config = {
-        public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
-        tx_ref: Date.now(),
-        amount: totalBill.toFixed(2),
-        currency: "NGN",
-        payment_options: "card,mobilemoney,ussd",
-        customer: {
-          email: "user@gmail.com",
-          phone_number: "070********",
-          name: "john doe",
-        },
-      };
+  //     const config = {
+  //       public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
+  //       tx_ref: Date.now(),
+  //       amount: totalBill.toFixed(2),
+  //       currency: "NGN",
+  //       payment_options: "card,mobilemoney,ussd",
+  //       customer: {
+  //         email: "user@gmail.com",
+  //         phone_number: "070********",
+  //         name: "john doe",
+  //       },
+  //     };
 
-      console.log("config:", config); // Add this line for debugging
+  //     console.log("config:", config); // Add this line for debugging
 
-      handleFlutterPayment({
-        ...config,
-        callback: (response) => {
-          console.log(response);
-          closePaymentModal();
-          // Additional logic after successful payment, if needed
-          checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-        },
-        onClose: () => {
-          // Additional logic on payment modal close, if needed
-        },
-      });
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-  };
+  //     handleFlutterPayment({
+  //       ...config,
+  //       callback: (response) => {
+  //         console.log(response);
+  //         closePaymentModal();
+  //         // Additional logic after successful payment, if needed
+  //         checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //       },
+  //       onClose: () => {
+  //         // Additional logic on payment modal close, if needed
+  //       },
+  //     });
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
 
   // const handlePurchase = async () => {
   //   if (userType === "company") {
@@ -332,6 +331,64 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
+
+  const config = {
+    public_key: "FLWPUBK-**************************-X",
+    tx_ref: Date.now(),
+    amount: bill, // Assuming bill is the total amount to be paid
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      email: "user@gmail.com",
+      phone_number: "070********",
+      name: "john doe",
+    },
+    customizations: {
+      title: "my Payment Title",
+      description: "Payment for items in cart",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  const handlePurchase = async () => {
+    if (userType === "company") {
+      try {
+        setPaymentLoading(true);
+        // Trigger Flutterwave payment
+        await handleFlutterPayment({
+          callback: (response) => {
+            console.log(response);
+            // Handle the payment success response here
+            setPaymentLoading(false);
+            closePaymentModal();
+            // Perform any additional actions based on the payment success
+            setMessage("Payment successful!");
+            setIsSuccessful(true);
+            setShowModal(true);
+            // Reset the cart or perform other actions as needed
+            // ...
+          },
+          onClose: () => {
+            // Handle modal closure here (optional)
+            setPaymentLoading(false);
+          },
+        });
+      } catch (error) {
+        // Handle payment error here
+        console.error("Payment Error:", error);
+        setPaymentLoading(false);
+        setMessage("Payment failed. Please try again.");
+        setIsSuccessful(false);
+        setShowModal(true);
+      }
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
 
   const handleProductClick = (productId) => {
     getOneProduct(
