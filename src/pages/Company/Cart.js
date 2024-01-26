@@ -338,16 +338,17 @@ const Cart = () => {
     amount: bill, // Assuming bill is the total amount to be paid
     currency: "NGN",
     payment_options: "card,mobilemoney,ussd",
+    isTestMode: true,
     customer: {
       email: "user@gmail.com",
       phone_number: "070********",
       name: "john doe",
     },
-    // customizations: {
-    //   title: "my Payment Title",
-    //   description: "Payment for items in cart",
-    //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    // },
+    customizations: {
+      title: "my Payment Title",
+      description: "Payment for items in cart",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
   };
 
   const handleFlutterPayment = useFlutterwave(config);
