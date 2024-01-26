@@ -333,7 +333,7 @@ const Cart = () => {
   // };
 
   const config = {
-    public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
+    public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
     tx_ref: Date.now(),
     amount: bill, // Assuming bill is the total amount to be paid
     currency: "NGN",
@@ -343,11 +343,11 @@ const Cart = () => {
       phone_number: "070********",
       name: "john doe",
     },
-    customizations: {
-      title: "my Payment Title",
-      description: "Payment for items in cart",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
+    // customizations: {
+    //   title: "my Payment Title",
+    //   description: "Payment for items in cart",
+    //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    // },
   };
 
   const handleFlutterPayment = useFlutterwave(config);
