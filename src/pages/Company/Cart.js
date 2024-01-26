@@ -12,6 +12,7 @@ import { LoginModal } from "../../components/Forms/Authenticationforms";
 
 //flutterwave
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import jwtDecode from "jwt-decode";
 
 const Cart = () => {
   const { productData, setProductData } = useAppContext();
@@ -143,195 +144,6 @@ const Cart = () => {
   //   }
   // };
 
-  // const handlePurchase = () => {
-  //   if (userType === "company") {
-  //     const config = {
-  //       public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
-  //       tx_ref: Date.now(),
-  //       price: bill, // Use the appropriate variable for the total amount
-
-  //       currency: "NGN",
-  //       payment_options: "card,mobilemoney,ussd",
-  //       customer: {
-  //         email: "user@gmail.com",
-  //         phone_number: "070********",
-  //         name: "john doe",
-  //       },
-  //     };
-
-  //     handleFlutterPayment({
-  //       ...config,
-  //       callback: (response) => {
-  //         console.log(response);
-  //         closePaymentModal();
-  //         // Additional logic after successful payment, if needed
-  //         checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-  //       },
-  //       onClose: () => {
-  //         // Additional logic on payment modal close, if needed
-  //       },
-  //     });
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-  // const handlePurchase = () => {
-  //   if (userType === "company") {
-  //     // Calculate the total bill from reserved items
-  //     const totalBill = reservedItems?.reduce(
-  //       (accumulator, product) => accumulator + (product?.price || 0),
-  //       0
-  //     );
-
-  //     console.log("totalBill:", totalBill); // Add this line for debugging
-
-  //     if (!totalBill) {
-  //       console.error("Total bill is not valid.");
-  //       return;
-  //     }
-
-  //     const config = {
-  //       public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
-  //       tx_ref: Date.now(),
-  //       amount: totalBill.toFixed(2),
-  //       currency: "NGN",
-  //       payment_options: "card,mobilemoney,ussd",
-  //       customer: {
-  //         email: "user@gmail.com",
-  //         phone_number: "070********",
-  //         name: "john doe",
-  //       },
-  //     };
-
-  //     console.log("config:", config); // Add this line for debugging
-
-  //     handleFlutterPayment({
-  //       ...config,
-  //       callback: (response) => {
-  //         console.log(response);
-  //         closePaymentModal();
-  //         // Additional logic after successful payment, if needed
-  //         checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-  //       },
-  //       onClose: () => {
-  //         // Additional logic on payment modal close, if needed
-  //       },
-  //     });
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-
-  // const handlePurchase = async () => {
-  //   if (userType === "company") {
-  //     try {
-  //       // Call the modified checkout function to get the payment link
-  //       const paymentLink = await checkout();
-
-  //       // Redirect the user to the payment link
-  //       window.location.href = paymentLink;
-  //     } catch (error) {
-  //       // Handle errors appropriately
-  //       console.error(error.message);
-  //       // Optionally, set an error message for the user
-  //     }
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-
-  // const handlePurchase = async () => {
-  //   try {
-  //     setLoading(true);
-
-  //     if (userType === "company") {
-  //       const response = await checkout(); // Call your 'checkout' function
-  //       // Redirect to the Flutterwave link
-  //       window.location.href = response.link;
-  //     } else {
-  //       localStorage.removeItem("reservedItems");
-  //       navigate("/signup/asacompany");
-  //     }
-  //   } catch (error) {
-  //     // Handle errors
-  //     console.error("Error during purchase:", error.message);
-  //     setMessage("Error during purchase. Please try again.");
-  //     setIsSuccessful(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const handlePurchase = async () => {
-  //   try {
-  //     if (userType === "company") {
-  //       const response = await checkout(); // Call your backend API to initiate the payment
-  //       if (response.status === 201) {
-  //         // Redirect the user to the payment link
-  //         window.location.href = response.data.link;
-  //       } else {
-  //         // Handle error, show a message, etc.
-  //         console.error("Failed to initiate payment");
-  //       }
-  //     } else {
-  //       localStorage.removeItem("reservedItems");
-  //       navigate("/signup/asacompany");
-  //     }
-  //   } catch (error) {
-  //     // Handle errors from the API call
-  //     console.error("Error:", error);
-  //   }
-  // };
-
-  // const handlePurchase = async () => {
-  //   if (userType === "company") {
-  //     try {
-  //       // Call your checkout function to initiate payment
-  //       await checkout();
-
-  //       // Note: The checkout function should handle the redirection to the Flutterwave payment page
-  //     } catch (error) {
-  //       console.error("Error initiating payment:", error);
-  //       // Handle error, show an alert, or redirect to an error page
-  //     }
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-
-  // const handlePurchase = async () => {
-  //   if (userType === "company") {
-  //     try {
-  //       const response = await checkout(
-  //         setMessage,
-  //         setLoading,
-  //         setIsSuccessful,
-  //         setShowModal
-  //       );
-
-  //       if (response && response.paymentLink) {
-  //         const paymentLink = response.paymentLink;
-
-  //         // Redirect to the payment link
-  //         window.location.href = paymentLink;
-  //       } else {
-  //         console.error("Invalid response structure:", response);
-  //         // Handle the case where the response structure is not as expected
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during purchase:", error);
-  //       // Handle other errors during the purchase process
-  //     }
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-
   // const config = {
   //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
   //   tx_ref: Date.now(),
@@ -418,7 +230,24 @@ const Cart = () => {
       try {
         setPaymentLoading(true);
         // Trigger Flutterwave payment
+        // Get the authentication token from local storage
+        const authToken = localStorage.getItem("authToken");
+
+        // Decode the authentication token to get user details
+        const decodedToken = jwtDecode(authToken);
+        // Use user details in your Flutterwave configuration
+        const configWithUserDetails = {
+          ...config,
+          customer: {
+            email: decodedToken.officialEmail,
+            phone_number: decodedToken.phoneNumber,
+            name: decodedToken.name,
+          },
+          // You can also update other fields based on user details
+        };
+
         await handleFlutterPayment({
+          ...configWithUserDetails,
           callback: (response) => {
             console.log(response);
             // Handle the payment success response here

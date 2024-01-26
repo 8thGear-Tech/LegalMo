@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import http from "./httpCommon";
 import Error from "./error";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 
 export default () => {
   const { error } = Error();
@@ -246,64 +245,30 @@ export default () => {
     });
   };
 
-  // const checkout = (setMessage, setLoading, setIsSuccessful, setShowModal) => {
-  //   setLoading(true);
+  const checkout = (setMessage, setLoading, setIsSuccessful, setShowModal) => {
+    setLoading(true);
 
-  //   http().then((axios) => {
-  //     axios
-  //       .post("/api/checkout")
-  //       .then(async (response) => {
-  //         setLoading(false);
+    http().then((axios) => {
+      axios
+        .post("/api/checkout")
+        .then(async (response) => {
+          setLoading(false);
 
-  //         setMessage("Checkout successful!");
-  //         setIsSuccessful(true);
-  //         setShowModal(true);
-  //         setTimeout(() => {
-  //           setIsSuccessful(false);
-  //           setShowModal(false);
-  //           navigate("/products");
-  //         }, 2000);
-  //       })
-  //       .catch((e) => {
-  //         setLoading(false);
-  //         setIsSuccessful(false);
-  //         error(e, setMessage, setLoading, setIsSuccessful);
-  //       });
-  //   });
-  // };
-
-  const checkout = async (
-    setMessage,
-    setLoading,
-    setIsSuccessful,
-    setShowModal
-  ) => {
-    try {
-      setLoading(true);
-
-      const axios = await http();
-      const response = await axios.post("/api/checkout");
-
-      setLoading(false);
-      setMessage("Checkout successful!");
-      setIsSuccessful(true);
-      setShowModal(true);
-
-      setTimeout(() => {
-        setIsSuccessful(false);
-        setShowModal(false);
-        navigate("/products");
-      }, 2000);
-
-      // Return the response for external use
-      return response;
-    } catch (error) {
-      setLoading(false);
-      setIsSuccessful(false);
-      error(error, setMessage, setLoading, setIsSuccessful);
-      // Re-throw the error to be caught by the caller
-      throw error;
-    }
+          setMessage("Checkout successful!");
+          setIsSuccessful(true);
+          setShowModal(true);
+          setTimeout(() => {
+            setIsSuccessful(false);
+            setShowModal(false);
+            navigate("/products");
+          }, 2000);
+        })
+        .catch((e) => {
+          setLoading(false);
+          setIsSuccessful(false);
+          error(e, setMessage, setLoading, setIsSuccessful);
+        });
+    });
   };
 
   const clearCart = (
