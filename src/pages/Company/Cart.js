@@ -146,11 +146,20 @@ const Cart = () => {
   const handleFlutterPayment = useFlutterwave();
   const handlePurchase = () => {
     if (userType === "company") {
+      const totalBill = reservedItems?.reduce(
+        (accumulator, product) => accumulator + (product?.price || 0),
+        0
+      );
+
+      if (!totalBill) {
+        console.error("Total bill is not valid.");
+        return;
+      }
+
       const config = {
         public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
         tx_ref: Date.now(),
-        price: bill, // Use the appropriate variable for the total amount
-        // amount: bill, // Use the appropriate variable for the total amount
+        amount: totalBill,
         currency: "NGN",
         payment_options: "card,mobilemoney,ussd",
         customer: {
@@ -158,12 +167,21 @@ const Cart = () => {
           phone_number: "070********",
           name: "john doe",
         },
-        // customizations: {
-        //   title: "My Payment Title",
-        //   description: "Payment for items in cart",
-        //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-        // },
       };
+      // const config = {
+      //   public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
+      //   tx_ref: Date.now(),
+      //   price: bill, // Use the appropriate variable for the total amount
+
+      //   currency: "NGN",
+      //   payment_options: "card,mobilemoney,ussd",
+      //   customer: {
+      //     email: "user@gmail.com",
+      //     phone_number: "070********",
+      //     name: "john doe",
+      //   },
+
+      // };
 
       handleFlutterPayment({
         ...config,
