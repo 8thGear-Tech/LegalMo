@@ -231,10 +231,21 @@ const Cart = () => {
         setPaymentLoading(true);
         // Trigger Flutterwave payment
         // Get the authentication token from local storage
-        const authToken = localStorage.getItem("authToken");
+        const authToken = localStorage.getItem("userToken");
+        if (!authToken) {
+          console.error("Authentication token is missing or invalid");
+          // Handle accordingly, e.g., redirect to login
+          return;
+        }
 
         // Decode the authentication token to get user details
         const decodedToken = jwtDecode(authToken);
+        console.log(decodedToken);
+        if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+          console.error("Authentication token has expired");
+          // Handle accordingly, e.g., redirect to login
+          return;
+        }
         // Use user details in your Flutterwave configuration
         const configWithUserDetails = {
           ...config,
