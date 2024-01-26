@@ -239,8 +239,11 @@ const Cart = () => {
         }
 
         // Decode the authentication token to get user details
+        // Ensure the structure matches the expected format from the backend
+
         const decodedToken = jwtDecode(authToken);
         console.log("decodedToken:", decodedToken);
+        const { user } = decodedToken.data;
         if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
           console.error("Authentication token has expired");
           // Handle accordingly, e.g., redirect to login
@@ -250,9 +253,12 @@ const Cart = () => {
         const configWithUserDetails = {
           ...config,
           customer: {
-            email: decodedToken.officialEmail,
-            phone_number: decodedToken.phoneNumber,
-            name: decodedToken.name,
+            // email: decodedToken.officialEmail,
+            // phone_number: decodedToken.phoneNumber,
+            // name: decodedToken.name,
+            email: user.officialEmail,
+            phone_number: user.phoneNumber,
+            name: user.name,
           },
           // You can also update other fields based on user details
         };
