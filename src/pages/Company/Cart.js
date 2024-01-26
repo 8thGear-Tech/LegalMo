@@ -240,7 +240,7 @@ const Cart = () => {
 
         // Decode the authentication token to get user details
         const decodedToken = jwtDecode(authToken);
-        console.log(decodedToken);
+        console.log("decodedToken:", decodedToken);
         if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
           console.error("Authentication token has expired");
           // Handle accordingly, e.g., redirect to login
