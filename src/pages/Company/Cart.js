@@ -331,7 +331,6 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
-  // const customerDetails = response.data;
 
   // const config = {
   //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
@@ -341,12 +340,9 @@ const Cart = () => {
   //   payment_options: "card,mobilemoney,ussd",
   //   isTestMode: true,
   //   customer: {
-  //     email: customerDetails.officialEmail,
-  //     phone_number: customerDetails.phoneNumber,
-  //     name: customerDetails.name,
-  //     // email: "user@gmail.com",
-  //     // phone_number: "070********",
-  //     // name: "john doe",
+  //     email: "user@gmail.com",
+  //     phone_number: "070********",
+  //     name: "john doe",
   //   },
   //   customizations: {
   //     title: "my Payment Title",
@@ -395,17 +391,17 @@ const Cart = () => {
   //   }
   // };
 
-  const initialConfig = {
+  const config = {
     public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
     tx_ref: Date.now(),
-    amount: 0, // Placeholder value, you might want to initialize with your default
+    amount: bill, // Assuming bill is the total amount to be paid
     currency: "NGN",
     payment_options: "card,mobilemoney,ussd",
     isTestMode: true,
     customer: {
-      email: "",
-      phone_number: "",
-      name: "",
+      email: "user@gmail.com",
+      phone_number: "070********",
+      name: "john doe",
     },
     customizations: {
       title: "my Payment Title",
@@ -413,8 +409,6 @@ const Cart = () => {
       logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
-
-  const [config, setConfig] = useState(initialConfig);
 
   const handleFlutterPayment = useFlutterwave(config);
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -424,22 +418,42 @@ const Cart = () => {
       try {
         setPaymentLoading(true);
 
-        // Trigger checkout and wait for the response
+        // Call the checkout function and capture the response
+        const checkoutResponse = await checkout(
+          setMessage,
+          setLoading,
+          setIsSuccessful,
+          setShowModal
+        );
+
+        // Access the relevant customer details from the checkout response
+        const customerDetails = checkoutResponse.data;
+
+        const updatedConfig = {
+          public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+          tx_ref: Date.now(),
+          amount: bill, // Assuming bill is the total amount to be paid
+          currency: "NGN",
+          payment_options: "card,mobilemoney,ussd",
+          isTestMode: true,
+          customer: {
+            email: customerDetails.officialEmail,
+            phone_number: customerDetails.phoneNumber,
+            name: customerDetails.contactName,
+          },
+          customizations: {
+            title: "my Payment Title",
+            description: "Payment for items in cart",
+            logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+          },
+        };
+
+        // Trigger Flutterwave payment with updated config
         await handleFlutterPayment({
+          ...updatedConfig,
           callback: (response) => {
             console.log(response);
             // Handle the payment success response here
-
-            // Update the config with customer details from the response
-            setConfig((prevConfig) => ({
-              ...prevConfig,
-              customer: {
-                email: response.customer.email,
-                phone_number: response.customer.phone_number,
-                name: response.customer.name,
-              },
-            }));
-
             setPaymentLoading(false);
             closePaymentModal();
             // Perform any additional actions based on the payment success
@@ -448,9 +462,6 @@ const Cart = () => {
             setShowModal(true);
             // Reset the cart or perform other actions as needed
             // ...
-
-            // Clear the cart after successful payment
-            // clearReservedItems();
           },
           onClose: () => {
             // Handle modal closure here (optional)
@@ -458,8 +469,8 @@ const Cart = () => {
           },
         });
       } catch (error) {
-        // Handle payment error here
-        console.error("Payment Error:", error);
+        // Handle errors from checkout or Flutterwave payment
+        console.error("Error:", error);
         setPaymentLoading(false);
         setMessage("Payment failed. Please try again.");
         setIsSuccessful(false);
@@ -470,6 +481,7 @@ const Cart = () => {
       navigate("/signup/asacompany");
     }
   };
+
   const handleProductClick = (productId) => {
     getOneProduct(
       setMessage,

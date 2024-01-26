@@ -271,35 +271,39 @@ export default () => {
   //       });
   //   });
   // };
-  const checkout = (setMessage, setLoading, setIsSuccessful, setShowModal) => {
-    return new Promise((resolve, reject) => {
+
+  const checkout = async (
+    setMessage,
+    setLoading,
+    setIsSuccessful,
+    setShowModal
+  ) => {
+    try {
       setLoading(true);
 
-      http().then((axios) => {
-        axios
-          .post("/api/checkout")
-          .then((response) => {
-            setLoading(false);
+      const axios = await http();
+      const response = await axios.post("/api/checkout");
 
-            setMessage("Checkout successful!");
-            setIsSuccessful(true);
-            setShowModal(true);
-            setTimeout(() => {
-              setIsSuccessful(false);
-              setShowModal(false);
-              navigate("/products");
-            }, 2000);
+      setLoading(false);
+      setMessage("Checkout successful!");
+      setIsSuccessful(true);
+      setShowModal(true);
 
-            resolve(response.data); // Resolve with the relevant data
-          })
-          .catch((error) => {
-            setLoading(false);
-            setIsSuccessful(false);
-            error(error, setMessage, setLoading, setIsSuccessful);
-            reject(error); // Reject with the error
-          });
-      });
-    });
+      setTimeout(() => {
+        setIsSuccessful(false);
+        setShowModal(false);
+        navigate("/products");
+      }, 2000);
+
+      // Return the response for external use
+      return response;
+    } catch (error) {
+      setLoading(false);
+      setIsSuccessful(false);
+      error(error, setMessage, setLoading, setIsSuccessful);
+      // Re-throw the error to be caught by the caller
+      throw error;
+    }
   };
 
   const clearCart = (
