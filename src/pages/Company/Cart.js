@@ -12,6 +12,7 @@ import { LoginModal } from "../../components/Forms/Authenticationforms";
 
 //flutterwave
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+// import jwt from "jsonwebtoken";
 
 const Cart = () => {
   const { productData, setProductData } = useAppContext();
@@ -331,7 +332,56 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
+  // const { data } = response;
+  // const YourComponent = () => {
+  // const [customerDetails, setCustomerDetails] = useState({});
+  // // ... (other state variables)
 
+  // // Fetch customer details from the auth token on component mount
+  // useEffect(() => {
+  //   const authToken = localStorage.getItem("authToken");
+
+  //   if (authToken) {
+  //     try {
+  //       // Decode the JWT token to get user details
+  //       const decodedToken = jwt.decode(authToken);
+
+  //       if (decodedToken) {
+  //         setCustomerDetails({
+  //           email: decodedToken.email,
+  //           phone_number: decodedToken.phone_number,
+  //           name: decodedToken.name,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error decoding auth token:", error);
+  //     }
+  //   }
+  // }, []);
+  // }
+  // Access user details from the response data
+  // const { officialEmail, phoneNumber, name } = data
+  const [userDetails, setUserDetails] = useState({
+    email: "",
+    phone_number: "",
+    name: "",
+  });
+
+  useEffect(() => {
+    // Retrieve user details from localStorage
+    const authToken = localStorage.getItem("authToken");
+
+    if (authToken) {
+      // Assuming your authToken contains user information in a specific format
+      const parsedToken = JSON.parse(atob(authToken.split(".")[1]));
+
+      setUserDetails({
+        email: parsedToken.email || "",
+        phone_number: parsedToken.phone_number || "",
+        name: parsedToken.name || "",
+      });
+    }
+  }, []);
   const config = {
     public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
     tx_ref: Date.now(),
@@ -340,13 +390,21 @@ const Cart = () => {
     payment_options: "card,mobilemoney,ussd",
     isTestMode: true,
     customer: {
-      email: "user@gmail.com",
-      phone_number: "070********",
-      name: "john doe",
+      email: userDetails.officialEmail,
+      phone_number: userDetails.phoneNumber,
+      name: userDetails.name,
     },
+    // customer: {
+    //   // email: officialEmail,
+    //   // phone_number: phoneNumber,
+    //   // name: name,
+    //   email: customerDetails.email,
+    //   phone_number: customerDetails.phone_number,
+    //   name: customerDetails.name,
+    // },
     customizations: {
-      title: "my Payment Title",
-      description: "Payment for items in cart",
+      title: product?.productName,
+      description: product?.detail,
       logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
