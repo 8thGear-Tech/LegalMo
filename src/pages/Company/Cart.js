@@ -417,40 +417,8 @@ const Cart = () => {
     if (userType === "company") {
       try {
         setPaymentLoading(true);
-
-        // Call the checkout function and capture the response
-        const checkoutResponse = await checkout(
-          setMessage,
-          setLoading,
-          setIsSuccessful,
-          setShowModal
-        );
-
-        // Access the relevant customer details from the checkout response
-        const customerDetails = checkoutResponse.data;
-
-        const updatedConfig = {
-          public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
-          tx_ref: Date.now(),
-          amount: bill, // Assuming bill is the total amount to be paid
-          currency: "NGN",
-          payment_options: "card,mobilemoney,ussd",
-          isTestMode: true,
-          customer: {
-            email: customerDetails.officialEmail,
-            phone_number: customerDetails.phoneNumber,
-            name: customerDetails.contactName,
-          },
-          customizations: {
-            title: "my Payment Title",
-            description: "Payment for items in cart",
-            logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-          },
-        };
-
-        // Trigger Flutterwave payment with updated config
+        // Trigger Flutterwave payment
         await handleFlutterPayment({
-          ...updatedConfig,
           callback: (response) => {
             console.log(response);
             // Handle the payment success response here
@@ -469,8 +437,8 @@ const Cart = () => {
           },
         });
       } catch (error) {
-        // Handle errors from checkout or Flutterwave payment
-        console.error("Error:", error);
+        // Handle payment error here
+        console.error("Payment Error:", error);
         setPaymentLoading(false);
         setMessage("Payment failed. Please try again.");
         setIsSuccessful(false);
