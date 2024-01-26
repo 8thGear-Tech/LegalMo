@@ -250,9 +250,9 @@ const Cart = () => {
         const configWithUserDetails = {
           ...config,
           customer: {
-            email: decodedToken.officialEmail,
-            phone_number: decodedToken.phoneNumber,
-            name: decodedToken.name,
+            email: decodedToken.data.officialEmail,
+            phone_number: decodedToken.data.phoneNumber,
+            name: decodedToken.data.name,
           },
           // You can also update other fields based on user details
         };
