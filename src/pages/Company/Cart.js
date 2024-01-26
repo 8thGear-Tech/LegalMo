@@ -10,6 +10,9 @@ import productRoute from "../../services/productRoute";
 import companyRoute from "../../services/companyRoute";
 import { LoginModal } from "../../components/Forms/Authenticationforms";
 
+//flutterwave
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+
 const Cart = () => {
   const { productData, setProductData } = useAppContext();
   const [shuffledProducts, setShuffledProducts] = useState([]);
@@ -129,6 +132,8 @@ const Cart = () => {
     }
   };
 
+  const [paymentAmount, setPaymentAmount] = useState(0); // Set the initial value as needed
+
   // const handlePurchase = () => {
   //   if (userType === "company") {
   //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
@@ -137,24 +142,64 @@ const Cart = () => {
   //     navigate("/signup/asacompany");
   //   }
   // };
-  const handlePurchase = async () => {
-    if (userType === "company") {
-      try {
-        // Call the modified checkout function to get the payment link
-        const paymentLink = await checkout();
 
-        // Redirect the user to the payment link
-        window.location.href = paymentLink;
-      } catch (error) {
-        // Handle errors appropriately
-        console.error(error.message);
-        // Optionally, set an error message for the user
-      }
+  const handleFlutterPayment = useFlutterwave();
+  const handlePurchase = () => {
+    if (userType === "company") {
+      const config = {
+        public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
+        tx_ref: Date.now(),
+        amount: bill, // Use the appropriate variable for the total amount
+        currency: "NGN",
+        payment_options: "card,mobilemoney,ussd",
+        customer: {
+          email: "user@gmail.com",
+          phone_number: "070********",
+          name: "john doe",
+        },
+        // customizations: {
+        //   title: "My Payment Title",
+        //   description: "Payment for items in cart",
+        //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+        // },
+      };
+
+      handleFlutterPayment({
+        ...config,
+        callback: (response) => {
+          console.log(response);
+          closePaymentModal();
+          // Additional logic after successful payment, if needed
+          checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+        },
+        onClose: () => {
+          // Additional logic on payment modal close, if needed
+        },
+      });
     } else {
       localStorage.removeItem("reservedItems");
       navigate("/signup/asacompany");
     }
   };
+
+  // const handlePurchase = async () => {
+  //   if (userType === "company") {
+  //     try {
+  //       // Call the modified checkout function to get the payment link
+  //       const paymentLink = await checkout();
+
+  //       // Redirect the user to the payment link
+  //       window.location.href = paymentLink;
+  //     } catch (error) {
+  //       // Handle errors appropriately
+  //       console.error(error.message);
+  //       // Optionally, set an error message for the user
+  //     }
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
 
   // const handlePurchase = async () => {
   //   try {
