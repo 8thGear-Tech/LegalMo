@@ -135,14 +135,14 @@ const Cart = () => {
 
   // const [paymentAmount, setPaymentAmount] = useState(0); // Set the initial value as needed
 
-  // const handlePurchase = () => {
-  //   if (userType === "company") {
-  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
+  const handlePurchase = () => {
+    if (userType === "company") {
+      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
 
   // const config = {
   //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
@@ -203,95 +203,95 @@ const Cart = () => {
   //   }
   // };
 
-  const config = {
-    public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
-    tx_ref: Date.now(),
-    amount: bill, // Assuming bill is the total amount to be paid
-    currency: "NGN",
-    payment_options: "card,mobilemoney,ussd",
-    isTestMode: true,
-    customer: {
-      email: "user@gmail.com",
-      phone_number: "070********",
-      name: "john doe",
-    },
-    customizations: {
-      title: "my Payment Title",
-      description: "Payment for items in cart",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
-  };
+  // const config = {
+  //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+  //   tx_ref: Date.now(),
+  //   amount: bill, // Assuming bill is the total amount to be paid
+  //   currency: "NGN",
+  //   payment_options: "card,mobilemoney,ussd",
+  //   isTestMode: true,
+  //   customer: {
+  //     email: "user@gmail.com",
+  //     phone_number: "070********",
+  //     name: "john doe",
+  //   },
+  //   customizations: {
+  //     title: "my Payment Title",
+  //     description: "Payment for items in cart",
+  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+  //   },
+  // };
 
-  const handleFlutterPayment = useFlutterwave(config);
-  const [paymentLoading, setPaymentLoading] = useState(false);
+  // const handleFlutterPayment = useFlutterwave(config);
+  // const [paymentLoading, setPaymentLoading] = useState(false);
 
-  const handlePurchase = async () => {
-    if (userType === "company") {
-      try {
-        setPaymentLoading(true);
-        // Trigger Flutterwave payment
-        // Get the authentication token from local storage
-        const authToken = localStorage.getItem("userToken");
-        if (!authToken) {
-          console.error("Authentication token is missing or invalid");
-          // Handle accordingly, e.g., redirect to login
-          return;
-        }
+  // const handlePurchase = async () => {
+  //   if (userType === "company") {
+  //     try {
+  //       setPaymentLoading(true);
+  //       // Trigger Flutterwave payment
+  //       // Get the authentication token from local storage
+  //       const authToken = localStorage.getItem("userToken");
+  //       if (!authToken) {
+  //         console.error("Authentication token is missing or invalid");
+  //         // Handle accordingly, e.g., redirect to login
+  //         return;
+  //       }
 
-        // Decode the authentication token to get user details
+  //       // Decode the authentication token to get user details
 
-        const decodedToken = jwtDecode(authToken);
-        console.log("decodedToken:", decodedToken);
-        if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
-          console.error("Authentication token has expired");
-          // Handle accordingly, e.g., redirect to login
-          return;
-        }
-        // Use user details in your Flutterwave configuration
-        const configWithUserDetails = {
-          ...config,
-          customer: {
-            email: decodedToken.officialEmail,
-            phone_number: decodedToken.phoneNumber,
-            name: decodedToken.name,
-          },
-          // You can also update other fields based on user details
-        };
+  //       const decodedToken = jwtDecode(authToken);
+  //       console.log("decodedToken:", decodedToken);
+  //       if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+  //         console.error("Authentication token has expired");
+  //         // Handle accordingly, e.g., redirect to login
+  //         return;
+  //       }
+  //       // Use user details in your Flutterwave configuration
+  //       const configWithUserDetails = {
+  //         ...config,
+  //         customer: {
+  //           email: decodedToken.officialEmail,
+  //           phone_number: decodedToken.phoneNumber,
+  //           name: decodedToken.name,
+  //         },
+  //         // You can also update other fields based on user details
+  //       };
 
-        console.log("configWithUserDetails:", configWithUserDetails);
+  //       console.log("configWithUserDetails:", configWithUserDetails);
 
-        await handleFlutterPayment({
-          ...configWithUserDetails,
-          callback: (response) => {
-            console.log(response);
-            // Handle the payment success response here
-            setPaymentLoading(false);
-            closePaymentModal();
-            // Perform any additional actions based on the payment success
-            setMessage("Payment successful!");
-            setIsSuccessful(true);
-            setShowModal(true);
-            // Reset the cart or perform other actions as needed
-            // ...
-          },
-          onClose: () => {
-            // Handle modal closure here (optional)
-            setPaymentLoading(false);
-          },
-        });
-      } catch (error) {
-        // Handle payment error here
-        console.error("Payment Error:", error);
-        setPaymentLoading(false);
-        setMessage("Payment failed. Please try again.");
-        setIsSuccessful(false);
-        setShowModal(true);
-      }
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-  };
+  //       await handleFlutterPayment({
+  //         ...configWithUserDetails,
+  //         callback: (response) => {
+  //           console.log(response);
+  //           // Handle the payment success response here
+  //           setPaymentLoading(false);
+  //           closePaymentModal();
+  //           // Perform any additional actions based on the payment success
+  //           setMessage("Payment successful!");
+  //           setIsSuccessful(true);
+  //           setShowModal(true);
+  //           // Reset the cart or perform other actions as needed
+  //           // ...
+  //         },
+  //         onClose: () => {
+  //           // Handle modal closure here (optional)
+  //           setPaymentLoading(false);
+  //         },
+  //       });
+  //     } catch (error) {
+  //       // Handle payment error here
+  //       console.error("Payment Error:", error);
+  //       setPaymentLoading(false);
+  //       setMessage("Payment failed. Please try again.");
+  //       setIsSuccessful(false);
+  //       setShowModal(true);
+  //     }
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
 
   const handleProductClick = (productId) => {
     getOneProduct(
