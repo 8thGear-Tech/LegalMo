@@ -280,7 +280,7 @@ const Cart = () => {
         // Handle payment error here
         console.error("Payment Error:", error);
         setPaymentLoading(false);
-        setMessage("Payment fasiled. Please try again.");
+        setMessage("Payment failed. Please try again.");
         setIsSuccessful(false);
         setShowModal(true);
       }
