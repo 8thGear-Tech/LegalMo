@@ -333,7 +333,7 @@ const Cart = () => {
   // };
 
   const config = {
-    public_key: "FLWPUBK-**************************-X",
+    public_key: "FLWPUBK_TEST-1de6865a02d4ddeb3f25aff3e6b33c55-X",
     tx_ref: Date.now(),
     amount: bill, // Assuming bill is the total amount to be paid
     currency: "NGN",
