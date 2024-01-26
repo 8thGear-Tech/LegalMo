@@ -211,8 +211,8 @@ const Cart = () => {
     payment_options: "card,mobilemoney,ussd",
     isTestMode: true,
     customer: {
-      officialEmail: "user@gmail.com",
-      phoneNumber: "070********",
+      email: "user@gmail.com",
+      phone_number: "070********",
       name: "john doe",
     },
     customizations: {
@@ -250,8 +250,8 @@ const Cart = () => {
         const configWithUserDetails = {
           ...config,
           customer: {
-            officialEmail: decodedToken.officialEmail,
-            phoneNumber: decodedToken.phoneNumber,
+            email: decodedToken.officialEmail,
+            phone_number: decodedToken.phoneNumber,
             name: decodedToken.name,
           },
           // You can also update other fields based on user details
