@@ -135,164 +135,243 @@ const Cart = () => {
 
   // const [paymentAmount, setPaymentAmount] = useState(0); // Set the initial value as needed
 
-  const handlePurchase = () => {
+  // const handlePurchase = () => {
+  //   if (userType === "company") {
+  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
+
+  // const config = {
+  //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+  //   tx_ref: Date.now(),
+  //   amount: bill, // Assuming bill is the total amount to be paid
+  //   currency: "NGN",
+  //   payment_options: "card,mobilemoney,ussd",
+  //   isTestMode: true,
+  //   customer: {
+  //     email: "user@gmail.com",
+  //     phone_number: "070********",
+  //     name: "john doe",
+  //   },
+  //   customizations: {
+  //     title: "my Payment Title",
+  //     description: "Payment for items in cart",
+  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+  //   },
+  // };
+
+  // const handleFlutterPayment = useFlutterwave(config);
+  // const [paymentLoading, setPaymentLoading] = useState(false);
+
+  // const handlePurchase = async () => {
+  //   if (userType === "company") {
+  //     try {
+  //       setPaymentLoading(true);
+  //       // Trigger Flutterwave payment
+  //       await handleFlutterPayment({
+  //         callback: (response) => {
+  //           console.log(response);
+  //           // Handle the payment success response here
+  //           setPaymentLoading(false);
+  //           closePaymentModal();
+  //           // Perform any additional actions based on the payment success
+  //           setMessage("Payment successful!");
+  //           setIsSuccessful(true);
+  //           setShowModal(true);
+  //           // Reset the cart or perform other actions as needed
+  //           // ...
+  //         },
+  //         onClose: () => {
+  //           // Handle modal closure here (optional)
+  //           setPaymentLoading(false);
+  //         },
+  //       });
+  //     } catch (error) {
+  //       // Handle payment error here
+  //       console.error("Payment Error:", error);
+  //       setPaymentLoading(false);
+  //       setMessage("Payment failed. Please try again.");
+  //       setIsSuccessful(false);
+  //       setShowModal(true);
+  //     }
+  //   } else {
+  //     localStorage.removeItem("reservedItems");
+  //     navigate("/signup/asacompany");
+  //   }
+  // };
+
+  // const [email, setEmail] = useState("");
+  // const [phone_number, setPhone_Number] = useState("");
+  // const [name, setName] = useState("");
+  const connfig = {
+    public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+    tx_ref: Date.now(),
+    amount: bill, // Assuming bill is the total amount to be paid
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    isTestMode: true,
+    customer: {
+      email: "user@gmail.com",
+      phone_number: "070********",
+      name: "john doe",
+    },
+    customizations: {
+      title: "my Payment Title",
+      description: "Payment for items in cart",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
+  };
+
+  const handdleFlutterPayment = useFlutterwave(connfig);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  const handdlePurchase = async () => {
     if (userType === "company") {
-      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+      try {
+        setPaymentLoading(true);
+        // Trigger Flutterwave payment
+        // Get the authentication token from local storage
+        const authToken = localStorage.getItem("userToken");
+        if (!authToken) {
+          console.error("Authentication token is missing or invalid");
+          // Handle accordingly, e.g., redirect to login
+          return;
+        }
+
+        // Decode the authentication token to get user details
+
+        const decodedToken = jwtDecode(authToken);
+        console.log("decodedToken:", decodedToken);
+        // if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+        //   console.error("Authentication token has expired");
+        //   // Handle accordingly, e.g., redirect to login
+        //   return;
+        // }
+        if (!decodedToken) {
+          console.error("Failed to decode authentication token");
+          // Handle accordingly, e.g., redirect to login
+          return;
+        }
+
+        // Check if the token is expired
+        if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+          console.error("Authentication token has expired");
+          // Handle accordingly, e.g., redirect to login
+          return;
+        }
+        // Use user details in your Flutterwave configuration
+        const configWithUserDetails = {
+          ...connfig,
+          customer: {
+            // email: decodedToken.userType,
+            email: decodedToken.email.officialEmail,
+            phone_number: decodedToken.email.phoneNumber,
+            name: decodedToken.email.name,
+          },
+          // You can also update other fields based on user details
+        };
+
+        console.log("configWithUserDetails:", configWithUserDetails);
+
+        await handdleFlutterPayment({
+          ...configWithUserDetails,
+          callback: (response) => {
+            console.log(response);
+            // Handle the payment success response here
+            setPaymentLoading(false);
+            closePaymentModal();
+            // Perform any additional actions based on the payment success
+            setMessage("Payment successful!");
+            setIsSuccessful(true);
+            setShowModal(true);
+            // Reset the cart or perform other actions as needed
+            // ...
+          },
+          onClose: () => {
+            // Handle modal closure here (optional)
+            setPaymentLoading(false);
+          },
+        });
+      } catch (error) {
+        // Handle payment error here
+        console.error("Payment Error:", error);
+        setPaymentLoading(false);
+        setMessage("Payment failed. Please try again.");
+        setIsSuccessful(false);
+        setShowModal(true);
+      }
     } else {
       localStorage.removeItem("reservedItems");
       navigate("/signup/asacompany");
     }
   };
 
-  // const config = {
-  //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
-  //   tx_ref: Date.now(),
-  //   amount: bill, // Assuming bill is the total amount to be paid
-  //   currency: "NGN",
-  //   payment_options: "card,mobilemoney,ussd",
-  //   isTestMode: true,
-  //   customer: {
-  //     email: "user@gmail.com",
-  //     phone_number: "070********",
-  //     name: "john doe",
-  //   },
-  //   customizations: {
-  //     title: "my Payment Title",
-  //     description: "Payment for items in cart",
-  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-  //   },
-  // };
+  //start
+  const [customerDetails, setCustomerDetails] = useState({
+    officialEmail: "",
+    phoneNumber: "",
+    name: "",
+  });
 
-  // const handleFlutterPayment = useFlutterwave(config);
-  // const [paymentLoading, setPaymentLoading] = useState(false);
+  // Fetch and update customer details when the component mounts or user logs in
+  useEffect(() => {
+    // // Assuming you have a function to fetch user details from the token
+    // const userDetails = getUserDetailsFromToken();
 
-  // const handlePurchase = async () => {
-  //   if (userType === "company") {
-  //     try {
-  //       setPaymentLoading(true);
-  //       // Trigger Flutterwave payment
-  //       await handleFlutterPayment({
-  //         callback: (response) => {
-  //           console.log(response);
-  //           // Handle the payment success response here
-  //           setPaymentLoading(false);
-  //           closePaymentModal();
-  //           // Perform any additional actions based on the payment success
-  //           setMessage("Payment successful!");
-  //           setIsSuccessful(true);
-  //           setShowModal(true);
-  //           // Reset the cart or perform other actions as needed
-  //           // ...
-  //         },
-  //         onClose: () => {
-  //           // Handle modal closure here (optional)
-  //           setPaymentLoading(false);
-  //         },
-  //       });
-  //     } catch (error) {
-  //       // Handle payment error here
-  //       console.error("Payment Error:", error);
-  //       setPaymentLoading(false);
-  //       setMessage("Payment failed. Please try again.");
-  //       setIsSuccessful(false);
-  //       setShowModal(true);
-  //     }
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
+    const userDetails = localStorage.getItem("userToken");
+    const decodedToken = jwtDecode(userDetails);
+    setCustomerDetails(decodedToken);
+  }, []); //
 
-  // const config = {
-  //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
-  //   tx_ref: Date.now(),
-  //   amount: bill, // Assuming bill is the total amount to be paid
-  //   currency: "NGN",
-  //   payment_options: "card,mobilemoney,ussd",
-  //   isTestMode: true,
-  //   customer: {
-  //     email: "user@gmail.com",
-  //     phone_number: "070********",
-  //     name: "john doe",
-  //   },
-  //   customizations: {
-  //     title: "my Payment Title",
-  //     description: "Payment for items in cart",
-  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-  //   },
-  // };
+  // const handleFlutterPayment = useFlutterwave();
 
-  // const handleFlutterPayment = useFlutterwave(config);
-  // const [paymentLoading, setPaymentLoading] = useState(false);
+  const handlePurchase = () => {
+    const paymentConfig = {
+      public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+      tx_ref: Date.now(),
+      amount: bill,
+      currency: "NGN",
+      payment_options: "card,mobilemoney,ussd",
+      customer: {
+        officialEmail: customerDetails.officialEmail,
+        phoneNumber: customerDetails.phoneNumber,
+        name: customerDetails.name,
+      },
+      customizations: {
+        title: "my Payment Title",
+        description: "Payment for items in cart",
+        logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+      },
+    };
 
-  // const handlePurchase = async () => {
-  //   if (userType === "company") {
-  //     try {
-  //       setPaymentLoading(true);
-  //       // Trigger Flutterwave payment
-  //       // Get the authentication token from local storage
-  //       const authToken = localStorage.getItem("userToken");
-  //       if (!authToken) {
-  //         console.error("Authentication token is missing or invalid");
-  //         // Handle accordingly, e.g., redirect to login
-  //         return;
-  //       }
+    if (userType === "company") {
+      checkout(
+        setMessage,
+        setLoading,
+        paymentConfig,
+        setIsSuccessful,
+        setShowModal
+      );
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+  };
 
-  //       // Decode the authentication token to get user details
-
-  //       const decodedToken = jwtDecode(authToken);
-  //       console.log("decodedToken:", decodedToken);
-  //       if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
-  //         console.error("Authentication token has expired");
-  //         // Handle accordingly, e.g., redirect to login
-  //         return;
-  //       }
-  //       // Use user details in your Flutterwave configuration
-  //       const configWithUserDetails = {
-  //         ...config,
-  //         customer: {
-  //           email: decodedToken.officialEmail,
-  //           phone_number: decodedToken.phoneNumber,
-  //           name: decodedToken.name,
-  //         },
-  //         // You can also update other fields based on user details
-  //       };
-
-  //       console.log("configWithUserDetails:", configWithUserDetails);
-
-  //       await handleFlutterPayment({
-  //         ...configWithUserDetails,
-  //         callback: (response) => {
-  //           console.log(response);
-  //           // Handle the payment success response here
-  //           setPaymentLoading(false);
-  //           closePaymentModal();
-  //           // Perform any additional actions based on the payment success
-  //           setMessage("Payment successful!");
-  //           setIsSuccessful(true);
-  //           setShowModal(true);
-  //           // Reset the cart or perform other actions as needed
-  //           // ...
-  //         },
-  //         onClose: () => {
-  //           // Handle modal closure here (optional)
-  //           setPaymentLoading(false);
-  //         },
-  //       });
-  //     } catch (error) {
-  //       // Handle payment error here
-  //       console.error("Payment Error:", error);
-  //       setPaymentLoading(false);
-  //       setMessage("Payment failed. Please try again.");
-  //       setIsSuccessful(false);
-  //       setShowModal(true);
-  //     }
-  //   } else {
-  //     localStorage.removeItem("reservedItems");
-  //     navigate("/signup/asacompany");
-  //   }
-  // };
-
+  const handleFlutterPayment = useFlutterwave({
+    callback: (response) => {
+      console.log(response);
+      closePaymentModal(); // this will close the modal programmatically
+      // You may want to check the response and perform additional actions if needed
+    },
+    onClose: () => {
+      // Handle onClose event
+    },
+  });
+  //end
   const handleProductClick = (productId) => {
     getOneProduct(
       setMessage,
