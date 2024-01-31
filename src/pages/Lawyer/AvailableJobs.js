@@ -5,139 +5,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import lawyerImage from '../../assets/images/lawyer-image.svg'
 import lawyerRoute from '../../services/lawyerRoute';
 
-export const jobRecommendations = [
-    {
-      id:1,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 
-       'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:2,
-      jobName:'Draft of Term and Use',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:3,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:4,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:5,
-      jobName:'Draft of Term and Use',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:6,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:7,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:8,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:9,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:10,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:11,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:12,
-      jobName:'Draft of Term and Use',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:13,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-      recommendation: 'Best',
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:14,
-      jobName:'Contract Drafting and Review',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-      id:15,
-      jobName:'Draft of Term and Use',
-      jobPrice: 100000,
-       jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-    },
-    {
-        id:16,
-        jobName:'Contract Drafting and Review',
-        jobPrice: 100000,
-         jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-      },
-      {
-        id:17,
-        jobName:'Contract Drafting and Review',
-        jobPrice: 100000,
-        recommendation: 'Best',
-         jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-      },
-      {
-        id:18,
-        jobName:'Contract Drafting and Review',
-        jobPrice: 100000,
-         jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-      },
-      {
-        id:19,
-        jobName:'Contract Drafting and Review',
-        jobPrice: 100000,
-         jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-      },
-      {
-        id:20,
-        jobName:'Contract Drafting and Review',
-        jobPrice: 100000,
-         jobDetails: 'We are looking for an employment law expert who will prepare and employment contract stating lorem ipsum dolor sit amet consectetur. Donec euismod eu praesent mi. Eu faucibus tincidunt molestie cras purus tortor ut sociis. Viverra viverra consectetur faucibus tellus.',
-      },
-  ]
 
 const AvailableJobs = () => {
     const navigate = useNavigate()
@@ -182,8 +49,7 @@ const AvailableJobs = () => {
    
     };
       const handleJobClick = (jobId) => {
-        console.log(`Getting product with ID ${jobId}`);
-        console.log(`Getting product with LAWYERiD ${lawyerId}`);
+     
         getOneJob(
           setMessage, setLoading, setIsSuccessful, jobId, lawyerId, setSelectedJob
         )
@@ -216,7 +82,7 @@ const AvailableJobs = () => {
           
         </div>
         <div>{jobs.length === 0 ? (
-    <p className='justify-content-center text-center py-5'>No projects</p>
+    <p className='justify-content-center text-center py-5'>No jobs</p>
   ) : (
         <div>
     {jobs?.map((job) => (
@@ -228,14 +94,22 @@ const AvailableJobs = () => {
             </div>
             <div>
                 <p style={{color:'#5F5F5F'}}>Amount: ₦{job?.productId?.productPrice.toLocaleString()}</p>
-                <p style={{color:'#5F5F5F'}}>
+
+                {
+                  job?.productId && (
+                    <p style={{color:'#5F5F5F'}}>
                 {job?.productId?.productDescription.split(' ').slice(0, 17).join(' ')}
                 {job?.productId?.productDescription.split(' ').length > 17 ? '...' : ''}
                 </p>
-                <p style={{color:'#5F5F5F'}}>
-                {job?.detail.split(' ').slice(0, 17).join(' ')}
-                {job?.detail.split(' ').length > 17 ? '...' : ''}
-                </p>
+                  )
+                }
+                {job?.detail || job?.companyDetail && (
+ <p style={{color:'#5F5F5F'}}>
+ {job?.detail.split(' ').slice(0, 17).join(' ') || job?.companyDetail.split(' ').slice(0, 17).join(' ')}
+ {job?.detail.split(' ').length > 17 ? '...' : '' || job?.companyDetail.split(' ').length > 17 ? '...' : ''}
+ </p>
+                )}
+               
             </div>
         </div>
     ))}

@@ -6,12 +6,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useAppContext } from '../../AppContext';
 import adminRoute from '../../services/adminRoute';
+import { ViewMoreModal } from '../../components/Cards/Admin';
 
 const AssignedJobs = () => {
     const location = useLocation();
     const itemsPerPage = 5
     const navigate = useNavigate();
-    const {getOneJob, getVerifiedLawyers,assignJob} = adminRoute()
+    const {getOneJob, getVerifiedLawyers,assignJob, verifyLawyer} = adminRoute()
     const [loading, setLoading] = useState(true);
     const [selectedJob, setSelectedJob] = useState(null);
     const [message, setMessage] = useState('');
@@ -19,26 +20,81 @@ const AssignedJobs = () => {
    const [details, setDetails]= useState([])
     const [lawyers, setLawyers] = useState([]);
     const [showModal, setShowModal] = useState(false);
- 
+    const [statusFilter, setStatusFilter] = useState('Applied Lawyers');
   const [selectedLawyer, setSelectedLawyer] = useState(null);
-
+ 
+  const [showViewMoreModal, setShowViewMoreModal] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    itemsPerPage: 5,
+  });
 
   const {jobId}= useParams();
 
-  useEffect(()=>{
-    getVerifiedLawyers(setMessage, setLoading, setIsSuccessful, setLawyers, setShowModal)
-  },[])
+
+
+  useEffect(() => {
+  
+
+    if (statusFilter === 'Verified Lawyers') {
+     
+       getVerifiedLawyers(setMessage, setLoading, setIsSuccessful, setLawyers, setShowModal);
+    } else if (statusFilter === 'Applied Lawyers') {
+      getOneJob(
+        setMessage, setLoading, setIsSuccessful, jobId,setSelectedJob
+    );
+    }
+    
+  }, [statusFilter]);
+
+ 
 
   useEffect(()=>{
     getOneJob(
       setMessage, setLoading, setIsSuccessful, jobId,setSelectedJob
   );
   },[])
+
+  useEffect(() => {
+    if (statusFilter === 'Applied Lawyers' && selectedJob && selectedJob?.appliedLawer) {
+      setLawyers(selectedJob.appliedLawer); // 
+    }
+  }, [selectedJob, statusFilter]);
+
 const handleCheckboxChange = (lawyerId) => {
     setSelectedLawyer(lawyerId);
-    console.log(selectedLawyer,'selected lawyer')
+  
   };
+  const handleStatusFilterChange = (newStatus) => {
+    setStatusFilter(newStatus);
+   
+    setPagination({ currentPage: 1, itemsPerPage: 5 });
+  };
+  const handleViewMoreShow = (selectedLawyer) => {
+    setSelectedLawyer(selectedLawyer); 
+    setShowViewMoreModal(true); 
+  };
+const handleViewMoreClose = () => {
+setShowViewMoreModal(false);
+setSelectedLawyer(null)
+};
 
+const handleVerify= (lawyerId) => {
+
+  verifyLawyer(
+    setMessage, setLoading, setIsSuccessful, lawyerId, setShowModal
+   
+  )
+  const updatedLawyers = lawyers.filter(lawyer => lawyer._id !== lawyerId);
+  setLawyers(updatedLawyers);
+
+}
+
+const handleLawyerProfileNavigation = (lawyerId) => {
+
+
+  navigate(`/lawyer/profile/${lawyerId}`)
+}
   
   const handleAssignClick = () => {
  
@@ -47,23 +103,26 @@ const handleCheckboxChange = (lawyerId) => {
       alert('Please select a lawyer to assign the job.');
       return;
     }
+
+    if (selectedLawyer?.verified === 'false') {
+      setShowViewMoreModal(true); 
+      setSelectedLawyer(selectedLawyer);
+    } else {
+      const body={
+        jobId:jobId,
+        lawyerId:selectedLawyer
+      }
+    
+      assignJob(
+        body,setMessage, setLoading, setIsSuccessful
+      )
+    }
   
-  const body={
-    jobId:jobId,
-    lawyerId:selectedLawyer
-  }
-  
-  console.log(body,'assignbody')
-  assignJob(
-    body,setMessage, setLoading, setIsSuccessful
-  )
+ 
   };
   
  
-    const [pagination, setPagination] = useState({
-      currentPage: 1,
-      itemsPerPage: 5,
-    });
+   
 
   
     const totalPages = Math.ceil(lawyers.length / pagination.itemsPerPage);
@@ -107,8 +166,18 @@ const handleCheckboxChange = (lawyerId) => {
        
         <div className=' card p-3'>
             
-       
-      
+        <div className='d-flex gap-5 py-3' style={{ borderBottom: '1px solid #CFCFCF' }}>
+                  <button onClick={() => handleStatusFilterChange('Applied Lawyers')}
+                    className={statusFilter === 'Applied Lawyers' ? 'verify-active me-md-5' : 'verify-button me-md-5'}>Applied Lawyers</button>
+                  <button onClick={() => handleStatusFilterChange('Verified Lawyers')}
+                    className={statusFilter === 'Verified Lawyers' ? 'verify-active ' : 'verify-button '}>Verified Lawyers</button>
+                </div>
+                {lawyers.length === 0 ? (
+              <div className="text-center mt-5">
+                <p>No lawyers available.</p>
+              </div>
+            ) : (
+              <div>
         {getCurrentPageData().map((lawyer) => (
               <div key={lawyer._id} className='mb-4'>
              
@@ -140,6 +209,8 @@ const handleCheckboxChange = (lawyerId) => {
              
             
           ))}
+          </div>
+            )}
        </div>
      
        <Pagination
@@ -155,6 +226,9 @@ const handleCheckboxChange = (lawyerId) => {
 
 
         </div>
+        <ViewMoreModal handleViewMoreClose={handleViewMoreClose} handleViewMoreShow={handleViewMoreShow} showViewMoreModal={showViewMoreModal}
+        lawyer={selectedLawyer}
+        handleVerify={handleVerify} handleLawyerProfileNavigation={handleLawyerProfileNavigation}/>
 
      
       </AdminNavbar>

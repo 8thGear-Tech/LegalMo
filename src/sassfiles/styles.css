@@ -662,6 +662,12 @@ p {
   font-weight: 500;
 }
 
+.modal-body {
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-y: hidden;
+}
+
 .product-card .card {
   transition: transform 0.2s, box-shadow 0.2s;
 }

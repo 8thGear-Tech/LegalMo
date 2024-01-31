@@ -24,10 +24,8 @@ export default () => {
       axios
         .get('/product-api/products')
         .then(async (response) => {
-      
             setLoading(false);
             const gotResponse =  response?.data?.products;
- console.log(gotResponse);
 
  setMessage("You have successfully gotten all products");
 
@@ -52,7 +50,7 @@ export default () => {
    
   ) => {
     
-   console.log(body, 'my product body')
+
     setLoading(true);
     const form = new FormData();
     form.append('productName', body.productName)
@@ -60,8 +58,7 @@ export default () => {
     form.append('productDescription', body.productDescription)
     form.append('productImage', body.productImage)
   const token= localStorage.getItem('userToken')
-console.log(token)
-    console.log(form, 'my form');
+
     http().then((axios) => {
       axios
         .post('/api/create', form,{
@@ -70,14 +67,12 @@ console.log(token)
           ...(token && {
             Authorization: `Bearer ${token}`,
           }),
-          "Content-Type": "multipart/form-data", // Override for FormData
+          "Content-Type": "multipart/form-data", 
         },
       })
         .then(async (response) => {
-      
             setLoading(false);
             const gotResponse =  response?.data;
- console.log(response,"my product response");
 
  setMessage("New Product Created");
 
@@ -152,7 +147,7 @@ console.log(token)
       
             setLoading(false);
             const product= response.data
-            console.log(product)
+          
            
  setMessage("Product gotten successfully");
 
@@ -176,8 +171,66 @@ console.log(token)
         
     });
   };
+
+  const updateProduct = (
+    productId, body, setMessage, setLoading, setIsSuccessful, setShowModal
+   
+  ) => {
+    
+
+    setLoading(true);
+    const form = new FormData();
+    form.append('productName', body.productName)
+    form.append('productPrice', body.productPrice)
+    form.append('productDescription', body.productDescription)
+    form.append('productImage', body.productImage)
+
+  const token= localStorage.getItem('userToken')
+
+    http().then((axios) => {
+      axios
+        .put(`/api/update/${productId}`, form,{
+        headers: {
+          Accept: 'application/json',
+          ...(token && {
+            Authorization: `Bearer ${token}`,
+          }),
+          "Content-Type": "multipart/form-data", 
+        },
+      })
+        .then(async (response) => {
+      
+            setLoading(false);
+            
+            const gotResponse =  response?.data;
+           
+
+ setMessage(" Product Updated");
+
+ setIsSuccessful(true);
+ setShowModal(true);
+ setTimeout(() => {
+  setIsSuccessful(false);
+
+  setShowModal(false);
+ 
+  navigate('/products')
+  
+}, 2000);
+    
+        })
+        .catch((e) => {
+       
+        setIsSuccessful(false);
+        setLoading(false);
+        setShowModal(true);
+        error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
+        });
+        
+    });
+  };
   return {
    
-getProducts, createProduct, deleteProduct, getOneProduct
+getProducts, createProduct, deleteProduct, getOneProduct, updateProduct
     };
 };

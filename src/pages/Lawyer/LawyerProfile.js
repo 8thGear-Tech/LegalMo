@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { LawyerProfileForm } from "../../components/Forms/Lawyer";
 import UserNavbar from "../../components/Navbar/UserNavbar";
-import Footer from "../../components/Footer";
-// import lawyerImage from '../../assets/images/lawyer-image.svg'
+
 import lawyerRoute from "../../services/lawyerRoute";
 import { useParams } from "react-router-dom";
 import adminRoute from "../../services/adminRoute";
 import { useAppContext } from "../../AppContext";
 import { LoginModal } from "../../components/Forms/Authenticationforms";
+import Footer from "../../components/Footer";
 
 function LawyerProfile() {
   const { userData } = useAppContext();
@@ -20,8 +20,6 @@ function LawyerProfile() {
   const { getLawyerProfile, updateProfile } = lawyerRoute();
   const { getLawyer } = adminRoute();
   const { lawyerId } = useParams();
-
-  console.log(lawyerId);
 
   useEffect(() => {
     const userType = localStorage.getItem("userType");
@@ -37,22 +35,9 @@ function LawyerProfile() {
       );
     }
   }, []);
-  console.log(details, "my details");
-  const handleSave = (formData, imageFile, areasOfPractise) => {
-    console.log(formData, "my formData");
-    setIsEditing(false);
-    console.log(areasOfPractise, "pratise");
-    // const body ={
-    //   officialEmail: formData.officialEmail,
-    //   scn: formData.scn,
-    //   yourBio:formData.yourBio,
-    //   yearOfCall:formData.yearOfCall,
-    //   phoneNumber: formData.phoneNumber ,
-    //   alternativeEmailAddress:formData.alternativeEmailAddress,
-    //   areasOfPractise: areasOfPractise,
-    //   profileImage: imageFile ,
-    // }
 
+  const handleSave = (formData, imageFile, areasOfPractise) => {
+    setIsEditing(false);
     const body = {
       profileImage: imageFile,
     };
@@ -108,8 +93,6 @@ function LawyerProfile() {
       body.areasOfPractise = formData.areasOfPractise;
     }
 
-    console.log(body);
-    console.log(body, "body");
     updateProfile(
       body,
       setMessage,

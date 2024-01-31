@@ -45,8 +45,8 @@ import { useState, useEffect } from "react";
 
 //   return authenticatedToken ? children : <Navigate to="/login" />;
 // };
-const authenticatedUserRole = localStorage.getItem("userType");
-const authenticatedToken = localStorage.getItem("userToken");
+// const authenticatedUserRole = localStorage.getItem("userType");
+// const authenticatedToken = localStorage.getItem("userToken");
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const authenticatedUserRole = localStorage.getItem("userType");
@@ -272,15 +272,6 @@ function App() {
         />
 
         <Route
-          path="/admin/payment"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <Payment />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
           path="/admin/get-paid"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
@@ -288,6 +279,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* * */}
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
       {/* WhatsApp icon */}
       <a

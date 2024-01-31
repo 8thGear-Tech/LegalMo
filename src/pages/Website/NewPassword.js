@@ -48,8 +48,7 @@ const handleTogglePassword = () => {
 
 const handlePasswordReset = async(e, token, userEmail) => {
   e.preventDefault();
-  console.log('Token:', token);
-  console.log('User Email:', userEmail);
+
 
   setConfirmPasswordError('');
   setPasswordError('');

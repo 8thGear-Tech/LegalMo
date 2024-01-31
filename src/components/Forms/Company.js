@@ -2,19 +2,8 @@
 import React, {useState, useRef} from "react";
 import { useAppContext } from "../../AppContext";
 
-export const CompanyDetailsForm=()=> {
-    return (
-      <div>
-        <form>
-        <label htmlFor="details">Give details </label>
-        <input name='details' placeholder='Type more details about your purchase' type='text'/>
-        </form>
-      </div>
-    );
-  }
-
   export const CompanyProfileForm=({ initialDetails, onSave, onCancel })=> {
-    // const {updateCompanyUserProfilePicture} = useAppContext();
+  
 
     const [formData, setFormData] = useState({
       ...initialDetails,
@@ -34,7 +23,7 @@ export const CompanyDetailsForm=()=> {
       const file = e.target.files[0];
       
       setImageFile(file);
-      console.log(imageFile)
+    
       
     };
   
@@ -48,7 +37,7 @@ export const CompanyDetailsForm=()=> {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(imageFile)
+     
       onSave(formData, imageFile);
      
     };
@@ -145,7 +134,7 @@ export const CompanyDetailsForm=()=> {
   name="phoneNumber"
   value={formData?.phoneNumber}
   onChange={(event) => {
-    const numericValue = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    const numericValue = event.target.value.replace(/\D/g, '');
     setFormData({ ...formData, phoneNumber: numericValue });
   }}
   className="py-2 px-md-2 col"

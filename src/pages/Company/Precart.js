@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { CompanyDetailsForm } from "../../components/Forms/Company";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { ProductItem } from "./ProductItem";
+
 import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import UserNavbar from "../../components/Navbar/UserNavbar";
 import Footer from "../../components/Footer";
@@ -366,8 +366,10 @@ export function Precart() {
   const { getOneProduct, getProducts } = productRoute();
   const { getAllRatings, createRating, editRating, deleteRating } =
     ratingsRoute();
-  const { createCart, checkout } = companyRoute();
-
+  const { createCart } = companyRoute();
+  const [selectedFileUrl, setSelectedFileUrl] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
   const userType = localStorage.getItem("userType");
   const token = localStorage.getItem("userToken");
   useEffect(() => {
@@ -519,37 +521,34 @@ export function Precart() {
     setQuantity(e.target.value);
   };
 
-  const handleUploadClick = () => {
-    fileInputRef.current.click();
-  };
+  const openUploadWidget = () => {
+    if (window.cloudinary) {
+      cloudinaryRef.current = window.cloudinary;
+      widgetRef.current = cloudinaryRef.current.createUploadWidget(
+        {
+          cloudName: "do03u50qn",
+          uploadPreset: "LegalMoUpload",
+        },
+        (error, result) => {
+          if (!error && result && result.event === "success") {
+            const fileName = result.info.original_filename || "";
+            setSelectedFile(fileName);
 
-  const handleFileChange = (e) => {
-    const newSelectedFile = e.target.files[0];
+            const fileUrl = result.info.url || "";
+            setSelectedFileUrl(fileUrl);
+          }
+        }
+      );
 
-    if (newSelectedFile) {
-      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      if (newSelectedFile.size <= maxSizeInBytes) {
-        setSelectedFile(newSelectedFile);
-      } else {
-        alert(
-          "File size exceeds the limit of 5MB. Please choose a smaller file."
-        );
-
-        e.target.value = null;
-
-        setSelectedFile(null);
+      if (widgetRef.current) {
+        widgetRef.current.open();
       }
-    } else {
-      setSelectedFile(null);
     }
   };
 
   const handleDeleteClick = () => {
+    setSelectedFileUrl(null);
     setSelectedFile(null);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = null;
-    }
   };
 
   const handleReserve = () => {
@@ -563,12 +562,28 @@ export function Precart() {
         body.detail = details;
       }
 
+      if (
+        selectedFileUrl !== "" &&
+        selectedFileUrl !== null &&
+        selectedFileUrl !== undefined
+      ) {
+        body.file = selectedFileUrl;
+      }
+
+      if (
+        selectedFile !== "" &&
+        selectedFile !== null &&
+        selectedFile !== undefined
+      ) {
+        body.fileName = selectedFile;
+      }
+
       createCart(body, setMessage, setLoading, setIsSuccessful);
     } else {
       const reservedItem = {
         productId: product?._id,
-        price: product.productPrice,
-        name: product.productName,
+        productPrice: product.productPrice,
+        productName: product.productName,
         productImage: product.productImage,
         quantity: quantity,
         detail: details,
@@ -605,9 +620,6 @@ export function Precart() {
       setShowModal
     );
   };
-  // const progressBarStyle = {
-  //   width: `${((averageRating) / (maxRating - minRating)) * 100}%`,
-  // };
 
   if (loading) {
     return (
@@ -721,35 +733,25 @@ export function Precart() {
                 onChange={(event) => setDetails(event.target.value)}
               ></textarea>
               <div className="mt-4">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                  accept=".pdf, .doc, .docx"
-                />
-
-                {!selectedFile && (
+                {!selectedFileUrl && (
                   <button
                     className=" d-flex gap-2"
                     style={{ border: "none", backgroundColor: "#CFCFCF" }}
-                    onClick={handleUploadClick}
+                    onClick={openUploadWidget}
                   >
-                    Upload Document
-                    <i className="bi bi-cloud-upload"></i>
+                    Upload Document <i className="bi bi-cloud-upload"></i>
                   </button>
                 )}
 
-                {selectedFile && (
-                  <div className="d-flex mt-1">
-                    <p className=" p-small">
-                      {" "}
+                {selectedFileUrl && (
+                  <div className="d-flex my-2" style={{ flexWrap: "wrap" }}>
+                    <p className="p-small" style={{}}>
                       <i
                         className="bi bi-file-earmark-text-fill"
                         style={{ color: "wine" }}
                       ></i>{" "}
                       &nbsp;
-                      {selectedFile.name}
+                      <a href={selectedFileUrl}>{selectedFile}</a>
                       <button
                         className="btn btn-danger"
                         onClick={handleDeleteClick}

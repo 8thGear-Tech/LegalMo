@@ -30,7 +30,7 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
+        
           const lawyer = response?.data?.lawyer;
           const accountDetails = lawyer?.accountDetails;
   
@@ -61,7 +61,7 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -85,14 +85,12 @@ export default () => {
   
     http().then((axios) => {
       axios
-        .post('/api/add-payment-details', body)  // Use POST instead of GET for adding details
+        .post('/api/add-payment-details', body)  
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
           const gotResponse = response?.data?.lawyer?.accountDetails;
-          console.log(gotResponse);
-  
+          
           if (response) {
             if (response?.data?.lawyer?._id === userId) {
               setMessage("You have successfully added payment details");
@@ -110,7 +108,7 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -135,7 +133,7 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response, 'update response');
+        
          
 const accountDetails = response?.data?.lawyerUpdate?.accountDetails;
 
@@ -203,7 +201,7 @@ if (accountDetails && accountDetails.length > 0) {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -238,7 +236,7 @@ if (accountDetails && accountDetails.length > 0) {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -260,7 +258,7 @@ if (accountDetails && accountDetails.length > 0) {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
+       
           const lawyer = response?.data;
          
           
@@ -279,7 +277,7 @@ if (accountDetails && accountDetails.length > 0) {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -290,24 +288,10 @@ if (accountDetails && accountDetails.length > 0) {
    
   ) => {
     
-   console.log(body, 'my product body')
+   
     setLoading(true);
     const form = new FormData();
 
-    // form.append('officialEmail', body.officialEmail)
-    // form.append('scn', body.scn)
-    // form.append('yourBio', body.yourBio)
-    // form.append('yearOfCall', body.yearOfCall)
-    // form.append('phoneNumber', body.phoneNumber)
-    // form.append('alternativeEmailAddress', body.alternativeEmailAddress)
-    // body.areasOfPractise.forEach((area) => {
-     
-    //   form.append('areasOfPractise[]', area);
-    // });
-    // // form.append('areasOfPractise', JSON.stringify(body.areasOfPractise));
-
-    // // form.append('areasOfPractise', body.areasOfPractise)
-    // form.append('profileImage', body.profileImage)
 
     if (body.officialEmail !== undefined && body.officialEmail !== null) {
       form.append('officialEmail', body.officialEmail);
@@ -328,7 +312,7 @@ if (accountDetails && accountDetails.length > 0) {
       form.append('alternativeEmailAddress', body.alternativeEmailAddress);
     }
   
-    // Check if the imageFile exists before appending it
+   
     if (body.profileImage) {
       form.append('profileImage', body.profileImage);
     }
@@ -340,8 +324,8 @@ if (accountDetails && accountDetails.length > 0) {
     }
     
   const token= localStorage.getItem('userToken')
-console.log(token)
-    console.log(form, 'my form');
+
+
     http().then((axios) => {
       axios
         .patch(`/api/updateprofile?_id=${lawyerId}`, form,{
@@ -350,14 +334,14 @@ console.log(token)
           ...(token && {
             Authorization: `Bearer ${token}`,
           }),
-          "Content-Type": "multipart/form-data", // Override for FormData
+          "Content-Type": "multipart/form-data", 
         },
       })
         .then(async (response) => {
       
             setLoading(false);
             const gotResponse =  response?.data?.lawyer;
- console.log(response,"my product response");
+
 
  setMessage("Profile Updated Successfully");
 
@@ -403,10 +387,11 @@ console.log(token)
         .get('/job-api/jobs')
         .then(async (response) => {
           setLoading(false);
+          
   
-          console.log(response);
           const jobsData= response?.data
           const availableJobs = jobsData.filter(job => job.assignedTo.length === 0 && job.status === 'unassigned');
+       
 
       if (statusFilter === 'Best fit') {
         setJobs(availableJobs);
@@ -419,13 +404,14 @@ console.log(token)
       }
       else{
         setJobs(availableJobs)
+        
       }
           
         })
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -443,13 +429,9 @@ console.log(token)
         .get(`/job-api/job/${jobId}`)
         .then(async (response) => {
           setLoading(false);
-  
-          console.log(response);
-
           const product= response.data
-            console.log(product)
-        
           
+      
             setIsSuccessful(true);
            
             setSelectedJob(product)
@@ -458,7 +440,7 @@ console.log(token)
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -476,12 +458,9 @@ console.log(token)
       axios
         .post(`/job-api/requestmorejobdetails/${jobId}`, body)
         .then(async (response) => {
+      
           setLoading(false);
-  
-          console.log(response);
 
-          
-        
             setMessage("Request sent successfully");
 
             setIsSuccessful(true);
@@ -501,7 +480,7 @@ console.log(token)
   };
 
   const applyJob = (
-    setMessage, setLoading, setIsSuccessful, jobId,setShowModal
+    setMessage, setLoading, setIsSuccessful, jobId,lawyerId,setShowModal
    )=> {
     
    
@@ -512,11 +491,7 @@ console.log(token)
          .post(`/job-api/applyforjob/${jobId}`)
          .then(async (response) => {
            setLoading(false);
-   
-           console.log(response);
- 
-           
-         
+
              setMessage("Job applied successfully");
  
              setIsSuccessful(true);
@@ -524,14 +499,14 @@ console.log(token)
              setShowModal(true)
              setTimeout(() => {
                setShowModal(false)
-               
+               navigate(`/lawyer/available-jobs/${lawyerId}`)
              }, 2000);
          })
          .catch((e) => {
            setIsSuccessful(false);
            setLoading(false);
-           setShowModal(true)
-           
+           setShowModal(true);
+           setMessage("Unverified lawyers cannot apply for a job. Kindly contact LegalMo for further enquiry on verification process");
            error(e, setMessage, setLoading, setIsSuccessful, setShowModal);
          });
      });
@@ -550,13 +525,8 @@ console.log(token)
         .get('/job-api/lawyer/pendingjobs')
         .then(async (response) => {
           setLoading(false);
-  
-          console.log(response);
-
           const job= response.data
-            console.log(job,'the jobs')
-        
-          
+
             setIsSuccessful(true);
            
             setJobs(job)
@@ -565,7 +535,7 @@ console.log(token)
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+         
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -584,13 +554,10 @@ console.log(token)
          .then(async (response) => {
            setLoading(false);
    
-           console.log(response);
  
            const job= response.data
-             console.log(job,'the jobs')
-         
-           
-             setIsSuccessful(true);
+        
+       setIsSuccessful(true);
             
              setJobs(job)
              
@@ -598,7 +565,7 @@ console.log(token)
          .catch((e) => {
            setIsSuccessful(false);
            setLoading(false);
-           // Handle API request error
+          
            error(e, setMessage, setLoading, setIsSuccessful);
          });
      });

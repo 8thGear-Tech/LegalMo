@@ -1,20 +1,15 @@
 @use "../colors" as *;
+
 .general-footer {
   .footer-image {
     width: 200px;
     height: 200px;
   }
 
-  // h4 {
-  //   font-size: 20px;
-  // }
 
-  // p {
-  //   font-size: 16px;
-  // }
   .footer-btn {
     top: 45%;
-    //  left: 40%;
+
 
     .btn-primary {
       background-color: $secbtncolor !important;
@@ -26,6 +21,7 @@
       font-size: 14px;
     }
   }
+
   .btn-group {
     gap: 2px;
     background-color: $secbtncolor;
@@ -39,14 +35,11 @@
       height: 120px;
     }
 
-    // h4 {
-    //   font-size: 16px;
-    // }
 
-    
     .btn-primary {
       font-size: 12px;
     }
+
     .footer-btn {
       top: 43%;
     }

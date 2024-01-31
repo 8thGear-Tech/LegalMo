@@ -1,8 +1,15 @@
 import React from 'react'
-import { ProductItem } from './ProductItem'
-import { useNavigate } from 'react-router-dom'
 
-const SingleProducts = ({productData, handleDeleteClick, handleProductClick}) => {
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from "react";
+
+
+
+
+
+
+
+const SingleProducts = ({productData, handleDeleteClick, handleProductClick, handleEditClick}) => {
 
   const navigate = useNavigate();
 
@@ -10,11 +17,13 @@ const SingleProducts = ({productData, handleDeleteClick, handleProductClick}) =>
 
   const userType = localStorage.getItem('userType');
   const userToken = localStorage.getItem('userToken');
+ 
 
 
   return (
     <div className=''>
     <div className='card py-4 px-3 my-5 ' >
+    
       <div className='container'>
         <div className='row' >
       {
@@ -34,12 +43,20 @@ const SingleProducts = ({productData, handleDeleteClick, handleProductClick}) =>
                     </div>
                     <div>
                     {userType === 'admin' && userToken && (
+                      <div className='d-flex gap-3'>
                         <button
                           className="btn btn-danger"
                           onClick={() => handleDeleteClick(_id)}
                         >
                            <i className='bi bi-trash' style={{ fill: 'red' }}></i>
                         </button>
+                        <button
+                        className="btn btn-primary"
+                        onClick={() => handleEditClick(product)}
+                      >
+                         <i className="bi bi-pencil-square" style={{  }}></i>
+                      </button>
+                      </div>
                       )}
                       </div>
                 </div>

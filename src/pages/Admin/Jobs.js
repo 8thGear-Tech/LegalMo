@@ -9,7 +9,7 @@ import adminRoute from '../../services/adminRoute';
 
 
   const Jobs = () => {
-    // const {jobList, setJobList} = useAppContext();
+ 
     const itemsPerPage = 5
     const [newDetails, setNewDetails] = useState('');
     const [selectedJob, setSelectedJob] = useState(null);
@@ -19,9 +19,6 @@ import adminRoute from '../../services/adminRoute';
    
     const [markCompletedCheckbox, setMarkCompletedCheckbox] = useState(false);
 
-
-  const [jobDetails, setJobDetails] = useState({});
-  const [jobFiles, setJobFiles] = useState({});
   const {getPendingJobs, getUnassignedJobs, getCompletedJobs,editJobDetail, completeJob} = adminRoute();
  
   const [loading, setLoading] = useState(true);
@@ -31,15 +28,13 @@ import adminRoute from '../../services/adminRoute';
   const [jobs, setJobs] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-
+  const [fileName, setFileName] = useState('');
  const navigate= useNavigate()
     const [pagination, setPagination] = useState({
       currentPage: 1,
       itemsPerPage: 5,
     });
 
-
-    const fileInputRef = useRef(null);
    
     const [selectedFile , setSelectedFile] = useState(null);
     const [selectedFileUrl, setSelectedFileUrl] = useState(null);
@@ -62,69 +57,48 @@ const widgetRef = useRef();
 
  
 
-    useEffect(() => {
-      if (window.cloudinary) {
-        cloudinaryRef.current = window.cloudinary;
-        widgetRef.current = cloudinaryRef.current.createUploadWidget(
-          {
-            cloudName: 'do03u50qn',
-            uploadPreset: 'LegalMoUpload',
-          },
-          (error, result) => {
-            console.log(result,'result')
-            if (!error && result && result.event === 'success') {
-              const fileName = result.info.original_filename || '';
-              setSelectedFile(fileName);
 
-              const fileUrl = result.info.secure_url || '';
-              setSelectedFileUrl(fileUrl)
-              console.log(selectedFileUrl,'url')
-            }
-          }
-        );
-      }
-    }, []);
-    const openUploadWidget = () => {
-      if (widgetRef.current) {
-        widgetRef.current.open();
-      }
-    };
-    const handleUploadClick = () => {
-        fileInputRef.current.click();
-      };
-      
-      
-      
-      // const handleFileChange = (e) => {
-      //   const newSelectedFile = e.target.files[0];
-      
-      //   if (newSelectedFile) {
-      //     const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      
-      //     if (newSelectedFile.size <= maxSizeInBytes) {
-      //       setSelectedFile(newSelectedFile);
-        
-      //     } else {
-      //       alert('File size exceeds the limit of 5MB. Please choose a smaller file.');
-      //       e.target.value = null;
-      //       setSelectedFile(null);
-           
-      //     }
-      //   } else {
-      //     setSelectedFile(null);
-         
-      //   }
-      // };
-      
-      const handleDeleteClick = () => {
-        
-        setSelectedFile(null);
-      
-        if (fileInputRef.current) {
-          fileInputRef.current.value = null;
-        }
+const openUploadWidget = () => {
+  if (window.cloudinary) {
+    cloudinaryRef.current = window.cloudinary;
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'do03u50qn',
+        uploadPreset: 'LegalMoUpload',
+      },
+      (error, result) => {
        
-      };
+        if (!error && result && result.event === 'success') {
+          const fileName = result.info.original_filename || '';
+          setSelectedFile(fileName);
+
+          const fileUrl = result.info.url || '';
+          setSelectedFileUrl(fileUrl);
+        
+        }
+      }
+    );
+
+ 
+    if (widgetRef.current) {
+      widgetRef.current.open();
+    }
+  }
+};
+
+
+
+   
+      
+const handleDeleteClick = () => {
+  setSelectedFileUrl(prevUrl => {
+  
+    return null;
+  });
+
+
+};
+
 
      
        
@@ -135,31 +109,40 @@ const handleMoreDetailsClose = () => {
 
 const handleMoreDetailsShow = (job) => {
   setSelectedJob(job);
-  setNewDetails(job.detail);
+  setNewDetails(job?.adminDetail);
   setShowMoreDetailsModal(true);
-  setSelectedFileUrl(job.fileUrl || selectedFileUrl);
-
-  setSelectedFile(selectedFile); 
+  setSelectedFileUrl(job?.adminFile);
+  setSelectedFile(job?.adminFileName);
 };
 
 
 
 const handleMoreDetailsSend = () => {
-  // if (selectedJob) {
-  //   // selectedJob.initialDetails = newDetails;
-  //   selectedJob.uploadedFile = selectedFile; 
-  // }
+  if (newDetails === '' || selectedFileUrl === null){
+      
+    alert('Kindly add/edit details')
+    return;
+  }
 const jobId= selectedJob?._id
 
-  const body={
-detail:newDetails,
-file:selectedFileUrl,
+
+const body ={}
+
+  if (newDetails !== '' && newDetails !== null && newDetails !== undefined) {
+    body.detail = newDetails;
   }
 
-  console.log(body)
+  if (selectedFileUrl !== '' && selectedFileUrl !== null && selectedFileUrl !== undefined) {
+    body.file = selectedFileUrl;
+  }
+
+  if (selectedFile !== '' && selectedFile !== null && selectedFile !== undefined) {
+    body.fileName = selectedFile;
+  }
+
 
   editJobDetail(
-    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFile,selectedJob
+    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFileUrl
    )
 
   setShowMoreDetailsModal(false);
@@ -182,8 +165,10 @@ const handleCheckboxChange = (event) => {
 const handleViewMoreShow = (job) => {
  
   setSelectedJob(job);
+
   setShowViewMoreModal(true);
-  setSelectedFile(selectedFile); 
+  setSelectedFileUrl(job?.adminFile);
+  setSelectedFile(job?.adminFileName);
 };
 
 
@@ -198,14 +183,11 @@ const handleViewMoreShow = (job) => {
     };
 
     const handleAssign = (jobId)=>{
-      console.log(jobId);
+    
       navigate(`/admin/assign-job/${jobId}`)
     }
   
-    // const filteredJobs = jobList.filter(
-    //   (job) => job.statusVerification === statusFilter
-       
-    // );
+  
   
     const totalPages = Math.ceil(jobs.length / pagination.itemsPerPage);
  
@@ -250,13 +232,59 @@ const handleViewMoreShow = (job) => {
           {getCurrentPageData().map((job) => (
             
               <div key={job?._id} className='mb-4'>
-              <div
-                className='d-flex justify-content-between gap-5 gap-sm-3 py-3  align-items-center'
-                style={{ borderBottom: '1px solid #CFCFCF' }}
-              >
+               <div
+                      className='row py-3 px-0 px-md-3 align-items-center d-sm-flex d-none'
+                      style={{ borderBottom: '1px solid #CFCFCF' }}
+                    >
+<div className='col'>
                
                 <img src={job?.productId?.productImage} alt={job?.productId?.productName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
-                <div className='d-block d-sm-flex justify-content-between gap-xl-4 gap-lg-3 gap-md-4 gap-sm-3 align-items-center'>
+                </div>
+               
+                <h6 className='col'>{job?.productId?.productName}</h6>
+               
+                <h6  className='col' style={{ color: '#373737' }}>₦{job?.productId?.productPrice.toLocaleString()}</h6>
+                
+               
+               <div  className='col'>
+                <button
+                  style={{
+                    color: '#02143A',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                  }}
+                  className='mb-2' onClick={() => handleViewMoreShow(job)}
+                >
+                  <h6>View more</h6>
+                </button>
+                </div>
+                
+               
+      {statusFilter !== 'Completed' && ( 
+      <div  className='col'>
+        <button
+          onClick={() => handleMoreDetailsShow(job)}
+          style={{
+            color: '#02143A',
+            backgroundColor: 'transparent',
+            border: 'none',
+          }}
+          className='mb-2'
+        >
+          <h6>Add details</h6>
+        </button>
+        </div>
+      )}
+                </div>
+            
+            
+                <div
+                      className='d-flex gap-3 py-3 px-0 px-md-3 align-items-center d-sm-none'
+                      style={{ borderBottom: '1px solid #CFCFCF' }}
+                    >
+               
+                <img src={job?.productId?.productImage} alt={job?.productId?.productName} className='img-fluid' style={{minWidth:'70px', maxWidth:'150px'}}/>
+                <div className='d-block gap-2'>
                 <h6>{job?.productId?.productName}</h6>
                
                 <h6 style={{ color: '#373737' }}>₦{job?.productId?.productPrice.toLocaleString()}</h6>
@@ -274,7 +302,7 @@ const handleViewMoreShow = (job) => {
                   <h6>View more</h6>
                 </button>
                
-      {statusFilter !== 'Completed' && (  // Check the status filter value here
+      {statusFilter !== 'Completed' && (  
         <button
           onClick={() => handleMoreDetailsShow(job)}
           style={{
@@ -329,26 +357,30 @@ const handleViewMoreShow = (job) => {
                 <div className='modal-body '>
                  
                   <h6 className='mb-2' style={{ color: '#5F5F5F' }}>
-                  {selectedJob?.productId?.productDescription}
+                  {selectedJob?.productId?.productDescription || ''}
                   </h6>
       
                   <div className='form-group gap-2 mt-5'>
-                    <h6 name='exampleFormControlTextarea1' className='form-label'>
-                      Details
-                    </h6>
-                    <div className='card p-3'>
+                  {selectedJob?.adminDetail && (
                       <div>
-                        <p>{selectedJob.detail}</p>
+                      <h6 name='exampleFormControlTextarea1' className='form-label'>
+                        Details
+                      </h6>
+                      <div className='card p-3'>
+                      
+                          <p>{selectedJob?.adminDetail}</p>
+                       
                       </div>
-                    </div>
+                      </div>
+                    )}
                     <div className='d-flex justify-content-between gap-5 mt-3 align-items-center' style={{maxWidth:'auto'}}>
                       <div>
-                    {selectedFileUrl &&  (
+                    {selectedFileUrl && selectedFile && (
                       <div className='d-flex my-2'>
-                <p className='p-small' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                   {' '}
+                <p className='p-small'>
+                  
                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                  {selectedFile}
+                  <a href={selectedFileUrl}>{selectedFile}</a>
                
                 
                </p>
@@ -373,7 +405,7 @@ const handleViewMoreShow = (job) => {
                     </div>
                   </div>
                   {statusFilter === 'Pending' && (
-    <div className='form-check justify-content-center text-center mt-5'>
+    <div className='form-check mt-5'>
       <input
         className='form-check-input'
         type='checkbox'
@@ -405,7 +437,7 @@ const handleViewMoreShow = (job) => {
    tabIndex='-1'
    role='dialog'
    aria-labelledby='' 
-   aria-hidden='true' onClick={handleMoreDetailsClose}
+   aria-hidden='true'
  >
    <div className='modal-dialog modal-lg modal-dialog-centered' role='document'>
      <div className='modal-content gap-3 p-3 p-sm-5' >
@@ -438,27 +470,28 @@ const handleViewMoreShow = (job) => {
          <div className='d-flex flex-column mt-5'>
            <div>
             
-           {!selectedFileUrl && (
-        <button
-          className="d-flex gap-2 btn btn-outline-primary justify-content-center"
-          onClick={openUploadWidget}
-          style={{ width: '250px' }}
-        >
-          Upload Document <i className="bi bi-cloud-upload"></i>
-        </button>
-      )}
-             {selectedFileUrl && (
-               <div className='d-flex my-2' style={{flexWrap:'wrap' }}>
-                 <p className='p-small' style={{ }}>
-                   
-                   <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
-                   {selectedFile}
-                   <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
-                     <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
-                   </button>
-                 </p>
-               </div>
-             )}
+           {(!selectedFileUrl || !selectedFile) && (
+  <button
+    className="d-flex gap-2 btn btn-outline-primary justify-content-center"
+    onClick={openUploadWidget}
+    style={{ width: '250px' }}
+  >
+    Upload Document <i className="bi bi-cloud-upload"></i>
+  </button>
+)}
+
+{(selectedFileUrl && selectedFile) && (
+  <div className='d-flex my-2' style={{ flexWrap: 'wrap' }}>
+    <p className='p-small'>
+      <i className='bi bi-file-earmark-text-fill' style={{ color: 'wine' }}></i> &nbsp;
+      <a href={selectedFileUrl}>{selectedFile}</a>
+      <button className='btn btn-danger' onClick={handleDeleteClick} style={{ border: 'none', backgroundColor: 'transparent' }}>
+        <i className='bi bi-trash' style={{ color: 'red', fill: 'red' }}></i>
+      </button>
+    </p>
+  </div>
+)}
+
            </div>
            <button type='button' style={{ width: '250px' }} className='btn btn-primary mt-3 px-5' onClick={handleMoreDetailsSend}>
              Send
@@ -480,4 +513,6 @@ const handleViewMoreShow = (job) => {
 
 
   export default Jobs;
+  
+
   

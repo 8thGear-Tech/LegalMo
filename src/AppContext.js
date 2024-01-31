@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import companyImage from "./assets/images/adminprofile-lg.svg";
 import lawyerImage from "./assets/images/lawyer-image.svg";
 
-// import { ProductItem } from "./pages/Company/ProductItem";
 import { jobLists } from "./pages/Admin/JobLists";
 import productRoute from "./services/productRoute";
 
@@ -24,13 +23,6 @@ export const AppContextProvider = (props) => {
   const [jobList, setJobList] = useState(jobLists);
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState([]);
-  // useEffect(() => {
-  //   // Check local storage for authentication status when the component mounts
-  //   const storedAuthStatus = localStorage.getItem('authenticated');
-  //   if (storedAuthStatus === 'true') {
-  //     setAuthenticated(true);
-  //   }
-  // }, []); // Run this effect only once during component mount
 
   const [reviews, setReviews] = useState([
     {
@@ -92,37 +84,6 @@ export const AppContextProvider = (props) => {
   const selectedRange = calculateProgress(averageRating);
   const { label, minRating, maxRating } = selectedRange || {};
 
-  // const addToCart = (productId, quantity, details) => {
-  //   const existingProductIndex = cartItems.findIndex(
-  //     (item) => item.productId === productId
-  //   );
-
-  //   if (existingProductIndex !== -1) {
-  //     // If product already exists, update the quantity
-  //     const updatedCart = [...cartItems];
-  //     updatedCart[existingProductIndex].quantity += quantity;
-  //     updatedCart[existingProductIndex].details = details;
-  //     setCartItems(updatedCart);
-  //   } else {
-  //     // If the product is not in the list, add it as a new item in the cart
-  //     const newCartItem = {
-  //       productId: productId,
-  //       quantity: quantity,
-  //       details: details,
-  //       // Add other details as needed (e.g., product details)
-  //     };
-  //     setCartItems([...cartItems, newCartItem]);
-  //   }
-  // };
-
-  // const updateCartItem = (productId, newQuantity) => {
-  //   setCartItems((prevCartItems) =>
-  //     prevCartItems.map((item) =>
-  //       item.productId === productId ? { ...item, quantity: newQuantity } : item
-  //     )
-  //   );
-  // };
-
   const addToCart = (productId, quantity) => {
     setCartItems((prevCart) => {
       const newCart = { ...prevCart };
@@ -151,12 +112,6 @@ export const AppContextProvider = (props) => {
   //       const newCartItem = {
   //         productId: productId,
   //         quantity: quantity,
-
-  //       };
-  //       return [...prevCart, newCartItem];
-  //     }
-  //   });
-  // };
 
   const removeFromCart = (productId) => {
     setCartItems((prevCart) => {
@@ -206,14 +161,6 @@ export const AppContextProvider = (props) => {
 
     return totalAmount;
   };
-
-  // const updateCompanyUserProfilePicture = (newProfilePictureUrl) => {
-  //   setCompanyUserProfilePicture(newProfilePictureUrl);
-  // };
-
-  // const updateLawyerUserProfilePicture = (newProfilePictureUrl) => {
-  //   setLawyerUserProfilePicture(newProfilePictureUrl);
-  // };
 
   const contextValue = {
     jobList,

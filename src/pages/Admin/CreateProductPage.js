@@ -47,7 +47,7 @@ const {createProduct} = productRoute();
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
-    console.log(file);
+   
     if (file) {
       setSelectedImage(file.name);
     
@@ -59,7 +59,7 @@ const {createProduct} = productRoute();
 
   const handleProductCreation =(e) => {
     e.preventDefault();
-    console.log(imageFile)
+   
   
   const body = {
     productName:productName,

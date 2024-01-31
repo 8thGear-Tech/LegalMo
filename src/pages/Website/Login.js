@@ -6,7 +6,7 @@ import {
 import GuestNavbar from "../../components/Navbar/GuestNavbar";
 import Footer from "../../components/Footer";
 import loginRoute from "../../services/authRoute";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import authRoute from "../../services/authRoute";
 import { useAppContext } from "../../AppContext";
 
@@ -19,12 +19,13 @@ function Login() {
   const [message, setMessage] = useState("");
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [email, setEmail] = useState("");
-  // const [userData, setUserData] = useState({});
+
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { token } = useParams();
 
   useEffect(() => {
     if (email.trim() !== "" && password.trim() !== "") {
@@ -33,6 +34,16 @@ function Login() {
       setFormValid(false);
     }
   }, [email, password]);
+
+  useEffect(() => {
+    if (token?.length > 0) {
+      setMessage("Email verified. You can now login");
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+      }, 3000);
+    }
+  }, [token]);
 
   const navigate = useNavigate();
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);

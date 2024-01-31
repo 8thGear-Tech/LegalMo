@@ -128,7 +128,7 @@ export default () => {
         .then(async (response) => {
       
             setLoading(false);
-            console.log(response, 'verification response')
+        
  setMessage("Verification Successful");
 
  setIsSuccessful(true);
@@ -148,7 +148,7 @@ export default () => {
   };
   
   const getPendingJobs = (
-    setMessage, setLoading, setIsSuccessful, setJobs
+    setMessage, setLoading, setIsSuccessful, setJobs, setFileName
    
   ) => {
    
@@ -161,13 +161,15 @@ export default () => {
       
             setLoading(false);
             const gotResponse = response?.data;
-           console.log(gotResponse)
             
+           
 
  setMessage("You have successfully gotten all pending jobs ");
 
  setIsSuccessful(true);
  setJobs(gotResponse);
+
+ 
     
         })
         .catch((e) => {
@@ -181,7 +183,7 @@ export default () => {
     });
   };
   const getCompletedJobs = (
-    setMessage, setLoading, setIsSuccessful, setJobs
+    setMessage, setLoading, setIsSuccessful, setJobs, setFileName
    
   ) => {
    
@@ -194,8 +196,7 @@ export default () => {
       
             setLoading(false);
             const gotResponse = response?.data;
-           
-            console.log(gotResponse)
+          
 
  setMessage("You have successfully gotten all completed jobs ");
 
@@ -214,6 +215,7 @@ export default () => {
     });
   };
 
+
   const getUnassignedJobs = (
     setMessage, setLoading, setIsSuccessful, setJobs
    
@@ -228,14 +230,14 @@ export default () => {
       
             setLoading(false);
             const gotResponse = response?.data;
-            console.log(gotResponse)
+           
             
 
  setMessage("You have successfully gotten all unassigned jobs ");
 
  setIsSuccessful(true);
  setJobs(gotResponse);
-    
+
         })
         .catch((e) => {
        
@@ -256,7 +258,7 @@ export default () => {
     lawyerId,
     setDetails
   ) => {
-    // const userId = localStorage.getItem("userId");
+   
   
     setLoading(true);
   
@@ -266,7 +268,6 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
           const lawyer = response?.data?.lawyer;
          
           
@@ -274,15 +275,7 @@ export default () => {
               setMessage("You have successfully gotten  profile details");
               setIsSuccessful(true);
               setDetails(lawyer);
-              // setTimeout(() => {
-              //   setIsSuccessful(false);
               
-                
-               
-              //   navigate('/lawyer/profile')
-              //   console.log('navigating....')
-                
-              // }, 2000);
              
             } else {
               setMessage("You do not have permission to view these profile details.");
@@ -295,7 +288,7 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+      
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -309,7 +302,7 @@ export default () => {
     companyId,
     setDetails
   ) => {
-    // const userId = localStorage.getItem("userId");
+   
   
     setLoading(true);
   
@@ -319,7 +312,6 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
           const company = response?.data?.company;
          
           
@@ -327,15 +319,7 @@ export default () => {
               setMessage("You have successfully gotten  profile details");
               setIsSuccessful(true);
               setDetails(company);
-              // setTimeout(() => {
-              //   setIsSuccessful(false);
               
-                
-               
-              //   navigate('/lawyer/profile')
-              //   console.log('navigating....')
-                
-              // }, 2000);
              
             } else {
               setMessage("You do not have permission to view these profile details.");
@@ -348,17 +332,16 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+      
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
   };
 
   const editJobDetail = (
-    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs, setSelectedFile,job
+    body, setMessage, setLoading, setIsSuccessful, jobId, setJobs
    )=> {
-    
-   
+  
      setLoading(true);
    
      http().then((axios) => {
@@ -366,26 +349,21 @@ export default () => {
          .put(`/job-api/editjobdetails/${jobId}`, body)
          .then(async (response) => {
            setLoading(false);
+          
    
-           console.log(response);
- 
-           
          
              setMessage("Edited successfully");
  
              setIsSuccessful(true);
            
              setJobs((prevJobs) =>
-            prevJobs.map((job) =>
-              job._id === jobId ? { ...job, detail: body.detail, uploadedFile: body.file } : job
-            )
-          );
+             prevJobs.map((job) =>
+               job._id === jobId ? { ...job, adminDetail: body.detail, adminFile: body.file, adminFileName:body.fileName } : job
+             )
+           );
 
-          if(job._id == jobId){  setSelectedFile(body.file);
-          }
 
-          // Update selected file locally
-        
+         
          })
          .catch((e) => {
            setIsSuccessful(false);
@@ -406,11 +384,11 @@ export default () => {
    
      http().then((axios) => {
        axios
-         .patch(`/job-api/completejob/${jobId}`)
+         .put(`/job-api/completejob/${jobId}`)
          .then(async (response) => {
            setLoading(false);
    
-           console.log(response);
+       
  
            
          
@@ -446,10 +424,9 @@ export default () => {
         .then(async (response) => {
           setLoading(false);
   
-          console.log(response);
 
           const job= response.data
-            console.log(job)
+      
         
           
             setIsSuccessful(true);
@@ -460,7 +437,7 @@ export default () => {
         .catch((e) => {
           setIsSuccessful(false);
           setLoading(false);
-          // Handle API request error
+      
           error(e, setMessage, setLoading, setIsSuccessful);
         });
     });
@@ -479,11 +456,8 @@ export default () => {
         .post('/job-api/assign', body)
         .then(async (response) => {
           setLoading(false);
+         
   
-          console.log(response);
-
-          
-        
             setMessage("Job assigned successfully");
 
             setIsSuccessful(true);

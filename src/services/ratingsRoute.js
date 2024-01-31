@@ -53,7 +53,7 @@ export default () => {
               ];
           
               setReviews(mergedReviews);
- console.log(mergedReviews);
+
 
  setMessage("You have successfully gotten all reviews");
 
@@ -80,7 +80,7 @@ export default () => {
     
   
   const token= localStorage.getItem('userToken')
-console.log(token)
+
     
     http().then((axios) => {
       axios
@@ -90,7 +90,7 @@ console.log(token)
             setLoading(false);
             const gotResponse =  response?.data;
             const newReviewId = response.data._id;
- console.log(response,"my review response");
+
 
  setMessage(" Review Submitted Successfully");
 
@@ -169,7 +169,6 @@ console.log(token)
     setShowModal
   ) => {
     const token = localStorage.getItem('userToken');
-    console.log(token);
   
     http().then((axios) => {
       axios
@@ -178,19 +177,17 @@ console.log(token)
           setLoading(false);
   
           const updatedReviewId = response.data._id;
-          console.log(updatedReviewId, 'Updated review response');
-  
-          setMessage('Review Updated Successfully');
+       setMessage('Review Updated Successfully');
           setIsSuccessful(true);
   
-          // Create a copy of the reviews array
+        
           const updatedReviews = [...reviews];
   
-          // Find the index of the review to update
+         
           const index = updatedReviews.findIndex((review) => review.id === updatedReviewId);
   
           if (index !== -1) {
-            // Update the specific review
+           
             updatedReviews[index] = {
               ...updatedReviews[index],
               reviewTitle:response.data.reviewTitle,
