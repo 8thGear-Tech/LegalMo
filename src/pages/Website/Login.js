@@ -18,13 +18,6 @@ function Login() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccessful, setIsSuccessful] = useState(false);
-  // const [email, setEmail] = useState("");
-  // // const [userData, setUserData] = useState({});
-  // const [password, setPassword] = useState("");
-  // const [emailError, setEmailError] = useState("");
-  // const [passwordError, setPasswordError] = useState("");
-  // const [formValid, setFormValid] = useState(false);
-  // const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -32,25 +25,25 @@ function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const {token}= useParams()
+  const { token } = useParams();
 
-  // useEffect(() => {
-  //   if (email.trim() !== "" && password.trim() !== "") {
-  //     setFormValid(true);
-  //   } else {
-  //     setFormValid(false);
-  //   }
-  // }, [email, password]);
+  useEffect(() => {
+    if (email.trim() !== "" && password.trim() !== "") {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  }, [email, password]);
 
-  // useEffect(() => {
-  //   if (token?.length > 0) {
-  //     setMessage("Email verified. You can now login");
-  //     setShowModal(true);
-  //     setTimeout(() => {
-  //       setShowModal(false);
-  //     }, 3000);
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (token?.length > 0) {
+      setMessage("Email verified. You can now login");
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+      }, 3000);
+    }
+  }, [token]);
 
   const navigate = useNavigate();
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
