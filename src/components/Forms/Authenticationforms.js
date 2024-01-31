@@ -194,7 +194,7 @@ export function SignUpForm({
 
       if (!checkPasswordStrength(formData.password)) {
         validationErrors.password =
-          "Password must have at least 8 characters with one uppercase, one number, and one special character";
+          "Password must have at least 8 characters with one uppercase, one lowercase, one number, and one special character";
       }
     }
 

@@ -244,34 +244,11 @@ const CompanyDashboard = () => {
                       </div>
                       <div className="d-block d-sm-flex gap-5">
                         <div className="d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action">
-                          {/* <p>Schedule a call</p> */}
-                          <p>
-                            {" "}
-                            <a
-                              href="tel:+2348094818884"
-                              className="text-decoration-none p"
-                              style={{ color: "#000000" }}
-                            >
-                              Schedule a call
-                            </a>
-                          </p>
-
+                          <p>Schedule a call</p>
                           <i className="bi bi-telephone mb-3"></i>
                         </div>
                         <div className="d-flex align-items-center gap-xl-2 gap-sm-1 gap-2 action">
-                          {/* <p>Chat with a lawyer</p> */}
-                          <p>
-                            <a
-                              href="mailto:info@legalmo.biz"
-                              className="text-decoration-none"
-                              style={{ color: "#000000" }}
-                            >
-                              Email
-                            </a>
-                          </p>
-
-                          {/* <p>Chat with a lawyer</p> */}
-
+                          <p>Chat with a lawyer</p>
                           <i className="bi bi-chat mb-3"></i>
                         </div>
                       </div>
