@@ -55,7 +55,7 @@ const CompanySignUp = () => {
       name: "cacNumber",
       label: "CAC Registration Number",
       type: "text",
-      required: true,
+      required: false,
     },
     { name: "industry", label: "Industry ", type: "text", required: true },
     { name: "password", label: "Password", type: "password", required: true },
