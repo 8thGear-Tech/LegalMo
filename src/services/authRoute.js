@@ -148,14 +148,7 @@ const login = (
                 setIsSuccessful(true);
                 setShowModal(true);
                
-                setTimeout(() => {
-                    setIsSuccessful(false);
-                    setShowModal(false);
-                    navigate('/login');
-                    
-                }, 3000);
-
-                
+              
             } else{
                 setIsSuccessful(false);
                 setMessage('There was a problem signing up')
@@ -199,12 +192,6 @@ const login = (
                 setIsSuccessful(true);
                 setShowModal(true);
                
-                setTimeout(() => {
-                    setIsSuccessful(false);
-                    setShowModal(false);
-                    navigate('/login');
-                    
-                }, 3000);
 
                 
             } else{

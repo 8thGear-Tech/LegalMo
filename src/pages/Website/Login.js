@@ -3,7 +3,7 @@ import { LoginForm, LoginModal } from '../../components/Forms/Authenticationform
 import GuestNavbar from '../../components/Navbar/GuestNavbar'
 import Footer from '../../components/Footer'
 import loginRoute from '../../services/authRoute'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import authRoute from '../../services/authRoute'
 import { useAppContext } from '../../AppContext'
 
@@ -23,7 +23,23 @@ function Login() {
   const [passwordError, setPasswordError] = useState('');
   const [formValid, setFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {token}= useParams()
+  const location = useLocation(); 
+
+  useEffect(() => {
+    // Function to parse the query string for 'token'
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get('token');
+
+    if (token) {
+      // If a token is present in the query string, show your modal
+      setMessage('Email verified. You can now login');
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+  
+      }, 3000);
+    }
+  }, [location.search]); 
    
 
   useEffect(() => {
@@ -35,18 +51,7 @@ function Login() {
     }
   }, [email, password]);
 
-  useEffect(()=>{
-    if(token?.length > 0){
-     
-      setMessage('Email verified. You can now login')
-      setShowModal(true)
-      setTimeout(() => {
-        setShowModal(false)
-        
-    }, 3000);
-    
-    } 
-  }, [token])
+ 
 
   const navigate = useNavigate();
   const [showSignUpButtons, setShowSignUpButtons] = useState(false);
