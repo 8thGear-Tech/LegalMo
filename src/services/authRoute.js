@@ -692,7 +692,7 @@ export default () => {
       axios
         .post("/api/logout")
         .then(async (response) => {
-          navigate("/home");
+          navigate("/");
         })
 
         .catch((e) => {
