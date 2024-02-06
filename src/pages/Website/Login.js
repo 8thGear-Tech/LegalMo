@@ -30,7 +30,7 @@ function Login() {
   useEffect(() => {
     // Function to parse the query string for 'token'
     const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get("token");
+    const token = searchParams.get("jwt");
 
     if (token) {
       // If a token is present in the query string, show your modal
