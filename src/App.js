@@ -281,7 +281,7 @@ function App() {
         />
 
         {/* * */}
-        <Route path="*" element={<Navigate to="/home" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {/* WhatsApp icon */}
       <a
