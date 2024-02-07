@@ -102,16 +102,6 @@ export function SignUpForm({
     setFormData(initialData || {});
   }, [initialData]);
 
-  // useEffect(() => {
-  //   const isComplete =
-  //     fields.every((field) => field.name === 'cacNumber' || !!formData[field.name]) &&
-  //     (!hasPasswordFields ||
-  //       (formData.password === formData.confirmPassword && checkPasswordStrength(formData.password))) &&
-  //     (!hasPhoneNumberField || (!formData.phoneNumber || formData.phoneNumber.length === 11));
-
-  //   setIsFormComplete(isComplete);
-  // }, [formData, fields, hasPasswordFields, hasPhoneNumberField]);
-
   useEffect(() => {
     const isComplete =
       fields

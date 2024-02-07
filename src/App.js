@@ -38,6 +38,7 @@ import AvailableJobItem from "./pages/Lawyer/AvailableJobItem";
 import ResendConfirm from "./pages/Website/ResendConfirm";
 
 import { useState, useEffect } from "react";
+import EmailConfirmedModal from "./components/Forms/EmailConfirmed";
 
 // const ProtectedRoute = ({ children }) => {
 
@@ -84,6 +85,31 @@ function App() {
         <Route path="/about-us" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/resend-confirm" element={<ResendConfirm />} />
+
+        <Route path="/confirm-email" element={<EmailConfirmedModal />} />
+
+        <Route
+          path="/password-reset"
+          element={<PasswordReset setEmailSubmitted={setEmailSubmitted} />}
+        />
+
+        <Route
+          path="/otp/:userEmail"
+          element={
+            emailSubmitted ? (
+              <OTP setOtpVerified={setOtpVerified} />
+            ) : (
+              <Navigate to="/password-reset" />
+            )
+          }
+        />
+
+        <Route
+          path="/new-password/:token/:userEmail"
+          element={
+            otpVerified ? <NewPassword /> : <Navigate to="/otp/:userEmail" />
+          }
+        />
 
         <Route
           path="/password-reset"
