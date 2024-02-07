@@ -23,24 +23,7 @@ function Login() {
   const [passwordError, setPasswordError] = useState('');
   const [formValid, setFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const location = useLocation(); 
-
-  // useEffect(() => {
-  //   // Function to parse the query string for 'token'
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const token = searchParams.get('token');
-
-  //   if (token) {
-  //     // If a token is present in the query string, show your modal
-  //     setMessage('Email verified. You can now login');
-  //     setShowModal(true);
-  //     setTimeout(() => {
-  //       setShowModal(false);
-  
-  //     }, 3000);
-  //   }
-  // }, [location.search]); 
-   
+ 
 
   useEffect(() => {
    
