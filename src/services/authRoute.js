@@ -87,10 +87,7 @@ const login = (
             
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
-                setUserData(gotResponse?.data);
-                localStorage.setItem('userToken', gotResponse?.token);
-                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
-                localStorage.setItem('userId', gotResponse?.data?.user?._id);
+                
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
@@ -100,7 +97,7 @@ const login = (
                     setShowModal(false);
                     navigate('/login');
                     
-                }, 3000);
+                }, 5000);
 
                 
             } else{
@@ -140,15 +137,17 @@ const login = (
             
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
-                setUserData(gotResponse?.data);
-                localStorage.setItem('userToken', gotResponse?.token);
-                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
-                localStorage.setItem('userId', gotResponse?.data?.user?._id);
+               
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
                
-              
+                setTimeout(() => {
+                  setIsSuccessful(false);
+                  setShowModal(false);
+                  navigate('/login');
+                  
+              }, 5000);
             } else{
                 setIsSuccessful(false);
                 setMessage('There was a problem signing up')
@@ -184,15 +183,17 @@ const login = (
             
             const gotResponse =  response?.data;
             if (gotResponse?.status === 'success'){
-                setUserData(gotResponse?.data);
-                localStorage.setItem('userToken', gotResponse?.token);
-                localStorage.setItem('userType', gotResponse?.data?.user?.userType);
-                localStorage.setItem('userId', gotResponse?.data?.user?._id);
+                
                 setMessage("You have successfully created an account");
                 setIsSuccessful(true);
                 setShowModal(true);
                
-
+                setTimeout(() => {
+                  setIsSuccessful(false);
+                  setShowModal(false);
+                  navigate('/login');
+                  
+              }, 5000);
                 
             } else{
                 setIsSuccessful(false);

@@ -15,7 +15,7 @@ const EmailConfirmedModal = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/login');
-    }, 3000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
