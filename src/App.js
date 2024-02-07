@@ -38,6 +38,7 @@ import AvailableJobItem from "./pages/Lawyer/AvailableJobItem";
 import ResendConfirm from "./pages/Website/ResendConfirm";
 
 import { useState, useEffect } from "react";
+import EmailConfirmedModal from "./components/Forms/EmailConfirmed";
 
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -82,7 +83,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/resend-confirm" element={<ResendConfirm/>} />
        
-        
+        <Route path="/confirm-email" element={<EmailConfirmedModal/>} />
         
 
         <Route path="/password-reset" element={<PasswordReset  setEmailSubmitted={setEmailSubmitted}/>} />
