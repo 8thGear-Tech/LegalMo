@@ -1,0 +1,58 @@
+@use '../../colors' as *;
+
+.bg-primary {
+    background-color: $secbgcolor !important;
+}
+
+
+.admin-navbar {
+
+    .nav-link {
+        color: $prytextcolor !important;
+        display: inline-block;
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    .nav-link:hover,
+    .active {
+        background-color: $secbtncolor !important;
+        color: white !important;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+
+    }
+
+    .nav-link:hover .dashboard-icon,
+    .active .dashboard-icon {
+        content: url('/src/assets/images/dashboard-s.svg');
+
+    }
+
+    .nav-link:hover .companies-icon,
+    .active .companies-icon {
+        content: url('/src/assets/images/companies-s.svg');
+    }
+
+    .nav-link:hover .lawyers-icon,
+    .active .lawyers-icon {
+        content: url('/src/assets/images/lawyers-s.svg');
+    }
+
+    .nav-link:hover .jobs-icon,
+    .active .jobs-icon {
+        content: url('/src/assets/images/jobs-s.svg');
+
+    }
+
+    .nav-link:hover .payment-icon,
+    .active .payment-icon {
+        content: url('/src/assets/images/payment-s.svg');
+    }
+
+    .nav-link:hover .rating-icon,
+    .active .rating-icon {
+        content: url('/src/assets/images/rating-s.svg');
+    }
+
+}

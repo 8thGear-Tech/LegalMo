@@ -1,0 +1,71 @@
+// home hero
+@use "../colors" as *;
+@use "../components/buttons" as *;
+
+.HomeHeroBgg::before {
+  content: "";
+  position: absolute;
+  background: rgba(1, 3, 10, 0.6);
+  height: 100vh;
+  width: 100%;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 1;
+}
+
+.HomeHeroBg {
+  background: url(/src/assets/images/homeheroimage.png);
+  background-size: cover;
+  position: relative;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100%;
+}
+
+.HomeHeroBg h1 {
+  position: relative;
+  line-height: 45px;
+}
+
+.HomeHeroBg h2 {
+  position: relative;
+  line-height: 45px;
+}
+
+.HomeHeroBg h3 {
+  position: relative;
+  line-height: 35px;
+}
+
+.HomeHeroBg .buttonShow,
+.textShow {
+  position: relative;
+
+}
+
+.heroTextColor {
+  color: $sectextcolor;
+}
+
+.paragraphColor {
+  color: $sectextcolor;
+}
+
+.textShow {
+  color: $sectextcolor;
+}
+
+@media only screen and (max-width: 1600px) {
+  .HomeHeroBgg::before {
+    height: 42rem;
+  }
+
+  .HomeHeroBg {
+    height: 42rem;
+  }
+}

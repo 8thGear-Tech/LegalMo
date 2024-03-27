@@ -1,0 +1,56 @@
+@use "../colors" as *;
+
+.general-footer {
+  .footer-image {
+    width: 200px;
+    height: 200px;
+  }
+
+
+  .footer-btn {
+    top: 45%;
+
+
+    .btn-primary {
+      background-color: $secbtncolor !important;
+      color: white !important;
+      border-radius: 5px !important;
+      border: none !important;
+      padding: 10px;
+
+      font-size: 14px;
+    }
+  }
+
+  .btn-group {
+    gap: 2px;
+    background-color: $secbtncolor;
+  }
+}
+
+@media (max-width: 768px) {
+  .general-footer {
+    .footer-image {
+      width: 130px;
+      height: 120px;
+    }
+
+
+    .btn-primary {
+      font-size: 12px;
+    }
+
+    .footer-btn {
+      top: 43%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .general-footer {
+    .footer-btn {
+      top: 33%;
+      left: 30%;
+    }
+  }
+}

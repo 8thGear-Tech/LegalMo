@@ -1,0 +1,14 @@
+.action:hover {
+  h6,
+  p,
+  i {
+    color: #032773 !important;
+    font-weight: 500;
+  }
+}
+
+.modal-body {
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-y: hidden;
+}

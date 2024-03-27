@@ -1,0 +1,166 @@
+import React from "react";
+import GuestNavbar from "../../components/Navbar/GuestNavbar";
+import Footer from "../../components/Footer";
+import HeroImage from "../../assets/images/aboutHeroImage.png";
+import Touch from "../../assets/images/intouchimage.png";
+import LegalMo from "../../assets/images/LegalMoblue.svg";
+import team1 from "../../assets/images/team-1.svg";
+import team2 from "../../assets/images/team-2.svg";
+
+import { Link } from "react-router-dom";
+import UserNavbar from "../../components/Navbar/UserNavbar";
+import { useState } from "react";
+import { useEffect } from "react";
+
+const teams = [
+  {
+    id: 1,
+    teamImage: team1,
+    teamName:'Damilola Obidairo',
+    position:'Executive Director',
+  },
+  {
+    id: 2,
+    teamImage: team2,
+    teamName:'Bukola Lasabi',
+    position:'CEO',
+  },
+];
+
+function About() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+
+    const userType = localStorage.getItem('userType');
+    const token = localStorage.getItem('userToken');
+    if (userType && token)  {
+     
+      setIsLoggedIn(true);
+    } else {
+ 
+      setIsLoggedIn(false);
+    }
+
+    setIsLoading(false);
+  }, []);  
+
+  if (isLoading){
+    return <div className='justify-content-center align-items-center text-center' style={{paddingTop:'350px'}}> 
+   <div className="spinner-border text-secondary" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+        </div>; 
+  }
+  return (
+  <>
+    {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
+   
+    <div className=''>
+    <div className="card about-hero-card"  style={{border:'none', borderRadius:'0'}}>
+  <div className="card-body p-sm-5 p-4 mx-lg-5">
+    <h1 className="card-title mb-4">We Build Bridges
+    <br/>Between <span style={{color:'#5F5F5F'}}>Companies and Legal Services</span></h1>
+    <h6 className="card-text" style={{maxWidth:'37rem'}}>We are on a mission to ensuring Small and Medium Enterprises (SMEs) and Startups, which contribute about 40% of the country’s GDP, are legally healthy and compliant.</h6>
+   
+  </div>
+  <img src={HeroImage} alt="Hero" className="card-img-bottom"/>
+    </div>
+    <div className='p-md-5 p-4 about-hero-card'>
+      <div className='line my-5'></div>
+      <div className='row px-xl-5 pt-md-3 pt-1 mb-3'>
+        <div className='col-12 col-lg-6 '>
+        <h1 className="card-title mb-4">We Ensure that SMEs and Starups Get <br/><span style={{color:'#5F5F5F'}}>Affordable Legal Services</span></h1>
+        </div>
+        <div className='col-12 col-lg-6  '>
+          <h6 className='card-text'>SMEs and startups are the backbone of the economy, but they often don't have the resources to afford expensive legal services. This can put them at a disadvantage, as they may be unable to protect themselves from legal risks or resolve disputes.</h6>
+        
+          <h6 className='card-text'>We are committed to ensuring that SMEs and startups have access to affordable quality legal services. We offer a variety of services that are tailored to the needs of small businesses.</h6>
+          <h6 className='card-text'>Our partners are lawyers experienced in the legal issues that affect small businesses, and they are passionate about helping entrepreneurs succeed.</h6>
+          <h6 className='card-text'>We are here to help you protect your business and achieve your goals.</h6>
+        </div>
+      </div>
+
+    </div>
+    
+       
+        <div className="py-5 px-4 px-md-5 team-section">
+          <div
+            className="card p-lg-5 p-2"
+            style={{ border: "none", background: "#CFCFCF" }}
+          >
+            <div className="px-lg-5 px-3 mx-xl-5 mt-2 mt-md-0">
+              <h2 style={{color:"#373737"}}>Meet our team</h2>
+              <div className="line my-md-5 my-4"></div>
+              <div className="d-flex justify-content-between ">
+                {teams.map((team) => {
+                  const { id, teamImage, teamName,position } = team;
+                  return (
+                    <div className="" key={id}>
+                      <div
+                        className="card "
+                        style={{ border: "none", background: "none" }}
+                      >
+                        <img
+                          src={teamImage}
+                          className="card-img-top"
+                          alt="teamImage"
+                        />
+                        <div className="mx-auto">
+                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>{teamName}</p>
+                          <p className="" style={{color:'#5f5f5f', lineHeight:'15px'}}>{position}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="question-section p-3 p-md-5 mb-5 mb-lg-0">
+          <section className="p-lg-5">
+            <div className="d-flex justify-content-between align-items-center">
+              <div style={{ maxWidth: "32rem" }}>
+                <h1>Have a question?</h1>
+                <h1 className="pb-lg-5">Our team is happy to assist you</h1>
+                <div className="text-center mt-5">
+                  <button type="button" className="btn btn-outline-primary">
+                    Contact Us
+                  </button>
+                </div>
+              </div>
+              <img src={LegalMo} className="legal-image" alt="logo" />
+            </div>
+          </section>
+        </div>
+        <div
+          className="card in-touch-card"
+          style={{ border: "none", borderRadius: "0" }}
+        >
+          <img
+            src={Touch}
+            className="card-img"
+            alt="heroImage"
+            style={{ minHeight: "350px" }}
+          />
+          <div className="card-img-overlay text-align-center text-center justify-content-center py-5 text-white">
+            <h2 className="mb-4 mt-xxl-5 mt-xl-3 pt-xl-5 pt-lg-3 text-white">
+              Ready to protect your business?
+            </h2>
+            <p className="card-text mb-5 text-white">Get in touch with us today</p>
+            <Link
+              to="/signup/asacompany"
+              className="btn btn-outline-light mt-sm-5 mt-4"
+            >
+              Get started
+            </Link>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
+export default About;

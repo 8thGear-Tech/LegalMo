@@ -1,0 +1,63 @@
+@use "./reset" as *;
+@use "./font" as *;
+
+@use "./components/Navbar/guestnav" as *;
+@use "./components/Navbar/admindashboard" as *;
+@use "./components/buttons" as *;
+@use "./components/footer" as *;
+@use "./components/Buttons/authentication" as *;
+@use "./pages/home" as *;
+@use "./pages/Website/landing" as *;
+@use "./pages/Website/about" as *;
+@use "./pages/Website/otp" as *;
+@use "./components/Forms/authentication" as *;
+@use "./pages/Admin/signup" as *;
+@use "./components/Navbar/admindashboard" as *;
+@use "./pages/Lawyer/dashboard" as *;
+@use "./pages/Company/signup" as *;
+@use "./pages/Lawyer/signup" as *;
+@use "./pages/Website/login" as *;
+@use "./pages/Website/passwordreset" as *;
+@use "./pages/Website/newpassword" as *;
+@use "./pages/Company/singleproducts" as *;
+@use "./pages/Company/precart" as *;
+@use "./pages/Admin/unverifiedlawyers" as *;
+@use "./pages/Company/packages" as *;
+@use "./pages/Website/products" as *;
+@use "./pages/Lawyer/getpaid" as *;
+@use "./components/Forms/Lawyer/lawyerprofileform";
+
+.whatsapp_float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.whatsapp_float:hover .whatsapp-icon {
+  color: #fff; /* Set the icon color to white on hover */
+}
+
+.whatsapp-icon {
+  margin: 0;
+}
+/* for mobile */
+@media screen and (max-width: 767px) {
+  .whatsapp_float {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 10px;
+    font-size: 22px;
+  }
+}

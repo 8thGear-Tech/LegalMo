@@ -1,0 +1,24 @@
+@use "../../colors" as *;
+
+.verify-active {
+    font-weight: 500;
+    color: white !important;
+    background-color: #032773;
+    border: none;
+    font-size: 24px;
+}
+
+.verify-button {
+    color: black;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+
+    .verify-active,
+    .verify-button {
+        font-size: 18px;
+    }
+}
