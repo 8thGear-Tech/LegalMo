@@ -123,162 +123,162 @@ const Cart = () => {
     }
   };
 
-  const handlePurchase = () => {
-    if (userType === "company") {
-      checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-    } else {
-      localStorage.removeItem("reservedItems");
-      navigate("/signup/asacompany");
-    }
-    setReservedItems([]);
-  };
-
-  // const [customerDetails, setCustomerDetails] = useState({
-  //   email: "",
-  //   phone_number: "",
-  //   name: "",
-  // });
-
-  // useEffect(() => {
-  //   const authToken = localStorage.getItem("userToken");
-
-  //   try {
-  //     const decodedToken = jwtDecode(authToken);
-  //     console.log("Decoded Token:", decodedToken);
-
-  //     if (!decodedToken) {
-  //       console.error("Failed to decode authentication token");
-  //       // Handle accordingly, e.g., redirect to login
-  //       return;
-  //     }
-
-  //     // Check if the token is expired
-  //     if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
-  //       console.error("Authentication token has expired");
-  //       // Handle accordingly, e.g., redirect to login
-  //       return;
-  //     }
-
-  //     setCustomerDetails({
-  //       email: decodedToken.officialEmail,
-  //       phone_number: decodedToken.phoneNumber,
-  //       name: decodedToken.name,
-  //     });
-  //     // setCustomerDetails({
-  //     //   email: decodedToken.email?.officialEmail || "", // Using optional chaining and fallback value
-  //     //   phone_number: decodedToken.email?.phoneNumber || "",
-  //     //   name: decodedToken.email?.name || "",
-  //     // });
-  //   } catch (error) {
-  //     console.error("Error decoding authentication token:", error);
-  //     // Handle accordingly, e.g., redirect to login
-  //   }
-  // }, []); // Empty dependency array ensures this effect runs only once
-
-  // const config = {
-  //   public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
-  //   tx_ref: Date.now(),
-  //   amount: bill, // Assuming bill is the total amount to be paid
-  //   currency: "NGN",
-  //   payment_options: "card,mobilemoney,ussd",
-  //   isTestMode: true,
-  //   customer: {
-  //     email: customerDetails.email,
-  //     phone_number: customerDetails.phone_number,
-  //     name: customerDetails.name,
-  //   },
-  //   // customizations: {
-  //   //   title: "my Payment Title",
-  //   //   // description: "Payment for items in cart",
-  //   //   // logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-  //   // },
-  // };
-
-  // const handleFlutterPayment = useFlutterwave(config);
-  // const [paymentLoading, setPaymentLoading] = useState(false);
-
-  // const handlePurchase = async () => {
+  // const handlePurchase = () => {
   //   if (userType === "company") {
-  //     try {
-  //       setPaymentLoading(true);
-
-  //       //product name starts
-  //       // Get the product name from the first item in reservedItems
-  //       const productName =
-  //         reservedItems[0]?.productName ||
-  //         reservedItems[0]?.productId?.productName ||
-  //         "Default Product Name"; // Set a default name if not available
-
-  //       // // Get an array of product names from reservedItems
-  //       // const productNames = reservedItems.map(
-  //       //   (item) =>
-  //       //     item?.productName ||
-  //       //     item?.productId?.productName ||
-  //       //     "Default Product"
-  //       // );
-
-  //       // // Create a comma-separated string of product names
-  //       // const formattedProductNames = productNames.join(", ");
-
-  //       const configWithUserDetails = {
-  //         ...config,
-  //         customer: {
-  //           email: customerDetails.email,
-  //           phone_number: customerDetails.phone_number,
-  //           name: customerDetails.name,
-  //         },
-  //         customizations: {
-  //           ...config.customizations,
-  //           title: productName, // Set the product name as the title
-  //           // title: formattedProductNames, // Set the product name as the title
-  //         },
-  //       };
-
-  //       console.log("configWithUserDetails:", configWithUserDetails);
-  //       //product name ends
-
-  //       await handleFlutterPayment({
-  //         // ...config,
-  //         ...configWithUserDetails,
-  //         callback: (response) => {
-  //           console.log(response);
-  //           setPaymentLoading(false);
-  //           closePaymentModal();
-  //           setMessage("Payment successful!");
-
-  //           //checkout starts
-  //           // Make the checkout API call
-  //           try {
-  //             checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
-
-  //             // Additional actions after successful checkout if needed
-  //           } catch (checkoutError) {
-  //             console.error("Checkout API Error:", checkoutError);
-  //             setMessage("Checkout failed. Please try again.");
-  //             setIsSuccessful(false);
-  //             setShowModal(true);
-  //           }
-  //           // checkout ends
-  //           setIsSuccessful(true);
-  //           setShowModal(true);
-  //         },
-  //         onClose: () => {
-  //           setPaymentLoading(false);
-  //         },
-  //       });
-  //     } catch (error) {
-  //       console.error("Payment Error:", error);
-  //       setPaymentLoading(false);
-  //       setMessage("Payment failed. Please try again.");
-  //       setIsSuccessful(false);
-  //       setShowModal(true);
-  //     }
+  //     checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
   //   } else {
   //     localStorage.removeItem("reservedItems");
   //     navigate("/signup/asacompany");
   //   }
   //   setReservedItems([]);
   // };
+
+  const [customerDetails, setCustomerDetails] = useState({
+    email: "",
+    phone_number: "",
+    name: "",
+  });
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("userToken");
+
+    try {
+      const decodedToken = jwtDecode(authToken);
+      console.log("Decoded Token:", decodedToken);
+
+      if (!decodedToken) {
+        console.error("Failed to decode authentication token");
+        // Handle accordingly, e.g., redirect to login
+        return;
+      }
+
+      // Check if the token is expired
+      if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+        console.error("Authentication token has expired");
+        // Handle accordingly, e.g., redirect to login
+        return;
+      }
+
+      setCustomerDetails({
+        email: decodedToken.officialEmail,
+        phone_number: decodedToken.phoneNumber,
+        name: decodedToken.name,
+      });
+      // setCustomerDetails({
+      //   email: decodedToken.email?.officialEmail || "", // Using optional chaining and fallback value
+      //   phone_number: decodedToken.email?.phoneNumber || "",
+      //   name: decodedToken.email?.name || "",
+      // });
+    } catch (error) {
+      console.error("Error decoding authentication token:", error);
+      // Handle accordingly, e.g., redirect to login
+    }
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  const config = {
+    public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+    tx_ref: Date.now(),
+    amount: bill, // Assuming bill is the total amount to be paid
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    isTestMode: true,
+    customer: {
+      email: customerDetails.email,
+      phone_number: customerDetails.phone_number,
+      name: customerDetails.name,
+    },
+    // customizations: {
+    //   title: "my Payment Title",
+    //   // description: "Payment for items in cart",
+    //   // logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    // },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  const handlePurchase = async () => {
+    if (userType === "company") {
+      try {
+        setPaymentLoading(true);
+
+        //product name starts
+        // Get the product name from the first item in reservedItems
+        const productName =
+          reservedItems[0]?.productName ||
+          reservedItems[0]?.productId?.productName ||
+          "Default Product Name"; // Set a default name if not available
+
+        // // Get an array of product names from reservedItems
+        // const productNames = reservedItems.map(
+        //   (item) =>
+        //     item?.productName ||
+        //     item?.productId?.productName ||
+        //     "Default Product"
+        // );
+
+        // // Create a comma-separated string of product names
+        // const formattedProductNames = productNames.join(", ");
+
+        const configWithUserDetails = {
+          ...config,
+          customer: {
+            email: customerDetails.email,
+            phone_number: customerDetails.phone_number,
+            name: customerDetails.name,
+          },
+          customizations: {
+            ...config.customizations,
+            title: productName, // Set the product name as the title
+            // title: formattedProductNames, // Set the product name as the title
+          },
+        };
+
+        console.log("configWithUserDetails:", configWithUserDetails);
+        //product name ends
+
+        await handleFlutterPayment({
+          // ...config,
+          ...configWithUserDetails,
+          callback: (response) => {
+            console.log(response);
+            setPaymentLoading(false);
+            closePaymentModal();
+            setMessage("Payment successful!");
+
+            //checkout starts
+            // Make the checkout API call
+            try {
+              checkout(setMessage, setLoading, setIsSuccessful, setShowModal);
+
+              // Additional actions after successful checkout if needed
+            } catch (checkoutError) {
+              console.error("Checkout API Error:", checkoutError);
+              setMessage("Checkout failed. Please try again.");
+              setIsSuccessful(false);
+              setShowModal(true);
+            }
+            // checkout ends
+            setIsSuccessful(true);
+            setShowModal(true);
+          },
+          onClose: () => {
+            setPaymentLoading(false);
+          },
+        });
+      } catch (error) {
+        console.error("Payment Error:", error);
+        setPaymentLoading(false);
+        setMessage("Payment failed. Please try again.");
+        setIsSuccessful(false);
+        setShowModal(true);
+      }
+    } else {
+      localStorage.removeItem("reservedItems");
+      navigate("/signup/asacompany");
+    }
+    setReservedItems([]);
+  };
 
   const handleProductClick = (productId) => {
     getOneProduct(
