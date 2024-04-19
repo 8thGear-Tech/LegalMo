@@ -36,9 +36,9 @@ export const HomeHero = () => {
                 </a>
               </div>{" "}
               <div className="d-flex justify-content-center">
-                <a href="tel:2348094818884" className="text-decoration-none">
+                <a href="tel:2348094818883" className="text-decoration-none">
                   <p className="paragraphColor mx-3 textShow m-0 p-1">
-                    +2348094818884
+                    +2348094818883
                   </p>
                 </a>
               </div>

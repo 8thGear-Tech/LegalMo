@@ -220,7 +220,7 @@ const LawyerDashboard = () => {
                         <p>
                           {" "}
                           <a
-                            href="tel:+2348094818884"
+                            href="tel:+2348094818883"
                             className="text-decoration-none p"
                             style={{ color: "#000000" }}
                           >

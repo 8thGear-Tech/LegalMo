@@ -564,7 +564,7 @@ const Landing = () => {
                   {/* <button type="button" className="btn btn-primary">
                     Speak to an Agent
                   </button> */}
-                  <a href="tel:+2348094818884" className="btn btn-primary">
+                  <a href="tel:+2348094818883" className="btn btn-primary">
                     Speak to an Agent
                   </a>
                 </div>

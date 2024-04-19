@@ -5,6 +5,7 @@ import Insta from "../assets/images/Instagram.svg";
 import FB from "../assets/images/Facebook.svg";
 import Linked from "../assets/images/linkedIN.svg";
 import Twitter from "../assets/images/twitter.svg";
+import Xlogo from "../assets/images/Xlogo.svg";
 import { useState } from "react";
 
 export const PrivacyModal = ({ showPrivacyModal, closePrivacyModal }) => {
@@ -591,11 +592,11 @@ export const PrivacyModal = ({ showPrivacyModal, closePrivacyModal }) => {
                   <li style={{ color: "#7e7e7f" }}>
                     Phone:{" "}
                     <a
-                      href="tel:+2348094818884"
+                      href="tel:+2348094818883"
                       className="text-decoration-none"
                       style={{ color: "#7e7e7f" }}
                     >
-                      08094818884
+                      08094818883
                     </a>
                   </li>
                   <li>
@@ -710,7 +711,7 @@ export const TermsModal = ({ showTermsModal, closeTermsModal }) => {
               <div>
                 <p style={{ fontSize: "10px" }}>
                   We provide Startups and SMEs access to affordable legal
-                  services You can contact us by phone at 08094818884, email at
+                  services You can contact us by phone at 08094818883, email at
                   Legalmoplatform@gmail.com, or by mail to No 41, CMD Road,
                   Magodo, Lagos State 100248, Nigeria.{" "}
                 </p>
@@ -1765,11 +1766,11 @@ export const TermsModal = ({ showTermsModal, closeTermsModal }) => {
                     <li style={{ color: "#7e7e7f" }}>
                       Phone:{" "}
                       <a
-                        href="tel:+2348094818884"
+                        href="tel:+2348094818883"
                         className="text-decoration-none"
                         style={{ color: "#7e7e7f" }}
                       >
-                        08094818884
+                        08094818883
                       </a>
                     </li>
                     <li>
@@ -1858,7 +1859,7 @@ const Footer = () => {
                     {/* <button type="button" className="btn btn-primary">
                       Speak to an Agent
                     </button> */}
-                    <a href="tel:+2348094818884" className="btn btn-primary">
+                    <a href="tel:+2348094818883" className="btn btn-primary">
                       Speak to an Agent
                     </a>
                   </div>
@@ -1880,10 +1881,31 @@ const Footer = () => {
             <div className="col-12 col-sm-4 mt-5 mt-sm-0 d-flex align-items-center flex-column text-white gap-3 ">
               <p className="text-white">Follow us</p>
               <div className="d-flex gap-4">
-                <img src={FB} alt="social" />
-                <img src={Insta} alt="social" />
-                <img src={Linked} alt="social" />
-                <img src={Twitter} alt="social" />
+                <Link to="">
+                  <img src={FB} alt="social" />
+                </Link>
+
+                <Link
+                  to="https://www.instagram.com/legalmoplatform"
+                  target="_blank"
+                >
+                  {" "}
+                  <img src={Insta} alt="social" />
+                </Link>
+                <Link
+                  to="https://www.linkedin.com/company/legalmo/"
+                  target="_blank"
+                >
+                  {" "}
+                  <img src={Linked} alt="social" />
+                </Link>
+                <Link to="https://x.com/legalmoplatform" target="_blank">
+                  <img
+                    src={Xlogo}
+                    alt="social"
+                    style={{ height: "1.2rem", width: "1.2rem" }}
+                  />
+                </Link>
               </div>
             </div>
           </div>

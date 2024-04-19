@@ -176,7 +176,8 @@ const Cart = () => {
   }, []); // Empty dependency array ensures this effect runs only once
 
   const config = {
-    public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
+    public_key: "FLWPUBK_TEST-4f31f287089b68b05b7e1c98932aab7c-X",
+    // public_key: "FLWPUBK_TEST-62a6e8f55dd4f5a0cfcaf74735d20aad-X",
     tx_ref: Date.now(),
     amount: bill, // Assuming bill is the total amount to be paid
     currency: "NGN",
@@ -187,6 +188,12 @@ const Cart = () => {
       phone_number: customerDetails.phone_number,
       name: customerDetails.name,
     },
+    subaccounts: [
+      {
+        id: "RS_49C62DA815FA529B53A446C063EAF59A",
+        // id: "RS_A8EB7D4D9C66C0B1C75014EE67D4D663",
+      },
+    ],
     // customizations: {
     //   title: "my Payment Title",
     //   // description: "Payment for items in cart",
