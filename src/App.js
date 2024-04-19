@@ -311,7 +311,7 @@ function App() {
       </Routes>
       {/* WhatsApp icon */}
       <a
-        href="https://wa.me/2348094818884"
+        href="https://wa.me/2348094818883"
         class="whatsapp_float"
         target="_blank"
         rel="noopener noreferrer"
